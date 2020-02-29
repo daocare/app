@@ -3,8 +3,10 @@ import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
-
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 // import { TopBar } from './components';
+import { Page, WalletProfile } from '../../components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,6 +15,20 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+  },
+  pageContainer: {
+    // backgroundColor: '#fafafa',
+    // backgroundImage: 'url("/images/undraw_deliveries_131a.svg")',
+    // backgroundRepeat: 'no-repeat',
+    margin: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(8),
+    },
+    // backgroundSize: '45%',
+    // backgroundPosition: '98% 5px',
+    position: 'relative',
+
+    padding: theme.spacing(2),
   },
   topBar: {
     zIndex: 2,
@@ -66,9 +82,15 @@ const Dashboard = props => {
       /> */}
       <div className={classes.container}>
         <main className={classes.content}>
-          <Suspense fallback={<LinearProgress />}>
-            {renderRoutes(route.routes)}
-          </Suspense>
+          <Container maxWidth="md">
+            <Paper elevation={0}>
+              <Suspense fallback={<LinearProgress />}>
+                <Page className={classes.pageContainer} title="Whoop Together">
+                  {renderRoutes(route.routes)}
+                </Page>
+              </Suspense>
+            </Paper>
+          </Container>
         </main>
       </div>
     </div>

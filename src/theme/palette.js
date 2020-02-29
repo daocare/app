@@ -8,7 +8,8 @@ export default {
   white,
   primary: {
     // contrastText: white,
-    main: '#a3c245',
+    // main: '#a3c245',
+    main: '#272354',
     // dark: colors.indigo[900],
     // main: colors.indigo[500],
     // light: colors.indigo[100]
@@ -18,7 +19,7 @@ export default {
     // dark: colors.blue[900],
     // main: colors.blue['A400'],
     // light: colors.blue['A400']
-    main: '#546E7A',
+    main: '#A362A5',
   },
   error: {
     contrastText: white,
@@ -27,7 +28,7 @@ export default {
     light: colors.red[400],
   },
   text: {
-    primary: colors.blueGrey[900],
+    primary: colors.blueGrey[900], //'#F1F1F3',
     secondary: colors.blueGrey[600],
     link: colors.blue[600],
   },
@@ -39,4 +40,7 @@ export default {
     paper: white,
   },
   divider: colors.grey[200],
+  // background: {
+  //   paper: '#373D51',
+  // },
 };

@@ -9,12 +9,17 @@ const routes = [
   {
     path: '/',
     component: MainLayout,
-    exact: true,
+    // exact: true,
     routes: [
       {
         path: '/',
         exact: true,
         component: lazy(() => import('./views/Home')),
+      },
+      {
+        path: '/submit-proposal',
+        exact: true,
+        component: lazy(() => import('./views/SubmitProposal')),
       },
     ],
   },

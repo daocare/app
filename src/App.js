@@ -6,6 +6,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { renderRoutes } from 'react-router-config';
+import './App.css';
 
 import theme from './theme';
 import { configureStore } from './store';

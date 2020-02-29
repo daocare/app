@@ -50,3 +50,7 @@
     transform: rotate(360deg);
   }
 }
+
+.threeboxProfileHover__style_boxShortAddress {
+  color: #f1f1f3;
+}
