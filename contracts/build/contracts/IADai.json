@@ -17,25 +17,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"redeem\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IADai.sol\":\"IADai\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IADai.sol\":{\"keccak256\":\"0x2d2128d3919bc243cde4aab3651c5143d930744ecc11d0dde4f7f3f2ee6b94b4\",\"urls\":[\"bzz-raw://997ef2fb06b99561189b57f9bf71af040b02428c1d7660dd2771fbce413601ce\",\"dweb:/ipfs/QmZB7owvnWgenBCCipFfFFG81dQcWv1ErGGGcmufYBxgoS\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"redeem\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol\":\"IADai\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol\":{\"keccak256\":\"0x2d2128d3919bc243cde4aab3651c5143d930744ecc11d0dde4f7f3f2ee6b94b4\",\"urls\":[\"bzz-raw://997ef2fb06b99561189b57f9bf71af040b02428c1d7660dd2771fbce413601ce\",\"dweb:/ipfs/QmZB7owvnWgenBCCipFfFFG81dQcWv1ErGGGcmufYBxgoS\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\n\ncontract IADai {\n    function redeem(uint256 _amount) public;\n}\n",
-  "sourcePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IADai.sol",
+  "sourcePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol",
   "ast": {
-    "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IADai.sol",
+    "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol",
     "exportedSymbols": {
       "IADai": [
-        673
+        692
       ]
     },
-    "id": 674,
+    "id": 693,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 667,
+        "id": 686,
         "literals": [
           "solidity",
           "^",
@@ -51,9 +51,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 673,
+        "id": 692,
         "linearizedBaseContracts": [
-          673
+          692
         ],
         "name": "IADai",
         "nodeType": "ContractDefinition",
@@ -61,22 +61,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 672,
+            "id": 691,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 670,
+              "id": 689,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 669,
+                  "id": 688,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 672,
+                  "scope": 691,
                   "src": "62:15:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -85,7 +85,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 668,
+                    "id": 687,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "62:7:2",
@@ -101,36 +101,36 @@
               "src": "61:17:2"
             },
             "returnParameters": {
-              "id": 671,
+              "id": 690,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "85:0:2"
             },
-            "scope": 673,
+            "scope": 692,
             "src": "46:40:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 674,
+        "scope": 693,
         "src": "25:63:2"
       }
     ],
     "src": "0:89:2"
   },
   "legacyAST": {
-    "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IADai.sol",
+    "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol",
     "exportedSymbols": {
       "IADai": [
-        673
+        692
       ]
     },
-    "id": 674,
+    "id": 693,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 667,
+        "id": 686,
         "literals": [
           "solidity",
           "^",
@@ -146,9 +146,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 673,
+        "id": 692,
         "linearizedBaseContracts": [
-          673
+          692
         ],
         "name": "IADai",
         "nodeType": "ContractDefinition",
@@ -156,22 +156,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 672,
+            "id": 691,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 670,
+              "id": 689,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 669,
+                  "id": 688,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 672,
+                  "scope": 691,
                   "src": "62:15:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -180,7 +180,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 668,
+                    "id": 687,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "62:7:2",
@@ -196,19 +196,19 @@
               "src": "61:17:2"
             },
             "returnParameters": {
-              "id": 671,
+              "id": 690,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "85:0:2"
             },
-            "scope": 673,
+            "scope": 692,
             "src": "46:40:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 674,
+        "scope": 693,
         "src": "25:63:2"
       }
     ],
@@ -219,8 +219,8 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-29T20:04:42.390Z",
+  "schemaVersion": "3.0.6",
+  "updatedAt": "2020-02-29T22:10:21.279Z",
   "devdoc": {
     "methods": {}
   },
