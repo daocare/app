@@ -12,14 +12,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/ILendingPoolAddressesProvider.sol",
     "exportedSymbols": {
       "ILendingPoolAddressesProvider": [
-        433
+        551
       ]
     },
-    "id": 434,
+    "id": 552,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 432,
+        "id": 550,
         "literals": [
           "solidity",
           "^",
@@ -35,14 +35,14 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 433,
+        "id": 551,
         "linearizedBaseContracts": [
-          433
+          551
         ],
         "name": "ILendingPoolAddressesProvider",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 434,
+        "scope": 552,
         "src": "25:41:5"
       }
     ],
@@ -52,14 +52,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/ILendingPoolAddressesProvider.sol",
     "exportedSymbols": {
       "ILendingPoolAddressesProvider": [
-        433
+        551
       ]
     },
-    "id": 434,
+    "id": 552,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 432,
+        "id": 550,
         "literals": [
           "solidity",
           "^",
@@ -75,14 +75,14 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 433,
+        "id": 551,
         "linearizedBaseContracts": [
-          433
+          551
         ],
         "name": "ILendingPoolAddressesProvider",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 434,
+        "scope": 552,
         "src": "25:41:5"
       }
     ],
@@ -94,7 +94,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-29T15:25:25.718Z",
+  "updatedAt": "2020-02-29T16:52:30.562Z",
   "devdoc": {
     "methods": {}
   },

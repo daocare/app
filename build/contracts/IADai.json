@@ -28,14 +28,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/IADai.sol",
     "exportedSymbols": {
       "IADai": [
-        416
+        534
       ]
     },
-    "id": 417,
+    "id": 535,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 410,
+        "id": 528,
         "literals": [
           "solidity",
           "^",
@@ -51,9 +51,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 416,
+        "id": 534,
         "linearizedBaseContracts": [
-          416
+          534
         ],
         "name": "IADai",
         "nodeType": "ContractDefinition",
@@ -61,22 +61,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 415,
+            "id": 533,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 413,
+              "id": 531,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 412,
+                  "id": 530,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 415,
+                  "scope": 533,
                   "src": "62:15:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -85,7 +85,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 411,
+                    "id": 529,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "62:7:2",
@@ -101,19 +101,19 @@
               "src": "61:17:2"
             },
             "returnParameters": {
-              "id": 414,
+              "id": 532,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "85:0:2"
             },
-            "scope": 416,
+            "scope": 534,
             "src": "46:40:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 417,
+        "scope": 535,
         "src": "25:63:2"
       }
     ],
@@ -123,14 +123,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/IADai.sol",
     "exportedSymbols": {
       "IADai": [
-        416
+        534
       ]
     },
-    "id": 417,
+    "id": 535,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 410,
+        "id": 528,
         "literals": [
           "solidity",
           "^",
@@ -146,9 +146,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 416,
+        "id": 534,
         "linearizedBaseContracts": [
-          416
+          534
         ],
         "name": "IADai",
         "nodeType": "ContractDefinition",
@@ -156,22 +156,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 415,
+            "id": 533,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 413,
+              "id": 531,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 412,
+                  "id": 530,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 415,
+                  "scope": 533,
                   "src": "62:15:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -180,7 +180,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 411,
+                    "id": 529,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "62:7:2",
@@ -196,19 +196,19 @@
               "src": "61:17:2"
             },
             "returnParameters": {
-              "id": 414,
+              "id": 532,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "85:0:2"
             },
-            "scope": 416,
+            "scope": 534,
             "src": "46:40:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 417,
+        "scope": 535,
         "src": "25:63:2"
       }
     ],
@@ -220,7 +220,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-29T15:25:25.717Z",
+  "updatedAt": "2020-02-29T16:52:30.561Z",
   "devdoc": {
     "methods": {}
   },

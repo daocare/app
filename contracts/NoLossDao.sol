@@ -13,7 +13,7 @@ contract NoLossDao is Initializable {
     mapping(uint256 => string) public proposalDetails;
     mapping(uint256 => mapping(uint256 => uint256)) public proposalVotes;
 
-    mapping(address => uint256) public usersNominatedProject; // Means user can only have one project.
+    mapping(uint256 => mapping(address => uint256)) public usersNominatedProject; // Means user can only have one project.
     mapping(address => uint256) public usersProposedProject;
 
     uint256 public topProject;
@@ -29,8 +29,8 @@ contract NoLossDao is Initializable {
     uint256 proposalIteration;
 
     uint256 proposalId;
-    enum PropsalState {Active, Withdrawn} // Cooldown
-    mapping(uint256 => PropsalState) public state; // ProposalId to current state
+    enum ProposalState {Active, Withdrawn} // Cooldown
+    mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
     modifier onlyAdmin() {
         require(msg.sender == admin, "Not admin");
@@ -38,14 +38,58 @@ contract NoLossDao is Initializable {
     }
 
     modifier blankUser() {
-        require(depositedDai[msg.sender] == 0, "User has no stake");
+        require(depositedDai[msg.sender] == 0, "User already exists");
+        _;
+    }
+
+    modifier userStaked() {
+        require(depositedDai[msg.sender] > 0, "User has no stake");
         _;
     }
 
     modifier noProposal() {
         require(
             usersProposedProject[msg.sender] == 0,
-            "User has no current proposal"
+            "User already has a proposal"
+        );
+        _;
+    }
+
+    modifier noVoteYet() {
+        require(
+            usersNominatedProject[proposalIteration][msg.sender] == 0,
+            "User already voted this iteration"
+        );
+        _;
+    }
+
+    modifier userHasActiveProposal() {
+        require(
+            state[usersProposedProject[msg.sender]] == ProposalState.Active,
+            "User doesn't have an active proposal"
+        );
+        _;
+    }
+
+    modifier userHasNoActiveProposal() {
+        require(
+            state[usersProposedProject[msg.sender]] ==
+                ProposalState.Withdrawn ||
+                usersProposedProject[msg.sender] == 0,
+            "User has an active proposal"
+        );
+        _;
+    }
+
+    modifier proposalActive(uint256 propId) {
+        require(state[propId] == ProposalState.Active, "Proposal isn't active");
+        _;
+    }
+
+    modifier allowanceAvailable(uint256 amount) {
+        require(
+            amount <= daiContract.allowance(msg.sender, address(this)),
+            "amount not available"
         );
         _;
     }
@@ -53,8 +97,7 @@ contract NoLossDao is Initializable {
     function initialize(
         address daiAddress,
         address aaveAddress,
-        uint256 _proposalAmount, //Likely 50DAI to start with
-        address _admin
+        uint256 _proposalAmount
     ) public initializer {
         daiContract = IERC20(daiAddress);
         aaveLendingContract = IAaveLendingPool(aaveAddress);
@@ -63,23 +106,19 @@ contract NoLossDao is Initializable {
         proposalAmount = _proposalAmount;
     }
 
-    function deposit(uint256 amount) public blankUser noProposal {
-        // actions
-        if (amount >= daiContract.allowance(msg.sender, address(this))) {
-            revert("unable to pull required");
-        }
+    function deposit(uint256 amount)
+        public
+        blankUser
+        noProposal
+        allowanceAvailable(amount)
+    {
         daiContract.transferFrom(msg.sender, address(this), amount);
         daiContract.approve(address(aaveLendingContract), amount);
-        aaveLendingContract.deposit(
-            address(daiContract), // This should be our address not the DAI contract?
-            amount,
-            0
-        );
+        aaveLendingContract.deposit(address(daiContract), amount, 0);
 
         //setting values
         depositedDai[msg.sender] = amount;
         totalDepositedDai = totalDepositedDai.add(amount);
-
     }
 
     function withdrawFull(uint256 amount) public {
@@ -94,19 +133,14 @@ contract NoLossDao is Initializable {
 
     function createProposal(string memory proposalHash)
         public
+        allowanceAvailable(proposalAmount)
         returns (uint256 newProposalId)
     {
-        if (
-            proposalAmount >= daiContract.allowance(msg.sender, address(this))
-        ) {
-            revert("unable to pull required");
-        }
+        // DAI things. TODO: Approve where necessary
         daiContract.transferFrom(msg.sender, address(this), proposalAmount);
-
         daiContract.approve(address(aaveLendingContract), proposalAmount);
-
         aaveLendingContract.deposit(
-            address(daiContract), // This should be our address not the DAI contract?
+            address(daiContract),
             proposalAmount,
             0 /* We should research this referal code stuff... https://developers.aave.com/#referral-program */
         );
@@ -118,29 +152,32 @@ contract NoLossDao is Initializable {
         newProposalId = proposalId.add(1);
 
         proposalDetails[newProposalId] = proposalHash;
-
         proposalOwner[newProposalId] = msg.sender;
+        state[newProposalId] = ProposalState.Active;
     }
 
-    function withdrawProposal() public {
-        // Check if the msg.sender actually has a proposal
-        // msg.sender can only have one proposal
-        // If they revoke this porposal it becomes null
-        // 1) set proposalDetails[newProposalId] to null?
-        // 2) Send deposit amount of 'proposalAmount' back to msg.sender
-        // 3) Make all the votes cast for this proposal null and void?
-        // 4) proposal should have states, active, withdrawn, cooldown etc...
+    function withdrawProposal() public userHasActiveProposal {
+        //This can only be executed after every cycle
+        state[usersProposedProject[msg.sender]] = ProposalState.Withdrawn;
+        totalDepositedDai = totalDepositedDai.sub(proposalAmount);
+        depositedDai[msg.sender] = 0;
+        // TODO
+        // Remove proposalAmount from aDAI
+        // Convert to DAI
+        // Send back to owner
     }
 
-    function vote(uint256 proposalIdToVoteFor) public {
-        // Check the msg.sender has stake in the system
-        // Check the msg.sender does not have an active or cooldown proposal
-        // Check if the msg.sender has voted before (If so we want them to only vote once a week)
-        // This is since, we will use the interest to pay gas fees for voting on their behalf?
+    function vote(uint256 proposalIdToVoteFor)
+        public
+        proposalActive(proposalIdToVoteFor)
+        noVoteYet
+        userStaked
+        userHasNoActiveProposal
+    {
+        // Can only vote if they joined a previous iteration round...
         // Check if the msg.sender has given approval rights to our steward to vote on their behalf
-        // Add the amount of votes to the respective ProposalID (default is 0 on deposit)
-
-        uint256 currentProposal = usersNominatedProject[msg.sender];
+        uint256 currentProposal = usersNominatedProject[proposalIteration][msg
+            .sender];
         if (currentProposal != 0) {
             proposalVotes[proposalIteration][currentProposal] = proposalVotes[proposalIteration][currentProposal]
                 .sub(depositedDai[msg.sender]);
@@ -149,7 +186,8 @@ contract NoLossDao is Initializable {
         proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
             .add(depositedDai[msg.sender]);
 
-        usersNominatedProject[msg.sender] = proposalIdToVoteFor;
+        usersNominatedProject[proposalIteration][msg
+            .sender] = proposalIdToVoteFor;
 
         uint256 topProjectVotes = proposalVotes[proposalIteration][topProject];
 
