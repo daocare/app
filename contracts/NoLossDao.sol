@@ -15,8 +15,9 @@ contract NoLossDao is Initializable {
 
     mapping(uint256 => mapping(address => uint256)) public usersNominatedProject; // Means user can only have one project.
     mapping(address => uint256) public usersProposedProject;
+    mapping(address => uint256) public iterationJoined;
 
-    uint256 public topProject;
+    mapping(uint256 => uint256) public topProject;
 
     uint256 public totalDepositedDai;
     uint256 public proposalAmount;
@@ -26,11 +27,14 @@ contract NoLossDao is Initializable {
     IADai public adaiContract;
     address public admin;
 
-    uint256 proposalIteration;
+    uint256 public proposalIteration;
 
     uint256 proposalId;
     enum ProposalState {Active, Withdrawn} // Cooldown
     mapping(uint256 => ProposalState) public state; // ProposalId to current state
+
+    uint256 public votingInterval;
+    uint256 public proposalDeadline;
 
     modifier onlyAdmin() {
         require(msg.sender == admin, "Not admin");
@@ -97,13 +101,21 @@ contract NoLossDao is Initializable {
     function initialize(
         address daiAddress,
         address aaveAddress,
-        uint256 _proposalAmount
+        uint256 _proposalAmount,
+        uint256 _votingInterval
     ) public initializer {
         daiContract = IERC20(daiAddress);
         aaveLendingContract = IAaveLendingPool(aaveAddress);
         adaiContract = IADai(aaveAddress);
         admin = msg.sender;
         proposalAmount = _proposalAmount;
+        votingInterval = _votingInterval;
+
+        proposalDeadline = now.add(_votingInterval);
+    }
+
+    function changeVotingInterval(uint256 newInterval) public onlyAdmin {
+        votingInterval = newInterval;
     }
 
     function deposit(uint256 amount)
@@ -189,11 +201,11 @@ contract NoLossDao is Initializable {
         usersNominatedProject[proposalIteration][msg
             .sender] = proposalIdToVoteFor;
 
-        uint256 topProjectVotes = proposalVotes[proposalIteration][topProject];
+        uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
         // TODO:: if they are equal there is a problem (we must handle this!!)
         if (proposalVotes[proposalIteration][proposalId] > topProjectVotes) {
-            topProject = proposalId;
+            topProject[proposalIteration] = proposalId;
         }
     }
 
@@ -201,12 +213,20 @@ contract NoLossDao is Initializable {
         // On a *whatever we decide basis* the funds are distributed to the winning project
         // E.g. every 2 weeks, the project with the most votes gets the generated interest.
 
+        require(proposalDeadline > now, "current vote still active");
+
+        if (topProject[proposalIteration] != 0) {
+            // TODO: do the payout!
+        }
+
+        proposalDeadline = proposalDeadline.add(votingInterval);
+
         proposalIteration = proposalIteration.add(1);
-        topProject = 0;
+        topProject[proposalIteration] = 0;
     }
 
     function delegateVoting() public {
         //TODO: MUCH LATER
-        // Allow the steward (US) to vote on their behalf through scraping twitter
+        // Allow the steward (US) to vote on their behalf through other medium (eg. scraping twitter)
     }
 }

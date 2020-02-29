@@ -54,7 +54,6 @@ contract("WildcardSteward", accounts => {
     );
     await noLossDao.deposit(mintAmount, { from: accounts[1] });
 
-    console.log({ allowance });
     assert.equal(mintAmount, allowance.toString());
   });
 
