@@ -1,0 +1,230 @@
+{
+  "contractName": "IADai",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "redeem",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"redeem\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/IADai.sol\":\"IADai\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/IADai.sol\":{\"keccak256\":\"0x2d2128d3919bc243cde4aab3651c5143d930744ecc11d0dde4f7f3f2ee6b94b4\",\"urls\":[\"bzz-raw://997ef2fb06b99561189b57f9bf71af040b02428c1d7660dd2771fbce413601ce\",\"dweb:/ipfs/QmZB7owvnWgenBCCipFfFFG81dQcWv1ErGGGcmufYBxgoS\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.0;\n\ncontract IADai {\n    function redeem(uint256 _amount) public;\n}\n",
+  "sourcePath": "/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/IADai.sol",
+  "ast": {
+    "absolutePath": "/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/IADai.sol",
+    "exportedSymbols": {
+      "IADai": [
+        416
+      ]
+    },
+    "id": 417,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 410,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 416,
+        "linearizedBaseContracts": [
+          416
+        ],
+        "name": "IADai",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 415,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "redeem",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 413,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 412,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 415,
+                  "src": "62:15:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 411,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "62:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "61:17:2"
+            },
+            "returnParameters": {
+              "id": 414,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "85:0:2"
+            },
+            "scope": 416,
+            "src": "46:40:2",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 417,
+        "src": "25:63:2"
+      }
+    ],
+    "src": "0:89:2"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/jasoons/Documents/temp/dao-contracts/contracts/interfaces/IADai.sol",
+    "exportedSymbols": {
+      "IADai": [
+        416
+      ]
+    },
+    "id": 417,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 410,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 416,
+        "linearizedBaseContracts": [
+          416
+        ],
+        "name": "IADai",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 415,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "redeem",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 413,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 412,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 415,
+                  "src": "62:15:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 411,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "62:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "61:17:2"
+            },
+            "returnParameters": {
+              "id": 414,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "85:0:2"
+            },
+            "scope": 416,
+            "src": "46:40:2",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 417,
+        "src": "25:63:2"
+      }
+    ],
+    "src": "0:89:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-02-29T15:25:25.717Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
