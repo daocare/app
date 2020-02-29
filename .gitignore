@@ -1,0 +1,5 @@
+node_modules
+scripts
+docker-compose
+Dockerfile
+seceretsManager.js
