@@ -6608,6 +6608,10 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
 
+fs@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+
 fsevents@2.1.2, fsevents@~2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.1.2.tgz#4c0a1fb34bc68e543b4b82a9ec392bfbda840805"
@@ -14209,6 +14213,10 @@ react-fast-compare@^2.0.2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
 
+react-flip-move@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-3.0.4.tgz#261f66101fbc305f9b7b28959c5cf8236413ca74"
+
 react-helmet@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-5.2.1.tgz#16a7192fdd09951f8e0fe22ffccbf9bb3e591ffa"
@@ -14221,6 +14229,13 @@ react-helmet@^5.2.1:
 react-hook-form@^4.10.1:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-4.10.1.tgz#abd24888cb9db95a4760fd3b0750eea84d644dee"
+
+react-images-upload@^1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/react-images-upload/-/react-images-upload-1.2.8.tgz#d1e993c50a0ca266aa7a9c7b7456167d80e9e6ab"
+  dependencies:
+    react "^16.12.0"
+    react-flip-move "^3.0.4"
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.13.0"
@@ -14343,7 +14358,7 @@ react-transition-group@^4.0.0, react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@^16.13.0, react@^16.8.6:
+react@^16.12.0, react@^16.13.0, react@^16.8.6:
   version "16.13.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.0.tgz#d046eabcdf64e457bbeed1e792e235e1b9934cf7"
   dependencies:

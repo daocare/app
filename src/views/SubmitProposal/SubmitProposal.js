@@ -12,6 +12,8 @@ import { useForm } from 'react-hook-form';
 import useRouter from '../../utils/useRouter';
 import { uploadJson, getJson } from '../../modules/pinata';
 import { Page, WalletProfile } from '../../components';
+import Header from '../../components/Header';
+import ImageUploader from 'react-images-upload';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,10 +29,10 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3),
   },
   title: {
-    marginBottom: theme.spacing(2),
+    // marginBottom: theme.spacing(2),
   },
   textField: {
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(1, 0),
     [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing(2),
     },
@@ -44,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   fieldGroup: {
     [theme.breakpoints.up('sm')]: {
       display: 'flex',
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(1),
     },
 
     alignItems: 'center',
@@ -58,37 +60,63 @@ const useStyles = makeStyles(theme => ({
       textAlign: 'center',
       marginTop: theme.spacing(2),
     },
+    marginTop: theme.spacing(2),
+  },
+  hiddenImage: {
+    display: 'none',
+  },
+  image: {
+    display: 'block',
   },
 }));
 
 const SubmitProposal = props => {
   const { className, ...rest } = props;
   const [status, setStatus] = useState('DRAFT');
+  const [image, setImage] = useState(false);
   const classes = useStyles();
   const router = useRouter();
 
   const { register, handleSubmit /* , watch */ /* , errors  */ } = useForm();
 
   const onSubmit = async data => {
-    const { title, description } = data;
+    setStatus('SENDING');
+    // const { title, description } = data;
     console.log(data);
-    let hash = await uploadJson(data.title, data);
+
+    let body = { ...data, image };
+
+    let hash = await uploadJson(data.title, body);
+
     console.log({ hash });
     let json = await getJson(hash);
     console.log({ json });
-    // router.history.push({
-    //   pathname: '/padelee/register',
-    //   state: data,
-    // });
-    // firebase.analytics().logEvent('padelee_temp_registration', { ...data });
+    setStatus('SENT');
   };
 
+  const previewFile = () => {
+    const preview = document.getElementById('logoImg');
+    const file = document.querySelector('input[type=file]').files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener(
+      'load',
+      function() {
+        // convert image file to base64 string
+        preview.src = reader.result;
+        setImage(reader.result);
+      },
+      false
+    );
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <Page className={classes.root} title="ETHLondon DAO">
-      <Typography gutterBottom variant="h4" style={{ marginTop: 16 }}>
-        Whoop Together
-      </Typography>{' '}
-      <Typography variant="h4" component="h2" className={classes.title}>
+      <Header />
+      <Typography variant="h5" className={classes.title}>
         Submit Proposal
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,22 +134,63 @@ const SubmitProposal = props => {
           label="Description"
           name="email"
           variant="outlined"
-          type="email"
           inputRef={register}
           className={clsx(classes.flexGrow, classes.textField)}
           multiline
           rows={5}
         />
+        <TextField
+          fullWidth
+          label="Website"
+          name="website"
+          variant="outlined"
+          inputRef={register}
+          className={clsx(classes.flexGrow, classes.textField)}
+        />
+        <TextField
+          fullWidth
+          label="Team"
+          name="team"
+          variant="outlined"
+          inputRef={register}
+          className={clsx(classes.flexGrow, classes.textField)}
+          multiline
+          rows={3}
+        />
+        {/* <ImageUploader
+          withIcon={true}
+          buttonText="Project Logo"
+          onChange={e => {
+            setImages(e);
+          }}
+          imgExtension={['.jpg', '.gif', '.png']}
+          maxFileSize={5242880}
+          withPreview={true}
+          // fileContainerStyle={{ boxShadow: 0 }}
+        /> */}
+        <Typography variant="caption" display="block">
+          Logo
+        </Typography>
+        <input type="file" onChange={previewFile} />
+        <img
+          id="logoImg"
+          src=""
+          className={image ? classes.image : classes.hiddenImage}
+          height="200"
+          alt="Image preview..."
+        />
+
         <div className={classes.wrapper}>
           <Button
             variant="contained"
             color="primary"
             className={classes.button}
             type="submit"
+            disabled={status === 'SENT'}
           >
             Submit
           </Button>
-          {status === 'sending' && (
+          {status === 'SENDING' && (
             <CircularProgress size={24} className={classes.buttonProgress} />
           )}
         </div>
