@@ -20,10 +20,11 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: '#fafafa',
     // backgroundImage: 'url("/images/undraw_deliveries_131a.svg")',
     // backgroundRepeat: 'no-repeat',
-    margin: theme.spacing(2),
+    margin: theme.spacing(10, 2, 2, 2),
     [theme.breakpoints.up('sm')]: {
-      margin: theme.spacing(8),
+      margin: theme.spacing(10),
     },
+
     // backgroundSize: '45%',
     // backgroundPosition: '98% 5px',
     position: 'relative',
@@ -82,6 +83,7 @@ const Dashboard = props => {
       /> */}
       <div className={classes.container}>
         <main className={classes.content}>
+          <WalletProfile />
           <Container maxWidth="md">
             <Paper elevation={0}>
               <Suspense fallback={<LinearProgress />}>

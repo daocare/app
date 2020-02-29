@@ -1,13 +1,22 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import useRouter from '../../utils/useRouter';
 
 // import useRouter from 'utils/useRouter';
 const Header = props => {
+  const router = useRouter();
   return (
     <React.Fragment>
       <div style={{ marginBottom: 16 }}>
-        <Typography gutterBottom variant="h4" style={{ marginTop: 16 }}>
+        <Typography
+          gutterBottom
+          variant="h4"
+          style={{ marginTop: 16, cursor: 'pointer' }}
+          onClick={() => {
+            router.history.push('/');
+          }}
+        >
           Whoop Together
         </Typography>
 

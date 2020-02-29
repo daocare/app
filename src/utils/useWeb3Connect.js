@@ -10,6 +10,10 @@ import Torus from '@toruslabs/torus-embed';
 // import Authereum from "authereum";
 
 import supportedChains from './chains';
+const erc20Abi = require('../abis/ERC20.json');
+
+const ERC20_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
+
 const INFURA_KEY = '32f4c2933abd4a74a383747ccf2d7003';
 
 const providerOptions = {
@@ -62,6 +66,9 @@ function useWeb3Connect() {
   const [chainId, setChainId] = useState(null);
   const [networkId, setNetworkId] = useState(null);
   const [network, setNetwork] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+
+  const [daiContract, setDaiContract] = useState(null);
 
   const getNetworkByChainId = chainIdTemp => {
     // console.log(supportedChains);
@@ -99,6 +106,14 @@ function useWeb3Connect() {
 
     const chainIdTemp = await web3Inited.eth.chainId();
     console.log({ addressTemp });
+
+    // instanciate contracts
+    const daiContract = new web3Inited.eth.Contract(
+      erc20Abi.abi,
+      ERC20_ADDRESS
+    );
+    setDaiContract(daiContract);
+
     setProvider(providerInited);
     setWeb3(web3Inited);
     setConnected(true);
@@ -106,11 +121,14 @@ function useWeb3Connect() {
     setChainId(chainIdTemp);
     setNetworkId(networkIdTemp);
     setNetwork(getNetworkByChainId(networkIdTemp));
+    setLoaded(true);
   };
 
   useEffect(() => {
     if (web3Connect.cachedProvider && !connected) {
       onConnect();
+    } else {
+      setLoaded(true);
     }
   });
 
@@ -125,6 +143,7 @@ function useWeb3Connect() {
     await setAddress(null);
     await setChainId(null);
     await setNetworkId(null);
+    await setDaiContract(null);
   };
 
   const subscribeProvider = async provider => {
@@ -160,6 +179,10 @@ function useWeb3Connect() {
     web3Connect,
     resetApp,
     provider,
+    contracts: {
+      dai: daiContract,
+    },
+    loaded,
   };
 }
 

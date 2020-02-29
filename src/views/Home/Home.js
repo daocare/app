@@ -100,6 +100,51 @@ const Home = () => {
           </Button>
         </div>
       )}
+
+      {connected && (
+        <div
+          className={classes.divContainer}
+          style={{
+            marginTop: 32,
+            marginBottom: 32,
+            textAlign: 'center',
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            className={classes.button}
+            startIcon={<AddIcon />}
+            onClick={() => {
+              if (connected) {
+                router.history.push('/submit-proposal');
+              } else {
+                const connect = async () => {
+                  await web3Connect.triggerConnect();
+                  debugger;
+                  router.history.push('/submit-proposal');
+                };
+                connect();
+              }
+            }}
+          >
+            Submit Proposal
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            className={classes.button}
+            startIcon={<DonateIcon />}
+            onClick={() => {
+              router.history.push('/deposit');
+            }}
+          >
+            Fund Projects
+          </Button>
+        </div>
+      )}
       {/* <WalletProfile /> */}
       {/* <SubmitProposal /> */}
     </>

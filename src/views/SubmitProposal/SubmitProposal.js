@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -14,6 +14,8 @@ import { uploadJson, getJson } from '../../modules/pinata';
 import { Page, WalletProfile } from '../../components';
 import Header from '../../components/Header';
 import ImageUploader from 'react-images-upload';
+import useWeb3Connect from '../../utils/useWeb3Connect';
+const STAKING_AMOUNT = 50;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -76,6 +78,13 @@ const SubmitProposal = props => {
   const [image, setImage] = useState(false);
   const classes = useStyles();
   const router = useRouter();
+  const web3Connect = useWeb3Connect();
+
+  useEffect(() => {
+    if (web3Connect.loaded && !web3Connect.connected) {
+      router.history.push('/');
+    }
+  }, [web3Connect]);
 
   const { register, handleSubmit /* , watch */ /* , errors  */ } = useForm();
 
@@ -180,6 +189,9 @@ const SubmitProposal = props => {
           alt="Image preview..."
         />
 
+        <Typography variant="body1" style={{ marginTop: 16 }}>
+          In order to submit a proposol you need to stake {STAKING_AMOUNT} DAI.
+        </Typography>
         <div className={classes.wrapper}>
           <Button
             variant="contained"
@@ -188,7 +200,21 @@ const SubmitProposal = props => {
             type="submit"
             disabled={status === 'SENT'}
           >
-            Submit
+            1. Approve DAI
+          </Button>
+          {/* {status === 'SENDING' && (
+            <CircularProgress size={24} className={classes.buttonProgress} />
+          )} */}
+        </div>
+        <div className={classes.wrapper}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            type="submit"
+            disabled={status === 'SENT'}
+          >
+            2. Submit Proposal
           </Button>
           {status === 'SENDING' && (
             <CircularProgress size={24} className={classes.buttonProgress} />
