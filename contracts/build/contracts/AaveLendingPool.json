@@ -54,25 +54,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"contract MockERC20\",\"name\":\"aDaiAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"aDai\",\"outputs\":[{\"internalType\":\"contract MockERC20\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_reserve\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"},{\"internalType\":\"uint16\",\"name\":\"_referralCode\",\"type\":\"uint16\"}],\"name\":\"deposit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/AaveLendingPool.sol\":\"AaveLendingPool\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IAaveLendingPool.sol\":{\"keccak256\":\"0xf5ae49e4c3b1183000d330fde7c45630f3b8483fc4b425caae4f4788deb54378\",\"urls\":[\"bzz-raw://f1ba9bb13bc796d593a3221fe6b1f17cb7cf884fa158b69460089aac6d59cd0e\",\"dweb:/ipfs/QmdBP3qs7GJeniZTjDTi6GFaJjJig9V1uiCmB4irCLmW9H\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/AaveLendingPool.sol\":{\"keccak256\":\"0x78ab9d53a04164f75d7d6e2967727df8fcaa3fe012c617ef0ebfe9222fc982f1\",\"urls\":[\"bzz-raw://1fecaecee6952ad6067d0c6c262a3b988989b5f61f6a918097f03246ef9b3a21\",\"dweb:/ipfs/QmQYjRbE95G4bV2yMxZ9fedGaczgAdL6jWV4xrJe4MMEac\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/MockERC20.sol\":{\"keccak256\":\"0x3dec2e32146f14e0dd1cc74bb3f12207a2d1b9a18973cf36621ff3b21d32966b\",\"urls\":[\"bzz-raw://e98b48a2e82d80b4c3cc318baa28a3658ef6320da68af87dfbc0f23a179e64f5\",\"dweb:/ipfs/QmRPwu79F1oi3dibARfFGEhJN8e4zsxJNi3cXc7NYvSfBV\"]},\"@openzeppelin/contracts-ethereum-package/contracts/GSN/Context.sol\":{\"keccak256\":\"0x0d4306da5305cb78f09c70c18ec86dbc66f22fa5ade90edc20e1ab88e16d4d10\",\"urls\":[\"bzz-raw://c89dee1b8e96cb83f529b8b5c93be6b420c1913363a3fed01241942f08cc968f\",\"dweb:/ipfs/QmfWWwzg9hah3YwZRFWvAwq91HLjCHkKnxXqP6uLGURUou\"]},\"@openzeppelin/contracts-ethereum-package/contracts/access/Roles.sol\":{\"keccak256\":\"0xb002c378d7b82a101bd659c341518953ca0919d342c0a400196982c0e7e7bcdb\",\"urls\":[\"bzz-raw://00a788c4631466c220b385bdd100c571d24b2deccd657615cfbcef6cadf669a4\",\"dweb:/ipfs/QmTEwDbjJNxmMNCDMqtuou3dyM8Wtp8Q9NFvn7SAVM7Jf3\"]},\"@openzeppelin/contracts-ethereum-package/contracts/access/roles/MinterRole.sol\":{\"keccak256\":\"0xdf50b7ae128ae6234bf297a03a7622b3d146734479b26b749052e61ee9dae650\",\"urls\":[\"bzz-raw://93218d23526253d8e8634e5f5be8c21e3c46f12992eae378b202ca22d48564a0\",\"dweb:/ipfs/QmfG4XhTbsxnzCGXgsvxWmuJtU8snNaMEpW9drGde2yY6S\"]},\"@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x4ccf2d7b51873db1ccfd54ca2adae5eac3b184f9699911ed4490438419f1c690\",\"urls\":[\"bzz-raw://d62d769b2219d5de39013093412623e624fa887f871826ea3bae6052ee893610\",\"dweb:/ipfs/QmV3yVktya1s617QmuzQR2CfuJgUi3dR2xEZY9ecmqZ2G1\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol\":{\"keccak256\":\"0xec9f5e2dd33c13f1c1a63b22257724b61d2af536a2d22b2343144e1044b005fe\",\"urls\":[\"bzz-raw://ed49a07c7fa5f07a2e5fff28f07933bf56f8fd932be3c90e797e4d5c4689f94f\",\"dweb:/ipfs/QmdNEMKyATnnccVv8kip5eZFyuY77PU9SrBYVptioZC6pV\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Burnable.sol\":{\"keccak256\":\"0xa8d5fc6a480f6de5320c06f397e810198bf4a6c8b0b2405a4b28fb3909c3771e\",\"urls\":[\"bzz-raw://1c01ff2789027e0a9cbaaeabbc239d59906b40776e2936fcbdbc92dab7a4f912\",\"dweb:/ipfs/QmPYwzjB1GcQndyFqUNkpHNXs1CqxBqE3diVDWuWs5UaDb\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol\":{\"keccak256\":\"0x836e5248258c1eeef170a2b394d74cdec21adfbfca71a8feac303339182c4a39\",\"urls\":[\"bzz-raw://5a429cd7eac29f48bcbb6981f34ba43232e0fcb2bf9e752d2aaa2a64a27e07d5\",\"dweb:/ipfs/QmaFoHVPCY9Z5iZjZuwxq6pJ8cEqZdy7foLNNp46BzFNju\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Mintable.sol\":{\"keccak256\":\"0xcae60acc572a549182cd7b26a169dbe5154ad0602cfb6c37533e9ee4ec1b4b06\",\"urls\":[\"bzz-raw://8d2bcd2a72821122b854e9467276090df516c50b34860d170164f4f080d1e579\",\"dweb:/ipfs/QmbxUTBMdADhXPAfzaPXFbAHEhYZyugdHwedNh43W1BUmt\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x90e8c2521653bbb1768b05889c5760031e688d9cd361f167489b89215e201b95\",\"urls\":[\"bzz-raw://d0abb99bb8bfc2bc0a89902b8ed1dc0442ad08cc78cee64c291b3df6a27bcccc\",\"dweb:/ipfs/QmP5NaEwZthQeM2ESz4WTT3osrP7jhbvu7ocbttBi2JAw6\"]},\"@openzeppelin/upgrades/contracts/Initializable.sol\":{\"keccak256\":\"0xf79d9851c085aa8412e87d7a26d3485488fe12538ecb4e317ce41fc1f2c3a16a\",\"urls\":[\"bzz-raw://6af1a35ad6aed2169ce9f44095438b3192cd6066903908f769d5c49a06a0caf8\",\"dweb:/ipfs/QmaH41CwJ7WrMQwSnbfCKuL2pd8bxF7sbGSLPZb6JaHBFF\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b5060405161017f38038061017f8339818101604052602081101561003357600080fd5b505160008054600160a060020a03909216600160a060020a031990921691909117905561011a806100656000396000f3fe6080604052348015600f57600080fd5b5060043610604e577c01000000000000000000000000000000000000000000000000000000006000350463a34e8fa081146053578063d2d0e066146082575b600080fd5b605960c4565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b60c260048036036060811015609657600080fd5b50803573ffffffffffffffffffffffffffffffffffffffff16906020810135906040013561ffff1660e0565b005b60005473ffffffffffffffffffffffffffffffffffffffff1681565b50505056fea265627a7a72315820c2a77aece7228c1117e55f2bd93e8b1f398949f54fc9ecc6ba1ca9b45f072a9664736f6c63430005100032",
-  "deployedBytecode": "0x6080604052348015600f57600080fd5b5060043610604e577c01000000000000000000000000000000000000000000000000000000006000350463a34e8fa081146053578063d2d0e066146082575b600080fd5b605960c4565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b60c260048036036060811015609657600080fd5b50803573ffffffffffffffffffffffffffffffffffffffff16906020810135906040013561ffff1660e0565b005b60005473ffffffffffffffffffffffffffffffffffffffff1681565b50505056fea265627a7a72315820c2a77aece7228c1117e55f2bd93e8b1f398949f54fc9ecc6ba1ca9b45f072a9664736f6c63430005100032",
-  "sourceMap": "180:293:6:-;;;258:77;8:9:-1;5:2;;;30:1;27;20:12;5:2;258:77:6;;;;;;;;;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;258:77:6;310:4;:18;;-1:-1:-1;;;;;310:18:6;;;-1:-1:-1;;;;;;310:18:6;;;;;;;;;180:293;;;;;;",
-  "deployedSourceMap": "180:293:6:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;180:293:6;;;;;;;;;;;;;;;;;;;;;;;;231:21;;;:::i;:::-;;;;;;;;;;;;;;;;;;;340:131;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;340:131:6;;;;;;;;;;;;;;;;:::i;:::-;;231:21;;;;;;:::o;340:131::-;;;;:::o",
-  "source": "pragma solidity ^0.5.0;\n\nimport \"../interfaces/IAaveLendingPool.sol\";\nimport \"./MockERC20.sol\";\nimport \"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol\";\n\ncontract AaveLendingPool is IAaveLendingPool {\n    MockERC20 public aDai;\n    constructor(MockERC20 aDaiAddress) public {\n        aDai = aDaiAddress;\n    }\n    function deposit(address _reserve, uint256 _amount, uint16 _referralCode)\n        public\n    {\n        // For now, do nothing\n    }\n}\n",
-  "sourcePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/AaveLendingPool.sol",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"contract MockERC20\",\"name\":\"aDaiAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"aDai\",\"outputs\":[{\"internalType\":\"contract MockERC20\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_reserve\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"},{\"internalType\":\"uint16\",\"name\":\"_referralCode\",\"type\":\"uint16\"}],\"name\":\"deposit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/jasoons/Documents/temp/app/contracts/contracts/mocks/AaveLendingPool.sol\":\"AaveLendingPool\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IAaveLendingPool.sol\":{\"keccak256\":\"0xf3a32f72c6b8e44577d9374144b88318b71e77f2da902c7fc2560f57923d5f5d\",\"urls\":[\"bzz-raw://e05562e044cca53e5b9c456b04e5ea11e0b35d5d68393fa56bd854063396650d\",\"dweb:/ipfs/QmdV7D7ga7oSir2sbo16nbmYdgasCZzL5CwKs2J8Yp2bxq\"]},\"/home/jasoons/Documents/temp/app/contracts/contracts/mocks/AaveLendingPool.sol\":{\"keccak256\":\"0x9407eb1e0d149b265cf4a0734002712f25be043e97121422a735057ff8b5915c\",\"urls\":[\"bzz-raw://b71047c9bd6dc8accf0c5047d56e36948b9433f3a752130d4954798ba07ad0fb\",\"dweb:/ipfs/QmS3wuhi8kfpXC2n7twMDeS7inUh9zYa7uvJhyNrtRdaEi\"]},\"/home/jasoons/Documents/temp/app/contracts/contracts/mocks/MockERC20.sol\":{\"keccak256\":\"0xe96a7ee0e6bd0ef2296a40e85f2dcb279b1e2faa117bdcfc2f4010f9ce3d4f23\",\"urls\":[\"bzz-raw://a8d51352c3eb1a20d200133e278553bacc6b2df104973356d46c5252c451f170\",\"dweb:/ipfs/Qme5ADbbmA4qW5rMHHtgcFx8YTFHToexYSGDTTmRkZaNwS\"]},\"@openzeppelin/contracts-ethereum-package/contracts/GSN/Context.sol\":{\"keccak256\":\"0x0d4306da5305cb78f09c70c18ec86dbc66f22fa5ade90edc20e1ab88e16d4d10\",\"urls\":[\"bzz-raw://c89dee1b8e96cb83f529b8b5c93be6b420c1913363a3fed01241942f08cc968f\",\"dweb:/ipfs/QmfWWwzg9hah3YwZRFWvAwq91HLjCHkKnxXqP6uLGURUou\"]},\"@openzeppelin/contracts-ethereum-package/contracts/access/Roles.sol\":{\"keccak256\":\"0xb002c378d7b82a101bd659c341518953ca0919d342c0a400196982c0e7e7bcdb\",\"urls\":[\"bzz-raw://00a788c4631466c220b385bdd100c571d24b2deccd657615cfbcef6cadf669a4\",\"dweb:/ipfs/QmTEwDbjJNxmMNCDMqtuou3dyM8Wtp8Q9NFvn7SAVM7Jf3\"]},\"@openzeppelin/contracts-ethereum-package/contracts/access/roles/MinterRole.sol\":{\"keccak256\":\"0xdf50b7ae128ae6234bf297a03a7622b3d146734479b26b749052e61ee9dae650\",\"urls\":[\"bzz-raw://93218d23526253d8e8634e5f5be8c21e3c46f12992eae378b202ca22d48564a0\",\"dweb:/ipfs/QmfG4XhTbsxnzCGXgsvxWmuJtU8snNaMEpW9drGde2yY6S\"]},\"@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x4ccf2d7b51873db1ccfd54ca2adae5eac3b184f9699911ed4490438419f1c690\",\"urls\":[\"bzz-raw://d62d769b2219d5de39013093412623e624fa887f871826ea3bae6052ee893610\",\"dweb:/ipfs/QmV3yVktya1s617QmuzQR2CfuJgUi3dR2xEZY9ecmqZ2G1\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol\":{\"keccak256\":\"0xec9f5e2dd33c13f1c1a63b22257724b61d2af536a2d22b2343144e1044b005fe\",\"urls\":[\"bzz-raw://ed49a07c7fa5f07a2e5fff28f07933bf56f8fd932be3c90e797e4d5c4689f94f\",\"dweb:/ipfs/QmdNEMKyATnnccVv8kip5eZFyuY77PU9SrBYVptioZC6pV\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Burnable.sol\":{\"keccak256\":\"0xa8d5fc6a480f6de5320c06f397e810198bf4a6c8b0b2405a4b28fb3909c3771e\",\"urls\":[\"bzz-raw://1c01ff2789027e0a9cbaaeabbc239d59906b40776e2936fcbdbc92dab7a4f912\",\"dweb:/ipfs/QmPYwzjB1GcQndyFqUNkpHNXs1CqxBqE3diVDWuWs5UaDb\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol\":{\"keccak256\":\"0x836e5248258c1eeef170a2b394d74cdec21adfbfca71a8feac303339182c4a39\",\"urls\":[\"bzz-raw://5a429cd7eac29f48bcbb6981f34ba43232e0fcb2bf9e752d2aaa2a64a27e07d5\",\"dweb:/ipfs/QmaFoHVPCY9Z5iZjZuwxq6pJ8cEqZdy7foLNNp46BzFNju\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Mintable.sol\":{\"keccak256\":\"0xcae60acc572a549182cd7b26a169dbe5154ad0602cfb6c37533e9ee4ec1b4b06\",\"urls\":[\"bzz-raw://8d2bcd2a72821122b854e9467276090df516c50b34860d170164f4f080d1e579\",\"dweb:/ipfs/QmbxUTBMdADhXPAfzaPXFbAHEhYZyugdHwedNh43W1BUmt\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x90e8c2521653bbb1768b05889c5760031e688d9cd361f167489b89215e201b95\",\"urls\":[\"bzz-raw://d0abb99bb8bfc2bc0a89902b8ed1dc0442ad08cc78cee64c291b3df6a27bcccc\",\"dweb:/ipfs/QmP5NaEwZthQeM2ESz4WTT3osrP7jhbvu7ocbttBi2JAw6\"]},\"@openzeppelin/upgrades/contracts/Initializable.sol\":{\"keccak256\":\"0xf79d9851c085aa8412e87d7a26d3485488fe12538ecb4e317ce41fc1f2c3a16a\",\"urls\":[\"bzz-raw://6af1a35ad6aed2169ce9f44095438b3192cd6066903908f769d5c49a06a0caf8\",\"dweb:/ipfs/QmaH41CwJ7WrMQwSnbfCKuL2pd8bxF7sbGSLPZb6JaHBFF\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060405161013b38038061013b8339818101604052602081101561003357600080fd5b5051600080546001600160a01b039092166001600160a01b031990921691909117905560d7806100646000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c8063a34e8fa0146037578063d2d0e066146059575b600080fd5b603d608e565b604080516001600160a01b039092168252519081900360200190f35b608c60048036036060811015606d57600080fd5b5080356001600160a01b0316906020810135906040013561ffff16609d565b005b6000546001600160a01b031681565b50505056fea265627a7a72315820f3e0635dea95033417c07fb6a2b14a47af77be63732923f9d33fcce32ac6c30b64736f6c63430005100032",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c8063a34e8fa0146037578063d2d0e066146059575b600080fd5b603d608e565b604080516001600160a01b039092168252519081900360200190f35b608c60048036036060811015606d57600080fd5b5080356001600160a01b0316906020810135906040013561ffff16609d565b005b6000546001600160a01b031681565b50505056fea265627a7a72315820f3e0635dea95033417c07fb6a2b14a47af77be63732923f9d33fcce32ac6c30b64736f6c63430005100032",
+  "sourceMap": "180:269:5:-;;;254:71;8:9:-1;5:2;;;30:1;27;20:12;5:2;254:71:5;;;;;;;;;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;254:71:5;302:4;:18;;-1:-1:-1;;;;;302:18:5;;;-1:-1:-1;;;;;;302:18:5;;;;;;;;;180:269;;;;;;",
+  "deployedSourceMap": "180:269:5:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;180:269:5;;;;;;;;;;;;;;;;;;;;;;;;229:21;;;:::i;:::-;;;;-1:-1:-1;;;;;229:21:5;;;;;;;;;;;;;;328:119;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;328:119:5;;-1:-1:-1;;;;;328:119:5;;;;;;;;;;;;;:::i;:::-;;229:21;;;-1:-1:-1;;;;;229:21:5;;:::o;328:119::-;;;;:::o",
+  "source": "pragma solidity ^0.5.0;\n\nimport '../interfaces/IAaveLendingPool.sol';\nimport './MockERC20.sol';\nimport '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';\n\ncontract AaveLendingPool is IAaveLendingPool {\n  MockERC20 public aDai;\n  constructor(MockERC20 aDaiAddress) public {\n    aDai = aDaiAddress;\n  }\n  function deposit(address _reserve, uint256 _amount, uint16 _referralCode)\n    public\n  {\n    // For now, do nothing\n  }\n}\n",
+  "sourcePath": "/home/jasoons/Documents/temp/app/contracts/contracts/mocks/AaveLendingPool.sol",
   "ast": {
-    "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/AaveLendingPool.sol",
+    "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/mocks/AaveLendingPool.sol",
     "exportedSymbols": {
       "AaveLendingPool": [
-        739
+        758
       ]
     },
-    "id": 740,
+    "id": 759,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 711,
+        "id": 730,
         "literals": [
           "solidity",
           "^",
@@ -80,38 +80,38 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:6"
+        "src": "0:23:5"
       },
       {
-        "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IAaveLendingPool.sol",
+        "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IAaveLendingPool.sol",
         "file": "../interfaces/IAaveLendingPool.sol",
-        "id": 712,
+        "id": 731,
         "nodeType": "ImportDirective",
-        "scope": 740,
-        "sourceUnit": 705,
-        "src": "25:44:6",
+        "scope": 759,
+        "sourceUnit": 726,
+        "src": "25:44:5",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/MockERC20.sol",
+        "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/mocks/MockERC20.sol",
         "file": "./MockERC20.sol",
-        "id": 713,
+        "id": 732,
         "nodeType": "ImportDirective",
-        "scope": 740,
-        "sourceUnit": 785,
-        "src": "70:25:6",
+        "scope": 759,
+        "sourceUnit": 804,
+        "src": "70:25:5",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
-        "id": 714,
+        "id": 733,
         "nodeType": "ImportDirective",
-        "scope": 740,
-        "sourceUnit": 1556,
-        "src": "96:82:6",
+        "scope": 759,
+        "sourceUnit": 1575,
+        "src": "96:82:5",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -121,57 +121,57 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 715,
+              "id": 734,
               "name": "IAaveLendingPool",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 704,
-              "src": "208:16:6",
+              "referencedDeclaration": 725,
+              "src": "208:16:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IAaveLendingPool_$704",
+                "typeIdentifier": "t_contract$_IAaveLendingPool_$725",
                 "typeString": "contract IAaveLendingPool"
               }
             },
-            "id": 716,
+            "id": 735,
             "nodeType": "InheritanceSpecifier",
-            "src": "208:16:6"
+            "src": "208:16:5"
           }
         ],
         "contractDependencies": [
-          704
+          725
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 739,
+        "id": 758,
         "linearizedBaseContracts": [
-          739,
-          704
+          758,
+          725
         ],
         "name": "AaveLendingPool",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 718,
+            "id": 737,
             "name": "aDai",
             "nodeType": "VariableDeclaration",
-            "scope": 739,
-            "src": "231:21:6",
+            "scope": 758,
+            "src": "229:21:5",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_MockERC20_$784",
+              "typeIdentifier": "t_contract$_MockERC20_$803",
               "typeString": "contract MockERC20"
             },
             "typeName": {
               "contractScope": null,
-              "id": 717,
+              "id": 736,
               "name": "MockERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 784,
-              "src": "231:9:6",
+              "referencedDeclaration": 803,
+              "src": "229:9:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_MockERC20_$784",
+                "typeIdentifier": "t_contract$_MockERC20_$803",
                 "typeString": "contract MockERC20"
               }
             },
@@ -180,28 +180,28 @@
           },
           {
             "body": {
-              "id": 727,
+              "id": 746,
               "nodeType": "Block",
-              "src": "300:35:6",
+              "src": "296:29:5",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 725,
+                    "id": 744,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 723,
+                      "id": 742,
                       "name": "aDai",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 718,
-                      "src": "310:4:6",
+                      "referencedDeclaration": 737,
+                      "src": "302:4:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MockERC20_$784",
+                        "typeIdentifier": "t_contract$_MockERC20_$803",
                         "typeString": "contract MockERC20"
                       }
                     },
@@ -209,62 +209,62 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 724,
+                      "id": 743,
                       "name": "aDaiAddress",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 720,
-                      "src": "317:11:6",
+                      "referencedDeclaration": 739,
+                      "src": "309:11:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MockERC20_$784",
+                        "typeIdentifier": "t_contract$_MockERC20_$803",
                         "typeString": "contract MockERC20"
                       }
                     },
-                    "src": "310:18:6",
+                    "src": "302:18:5",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MockERC20_$784",
+                      "typeIdentifier": "t_contract$_MockERC20_$803",
                       "typeString": "contract MockERC20"
                     }
                   },
-                  "id": 726,
+                  "id": 745,
                   "nodeType": "ExpressionStatement",
-                  "src": "310:18:6"
+                  "src": "302:18:5"
                 }
               ]
             },
             "documentation": null,
-            "id": 728,
+            "id": 747,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 721,
+              "id": 740,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 720,
+                  "id": 739,
                   "name": "aDaiAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 728,
-                  "src": "270:21:6",
+                  "scope": 747,
+                  "src": "266:21:5",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MockERC20_$784",
+                    "typeIdentifier": "t_contract$_MockERC20_$803",
                     "typeString": "contract MockERC20"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 719,
+                    "id": 738,
                     "name": "MockERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 784,
-                    "src": "270:9:6",
+                    "referencedDeclaration": 803,
+                    "src": "266:9:5",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MockERC20_$784",
+                      "typeIdentifier": "t_contract$_MockERC20_$803",
                       "typeString": "contract MockERC20"
                     }
                   },
@@ -272,45 +272,45 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "269:23:6"
+              "src": "265:23:5"
             },
             "returnParameters": {
-              "id": 722,
+              "id": 741,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "300:0:6"
+              "src": "296:0:5"
             },
-            "scope": 739,
-            "src": "258:77:6",
+            "scope": 758,
+            "src": "254:71:5",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 737,
+              "id": 756,
               "nodeType": "Block",
-              "src": "433:38:6",
+              "src": "415:32:5",
               "statements": []
             },
             "documentation": null,
-            "id": 738,
+            "id": 757,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "deposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 735,
+              "id": 754,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 730,
+                  "id": 749,
                   "name": "_reserve",
                   "nodeType": "VariableDeclaration",
-                  "scope": 738,
-                  "src": "357:16:6",
+                  "scope": 757,
+                  "src": "345:16:5",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -318,10 +318,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 729,
+                    "id": 748,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "357:7:6",
+                    "src": "345:7:5",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -333,11 +333,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 732,
+                  "id": 751,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 738,
-                  "src": "375:15:6",
+                  "scope": 757,
+                  "src": "363:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -345,10 +345,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 731,
+                    "id": 750,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "375:7:6",
+                    "src": "363:7:5",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -359,11 +359,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 734,
+                  "id": 753,
                   "name": "_referralCode",
                   "nodeType": "VariableDeclaration",
-                  "scope": 738,
-                  "src": "392:20:6",
+                  "scope": 757,
+                  "src": "380:20:5",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -371,10 +371,10 @@
                     "typeString": "uint16"
                   },
                   "typeName": {
-                    "id": 733,
+                    "id": 752,
                     "name": "uint16",
                     "nodeType": "ElementaryTypeName",
-                    "src": "392:6:6",
+                    "src": "380:6:5",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint16",
                       "typeString": "uint16"
@@ -384,39 +384,39 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "356:57:6"
+              "src": "344:57:5"
             },
             "returnParameters": {
-              "id": 736,
+              "id": 755,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "433:0:6"
+              "src": "415:0:5"
             },
-            "scope": 739,
-            "src": "340:131:6",
+            "scope": 758,
+            "src": "328:119:5",
             "stateMutability": "nonpayable",
-            "superFunction": 703,
+            "superFunction": 724,
             "visibility": "public"
           }
         ],
-        "scope": 740,
-        "src": "180:293:6"
+        "scope": 759,
+        "src": "180:269:5"
       }
     ],
-    "src": "0:474:6"
+    "src": "0:450:5"
   },
   "legacyAST": {
-    "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/AaveLendingPool.sol",
+    "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/mocks/AaveLendingPool.sol",
     "exportedSymbols": {
       "AaveLendingPool": [
-        739
+        758
       ]
     },
-    "id": 740,
+    "id": 759,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 711,
+        "id": 730,
         "literals": [
           "solidity",
           "^",
@@ -424,38 +424,38 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:6"
+        "src": "0:23:5"
       },
       {
-        "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IAaveLendingPool.sol",
+        "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IAaveLendingPool.sol",
         "file": "../interfaces/IAaveLendingPool.sol",
-        "id": 712,
+        "id": 731,
         "nodeType": "ImportDirective",
-        "scope": 740,
-        "sourceUnit": 705,
-        "src": "25:44:6",
+        "scope": 759,
+        "sourceUnit": 726,
+        "src": "25:44:5",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/MockERC20.sol",
+        "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/mocks/MockERC20.sol",
         "file": "./MockERC20.sol",
-        "id": 713,
+        "id": 732,
         "nodeType": "ImportDirective",
-        "scope": 740,
-        "sourceUnit": 785,
-        "src": "70:25:6",
+        "scope": 759,
+        "sourceUnit": 804,
+        "src": "70:25:5",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
-        "id": 714,
+        "id": 733,
         "nodeType": "ImportDirective",
-        "scope": 740,
-        "sourceUnit": 1556,
-        "src": "96:82:6",
+        "scope": 759,
+        "sourceUnit": 1575,
+        "src": "96:82:5",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -465,57 +465,57 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 715,
+              "id": 734,
               "name": "IAaveLendingPool",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 704,
-              "src": "208:16:6",
+              "referencedDeclaration": 725,
+              "src": "208:16:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IAaveLendingPool_$704",
+                "typeIdentifier": "t_contract$_IAaveLendingPool_$725",
                 "typeString": "contract IAaveLendingPool"
               }
             },
-            "id": 716,
+            "id": 735,
             "nodeType": "InheritanceSpecifier",
-            "src": "208:16:6"
+            "src": "208:16:5"
           }
         ],
         "contractDependencies": [
-          704
+          725
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 739,
+        "id": 758,
         "linearizedBaseContracts": [
-          739,
-          704
+          758,
+          725
         ],
         "name": "AaveLendingPool",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 718,
+            "id": 737,
             "name": "aDai",
             "nodeType": "VariableDeclaration",
-            "scope": 739,
-            "src": "231:21:6",
+            "scope": 758,
+            "src": "229:21:5",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_MockERC20_$784",
+              "typeIdentifier": "t_contract$_MockERC20_$803",
               "typeString": "contract MockERC20"
             },
             "typeName": {
               "contractScope": null,
-              "id": 717,
+              "id": 736,
               "name": "MockERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 784,
-              "src": "231:9:6",
+              "referencedDeclaration": 803,
+              "src": "229:9:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_MockERC20_$784",
+                "typeIdentifier": "t_contract$_MockERC20_$803",
                 "typeString": "contract MockERC20"
               }
             },
@@ -524,28 +524,28 @@
           },
           {
             "body": {
-              "id": 727,
+              "id": 746,
               "nodeType": "Block",
-              "src": "300:35:6",
+              "src": "296:29:5",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 725,
+                    "id": 744,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 723,
+                      "id": 742,
                       "name": "aDai",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 718,
-                      "src": "310:4:6",
+                      "referencedDeclaration": 737,
+                      "src": "302:4:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MockERC20_$784",
+                        "typeIdentifier": "t_contract$_MockERC20_$803",
                         "typeString": "contract MockERC20"
                       }
                     },
@@ -553,62 +553,62 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 724,
+                      "id": 743,
                       "name": "aDaiAddress",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 720,
-                      "src": "317:11:6",
+                      "referencedDeclaration": 739,
+                      "src": "309:11:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MockERC20_$784",
+                        "typeIdentifier": "t_contract$_MockERC20_$803",
                         "typeString": "contract MockERC20"
                       }
                     },
-                    "src": "310:18:6",
+                    "src": "302:18:5",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MockERC20_$784",
+                      "typeIdentifier": "t_contract$_MockERC20_$803",
                       "typeString": "contract MockERC20"
                     }
                   },
-                  "id": 726,
+                  "id": 745,
                   "nodeType": "ExpressionStatement",
-                  "src": "310:18:6"
+                  "src": "302:18:5"
                 }
               ]
             },
             "documentation": null,
-            "id": 728,
+            "id": 747,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 721,
+              "id": 740,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 720,
+                  "id": 739,
                   "name": "aDaiAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 728,
-                  "src": "270:21:6",
+                  "scope": 747,
+                  "src": "266:21:5",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MockERC20_$784",
+                    "typeIdentifier": "t_contract$_MockERC20_$803",
                     "typeString": "contract MockERC20"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 719,
+                    "id": 738,
                     "name": "MockERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 784,
-                    "src": "270:9:6",
+                    "referencedDeclaration": 803,
+                    "src": "266:9:5",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MockERC20_$784",
+                      "typeIdentifier": "t_contract$_MockERC20_$803",
                       "typeString": "contract MockERC20"
                     }
                   },
@@ -616,45 +616,45 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "269:23:6"
+              "src": "265:23:5"
             },
             "returnParameters": {
-              "id": 722,
+              "id": 741,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "300:0:6"
+              "src": "296:0:5"
             },
-            "scope": 739,
-            "src": "258:77:6",
+            "scope": 758,
+            "src": "254:71:5",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 737,
+              "id": 756,
               "nodeType": "Block",
-              "src": "433:38:6",
+              "src": "415:32:5",
               "statements": []
             },
             "documentation": null,
-            "id": 738,
+            "id": 757,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "deposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 735,
+              "id": 754,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 730,
+                  "id": 749,
                   "name": "_reserve",
                   "nodeType": "VariableDeclaration",
-                  "scope": 738,
-                  "src": "357:16:6",
+                  "scope": 757,
+                  "src": "345:16:5",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -662,10 +662,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 729,
+                    "id": 748,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "357:7:6",
+                    "src": "345:7:5",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -677,11 +677,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 732,
+                  "id": 751,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 738,
-                  "src": "375:15:6",
+                  "scope": 757,
+                  "src": "363:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -689,10 +689,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 731,
+                    "id": 750,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "375:7:6",
+                    "src": "363:7:5",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -703,11 +703,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 734,
+                  "id": 753,
                   "name": "_referralCode",
                   "nodeType": "VariableDeclaration",
-                  "scope": 738,
-                  "src": "392:20:6",
+                  "scope": 757,
+                  "src": "380:20:5",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -715,10 +715,10 @@
                     "typeString": "uint16"
                   },
                   "typeName": {
-                    "id": 733,
+                    "id": 752,
                     "name": "uint16",
                     "nodeType": "ElementaryTypeName",
-                    "src": "392:6:6",
+                    "src": "380:6:5",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint16",
                       "typeString": "uint16"
@@ -728,34 +728,34 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "356:57:6"
+              "src": "344:57:5"
             },
             "returnParameters": {
-              "id": 736,
+              "id": 755,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "433:0:6"
+              "src": "415:0:5"
             },
-            "scope": 739,
-            "src": "340:131:6",
+            "scope": 758,
+            "src": "328:119:5",
             "stateMutability": "nonpayable",
-            "superFunction": 703,
+            "superFunction": 724,
             "visibility": "public"
           }
         ],
-        "scope": 740,
-        "src": "180:293:6"
+        "scope": 759,
+        "src": "180:269:5"
       }
     ],
-    "src": "0:474:6"
+    "src": "0:450:5"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.0.6",
-  "updatedAt": "2020-02-29T22:10:21.288Z",
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-02-29T22:51:17.999Z",
   "devdoc": {
     "methods": {}
   },

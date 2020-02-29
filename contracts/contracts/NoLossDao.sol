@@ -219,7 +219,18 @@ contract NoLossDao is Initializable {
     require(proposalDeadline > now, 'current vote still active');
 
     if (topProject[proposalIteration] != 0) {
-      // TODO: do the payout!
+      uint256 interestEarnedSinceLastIteration = adaiContract
+        .balanceOf(address(this))
+        .sub(totalDepositedDai);
+
+      adaiContract.redeem(interestEarnedSinceLastIteration);
+
+      // Do some asserts here for safety...
+
+      address winner = proposalOwner[topProject[proposalIteration]];
+      uint256 amount = daiContract.balanceOf(address(this));
+
+      daiContract.transfer(winner, amount);
     }
 
     proposalDeadline = proposalDeadline.add(votingInterval);
