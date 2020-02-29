@@ -33,8 +33,6 @@ contract NoLossDao is Initializable {
   enum ProposalState {Active, Withdrawn} // Cooldown
   mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
-  enum VoteState {Own, Delegated}
-  mapping(address => VoteState) public voteState; // ProposalId to current state
   mapping(address => address) public voteDelegations;
 
   uint256 public votingInterval;
@@ -50,39 +48,39 @@ contract NoLossDao is Initializable {
     _;
   }
 
-  modifier userStaked() {
-    require(depositedDai[msg.sender] > 0, 'User has no stake');
+  modifier userStaked(address givenAddress) {
+    require(depositedDai[givenAddress] > 0, 'User has no stake');
     _;
   }
 
-  modifier noProposal() {
+  modifier noProposal(address givenAddress) {
     require(
-      usersProposedProject[msg.sender] == 0,
+      usersProposedProject[givenAddress] == 0,
       'User already has a proposal'
     );
     _;
   }
 
-  modifier noVoteYet() {
+  modifier noVoteYet(address givenAddress) {
     require(
-      usersNominatedProject[proposalIteration][msg.sender] == 0,
+      usersNominatedProject[proposalIteration][givenAddress] == 0,
       'User already voted this iteration'
     );
     _;
   }
 
-  modifier userHasActiveProposal() {
+  modifier userHasActiveProposal(address givenAddress) {
     require(
-      state[usersProposedProject[msg.sender]] == ProposalState.Active,
+      state[usersProposedProject[givenAddress]] == ProposalState.Active,
       "User doesn't have an active proposal"
     );
     _;
   }
 
-  modifier userHasNoActiveProposal() {
+  modifier userHasNoActiveProposal(address givenAddress) {
     require(
-      state[usersProposedProject[msg.sender]] == ProposalState.Withdrawn ||
-        usersProposedProject[msg.sender] == 0,
+      state[usersProposedProject[givenAddress]] == ProposalState.Withdrawn ||
+        usersProposedProject[givenAddress] == 0,
       'User has an active proposal'
     );
     _;
@@ -97,6 +95,24 @@ contract NoLossDao is Initializable {
     require(
       amount <= daiContract.allowance(msg.sender, address(this)),
       'amount not available'
+    );
+    _;
+  }
+
+  // Modifiers for proxy
+  modifier proxyRight(address delegatedFrom) {
+    require(
+      voteDelegations[delegatedFrom] == msg.sender,
+      "User doesn't have proxy right"
+    );
+    _;
+  }
+
+  // Modifiers for proxy
+  modifier joinedInTime(address givenAddress) {
+    require(
+      iterationJoined[givenAddress] < proposalIteration,
+      'User only eligible to vote next iteration'
     );
     _;
   }
@@ -125,7 +141,7 @@ contract NoLossDao is Initializable {
   function deposit(uint256 amount)
     public
     blankUser
-    noProposal
+    noProposal(msg.sender)
     allowanceAvailable(amount)
   {
     daiContract.transferFrom(msg.sender, address(this), amount);
@@ -135,6 +151,7 @@ contract NoLossDao is Initializable {
     //setting values
     depositedDai[msg.sender] = amount;
     totalDepositedDai = totalDepositedDai.add(amount);
+    iterationJoined[msg.sender] = proposalIteration;
   }
 
   function withdrawFull(uint256 amount) public {
@@ -172,7 +189,7 @@ contract NoLossDao is Initializable {
     state[newProposalId] = ProposalState.Active;
   }
 
-  function withdrawProposal() public userHasActiveProposal {
+  function withdrawProposal() public userHasActiveProposal(msg.sender) {
     //This can only be executed after every cycle
     state[usersProposedProject[msg.sender]] = ProposalState.Withdrawn;
     totalDepositedDai = totalDepositedDai.sub(proposalAmount);
@@ -186,22 +203,13 @@ contract NoLossDao is Initializable {
   function vote(uint256 proposalIdToVoteFor)
     public
     proposalActive(proposalIdToVoteFor)
-    noVoteYet
-    userStaked
-    userHasNoActiveProposal
+    noVoteYet(msg.sender)
+    userStaked(msg.sender)
+    userHasNoActiveProposal(msg.sender)
+    joinedInTime(msg.sender)
   {
-    // Can only vote if they joined a previous iteration round...
-    // Check if the msg.sender has given approval rights to our steward to vote on their behalf
-    uint256 currentProposal = usersNominatedProject[proposalIteration][msg
-      .sender];
-    if (currentProposal != 0) {
-      proposalVotes[proposalIteration][currentProposal] = proposalVotes[proposalIteration][currentProposal]
-        .sub(depositedDai[msg.sender]);
-    }
-
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
       .add(depositedDai[msg.sender]);
-
     usersNominatedProject[proposalIteration][msg.sender] = proposalIdToVoteFor;
 
     uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
@@ -241,12 +249,32 @@ contract NoLossDao is Initializable {
 
   function delegateVoting(address delegatedAddress)
     public
-    noVoteYet
-    userStaked
-    userHasNoActiveProposal
+    userStaked(msg.sender)
+    userHasNoActiveProposal(msg.sender)
   {
-    //TODO: MUCH LATER
-    // Allow the steward (US) to vote on their behalf through other medium (eg. scraping twitter)
+    voteDelegations[msg.sender] = delegatedAddress;
+  }
+
+  function voteProxy(uint256 proposalIdToVoteFor, address delegatedFrom)
+    public
+    proposalActive(proposalIdToVoteFor)
+    proxyRight(delegatedFrom)
+    noVoteYet(delegatedFrom)
+    userStaked(delegatedFrom)
+    userHasNoActiveProposal(delegatedFrom)
+    joinedInTime(delegatedFrom)
+  {
+    // CODE DUPLICATION: CAREFUL OF CHANGES IN BOTH
+    proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
+      .add(depositedDai[delegatedFrom]);
+    usersNominatedProject[proposalIteration][delegatedFrom] = proposalIdToVoteFor;
+
+    uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
+
+    // TODO:: if they are equal there is a problem (we must handle this!!)
+    if (proposalVotes[proposalIteration][proposalId] > topProjectVotes) {
+      topProject[proposalIteration] = proposalId;
+    }
   }
 
 }
