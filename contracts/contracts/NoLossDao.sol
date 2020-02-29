@@ -100,13 +100,14 @@ contract NoLossDao is Initializable {
 
     function initialize(
         address daiAddress,
-        address aaveAddress,
+        address aDaiAddress,
+        address aavePoolAddress,
         uint256 _proposalAmount,
         uint256 _votingInterval
     ) public initializer {
         daiContract = IERC20(daiAddress);
-        aaveLendingContract = IAaveLendingPool(aaveAddress);
-        adaiContract = IADai(aaveAddress);
+        aaveLendingContract = IAaveLendingPool(aavePoolAddress);
+        adaiContract = IADai(aDaiAddress);
         admin = msg.sender;
         proposalAmount = _proposalAmount;
         votingInterval = _votingInterval;

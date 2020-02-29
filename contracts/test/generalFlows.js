@@ -31,6 +31,7 @@ contract("WildcardSteward", accounts => {
 
     await noLossDao.initialize(
       erc20Dai.address,
+      erc20ADai.address,
       aaveLendingPool.address,
       "5000000",
       {

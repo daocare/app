@@ -3,3 +3,5 @@ scripts
 docker-compose
 Dockerfile
 secretsManager.js
+
+.openzeppelin/.session
