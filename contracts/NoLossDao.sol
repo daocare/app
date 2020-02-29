@@ -11,7 +11,7 @@ contract NoLossDao is Initializable {
     mapping(address => uint256) public depositedDai;
     mapping(uint256 => address) public proposalOwner;
     mapping(uint256 => string) public proposalDetails;
-    mapping(uint256 => uint256) public proposalVotes;
+    mapping(uint256 => mapping(uint256 => uint256)) public proposalVotes;
 
     mapping(address => uint256) public usersNominatedProject; // Means user can only have one project.
     mapping(address => uint256) public usersProposedProject;
@@ -142,20 +142,19 @@ contract NoLossDao is Initializable {
 
         uint256 currentProposal = usersNominatedProject[msg.sender];
         if (currentProposal != 0) {
-            proposalVotes[currentProposal] = proposalVotes[currentProposal].sub(
-                depositedDai[msg.sender]
-            );
+            proposalVotes[proposalIteration][currentProposal] = proposalVotes[proposalIteration][currentProposal]
+                .sub(depositedDai[msg.sender]);
         }
 
-        proposalVotes[proposalIdToVoteFor] = proposalVotes[proposalIdToVoteFor]
+        proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
             .add(depositedDai[msg.sender]);
 
         usersNominatedProject[msg.sender] = proposalIdToVoteFor;
 
-        uint256 topProjectVotes = proposalVotes[topProject];
+        uint256 topProjectVotes = proposalVotes[proposalIteration][topProject];
 
         // TODO:: if they are equal there is a problem (we must handle this!!)
-        if (proposalVotes[proposalId] > topProjectVotes) {
+        if (proposalVotes[proposalIteration][proposalId] > topProjectVotes) {
             topProject = proposalId;
         }
     }
