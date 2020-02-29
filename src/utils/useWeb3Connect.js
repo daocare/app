@@ -62,9 +62,18 @@ function useWeb3Connect() {
   const [chainId, setChainId] = useState(null);
   const [networkId, setNetworkId] = useState(null);
   const [network, setNetwork] = useState(null);
-  const [fetching, setFetching] = useState(false);
 
-  // console.log({ connected, address, chainId, networkId, fetching, error });
+  const getNetworkByChainId = chainIdTemp => {
+    // console.log(supportedChains);
+    let networkTemp = supportedChains.filter(
+      chain => chain.chain_id === chainIdTemp
+    );
+    console.log(networkTemp);
+    return networkTemp && networkTemp.length > 0
+      ? networkTemp[0].network
+      : null;
+  };
+
   const onConnect = async () => {
     const providerInited = await web3Connect.connect();
 
@@ -89,7 +98,7 @@ function useWeb3Connect() {
     const networkIdTemp = await web3Inited.eth.net.getId();
 
     const chainIdTemp = await web3Inited.eth.chainId();
-
+    console.log({ addressTemp });
     setProvider(providerInited);
     setWeb3(web3Inited);
     setConnected(true);
@@ -97,7 +106,6 @@ function useWeb3Connect() {
     setChainId(chainIdTemp);
     setNetworkId(networkIdTemp);
     setNetwork(getNetworkByChainId(networkIdTemp));
-    setFetching(true);
   };
 
   useEffect(() => {
@@ -117,15 +125,8 @@ function useWeb3Connect() {
     await setAddress(null);
     await setChainId(null);
     await setNetworkId(null);
-    await setFetching(false);
   };
 
-  const getNetworkByChainId = chainIdTemp => {
-    let networkTemp = supportedChains.filter(
-      chain => chain.chain_id === chainIdTemp
-    );
-    return networkTemp ? networkTemp.network : null;
-  };
   const subscribeProvider = async provider => {
     provider.on('close', () => resetApp());
 
@@ -153,7 +154,7 @@ function useWeb3Connect() {
     chainId,
     networkId,
     network,
-    fetching,
+
     triggerConnect: onConnect,
     web3,
     web3Connect,

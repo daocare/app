@@ -28,14 +28,18 @@ const App = () => {
 
   //   // }
   // }, []);
+  // return (
+  //   <div>
+  //     <Router history={history}>{renderRoutes(routes)}</Router>
+  //   </div>
+  // );
+
   return (
     <StoreProvider store={store}>
       <ThemeProvider theme={theme}>
         {/* <MuiPickersUtilsProvider utils={MomentUtils}> */}
         <Router history={history}>
           <ScrollReset />
-          {/* <GoogleAnalytics /> */}
-          {/* <CookiesNotification /> */}
           {renderRoutes(routes)}
         </Router>
         {/* </MuiPickersUtilsProvider> */}

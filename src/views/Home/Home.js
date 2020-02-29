@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-
-import { Page } from '../../components';
+import useWeb3Connect from '../../utils/useWeb3Connect';
+import { Page, WalletProfile } from '../../components';
 // import {
 //   Intro,
 //   Newsletter,
@@ -11,7 +11,6 @@ import { Page } from '../../components';
 //   Footer,
 // } from './components';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 
 import { Typography } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
@@ -30,15 +29,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Home = () => {
-  // const classes = useStyles();
+  const classes = useStyles();
 
   return (
     <Page className={classes.root} title="ETHLondon DAO">
       <Container maxWidth="md">
+        <WalletProfile />
         <p>OLA</p>
-        <Button variant="contained" color="primary" disableElevation>
-          Web3
-        </Button>
       </Container>
     </Page>
   );

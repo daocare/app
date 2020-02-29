@@ -1,41 +1,41 @@
-import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import clsx from "clsx";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/styles";
-import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import TwitterIcon from "@material-ui/icons/Twitter";
+import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
+import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+// import LinkedInIcon from "@material-ui/icons/LinkedIn";
+// import TwitterIcon from "@material-ui/icons/Twitter";
 
-import Avatar from "@material-ui/core/Avatar";
-import AvatarMenu from "./AvatarMenu";
+import Avatar from '@material-ui/core/Avatar';
+import AvatarMenu from './AvatarMenu';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: "#FFFFFF"
+    backgroundColor: '#FFFFFF',
   },
   logo: {
     width: 120,
-    marginTop: theme.spacing(0.5)
+    marginTop: theme.spacing(0.5),
   },
   socialContainer: {
-    float: "right",
-    display: "flex"
+    float: 'right',
+    display: 'flex',
   },
   socialContainerLoggedIn: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   avatar: {
     color: theme.palette.getContrastText(theme.palette.primary.main),
     backgroundColor: theme.palette.primary.main,
     width: 24,
     height: 24,
-    fontSize: "0.7rem",
+    fontSize: '0.7rem',
     marginTop: theme.spacing(0.5),
-    cursor: "pointer"
+    cursor: 'pointer',
     // marginLeft: theme.spacing(1.5)
-  }
+  },
 }));
 
 const TopBar = props => {
@@ -99,7 +99,7 @@ const TopBar = props => {
 };
 
 TopBar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
   // onOpenNavBarMobile: PropTypes.func
 };
 
