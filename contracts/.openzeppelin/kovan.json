@@ -1,11 +1,11 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0x21D0bCdfF84b3cFCC3d0e982f1A4e63cC8941C0d",
-      "constructorCode": "608060405234801561001057600080fd5b50611ce2806100206000396000f3fe",
-      "bodyBytecodeHash": "a72e4e21449d1ad15e733bee74e848939a65ec727b5a3eb1ba32d72d99164b76",
-      "localBytecodeHash": "933c6df5ec15d26591397f6ba87d065fffdecff4b1d849ac8f2addbd186d0a2d",
-      "deployedBytecodeHash": "933c6df5ec15d26591397f6ba87d065fffdecff4b1d849ac8f2addbd186d0a2d",
+      "address": "0x8FF7d89B545a0a595A4DA2D7b49f23EfAE1F2Cd6",
+      "constructorCode": "608060405234801561001057600080fd5b50611c1f806100206000396000f3fe",
+      "bodyBytecodeHash": "3e514252eaf72e029c0eebe0b5525cc492f752fa2649315afd4661b2e8605e91",
+      "localBytecodeHash": "46796d41e693ac205c0974e1208e60f11591bf415f0d85a68398e904ffcad770",
+      "deployedBytecodeHash": "46796d41e693ac205c0974e1208e60f11591bf415f0d85a68398e904ffcad770",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -267,7 +267,18 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": []
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [
+          {
+            "contract": "NoLossDao",
+            "path": "contracts/NoLossDao.sol",
+            "label": "state",
+            "astId": 127,
+            "type": "t_mapping<t_enum<NoLossDao.ProposalState>>",
+            "src": "1169:46:1"
+          }
+        ],
+        "storageDiff": []
       }
     }
   },
@@ -285,6 +296,13 @@
         "address": "0x8c44D9c9F14e32103D7d9aa1E6F8207dd081F10C",
         "version": "2.5.3",
         "implementation": "0x21D0bCdfF84b3cFCC3d0e982f1A4e63cC8941C0d",
+        "admin": "0x80C44A6f68559Ab5cdf6D5F0c1722D8bF0460753",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x714e53A1BAA44fb8C748ca1F44aC9fc0f8541E38",
+        "version": "2.5.3",
+        "implementation": "0x8FF7d89B545a0a595A4DA2D7b49f23EfAE1F2Cd6",
         "admin": "0x80C44A6f68559Ab5cdf6D5F0c1722D8bF0460753",
         "kind": "Upgradeable"
       }
