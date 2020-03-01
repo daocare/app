@@ -138,6 +138,15 @@ contract NoLossDao is Initializable {
     votingInterval = newInterval;
   }
 
+  // This will return an empty array if no proposal added
+  //   function proposalHashes() public view returns (string[] memory) {
+  //     string[] memory myHashes = new string[](proposalId);
+  //     for (uint256 i = 1; i <= proposalId; i++) {
+  //       myHashes[i - 1] = proposalDetails[i];
+  //     }
+  //     return myHashes;
+  //   }
+
   function deposit(uint256 amount)
     public
     blankUser
@@ -182,7 +191,8 @@ contract NoLossDao is Initializable {
     depositedDai[msg.sender] = depositedDai[msg.sender].add(proposalAmount);
 
     // So the first proposal will have an ID of 1
-    newProposalId = proposalId.add(1);
+    proposalId = proposalId.add(1);
+    newProposalId = proposalId;
 
     proposalDetails[newProposalId] = proposalHash;
     proposalOwner[newProposalId] = msg.sender;
