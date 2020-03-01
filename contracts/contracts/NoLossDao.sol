@@ -183,7 +183,7 @@ contract NoLossDao is Initializable {
   {
     // DAI things. TODO: Approve where necessary
     daiContract.transferFrom(msg.sender, address(this), proposalAmount);
-    daiContract.approve(address(aaveLendingContractCore), amount);
+    daiContract.approve(address(aaveLendingContractCore), proposalAmount);
     aaveLendingContract.deposit(
       address(daiContract),
       proposalAmount,

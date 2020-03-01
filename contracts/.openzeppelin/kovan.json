@@ -1,191 +1,284 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0x720E64a324eCa37d8ac37A12278074fd12Ad5D8b",
+      "address": "0xc0c2C1Fe3020d8d8e3BDbDd91c8d69Cd4296767B",
       "constructorCode": "608060405234801561001057600080fd5b50611c9f806100206000396000f3fe",
-      "bodyBytecodeHash": "a1d886a36dfc963812d57d9adcf1daccd5a6fbcf59b93a43666a28fa9410040c",
-      "localBytecodeHash": "2c3adddbf4baca327ed7389b3471692aaf0a1c24199a302e87ef5e9f69e54ce1",
-      "deployedBytecodeHash": "2c3adddbf4baca327ed7389b3471692aaf0a1c24199a302e87ef5e9f69e54ce1",
-      "types": null,
-      "storage": null
+      "bodyBytecodeHash": "bbceb91d67f21522dd0f15e9730c5fd7eec5277961d2fae74b666960f12ad57c",
+      "localBytecodeHash": "89db6fdee65d623e03e21704427f4a9352fd6af65ebf781d79ad6e329efbcc27",
+      "deployedBytecodeHash": "89db6fdee65d623e03e21704427f4a9352fd6af65ebf781d79ad6e329efbcc27",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_mapping<t_address>": {
+          "id": "t_mapping<t_address>",
+          "valueType": "t_address",
+          "label": "mapping(key => address)",
+          "kind": "mapping"
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_mapping<t_string>": {
+          "id": "t_mapping<t_string>",
+          "valueType": "t_string",
+          "label": "mapping(key => string)",
+          "kind": "mapping"
+        },
+        "t_enum<NoLossDao.ProposalState>": {
+          "id": "t_enum<NoLossDao.ProposalState>",
+          "kind": "enum",
+          "label": "NoLossDao.ProposalState",
+          "members": [
+            "Active",
+            "Withdrawn"
+          ]
+        },
+        "t_mapping<t_enum<NoLossDao.ProposalState>>": {
+          "id": "t_mapping<t_enum<NoLossDao.ProposalState>>",
+          "valueType": "t_enum<NoLossDao.ProposalState>",
+          "label": "mapping(key => NoLossDao.ProposalState)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 1942,
+          "type": "t_bool",
+          "src": "757:24:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 1944,
+          "type": "t_bool",
+          "src": "876:25:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2000,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:16"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "depositedDai",
+          "astId": 70,
+          "type": "t_mapping<t_uint256>",
+          "src": "294:47:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalOwner",
+          "astId": 74,
+          "type": "t_mapping<t_address>",
+          "src": "345:48:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalDetails",
+          "astId": 78,
+          "type": "t_mapping<t_string>",
+          "src": "397:49:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalVotes",
+          "astId": 84,
+          "type": "t_mapping<t_uint256>",
+          "src": "450:68:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "usersNominatedProject",
+          "astId": 90,
+          "type": "t_mapping<t_uint256>",
+          "src": "523:76:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "usersProposedProject",
+          "astId": 94,
+          "type": "t_mapping<t_uint256>",
+          "src": "644:55:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "iterationJoined",
+          "astId": 98,
+          "type": "t_mapping<t_uint256>",
+          "src": "703:50:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "topProject",
+          "astId": 102,
+          "type": "t_mapping<t_uint256>",
+          "src": "758:45:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "totalDepositedDai",
+          "astId": 104,
+          "type": "t_uint256",
+          "src": "808:32:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalAmount",
+          "astId": 106,
+          "type": "t_uint256",
+          "src": "844:29:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "daiContract",
+          "astId": 108,
+          "type": "t_address",
+          "src": "878:25:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "aaveLendingContract",
+          "astId": 110,
+          "type": "t_address",
+          "src": "907:43:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "aaveLendingContractCore",
+          "astId": 112,
+          "type": "t_address",
+          "src": "954:38:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "adaiContract",
+          "astId": 114,
+          "type": "t_address",
+          "src": "996:25:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "admin",
+          "astId": 116,
+          "type": "t_address",
+          "src": "1025:20:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalIteration",
+          "astId": 118,
+          "type": "t_uint256",
+          "src": "1050:32:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalId",
+          "astId": 120,
+          "type": "t_uint256",
+          "src": "1087:18:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "state",
+          "astId": 127,
+          "type": "t_mapping<t_enum<NoLossDao.ProposalState>>",
+          "src": "1162:46:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "voteDelegations",
+          "astId": 131,
+          "type": "t_mapping<t_address>",
+          "src": "1244:50:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "votingInterval",
+          "astId": 133,
+          "type": "t_uint256",
+          "src": "1299:29:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalDeadline",
+          "astId": 135,
+          "type": "t_uint256",
+          "src": "1332:31:1"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
     }
   },
   "solidityLibs": {},
   "proxies": {
     "example-truffle-migrate/NoLossDao": [
       {
-        "address": "0x310DEA49F85B689062F2bfEb8DAA0fF6ad089852",
+        "address": "0xbd2c672164b638DbA317Ef849e8cfd1D37589EE1",
         "version": "2.5.3",
-        "implementation": "0x5607e57e9386cFF77c01E9fEa1DE8E53e424A737",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xB5960318259B9b064c162584BA046eD805C2E3aC",
-        "version": "2.5.3",
-        "implementation": "0x8A9CB63848810338dBafb88E7129d63f51F19D37",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x6707d7a57Fcb792892BdF1b70FC1d216594a7d76",
-        "version": "2.5.3",
-        "implementation": "0xDAE8F9e6e33dfa78A769C630670D6A75b8e15dFd",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xc0eA5BD6142FB732d82cB61a43a34C18F8ED4716",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xF1BdeB86bE08138881A02e578C00C8D1695b82F8",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xe84F24d6d20D8cd531Dc15b0F02a733e8A2DC7DA",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x5b3bBaF350443100970A15e9b2e29D9357d4C635",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xBC0Ee8e8f4B32C46772575670EA4ceDb44409D13",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x0cb13E2Cd89c824A4FCCB20Eb335B3Db9D99D756",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xcf96284de9793e240B779c61b79124c5C7e0A885",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xE0924A63bF5DACAA6CE3bc98A68a42a5252D88cf",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x6D5d60ED813bA576816c38109Ce1902222d0A939",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x0D8bB4e33C835B4AdcFFD518F60a90E7A5E2DD4B",
-        "version": "2.5.3",
-        "implementation": "0x7Ff32637FD06a81239Ca276f95998B51bA70B1b5",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x30a7F3651edf37E6d3aEed733cf62A1195eAaB94",
-        "version": "2.5.3",
-        "implementation": "0x8e87EE66B8cF6Fc65b9717C0f42Fc163103a2B16",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x28648dfc470F58Fd8e320013B6D5e1D7b509F4D7",
-        "version": "2.5.3",
-        "implementation": "0x8e87EE66B8cF6Fc65b9717C0f42Fc163103a2B16",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xe8356F7BC1B384e29CD616d306cd03F8E2496Fe8",
-        "version": "2.5.3",
-        "implementation": "0x8e87EE66B8cF6Fc65b9717C0f42Fc163103a2B16",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x0d814E88Feb0de505526f6490Df76a19f2121fB6",
-        "version": "2.5.3",
-        "implementation": "0xd6850eCC3a0Ceeea806353cB28f8cB072195F832",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xB12eF37982e10Ab2d443974019Fa9c3326F2a181",
-        "version": "2.5.3",
-        "implementation": "0x0ec32CE17cD6383a6B55a36659Dd6ea88FBC2798",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xAaCa259783daDC455A2119591B7395DC87c6CA9A",
-        "version": "2.5.3",
-        "implementation": "0x0ec32CE17cD6383a6B55a36659Dd6ea88FBC2798",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x625eFD7C4179e8B80aa47C41357860147884D697",
-        "version": "2.5.3",
-        "implementation": "0x6d8958aBf47fE2f2BF8ad78980b78a2D3E59509E",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xE08d4DaFde05faF5F8D709e584f7551Db0D12027",
-        "version": "2.5.3",
-        "implementation": "0x51b6eF0a5FC054a53746b4658b33DA09F7409166",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x252C52E1e910325Fb8674Be8fA4e9aaA8FC3373E",
-        "version": "2.5.3",
-        "implementation": "0x51b6eF0a5FC054a53746b4658b33DA09F7409166",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xdA2334a1B5087E85F814990e02AB29F23AF72c98",
-        "version": "2.5.3",
-        "implementation": "0x73B62126dAE0b465751eF4843d16dFF705529a74",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x06F9a3496519BEB4Ea80d102f6e732B6F8df5e3F",
-        "version": "2.5.3",
-        "implementation": "0x720E64a324eCa37d8ac37A12278074fd12Ad5D8b",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x3019dd6a44595f1d60876F4db89BC61640945dCb",
-        "version": "2.5.3",
-        "implementation": "0x720E64a324eCa37d8ac37A12278074fd12Ad5D8b",
-        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
+        "implementation": "0xc0c2C1Fe3020d8d8e3BDbDd91c8d69Cd4296767B",
+        "admin": "0x0EA34eF5223C3c7Ff5cfc8f22630fB4f9060b15a",
         "kind": "Upgradeable"
       }
     ]
@@ -193,6 +286,6 @@
   "manifestVersion": "2.2",
   "version": "2.5.3",
   "proxyAdmin": {
-    "address": "0x0db4A686593db01d6e8cf8A249620D56BF4de719"
+    "address": "0x0EA34eF5223C3c7Ff5cfc8f22630fB4f9060b15a"
   }
 }
