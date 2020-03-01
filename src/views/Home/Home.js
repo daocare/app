@@ -16,7 +16,7 @@ import SubmitProposal from '../SubmitProposal';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import useRouter from '../../utils/useRouter';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
-
+import useInterval from '../../utils/useInterval';
 // function DonateIcon(props) {
 //   return (
 //     <SvgIcon {...props}>
@@ -47,6 +47,15 @@ const Home = () => {
   const web3Connect = useWeb3Connect();
   let connected = web3Connect.connected;
   const router = useRouter();
+  const [interest, setInterest] = useState(0);
+
+  useInterval(async () => {
+    if (web3Connect) {
+      let interest = await web3Connect.contracts.dao.methods.getInterest();
+      console.log({ interest });
+      setInterest(interest);
+    }
+  }, 2000);
 
   return (
     <>
@@ -54,7 +63,7 @@ const Home = () => {
       <Typography variant="body1" style={{ fontSize: 24 }}>
         Every two weeks, the preferred project of the community will receive{' '}
         <span style={{ fontSize: 28, fontWeight: 'bold', color: '#A362A5' }}>
-          $1,442!
+          ${interest}!
         </span>
       </Typography>
       {/* {!connected && ( */}

@@ -20,6 +20,7 @@ const daoAbi = require('../abis/NoLossDao.json');
 const CHAIN_ID = 42;
 
 const ERC20_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
+const ADAI_ADDRESS = '0x58ad4cb396411b691a9aab6f74545b2c5217fe6a'; //kovan
 const WHOOP_ADDRESS = daoAbi.networks[CHAIN_ID].address;
 const INFURA_KEY = '32f4c2933abd4a74a383747ccf2d7003';
 
@@ -76,6 +77,7 @@ function useWeb3Connect() {
   const [loaded, setLoaded] = useState(false);
 
   const [daiContract, setDaiContract] = useState(null);
+  const [adaiContract, setAdaiContract] = useState(null);
   const [daoContract, setDaoContract] = useState(null);
   const [daiAllowance, setDaiAllowance] = useState(0);
   const [daiBalance, setDaiBalance] = useState(0);
@@ -125,6 +127,9 @@ function useWeb3Connect() {
     // instanciate contracts
     const daiContract = new web3Inited.eth.Contract(daiAbi.abi, ERC20_ADDRESS);
     setDaiContract(daiContract);
+
+    const adaiContract = new web3Inited.eth.Contract(daiAbi.abi, ADAI_ADDRESS);
+    setAdaiContract(adaiContract);
 
     const daoContract = new web3Inited.eth.Contract(daoAbi.abi, WHOOP_ADDRESS);
     setDaoContract(daoContract);
@@ -194,6 +199,21 @@ function useWeb3Connect() {
     let balance = await daiContract.methods.balanceOf(address).call();
     // console.log({ balance });
     setDaiBalance(Number(web3.utils.fromWei(new BN(balance), 'ether')));
+  };
+  const getInterest = async () => {
+    if (!adaiContract) {
+      return 0;
+    }
+    let balance = Number(
+      await adaiContract.methods.balanceOf(WHOOP_ADDRESS).call()
+    );
+    let depositedAmount = Number(
+      await daoContract.methods.totalDepositedDai().call()
+    );
+    // console.log({ balance });
+    let interest = balance - depositedAmount;
+
+    return Number(web3.utils.fromWei(new BN(interest), 'ether'));
   };
   const updateDeposit = async () => {
     let deposit = await daoContract.methods.depositedDai(address).call();
@@ -328,6 +348,7 @@ function useWeb3Connect() {
           triggerDeposit,
           vote,
           enableTwitterVoting,
+          getInterest,
         },
       },
     },
