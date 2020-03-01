@@ -107,7 +107,7 @@ const Home = () => {
             router.history.push('/deposit');
           }}
         >
-          Fund Projects
+          Join Pool
         </Button>
       </div>
       <div

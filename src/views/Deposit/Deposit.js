@@ -134,8 +134,8 @@ const Deposit = props => {
       {web3Connect.hasProposal && (
         <>
           <Typography style={{ color: '#FF9494' }}>
-            As an owner of a proposal, you are not allowed to deposit and vote
-            on proposals.
+            As an owner of a proposal, you are not allowed to join the pool and
+            vote on proposals.
           </Typography>
         </>
       )}

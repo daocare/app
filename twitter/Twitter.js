@@ -53,13 +53,25 @@ var params = {
   lang: 'en',
 };
 
-const voteProxy = async (proposalId, usersAddress) => {
+const voteProxy = async (proposalId, usersAddress, id) => {
   console.log('vote params', { proposalId, usersAddress });
   let tx = await noLossDaoContract.methods
     .voteProxy(proposalId, usersAddress)
     .send({
       from: mainAddress,
     });
+  T.post(
+    'statuses/update',
+    {
+      status:
+        'thank you for supporting projects you love! https://kovan.etherscan.io/tx/' +
+        tx.transactionHash,
+      in_reply_to_status_id: id,
+    },
+    (err, data, _response) => {
+      console.log('worked', { data, _response });
+    }
+  );
   console.log({ tx });
 };
 
@@ -88,16 +100,17 @@ const start = async () => {
       // console.log({ value: data.statuses });
       if (!err) {
         for (let i = 0; i < data.statuses.length; i++) {
-          console.log(data.statuses[i].text);
+          // console.log(data.statuses[i]);
 
           // Check if duplicate tweet we have already processed
           // Check if the tweet is related to us
 
           // id so we could reply to this tweet with completed etherscan tx or error msg
-          let id = { id: data.statuses[i].id_str };
+          let id = data.statuses[i].id_str;
           if (!!proccessedTweets[id]) {
             continue;
           }
+
           proccessedTweets[id] = true;
 
           let utcString = data.statuses[i].created_at;
@@ -106,12 +119,12 @@ const start = async () => {
           var diff = Math.floor((user_date - system_date) / 1000);
           console.log('time passed', diff);
 
-          // if (diff > 12000) {
-          //   continue;
-          // }
+          if (diff > 120) {
+            continue;
+          }
 
           // username to check if they are on our 3box database
-          let username = data.statuses[i].user.screen_name;
+          // let username = data.statuses[i].user.screen_name;
           // scrape their vote from the text
           let text = data.statuses[i].text;
 
@@ -138,21 +151,54 @@ const start = async () => {
             const profile = await Box.getProfile(userEthAddress);
             const verifiedAccounts = await Box.getVerifiedAccounts(profile);
 
-            console.log({ verifiedAccounts });
-            if (i === 0) {
-              voteProxy(proposalId, userEthAddress);
+            // console.log(data.statuses[i].user.s);
+            const screen_name = data.statuses[i].user.screen_name;
+
+            if (
+              !!verifiedAccounts.twitter &&
+              !!verifiedAccounts.twitter.username &&
+              verifiedAccounts.twitter.username === screen_name
+            ) {
+              console.log('TWITTER IS VERIFIED');
+              if (i === 0) {
+                voteProxy(proposalId, userEthAddress);
+              }
+            } else {
+              console.log("Twitter isn't verified");
+              T.post(
+                'statuses/update',
+                {
+                  status:
+                    'Thank you for supporting projects you love! Unfortunately we could not verify your twitter account',
+                  in_reply_to_status_id: id,
+                },
+                (err, data, _response) => {
+                  console.log('twitter not verified', { data, _response });
+                }
+              );
             }
+
+            console.log({ verifiedAccounts });
           } else {
             console.log('invalid tweet format');
+            T.post(
+              'statuses/update',
+              {
+                status:
+                  'This tweet is malformed. Please include your ethereum address and the project id you want to support',
+                in_reply_to_status_id: id,
+              },
+              (err, data, _response) => {
+                console.log('twitter not verified', { data, _response });
+              }
+            );
           }
-
-          console.log(text);
         }
       } else {
         console.log(err);
       }
     });
-  }, 3000);
+  }, 8000);
 };
 
 start();
