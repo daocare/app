@@ -35,6 +35,7 @@ contract('WildcardSteward', accounts => {
       erc20Dai.address,
       erc20ADai.address,
       aaveLendingPool.address,
+      aaveLendingPool.address,
       applicationAmount,
       '1800',
       {

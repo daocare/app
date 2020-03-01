@@ -24,6 +24,7 @@ contract NoLossDao is Initializable {
 
   IERC20 public daiContract;
   IAaveLendingPool public aaveLendingContract;
+  address public aaveLendingContractCore;
   IADai public adaiContract;
   address public admin;
 
@@ -121,12 +122,14 @@ contract NoLossDao is Initializable {
     address daiAddress,
     address aDaiAddress,
     address aavePoolAddress,
+    address aavePoolCoreAddress,
     uint256 _proposalAmount,
     uint256 _votingInterval
   ) public initializer {
     daiContract = IERC20(daiAddress);
     aaveLendingContract = IAaveLendingPool(aavePoolAddress);
     adaiContract = IADai(aDaiAddress);
+    aaveLendingContractCore = aavePoolCoreAddress;
     admin = msg.sender;
     proposalAmount = _proposalAmount;
     votingInterval = _votingInterval;
@@ -154,7 +157,7 @@ contract NoLossDao is Initializable {
     allowanceAvailable(amount)
   {
     daiContract.transferFrom(msg.sender, address(this), amount);
-    daiContract.approve(address(aaveLendingContract), amount);
+    daiContract.approve(address(aaveLendingContractCore), amount);
     aaveLendingContract.deposit(address(daiContract), amount, 0);
 
     //setting values
@@ -180,7 +183,7 @@ contract NoLossDao is Initializable {
   {
     // DAI things. TODO: Approve where necessary
     daiContract.transferFrom(msg.sender, address(this), proposalAmount);
-    daiContract.approve(address(aaveLendingContract), proposalAmount);
+    daiContract.approve(address(aaveLendingContractCore), amount);
     aaveLendingContract.deposit(
       address(daiContract),
       proposalAmount,
