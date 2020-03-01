@@ -11,6 +11,7 @@ import Torus from '@toruslabs/torus-embed';
 // import Authereum from "authereum";
 
 import supportedChains from './chains';
+import { getJson } from '../modules/pinata';
 const BN = require('bn.js');
 
 const daiAbi = require('../abis/ERC20.json');
@@ -78,6 +79,10 @@ function useWeb3Connect() {
   const [daoContract, setDaoContract] = useState(null);
   const [daiAllowance, setDaiAllowance] = useState(0);
   const [daiBalance, setDaiBalance] = useState(0);
+
+  const [proposals, setProposals] = useState([]);
+  const [currentVote, setCurrentVote] = useState(null);
+  const [fetched, setFetched] = useState(false);
 
   const getNetworkByChainId = chainIdTemp => {
     // console.log(supportedChains);
@@ -176,22 +181,23 @@ function useWeb3Connect() {
   };
 
   // SMART CONTRACT FUNCTIONS
-  const updatAllowance = async () => {
+  const updateAllowance = async () => {
     let allowance = await daiContract.methods
       .allowance(address, WHOOP_ADDRESS)
       .call();
     // console.log({ allowance });
     setDaiAllowance(Number(allowance));
   };
-  const updatBalance = async () => {
+  const updateBalance = async () => {
     let balance = await daiContract.methods.balanceOf(address).call();
     // console.log({ balance });
     setDaiBalance(Number(web3.utils.fromWei(new BN(balance), 'ether')));
   };
   useEffect(() => {
     if (daiContract && connected && address) {
-      updatAllowance();
-      updatBalance();
+      updateAllowance();
+      updateBalance();
+      fetchProposals();
     }
   }, [daiContract, connected, address]);
 
@@ -202,7 +208,7 @@ function useWeb3Connect() {
       from: address,
     });
     console.log(tx);
-    await updatAllowance();
+    await updateAllowance();
   };
 
   const triggerSubmitProposal = async hash => {
@@ -210,8 +216,8 @@ function useWeb3Connect() {
       from: address,
     });
     console.log(tx);
-    await updatAllowance();
-    // await updatAllowance();
+    await updateAllowance();
+    // await updateAllowance();
   };
 
   const triggerDeposit = async value => {
@@ -221,7 +227,39 @@ function useWeb3Connect() {
       from: address,
     });
     console.log(tx);
-    await updatBalance();
+    await updateBalance();
+  };
+
+  const fetchProposals = async () => {
+    let iteration = Number(
+      await daoContract.methods.proposalIteration().call()
+    );
+    console.log({ iteration });
+    let tempCurrentVote = 0;
+    if (connected) {
+      tempCurrentVote = Number(
+        await daoContract.methods
+          .usersNominatedProject(iteration, address)
+          .call()
+      );
+      console.log({ tempCurrentVote });
+    }
+    let numProposals = await daoContract.methods.proposalId().call();
+    console.log({ numProposals });
+    let tempProposals = [];
+    for (let i = 1; i <= numProposals; i++) {
+      let hash = await daoContract.methods.proposalDetails(i).call();
+      console.log({ hash });
+      let proposal = await getJson(hash);
+      proposal.id = i;
+      console.log({ proposal });
+      tempProposals.push(proposal);
+      if (i === tempCurrentVote) {
+        setCurrentVote(proposal);
+      }
+    }
+    setProposals(tempProposals);
+    setFetched(true);
   };
 
   return {
@@ -254,6 +292,9 @@ function useWeb3Connect() {
     daiAllowance,
     daiBalance,
     loaded,
+    proposals,
+    currentVote,
+    fetched,
   };
 }
 

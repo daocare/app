@@ -15,8 +15,7 @@ import { Page, WalletProfile } from '../../components';
 import Header from '../../components/Header';
 import ImageUploader from 'react-images-upload';
 import useWeb3Connect from '../../utils/useWeb3Connect';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
 const BN = require('bn.js');
 
 const STAKING_AMOUNT = 50;
@@ -85,7 +84,7 @@ const useStyles = makeStyles(theme => ({
 
 const SubmitProposal = props => {
   const { className, ...rest } = props;
-  const [status, setStatus] = useState('SUBMITTED');
+  const [status, setStatus] = useState('DRAFT');
   const [image, setImage] = useState(false);
   const classes = useStyles();
   const router = useRouter();
@@ -161,7 +160,7 @@ const SubmitProposal = props => {
         <TextField
           fullWidth
           label="Description"
-          name="email"
+          name="description"
           variant="outlined"
           inputRef={register({ required: true })}
           className={clsx(classes.flexGrow, classes.textField)}
@@ -319,22 +318,12 @@ const SubmitProposal = props => {
               color="primary"
               size="large"
               className={classes.button}
-              startIcon={<ClearAllIcon />}
+              startIcon={<HowToVoteIcon />}
               onClick={() => {
                 router.history.push('/proposals');
-                // if (connected) {
-
-                // } else {
-                //   const connect = async () => {
-                //     await web3Connect.triggerConnect();
-                //     debugger;
-                //     router.history.push('/submit-proposal');
-                //   };
-                //   connect();
-                // }
               }}
             >
-              All proposals
+              Vote{' '}
             </Button>
           </div>
         )}

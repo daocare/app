@@ -22,6 +22,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
 const BN = require('bn.js');
 
 const useStyles = makeStyles(theme => ({
@@ -239,6 +240,27 @@ const Deposit = props => {
               Your funds have been deposited, thank you!
             </Typography>
           )}
+        </div>
+        <div
+          className={classes.divContainer}
+          style={{
+            marginTop: 24,
+            marginBottom: 24,
+            textAlign: 'center',
+          }}
+        >
+          <Button
+            // variant="contained"
+            color="primary"
+            size="large"
+            className={classes.button}
+            startIcon={<HowToVoteIcon />}
+            onClick={() => {
+              router.history.push('/proposals');
+            }}
+          >
+            Vote
+          </Button>
         </div>
         {/* </Box> */}
       </form>

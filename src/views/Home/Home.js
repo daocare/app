@@ -15,7 +15,7 @@ import { Typography, Button } from '@material-ui/core';
 import SubmitProposal from '../SubmitProposal';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import useRouter from '../../utils/useRouter';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
 
 // function DonateIcon(props) {
 //   return (
@@ -114,7 +114,7 @@ const Home = () => {
           color="primary"
           size="large"
           className={classes.button}
-          startIcon={<ClearAllIcon />}
+          startIcon={<HowToVoteIcon />}
           onClick={() => {
             router.history.push('/proposals');
             // if (connected) {
@@ -129,7 +129,7 @@ const Home = () => {
             // }
           }}
         >
-          All proposals
+          Vote{' '}
         </Button>
       </div>
       {/* )} */}

@@ -1,1 +1,1 @@
-export { default } from './Deposit';
+export { default } from './Proposals';
