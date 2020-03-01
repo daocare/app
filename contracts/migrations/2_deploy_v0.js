@@ -11,7 +11,8 @@ async function deploy(options, accounts) {
     contractsData: [{ name: 'NoLossDao', alias: 'NoLossDao' }],
   });
 
-  await push(options);
+  // NOTE: IT IS EXTREMELY BAD THAT WE NEED TO USE FORCE ON INITIAL DEPLOYMENT. IT MEANS THERE IS A BUG OF SORTS
+  await push({ ...options, force: true });
 
   const noLossDao = await create({
     ...options,
@@ -24,6 +25,7 @@ async function deploy(options, accounts) {
       '50000000000000000000',
       1800,
     ],
+    force: true,
   });
 }
 

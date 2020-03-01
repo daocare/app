@@ -1,11 +1,11 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0x5607e57e9386cFF77c01E9fEa1DE8E53e424A737",
-      "constructorCode": "608060405234801561001057600080fd5b506114e2806100206000396000f3fe",
-      "bodyBytecodeHash": "b6841d633cdccb395d6ecf6e235ae719457f6981bd9c8508a200b81f26f67d4a",
-      "localBytecodeHash": "24af69bdf4fe01b600db848ae0bf9d9633e8bb45b19b7054996912c960b4f332",
-      "deployedBytecodeHash": "24af69bdf4fe01b600db848ae0bf9d9633e8bb45b19b7054996912c960b4f332",
+      "address": "0xDAE8F9e6e33dfa78A769C630670D6A75b8e15dFd",
+      "constructorCode": "608060405234801561001057600080fd5b50611c6c806100206000396000f3fe",
+      "bodyBytecodeHash": "c2b94f5e5f2dd6e5de6cd45c456890fd13f299536f4c46594202ebbf96b796e3",
+      "localBytecodeHash": "f8710157379e1b0812b1f40f25d5e39e37ce1a9adbb5b22d25e01c9b5883be43",
+      "deployedBytecodeHash": "f8710157379e1b0812b1f40f25d5e39e37ce1a9adbb5b22d25e01c9b5883be43",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -73,25 +73,25 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 1766,
+          "astId": 1934,
           "type": "t_bool",
-          "src": "757:24:17"
+          "src": "757:24:16"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 1768,
+          "astId": 1936,
           "type": "t_bool",
-          "src": "876:25:17"
+          "src": "876:25:16"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 1824,
+          "astId": 1992,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:17"
+          "src": "1951:29:16"
         },
         {
           "contract": "NoLossDao",
@@ -99,7 +99,7 @@
           "label": "depositedDai",
           "astId": 70,
           "type": "t_mapping<t_uint256>",
-          "src": "298:47:1"
+          "src": "294:47:1"
         },
         {
           "contract": "NoLossDao",
@@ -107,7 +107,7 @@
           "label": "proposalOwner",
           "astId": 74,
           "type": "t_mapping<t_address>",
-          "src": "351:48:1"
+          "src": "345:48:1"
         },
         {
           "contract": "NoLossDao",
@@ -115,7 +115,7 @@
           "label": "proposalDetails",
           "astId": 78,
           "type": "t_mapping<t_string>",
-          "src": "405:49:1"
+          "src": "397:49:1"
         },
         {
           "contract": "NoLossDao",
@@ -123,7 +123,7 @@
           "label": "proposalVotes",
           "astId": 84,
           "type": "t_mapping<t_uint256>",
-          "src": "460:68:1"
+          "src": "450:68:1"
         },
         {
           "contract": "NoLossDao",
@@ -131,7 +131,7 @@
           "label": "usersNominatedProject",
           "astId": 90,
           "type": "t_mapping<t_uint256>",
-          "src": "535:76:1"
+          "src": "523:76:1"
         },
         {
           "contract": "NoLossDao",
@@ -139,7 +139,7 @@
           "label": "usersProposedProject",
           "astId": 94,
           "type": "t_mapping<t_uint256>",
-          "src": "658:55:1"
+          "src": "644:55:1"
         },
         {
           "contract": "NoLossDao",
@@ -147,7 +147,7 @@
           "label": "iterationJoined",
           "astId": 98,
           "type": "t_mapping<t_uint256>",
-          "src": "719:50:1"
+          "src": "703:50:1"
         },
         {
           "contract": "NoLossDao",
@@ -155,7 +155,7 @@
           "label": "topProject",
           "astId": 102,
           "type": "t_mapping<t_uint256>",
-          "src": "776:45:1"
+          "src": "758:45:1"
         },
         {
           "contract": "NoLossDao",
@@ -163,7 +163,7 @@
           "label": "totalDepositedDai",
           "astId": 104,
           "type": "t_uint256",
-          "src": "828:32:1"
+          "src": "808:32:1"
         },
         {
           "contract": "NoLossDao",
@@ -171,7 +171,7 @@
           "label": "proposalAmount",
           "astId": 106,
           "type": "t_uint256",
-          "src": "866:29:1"
+          "src": "844:29:1"
         },
         {
           "contract": "NoLossDao",
@@ -179,7 +179,7 @@
           "label": "daiContract",
           "astId": 108,
           "type": "t_address",
-          "src": "902:25:1"
+          "src": "878:25:1"
         },
         {
           "contract": "NoLossDao",
@@ -187,7 +187,7 @@
           "label": "aaveLendingContract",
           "astId": 110,
           "type": "t_address",
-          "src": "933:43:1"
+          "src": "907:43:1"
         },
         {
           "contract": "NoLossDao",
@@ -195,7 +195,7 @@
           "label": "adaiContract",
           "astId": 112,
           "type": "t_address",
-          "src": "982:25:1"
+          "src": "954:25:1"
         },
         {
           "contract": "NoLossDao",
@@ -203,7 +203,7 @@
           "label": "admin",
           "astId": 114,
           "type": "t_address",
-          "src": "1013:20:1"
+          "src": "983:20:1"
         },
         {
           "contract": "NoLossDao",
@@ -211,7 +211,7 @@
           "label": "proposalIteration",
           "astId": 116,
           "type": "t_uint256",
-          "src": "1040:32:1"
+          "src": "1008:32:1"
         },
         {
           "contract": "NoLossDao",
@@ -219,7 +219,7 @@
           "label": "proposalId",
           "astId": 118,
           "type": "t_uint256",
-          "src": "1079:18:1"
+          "src": "1045:18:1"
         },
         {
           "contract": "NoLossDao",
@@ -227,23 +227,31 @@
           "label": "state",
           "astId": 125,
           "type": "t_mapping<t_enum<NoLossDao.ProposalState>>",
-          "src": "1158:46:1"
+          "src": "1120:46:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "voteDelegations",
+          "astId": 129,
+          "type": "t_mapping<t_address>",
+          "src": "1202:50:1"
         },
         {
           "contract": "NoLossDao",
           "path": "contracts/NoLossDao.sol",
           "label": "votingInterval",
-          "astId": 127,
+          "astId": 131,
           "type": "t_uint256",
-          "src": "1242:29:1"
+          "src": "1257:29:1"
         },
         {
           "contract": "NoLossDao",
           "path": "contracts/NoLossDao.sol",
           "label": "proposalDeadline",
-          "astId": 129,
+          "astId": 133,
           "type": "t_uint256",
-          "src": "1277:31:1"
+          "src": "1290:31:1"
         }
       ],
       "warnings": {
@@ -251,7 +259,18 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": []
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [
+          {
+            "contract": "NoLossDao",
+            "path": "contracts/NoLossDao.sol",
+            "label": "state",
+            "astId": 125,
+            "type": "t_mapping<t_enum<NoLossDao.ProposalState>>",
+            "src": "1120:46:1"
+          }
+        ],
+        "storageDiff": []
       }
     }
   },
@@ -262,6 +281,20 @@
         "address": "0x310DEA49F85B689062F2bfEb8DAA0fF6ad089852",
         "version": "2.5.3",
         "implementation": "0x5607e57e9386cFF77c01E9fEa1DE8E53e424A737",
+        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0xB5960318259B9b064c162584BA046eD805C2E3aC",
+        "version": "2.5.3",
+        "implementation": "0x8A9CB63848810338dBafb88E7129d63f51F19D37",
+        "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x6707d7a57Fcb792892BdF1b70FC1d216594a7d76",
+        "version": "2.5.3",
+        "implementation": "0xDAE8F9e6e33dfa78A769C630670D6A75b8e15dFd",
         "admin": "0x0db4A686593db01d6e8cf8A249620D56BF4de719",
         "kind": "Upgradeable"
       }
