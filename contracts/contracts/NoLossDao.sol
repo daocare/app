@@ -224,7 +224,7 @@ contract NoLossDao is Initializable {
     noVoteYet(msg.sender)
     userStaked(msg.sender)
     userHasNoActiveProposal(msg.sender)
-    joinedInTime(msg.sender)
+  // joinedInTime(msg.sender) // TODO: add this back, it is important! (only removed for ease of demoing)
   {
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
       .add(depositedDai[msg.sender]);
@@ -280,7 +280,7 @@ contract NoLossDao is Initializable {
     noVoteYet(delegatedFrom)
     userStaked(delegatedFrom)
     userHasNoActiveProposal(delegatedFrom)
-    joinedInTime(delegatedFrom)
+  // joinedInTime(delegatedFrom) // TODO: add this back, it is important! (only removed for ease of demoing)
   {
     // CODE DUPLICATION: CAREFUL OF CHANGES IN BOTH
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]

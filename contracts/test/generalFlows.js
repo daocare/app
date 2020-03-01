@@ -114,15 +114,61 @@ contract('WildcardSteward', accounts => {
     await erc20Dai.approve(noLossDao.address, mintAmount, {
       from: accounts[3],
     });
+    await noLossDao.deposit(mintAmount, {
+      from: accounts[3],
+    });
     await noLossDao.vote(1, {
       from: accounts[3],
     });
 
     let totalDepositedDai = await noLossDao.totalDepositedDai.call();
     let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
+    let depositedDaiUserVoter = await noLossDao.depositedDai.call(accounts[3]);
 
-    assert.equal(applicationAmount, totalDepositedDai.toString());
     assert.equal(applicationAmount, depositedDaiUser.toString());
+    assert.equal(mintAmount, depositedDaiUserVoter.toString());
+    assert.equal(
+      depositedDaiUser.add(depositedDaiUserVoter).toString(),
+      totalDepositedDai.toString()
+    );
+    assert.equal(true, true);
+  });
+
+  it('NoLossDao: createProposal , deposit and delegate vote + vote', async () => {
+    let mintAmount = '60000000000';
+
+    await erc20Dai.mint(accounts[2], mintAmount);
+    await erc20Dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[2],
+    });
+    await noLossDao.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    await erc20Dai.mint(accounts[3], mintAmount);
+    await erc20Dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[3],
+    });
+    await noLossDao.deposit(mintAmount, {
+      from: accounts[3],
+    });
+    await noLossDao.delegateVoting(accounts[4], {
+      from: accounts[3],
+    });
+    await noLossDao.voteProxy(1, accounts[3], {
+      from: accounts[4],
+    });
+
+    let totalDepositedDai = await noLossDao.totalDepositedDai.call();
+    let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
+    let depositedDaiUserVoter = await noLossDao.depositedDai.call(accounts[3]);
+
+    assert.equal(applicationAmount, depositedDaiUser.toString());
+    assert.equal(mintAmount, depositedDaiUserVoter.toString());
+    assert.equal(
+      depositedDaiUser.add(depositedDaiUserVoter).toString(),
+      totalDepositedDai.toString()
+    );
     assert.equal(true, true);
   });
 });
