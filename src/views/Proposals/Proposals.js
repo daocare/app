@@ -140,7 +140,7 @@ const Proposals = props => {
       style={{ position: 'relative' }}
     >
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
-        {status === 'DRAFT' && (
+        {status === 'DRAFT' && !web3Connect.enabledTwitter && (
           <Button
             variant="contained"
             color="secondary"
@@ -158,7 +158,7 @@ const Proposals = props => {
         {status === '3BOX_VERIFIED' && (
           <Typography variant="caption">Enabling twitter voting</Typography>
         )}
-        {status === 'ENABLED' && (
+        {(status === 'ENABLED' || web3Connect.enabledTwitter) && (
           <Typography variant="caption">
             You can now vote with twitter
           </Typography>
@@ -216,7 +216,7 @@ const Proposals = props => {
         All Proposals
       </Typography>
       <div style={{ marginTop: 16 }}>
-        {fetched && (
+        {fetched && proposals.length > 0 && (
           <>
             <Grid container justify="space-evenly" spacing={4}>
               {proposals.map(proposal => (
@@ -237,6 +237,11 @@ const Proposals = props => {
               ))}
             </Grid>
           </>
+        )}
+        {fetched && proposals.length === 0 && (
+          <Typography variant="caption" align="center">
+            No proposals available
+          </Typography>
         )}
         {!fetched && (
           <Typography variant="caption" align="center">

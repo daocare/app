@@ -592,14 +592,20 @@
   "ast": {
     "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/NoLossDao.sol",
     "exportedSymbols": {
-      "NoLossDao": [850]
+      "NoLossDao": [
+        850
+      ]
     },
     "id": 851,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 58,
-        "literals": ["solidity", "0.5", ".16"],
+        "literals": [
+          "solidity",
+          "0.5",
+          ".16"
+        ],
         "nodeType": "PragmaDirective",
         "src": "0:23:1"
       },
@@ -657,12 +663,17 @@
             "src": "245:13:1"
           }
         ],
-        "contractDependencies": [2011],
+        "contractDependencies": [
+          2011
+        ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
         "id": 850,
-        "linearizedBaseContracts": [850, 2011],
+        "linearizedBaseContracts": [
+          850,
+          2011
+        ],
         "name": "NoLossDao",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -1604,7 +1615,10 @@
                       "id": 137,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1402:7:1",
                       "typeDescriptions": {
@@ -1786,7 +1800,10 @@
                       "id": 149,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1486:7:1",
                       "typeDescriptions": {
@@ -1952,7 +1969,10 @@
                       "id": 165,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1611:7:1",
                       "typeDescriptions": {
@@ -2146,7 +2166,10 @@
                       "id": 180,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1735:7:1",
                       "typeDescriptions": {
@@ -2367,7 +2390,10 @@
                       "id": 195,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1895:7:1",
                       "typeDescriptions": {
@@ -2599,7 +2625,10 @@
                       "id": 212,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2093:7:1",
                       "typeDescriptions": {
@@ -2927,7 +2956,10 @@
                       "id": 230,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2302:7:1",
                       "typeDescriptions": {
@@ -3132,7 +3164,10 @@
                       "id": 254,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2541:7:1",
                       "typeDescriptions": {
@@ -3282,7 +3317,7 @@
                                   "name": "this",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 2054,
+                                  "referencedDeclaration": 2056,
                                   "src": "2745:4:1",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -3416,7 +3451,10 @@
                       "id": 270,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2678:7:1",
                       "typeDescriptions": {
@@ -3620,7 +3658,10 @@
                       "id": 290,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2877:7:1",
                       "typeDescriptions": {
@@ -3809,7 +3850,10 @@
                       "id": 306,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "3072:7:1",
                       "typeDescriptions": {
@@ -4921,7 +4965,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2054,
+                            "referencedDeclaration": 2056,
                             "src": "4483:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -5848,7 +5892,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2054,
+                            "referencedDeclaration": 2056,
                             "src": "5435:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -7901,7 +7945,9 @@
                   "src": "7047:74:1"
                 },
                 {
-                  "assignments": [650],
+                  "assignments": [
+                    650
+                  ],
                   "declarations": [
                     {
                       "constant": false,
@@ -8536,7 +8582,10 @@
                       "id": 678,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "7649:7:1",
                       "typeDescriptions": {
@@ -8650,7 +8699,9 @@
                     "src": "7756:419:1",
                     "statements": [
                       {
-                        "assignments": [691],
+                        "assignments": [
+                          691
+                        ],
                         "declarations": [
                           {
                             "constant": false,
@@ -8716,7 +8767,7 @@
                                       "name": "this",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 2054,
+                                      "referencedDeclaration": 2056,
                                       "src": "7847:4:1",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -8909,7 +8960,9 @@
                         "src": "7894:53:1"
                       },
                       {
-                        "assignments": [709],
+                        "assignments": [
+                          709
+                        ],
                         "declarations": [
                           {
                             "constant": false,
@@ -9011,7 +9064,9 @@
                         "src": "8001:61:1"
                       },
                       {
-                        "assignments": [717],
+                        "assignments": [
+                          717
+                        ],
                         "declarations": [
                           {
                             "constant": false,
@@ -9053,7 +9108,7 @@
                                   "name": "this",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 2054,
+                                  "referencedDeclaration": 2056,
                                   "src": "8117:4:1",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -10132,7 +10187,9 @@
                   "src": "9104:77:1"
                 },
                 {
-                  "assignments": [824],
+                  "assignments": [
+                    824
+                  ],
                   "declarations": [
                     {
                       "constant": false,
@@ -10701,14 +10758,20 @@
   "legacyAST": {
     "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/NoLossDao.sol",
     "exportedSymbols": {
-      "NoLossDao": [850]
+      "NoLossDao": [
+        850
+      ]
     },
     "id": 851,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 58,
-        "literals": ["solidity", "0.5", ".16"],
+        "literals": [
+          "solidity",
+          "0.5",
+          ".16"
+        ],
         "nodeType": "PragmaDirective",
         "src": "0:23:1"
       },
@@ -10766,12 +10829,17 @@
             "src": "245:13:1"
           }
         ],
-        "contractDependencies": [2011],
+        "contractDependencies": [
+          2011
+        ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
         "id": 850,
-        "linearizedBaseContracts": [850, 2011],
+        "linearizedBaseContracts": [
+          850,
+          2011
+        ],
         "name": "NoLossDao",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -11713,7 +11781,10 @@
                       "id": 137,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1402:7:1",
                       "typeDescriptions": {
@@ -11895,7 +11966,10 @@
                       "id": 149,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1486:7:1",
                       "typeDescriptions": {
@@ -12061,7 +12135,10 @@
                       "id": 165,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1611:7:1",
                       "typeDescriptions": {
@@ -12255,7 +12332,10 @@
                       "id": 180,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1735:7:1",
                       "typeDescriptions": {
@@ -12476,7 +12556,10 @@
                       "id": 195,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "1895:7:1",
                       "typeDescriptions": {
@@ -12708,7 +12791,10 @@
                       "id": 212,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2093:7:1",
                       "typeDescriptions": {
@@ -13036,7 +13122,10 @@
                       "id": 230,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2302:7:1",
                       "typeDescriptions": {
@@ -13241,7 +13330,10 @@
                       "id": 254,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2541:7:1",
                       "typeDescriptions": {
@@ -13391,7 +13483,7 @@
                                   "name": "this",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 2054,
+                                  "referencedDeclaration": 2056,
                                   "src": "2745:4:1",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -13525,7 +13617,10 @@
                       "id": 270,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2678:7:1",
                       "typeDescriptions": {
@@ -13729,7 +13824,10 @@
                       "id": 290,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "2877:7:1",
                       "typeDescriptions": {
@@ -13918,7 +14016,10 @@
                       "id": 306,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "3072:7:1",
                       "typeDescriptions": {
@@ -15030,7 +15131,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2054,
+                            "referencedDeclaration": 2056,
                             "src": "4483:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -15957,7 +16058,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2054,
+                            "referencedDeclaration": 2056,
                             "src": "5435:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -18010,7 +18111,9 @@
                   "src": "7047:74:1"
                 },
                 {
-                  "assignments": [650],
+                  "assignments": [
+                    650
+                  ],
                   "declarations": [
                     {
                       "constant": false,
@@ -18645,7 +18748,10 @@
                       "id": 678,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [2029, 2030],
+                      "overloadedDeclarations": [
+                        2029,
+                        2030
+                      ],
                       "referencedDeclaration": 2030,
                       "src": "7649:7:1",
                       "typeDescriptions": {
@@ -18759,7 +18865,9 @@
                     "src": "7756:419:1",
                     "statements": [
                       {
-                        "assignments": [691],
+                        "assignments": [
+                          691
+                        ],
                         "declarations": [
                           {
                             "constant": false,
@@ -18825,7 +18933,7 @@
                                       "name": "this",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 2054,
+                                      "referencedDeclaration": 2056,
                                       "src": "7847:4:1",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -19018,7 +19126,9 @@
                         "src": "7894:53:1"
                       },
                       {
-                        "assignments": [709],
+                        "assignments": [
+                          709
+                        ],
                         "declarations": [
                           {
                             "constant": false,
@@ -19120,7 +19230,9 @@
                         "src": "8001:61:1"
                       },
                       {
-                        "assignments": [717],
+                        "assignments": [
+                          717
+                        ],
                         "declarations": [
                           {
                             "constant": false,
@@ -19162,7 +19274,7 @@
                                   "name": "this",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 2054,
+                                  "referencedDeclaration": 2056,
                                   "src": "8117:4:1",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_contract$_NoLossDao_$850",
@@ -20241,7 +20353,9 @@
                   "src": "9104:77:1"
                 },
                 {
-                  "assignments": [824],
+                  "assignments": [
+                    824
+                  ],
                   "declarations": [
                     {
                       "constant": false,
@@ -20815,12 +20929,12 @@
     "42": {
       "links": {},
       "events": {},
-      "address": "0x8AcB9D6CDdE42EF4De2F11Bfd274A29226Ae312D",
-      "updated_at": 1583034770404
+      "address": "0xA8231f9E3c9776939d77aFe033A41eaea2e11f24",
+      "updated_at": 1583052313728
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-01T07:41:13.596Z",
+  "updatedAt": "2020-03-01T08:45:17.032Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

@@ -24,6 +24,8 @@ const ADAI_ADDRESS = '0x58ad4cb396411b691a9aab6f74545b2c5217fe6a'; //kovan
 const WHOOP_ADDRESS = daoAbi.networks[CHAIN_ID].address;
 const INFURA_KEY = '32f4c2933abd4a74a383747ccf2d7003';
 
+const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
+
 const providerOptions = {
   // portis: {
   //   package: Portis, // required
@@ -83,6 +85,7 @@ function useWeb3Connect() {
   const [daiBalance, setDaiBalance] = useState(0);
   const [daiDeposit, setDaiDeposit] = useState(0);
   const [hasProposal, setHasProposal] = useState(false);
+  const [enabledTwitter, setEnabledTwitter] = useState(false);
 
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
@@ -220,6 +223,12 @@ function useWeb3Connect() {
     // console.log({ balance });
     setDaiDeposit(Number(web3.utils.fromWei(new BN(deposit), 'ether')));
   };
+
+  const updateDelegation = async () => {
+    let delegation = await daoContract.methods.voteDelegations(address).call();
+    // console.log({ balance });
+    setEnabledTwitter(delegation === TWITTER_PROXY);
+  };
   // const updateProposalOwner = async () => {
   //   let proposalId = Number(
   //     await daoContract.methods.usersProposedProject(address).call()
@@ -233,6 +242,7 @@ function useWeb3Connect() {
       updateBalance();
       updateDeposit();
       fetchProposals();
+      updateDelegation();
     }
   }, [daiContract, connected, address]);
 
@@ -314,12 +324,11 @@ function useWeb3Connect() {
     await fetchProposals();
   };
   const enableTwitterVoting = async () => {
-    let tx = await daoContract.methods
-      .delegateVoting('0xd3Cbce59318B2E570883719c8165F9390A12BdD6')
-      .send({
-        from: address,
-      });
+    let tx = await daoContract.methods.delegateVoting(TWITTER_PROXY).send({
+      from: address,
+    });
     console.log(tx);
+    updateDelegation();
   };
 
   return {
@@ -358,6 +367,7 @@ function useWeb3Connect() {
     loaded,
     proposals,
     hasProposal,
+    enabledTwitter,
     currentVote,
     fetched,
   };

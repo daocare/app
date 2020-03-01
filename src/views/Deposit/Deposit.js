@@ -147,6 +147,27 @@ const Deposit = props => {
           <Typography variant="body1">
             Current deposit: {web3Connect.daiDeposit} DAI
           </Typography>
+          <div
+            className={classes.divContainer}
+            style={{
+              marginTop: 24,
+              marginBottom: 24,
+              textAlign: 'center',
+            }}
+          >
+            <Button
+              // variant="contained"
+              color="primary"
+              size="large"
+              className={classes.button}
+              startIcon={<HowToVoteIcon />}
+              onClick={() => {
+                router.history.push('/proposals');
+              }}
+            >
+              Vote
+            </Button>
+          </div>
         </>
       )}
       {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && (
