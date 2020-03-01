@@ -1,0 +1,3144 @@
+/*
+        * [hi-base32]{@link https://github.com/emn178/hi-base32}
+        *
+        * @version 0.5.0
+        * @author Chen, Yi-Cyuan [emn178@gmail.com]
+        * @copyright Chen, Yi-Cyuan 2015-2018
+        * @license MIT
+        */
+
+/*
+      object-assign
+      (c) Sindre Sorhus
+      @license MIT
+      */
+
+/*
+    object-assign
+    (c) Sindre Sorhus
+    @license MIT
+    */
+
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+/*!
+             * The buffer module from node.js, for the browser.
+             *
+             * @author   Feross Aboukhadijeh <http://feross.org>
+             * @license  MIT
+             */
+
+/*!
+           * The buffer module from node.js, for the browser.
+           *
+           * @author   Feross Aboukhadijeh <http://feross.org>
+           * @license  MIT
+           */
+
+/*!
+         * Determine if an object is a Buffer
+         *
+         * @author   Feross Aboukhadijeh <https://feross.org>
+         * @license  MIT
+         */
+
+/*!
+         * The buffer module from node.js, for the browser.
+         *
+         * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+         * @license  MIT
+         */
+
+/*!
+         * The buffer module from node.js, for the browser.
+         *
+         * @author   Feross Aboukhadijeh <http://feross.org>
+         * @license  MIT
+         */
+
+/*!
+         * mime-db
+         * Copyright(c) 2014 Jonathan Ong
+         * MIT Licensed
+         */
+
+/*!
+         * mime-types
+         * Copyright(c) 2014 Jonathan Ong
+         * Copyright(c) 2015 Douglas Christopher Wilson
+         * MIT Licensed
+         */
+
+/*!
+       * The buffer module from node.js, for the browser.
+       *
+       * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+       * @license  MIT
+       */
+
+/*!
+       * The buffer module from node.js, for the browser.
+       *
+       * @author   Feross Aboukhadijeh <http://feross.org>
+       * @license  MIT
+       */
+
+/*!
+     * The buffer module from node.js, for the browser.
+     *
+     * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+     * @license  MIT
+     */
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * web3.js - Ethereum JavaScript API
+ *
+ * @license lgpl-3.0
+ * @see https://github.com/ethereum/web3.js
+*/
+
+/*! !webpack amd options */
+
+/*! *****************************************************************************
+          Copyright (c) Microsoft Corporation. All rights reserved.
+          Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+          this file except in compliance with the License. You may obtain a copy of the
+          License at http://www.apache.org/licenses/LICENSE-2.0
+          
+          THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+          KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+          WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+          MERCHANTABLITY OR NON-INFRINGEMENT.
+          
+          See the Apache Version 2.0 License for specific language governing permissions
+          and limitations under the License.
+          ***************************************************************************** */
+
+/*! *****************************************************************************
+        Copyright (c) Microsoft Corporation. All rights reserved.
+        Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+        this file except in compliance with the License. You may obtain a copy of the
+        License at http://www.apache.org/licenses/LICENSE-2.0
+        
+        THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+        KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+        WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+        MERCHANTABLITY OR NON-INFRINGEMENT.
+        
+        See the Apache Version 2.0 License for specific language governing permissions
+        and limitations under the License.
+        ***************************************************************************** */
+
+/*! *****************************************************************************
+      Copyright (c) Microsoft Corporation. All rights reserved.
+      Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+      this file except in compliance with the License. You may obtain a copy of the
+      License at http://www.apache.org/licenses/LICENSE-2.0
+      
+      THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+      KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+      WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+      MERCHANTABLITY OR NON-INFRINGEMENT.
+      
+      See the Apache Version 2.0 License for specific language governing permissions
+      and limitations under the License.
+      ***************************************************************************** */
+
+/*! *****************************************************************************
+    Copyright (c) Microsoft Corporation. All rights reserved.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+    this file except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0
+    
+    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+    MERCHANTABLITY OR NON-INFRINGEMENT.
+    
+    See the Apache Version 2.0 License for specific language governing permissions
+    and limitations under the License.
+    ***************************************************************************** */
+
+/*! ../../../util/validators */
+
+/*! ../../modules/_core */
+
+/*! ../../modules/core.regexp.escape */
+
+/*! ../../util/validators */
+
+/*! ../cancel/isCancel */
+
+/*! ../core/createError */
+
+/*! ../core/enhanceError */
+
+/*! ../defaults */
+
+/*! ../utils */
+
+/*! ./../../../../baseDirectoryConverter */
+
+/*! ./../../../constants */
+
+/*! ./../../constants */
+
+/*! ./../../package.json */
+
+/*! ./../core/settle */
+
+/*! ./../defaults */
+
+/*! ./../helpers/buildURL */
+
+/*! ./../helpers/combineURLs */
+
+/*! ./../helpers/cookies */
+
+/*! ./../helpers/isAbsoluteURL */
+
+/*! ./../helpers/isURLSameOrigin */
+
+/*! ./../helpers/parseHeaders */
+
+/*! ./../utils */
+
+/*! ./Cancel */
+
+/*! ./InterceptorManager */
+
+/*! ./_a-function */
+
+/*! ./_a-number-value */
+
+/*! ./_add-to-unscopables */
+
+/*! ./_advance-string-index */
+
+/*! ./_an-instance */
+
+/*! ./_an-object */
+
+/*! ./_array-copy-within */
+
+/*! ./_array-fill */
+
+/*! ./_array-from-iterable */
+
+/*! ./_array-includes */
+
+/*! ./_array-methods */
+
+/*! ./_array-reduce */
+
+/*! ./_array-species-constructor */
+
+/*! ./_array-species-create */
+
+/*! ./_bind */
+
+/*! ./_classof */
+
+/*! ./_cof */
+
+/*! ./_collection */
+
+/*! ./_collection-strong */
+
+/*! ./_collection-to-json */
+
+/*! ./_collection-weak */
+
+/*! ./_core */
+
+/*! ./_create-property */
+
+/*! ./_ctx */
+
+/*! ./_date-to-iso-string */
+
+/*! ./_date-to-primitive */
+
+/*! ./_defined */
+
+/*! ./_descriptors */
+
+/*! ./_dom-create */
+
+/*! ./_enum-bug-keys */
+
+/*! ./_enum-keys */
+
+/*! ./_export */
+
+/*! ./_fails */
+
+/*! ./_fails-is-regexp */
+
+/*! ./_fix-re-wks */
+
+/*! ./_flags */
+
+/*! ./_flatten-into-array */
+
+/*! ./_for-of */
+
+/*! ./_function-to-string */
+
+/*! ./_global */
+
+/*! ./_has */
+
+/*! ./_hide */
+
+/*! ./_html */
+
+/*! ./_ie8-dom-define */
+
+/*! ./_inherit-if-required */
+
+/*! ./_invoke */
+
+/*! ./_iobject */
+
+/*! ./_is-array */
+
+/*! ./_is-array-iter */
+
+/*! ./_is-integer */
+
+/*! ./_is-object */
+
+/*! ./_is-regexp */
+
+/*! ./_iter-call */
+
+/*! ./_iter-create */
+
+/*! ./_iter-define */
+
+/*! ./_iter-detect */
+
+/*! ./_iter-step */
+
+/*! ./_iterators */
+
+/*! ./_library */
+
+/*! ./_math-expm1 */
+
+/*! ./_math-fround */
+
+/*! ./_math-log1p */
+
+/*! ./_math-scale */
+
+/*! ./_math-sign */
+
+/*! ./_meta */
+
+/*! ./_metadata */
+
+/*! ./_microtask */
+
+/*! ./_new-promise-capability */
+
+/*! ./_object-assign */
+
+/*! ./_object-create */
+
+/*! ./_object-dp */
+
+/*! ./_object-dps */
+
+/*! ./_object-forced-pam */
+
+/*! ./_object-gopd */
+
+/*! ./_object-gopn */
+
+/*! ./_object-gopn-ext */
+
+/*! ./_object-gops */
+
+/*! ./_object-gpo */
+
+/*! ./_object-keys */
+
+/*! ./_object-keys-internal */
+
+/*! ./_object-pie */
+
+/*! ./_object-sap */
+
+/*! ./_object-to-array */
+
+/*! ./_own-keys */
+
+/*! ./_parse-float */
+
+/*! ./_parse-int */
+
+/*! ./_perform */
+
+/*! ./_promise-resolve */
+
+/*! ./_property-desc */
+
+/*! ./_redefine */
+
+/*! ./_redefine-all */
+
+/*! ./_regexp-exec */
+
+/*! ./_regexp-exec-abstract */
+
+/*! ./_replacer */
+
+/*! ./_same-value */
+
+/*! ./_set-collection-from */
+
+/*! ./_set-collection-of */
+
+/*! ./_set-proto */
+
+/*! ./_set-species */
+
+/*! ./_set-to-string-tag */
+
+/*! ./_shared */
+
+/*! ./_shared-key */
+
+/*! ./_species-constructor */
+
+/*! ./_strict-method */
+
+/*! ./_string-at */
+
+/*! ./_string-context */
+
+/*! ./_string-html */
+
+/*! ./_string-pad */
+
+/*! ./_string-repeat */
+
+/*! ./_string-trim */
+
+/*! ./_string-ws */
+
+/*! ./_task */
+
+/*! ./_to-absolute-index */
+
+/*! ./_to-index */
+
+/*! ./_to-integer */
+
+/*! ./_to-iobject */
+
+/*! ./_to-length */
+
+/*! ./_to-object */
+
+/*! ./_to-primitive */
+
+/*! ./_typed */
+
+/*! ./_typed-array */
+
+/*! ./_typed-buffer */
+
+/*! ./_uid */
+
+/*! ./_user-agent */
+
+/*! ./_validate-collection */
+
+/*! ./_wks */
+
+/*! ./_wks-define */
+
+/*! ./_wks-ext */
+
+/*! ./abort.js */
+
+/*! ./adapters/http */
+
+/*! ./adapters/xhr */
+
+/*! ./async.js */
+
+/*! ./base-table.json */
+
+/*! ./base.js */
+
+/*! ./base16 */
+
+/*! ./base32 */
+
+/*! ./base64 */
+
+/*! ./browser.js */
+
+/*! ./cancel/Cancel */
+
+/*! ./cancel/CancelToken */
+
+/*! ./cancel/isCancel */
+
+/*! ./cid-util */
+
+/*! ./codec */
+
+/*! ./commands/data/pinList/pinList */
+
+/*! ./commands/data/testAuthentication */
+
+/*! ./commands/data/userPinList/userPinList */
+
+/*! ./commands/data/userPinnedDataTotal */
+
+/*! ./commands/pinning/addHashToPinQueue */
+
+/*! ./commands/pinning/pinFileToIPFS */
+
+/*! ./commands/pinning/pinFromFS */
+
+/*! ./commands/pinning/pinHashToIPFS */
+
+/*! ./commands/pinning/pinJSONToIPFS */
+
+/*! ./commands/pinning/pinJobs/pinJobs */
+
+/*! ./commands/pinning/removePinFromIPFS */
+
+/*! ./constants */
+
+/*! ./convert */
+
+/*! ./core.get-iterator-method */
+
+/*! ./core/Axios */
+
+/*! ./createError */
+
+/*! ./db.json */
+
+/*! ./debug */
+
+/*! ./decode.js */
+
+/*! ./defaults */
+
+/*! ./defer.js */
+
+/*! ./dispatchRequest */
+
+/*! ./encode.js */
+
+/*! ./enhanceError */
+
+/*! ./es6.array.iterator */
+
+/*! ./es6.map */
+
+/*! ./es6.regexp.exec */
+
+/*! ./es6.regexp.flags */
+
+/*! ./es6.set */
+
+/*! ./es6.weak-map */
+
+/*! ./helpers/bind */
+
+/*! ./helpers/normalizeHeaderName */
+
+/*! ./helpers/spread */
+
+/*! ./int-table */
+
+/*! ./length.js */
+
+/*! ./lib/axios */
+
+/*! ./lib/cpdirr */
+
+/*! ./lib/iterate.js */
+
+/*! ./lib/readdirr */
+
+/*! ./lib/rmdirr */
+
+/*! ./lib/state.js */
+
+/*! ./lib/terminator.js */
+
+/*! ./modules/_core */
+
+/*! ./modules/es6.array.copy-within */
+
+/*! ./modules/es6.array.every */
+
+/*! ./modules/es6.array.fill */
+
+/*! ./modules/es6.array.filter */
+
+/*! ./modules/es6.array.find */
+
+/*! ./modules/es6.array.find-index */
+
+/*! ./modules/es6.array.for-each */
+
+/*! ./modules/es6.array.from */
+
+/*! ./modules/es6.array.index-of */
+
+/*! ./modules/es6.array.is-array */
+
+/*! ./modules/es6.array.iterator */
+
+/*! ./modules/es6.array.join */
+
+/*! ./modules/es6.array.last-index-of */
+
+/*! ./modules/es6.array.map */
+
+/*! ./modules/es6.array.of */
+
+/*! ./modules/es6.array.reduce */
+
+/*! ./modules/es6.array.reduce-right */
+
+/*! ./modules/es6.array.slice */
+
+/*! ./modules/es6.array.some */
+
+/*! ./modules/es6.array.sort */
+
+/*! ./modules/es6.array.species */
+
+/*! ./modules/es6.date.now */
+
+/*! ./modules/es6.date.to-iso-string */
+
+/*! ./modules/es6.date.to-json */
+
+/*! ./modules/es6.date.to-primitive */
+
+/*! ./modules/es6.date.to-string */
+
+/*! ./modules/es6.function.bind */
+
+/*! ./modules/es6.function.has-instance */
+
+/*! ./modules/es6.function.name */
+
+/*! ./modules/es6.map */
+
+/*! ./modules/es6.math.acosh */
+
+/*! ./modules/es6.math.asinh */
+
+/*! ./modules/es6.math.atanh */
+
+/*! ./modules/es6.math.cbrt */
+
+/*! ./modules/es6.math.clz32 */
+
+/*! ./modules/es6.math.cosh */
+
+/*! ./modules/es6.math.expm1 */
+
+/*! ./modules/es6.math.fround */
+
+/*! ./modules/es6.math.hypot */
+
+/*! ./modules/es6.math.imul */
+
+/*! ./modules/es6.math.log10 */
+
+/*! ./modules/es6.math.log1p */
+
+/*! ./modules/es6.math.log2 */
+
+/*! ./modules/es6.math.sign */
+
+/*! ./modules/es6.math.sinh */
+
+/*! ./modules/es6.math.tanh */
+
+/*! ./modules/es6.math.trunc */
+
+/*! ./modules/es6.number.constructor */
+
+/*! ./modules/es6.number.epsilon */
+
+/*! ./modules/es6.number.is-finite */
+
+/*! ./modules/es6.number.is-integer */
+
+/*! ./modules/es6.number.is-nan */
+
+/*! ./modules/es6.number.is-safe-integer */
+
+/*! ./modules/es6.number.max-safe-integer */
+
+/*! ./modules/es6.number.min-safe-integer */
+
+/*! ./modules/es6.number.parse-float */
+
+/*! ./modules/es6.number.parse-int */
+
+/*! ./modules/es6.number.to-fixed */
+
+/*! ./modules/es6.number.to-precision */
+
+/*! ./modules/es6.object.assign */
+
+/*! ./modules/es6.object.create */
+
+/*! ./modules/es6.object.define-properties */
+
+/*! ./modules/es6.object.define-property */
+
+/*! ./modules/es6.object.freeze */
+
+/*! ./modules/es6.object.get-own-property-descriptor */
+
+/*! ./modules/es6.object.get-own-property-names */
+
+/*! ./modules/es6.object.get-prototype-of */
+
+/*! ./modules/es6.object.is */
+
+/*! ./modules/es6.object.is-extensible */
+
+/*! ./modules/es6.object.is-frozen */
+
+/*! ./modules/es6.object.is-sealed */
+
+/*! ./modules/es6.object.keys */
+
+/*! ./modules/es6.object.prevent-extensions */
+
+/*! ./modules/es6.object.seal */
+
+/*! ./modules/es6.object.set-prototype-of */
+
+/*! ./modules/es6.object.to-string */
+
+/*! ./modules/es6.parse-float */
+
+/*! ./modules/es6.parse-int */
+
+/*! ./modules/es6.promise */
+
+/*! ./modules/es6.reflect.apply */
+
+/*! ./modules/es6.reflect.construct */
+
+/*! ./modules/es6.reflect.define-property */
+
+/*! ./modules/es6.reflect.delete-property */
+
+/*! ./modules/es6.reflect.enumerate */
+
+/*! ./modules/es6.reflect.get */
+
+/*! ./modules/es6.reflect.get-own-property-descriptor */
+
+/*! ./modules/es6.reflect.get-prototype-of */
+
+/*! ./modules/es6.reflect.has */
+
+/*! ./modules/es6.reflect.is-extensible */
+
+/*! ./modules/es6.reflect.own-keys */
+
+/*! ./modules/es6.reflect.prevent-extensions */
+
+/*! ./modules/es6.reflect.set */
+
+/*! ./modules/es6.reflect.set-prototype-of */
+
+/*! ./modules/es6.regexp.constructor */
+
+/*! ./modules/es6.regexp.exec */
+
+/*! ./modules/es6.regexp.flags */
+
+/*! ./modules/es6.regexp.match */
+
+/*! ./modules/es6.regexp.replace */
+
+/*! ./modules/es6.regexp.search */
+
+/*! ./modules/es6.regexp.split */
+
+/*! ./modules/es6.regexp.to-string */
+
+/*! ./modules/es6.set */
+
+/*! ./modules/es6.string.anchor */
+
+/*! ./modules/es6.string.big */
+
+/*! ./modules/es6.string.blink */
+
+/*! ./modules/es6.string.bold */
+
+/*! ./modules/es6.string.code-point-at */
+
+/*! ./modules/es6.string.ends-with */
+
+/*! ./modules/es6.string.fixed */
+
+/*! ./modules/es6.string.fontcolor */
+
+/*! ./modules/es6.string.fontsize */
+
+/*! ./modules/es6.string.from-code-point */
+
+/*! ./modules/es6.string.includes */
+
+/*! ./modules/es6.string.italics */
+
+/*! ./modules/es6.string.iterator */
+
+/*! ./modules/es6.string.link */
+
+/*! ./modules/es6.string.raw */
+
+/*! ./modules/es6.string.repeat */
+
+/*! ./modules/es6.string.small */
+
+/*! ./modules/es6.string.starts-with */
+
+/*! ./modules/es6.string.strike */
+
+/*! ./modules/es6.string.sub */
+
+/*! ./modules/es6.string.sup */
+
+/*! ./modules/es6.string.trim */
+
+/*! ./modules/es6.symbol */
+
+/*! ./modules/es6.typed.array-buffer */
+
+/*! ./modules/es6.typed.data-view */
+
+/*! ./modules/es6.typed.float32-array */
+
+/*! ./modules/es6.typed.float64-array */
+
+/*! ./modules/es6.typed.int16-array */
+
+/*! ./modules/es6.typed.int32-array */
+
+/*! ./modules/es6.typed.int8-array */
+
+/*! ./modules/es6.typed.uint16-array */
+
+/*! ./modules/es6.typed.uint32-array */
+
+/*! ./modules/es6.typed.uint8-array */
+
+/*! ./modules/es6.typed.uint8-clamped-array */
+
+/*! ./modules/es6.weak-map */
+
+/*! ./modules/es6.weak-set */
+
+/*! ./modules/es7.array.flat-map */
+
+/*! ./modules/es7.array.flatten */
+
+/*! ./modules/es7.array.includes */
+
+/*! ./modules/es7.asap */
+
+/*! ./modules/es7.error.is-error */
+
+/*! ./modules/es7.global */
+
+/*! ./modules/es7.map.from */
+
+/*! ./modules/es7.map.of */
+
+/*! ./modules/es7.map.to-json */
+
+/*! ./modules/es7.math.clamp */
+
+/*! ./modules/es7.math.deg-per-rad */
+
+/*! ./modules/es7.math.degrees */
+
+/*! ./modules/es7.math.fscale */
+
+/*! ./modules/es7.math.iaddh */
+
+/*! ./modules/es7.math.imulh */
+
+/*! ./modules/es7.math.isubh */
+
+/*! ./modules/es7.math.rad-per-deg */
+
+/*! ./modules/es7.math.radians */
+
+/*! ./modules/es7.math.scale */
+
+/*! ./modules/es7.math.signbit */
+
+/*! ./modules/es7.math.umulh */
+
+/*! ./modules/es7.object.define-getter */
+
+/*! ./modules/es7.object.define-setter */
+
+/*! ./modules/es7.object.entries */
+
+/*! ./modules/es7.object.get-own-property-descriptors */
+
+/*! ./modules/es7.object.lookup-getter */
+
+/*! ./modules/es7.object.lookup-setter */
+
+/*! ./modules/es7.object.values */
+
+/*! ./modules/es7.observable */
+
+/*! ./modules/es7.promise.finally */
+
+/*! ./modules/es7.promise.try */
+
+/*! ./modules/es7.reflect.define-metadata */
+
+/*! ./modules/es7.reflect.delete-metadata */
+
+/*! ./modules/es7.reflect.get-metadata */
+
+/*! ./modules/es7.reflect.get-metadata-keys */
+
+/*! ./modules/es7.reflect.get-own-metadata */
+
+/*! ./modules/es7.reflect.get-own-metadata-keys */
+
+/*! ./modules/es7.reflect.has-metadata */
+
+/*! ./modules/es7.reflect.has-own-metadata */
+
+/*! ./modules/es7.reflect.metadata */
+
+/*! ./modules/es7.set.from */
+
+/*! ./modules/es7.set.of */
+
+/*! ./modules/es7.set.to-json */
+
+/*! ./modules/es7.string.at */
+
+/*! ./modules/es7.string.match-all */
+
+/*! ./modules/es7.string.pad-end */
+
+/*! ./modules/es7.string.pad-start */
+
+/*! ./modules/es7.string.trim-left */
+
+/*! ./modules/es7.string.trim-right */
+
+/*! ./modules/es7.symbol.async-iterator */
+
+/*! ./modules/es7.symbol.observable */
+
+/*! ./modules/es7.system.global */
+
+/*! ./modules/es7.weak-map.from */
+
+/*! ./modules/es7.weak-map.of */
+
+/*! ./modules/es7.weak-set.from */
+
+/*! ./modules/es7.weak-set.of */
+
+/*! ./modules/web.dom.iterable */
+
+/*! ./modules/web.immediate */
+
+/*! ./modules/web.timers */
+
+/*! ./node.js */
+
+/*! ./parallel.js */
+
+/*! ./populate.js */
+
+/*! ./print */
+
+/*! ./protocols-table */
+
+/*! ./queryBuilder */
+
+/*! ./readdirr */
+
+/*! ./serial.js */
+
+/*! ./serialOrdered.js */
+
+/*! ./transformData */
+
+/*! ./util */
+
+/*! ./utils */
+
+/*! ./varint-table */
+
+/*! /Users/mattober/Repos/ipfs/pinata/open-source-tools/Pinata-SDK/src/index.js */
+
+/*! assert */
+
+/*! asynckit */
+
+/*! axios */
+
+/*! babel-polyfill */
+
+/*! base-x */
+
+/*! bignumber.js v2.0.7 https://github.com/MikeMcl/bignumber.js/LICENCE */
+
+/*! bs58 */
+
+/*! buffer */
+
+/*! cids */
+
+/*! class-is */
+
+/*! combined-stream */
+
+/*! core-js/fn/regexp/escape */
+
+/*! core-js/shim */
+
+/*! debug */
+
+/*! delayed-stream */
+
+/*! exports provided: _args, _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _spec, _where, author, browser, bugs, bundlesize, dependencies, description, devDependencies, homepage, keywords, license, main, name, repository, scripts, typings, version, default */
+
+/*! exports provided: application/1d-interleaved-parityfec, application/3gpdash-qoe-report+xml, application/3gpp-ims+xml, application/a2l, application/activemessage, application/activity+json, application/alto-costmap+json, application/alto-costmapfilter+json, application/alto-directory+json, application/alto-endpointcost+json, application/alto-endpointcostparams+json, application/alto-endpointprop+json, application/alto-endpointpropparams+json, application/alto-error+json, application/alto-networkmap+json, application/alto-networkmapfilter+json, application/aml, application/andrew-inset, application/applefile, application/applixware, application/atf, application/atfx, application/atom+xml, application/atomcat+xml, application/atomdeleted+xml, application/atomicmail, application/atomsvc+xml, application/atsc-dwd+xml, application/atsc-held+xml, application/atsc-rdt+json, application/atsc-rsat+xml, application/atxml, application/auth-policy+xml, application/bacnet-xdd+zip, application/batch-smtp, application/bdoc, application/beep+xml, application/calendar+json, application/calendar+xml, application/call-completion, application/cals-1840, application/cbor, application/cbor-seq, application/cccex, application/ccmp+xml, application/ccxml+xml, application/cdfx+xml, application/cdmi-capability, application/cdmi-container, application/cdmi-domain, application/cdmi-object, application/cdmi-queue, application/cdni, application/cea, application/cea-2018+xml, application/cellml+xml, application/cfw, application/clue+xml, application/clue_info+xml, application/cms, application/cnrp+xml, application/coap-group+json, application/coap-payload, application/commonground, application/conference-info+xml, application/cose, application/cose-key, application/cose-key-set, application/cpl+xml, application/csrattrs, application/csta+xml, application/cstadata+xml, application/csvm+json, application/cu-seeme, application/cwt, application/cybercash, application/dart, application/dash+xml, application/dashdelta, application/davmount+xml, application/dca-rft, application/dcd, application/dec-dx, application/dialog-info+xml, application/dicom, application/dicom+json, application/dicom+xml, application/dii, application/dit, application/dns, application/dns+json, application/dns-message, application/docbook+xml, application/dskpp+xml, application/dssc+der, application/dssc+xml, application/dvcs, application/ecmascript, application/edi-consent, application/edi-x12, application/edifact, application/efi, application/emergencycalldata.comment+xml, application/emergencycalldata.control+xml, application/emergencycalldata.deviceinfo+xml, application/emergencycalldata.ecall.msd, application/emergencycalldata.providerinfo+xml, application/emergencycalldata.serviceinfo+xml, application/emergencycalldata.subscriberinfo+xml, application/emergencycalldata.veds+xml, application/emma+xml, application/emotionml+xml, application/encaprtp, application/epp+xml, application/epub+zip, application/eshop, application/exi, application/expect-ct-report+json, application/fastinfoset, application/fastsoap, application/fdt+xml, application/fhir+json, application/fhir+xml, application/fido.trusted-apps+json, application/fits, application/flexfec, application/font-sfnt, application/font-tdpfr, application/font-woff, application/framework-attributes+xml, application/geo+json, application/geo+json-seq, application/geopackage+sqlite3, application/geoxacml+xml, application/gltf-buffer, application/gml+xml, application/gpx+xml, application/gxf, application/gzip, application/h224, application/held+xml, application/hjson, application/http, application/hyperstudio, application/ibe-key-request+xml, application/ibe-pkg-reply+xml, application/ibe-pp-data, application/iges, application/im-iscomposing+xml, application/index, application/index.cmd, application/index.obj, application/index.response, application/index.vnd, application/inkml+xml, application/iotp, application/ipfix, application/ipp, application/isup, application/its+xml, application/java-archive, application/java-serialized-object, application/java-vm, application/javascript, application/jf2feed+json, application/jose, application/jose+json, application/jrd+json, application/json, application/json-patch+json, application/json-seq, application/json5, application/jsonml+json, application/jwk+json, application/jwk-set+json, application/jwt, application/kpml-request+xml, application/kpml-response+xml, application/ld+json, application/lgr+xml, application/link-format, application/load-control+xml, application/lost+xml, application/lostsync+xml, application/lxf, application/mac-binhex40, application/mac-compactpro, application/macwriteii, application/mads+xml, application/manifest+json, application/marc, application/marcxml+xml, application/mathematica, application/mathml+xml, application/mathml-content+xml, application/mathml-presentation+xml, application/mbms-associated-procedure-description+xml, application/mbms-deregister+xml, application/mbms-envelope+xml, application/mbms-msk+xml, application/mbms-msk-response+xml, application/mbms-protection-description+xml, application/mbms-reception-report+xml, application/mbms-register+xml, application/mbms-register-response+xml, application/mbms-schedule+xml, application/mbms-user-service-description+xml, application/mbox, application/media-policy-dataset+xml, application/media_control+xml, application/mediaservercontrol+xml, application/merge-patch+json, application/metalink+xml, application/metalink4+xml, application/mets+xml, application/mf4, application/mikey, application/mipc, application/mmt-aei+xml, application/mmt-usd+xml, application/mods+xml, application/moss-keys, application/moss-signature, application/mosskey-data, application/mosskey-request, application/mp21, application/mp4, application/mpeg4-generic, application/mpeg4-iod, application/mpeg4-iod-xmt, application/mrb-consumer+xml, application/mrb-publish+xml, application/msc-ivr+xml, application/msc-mixer+xml, application/msword, application/mud+json, application/multipart-core, application/mxf, application/n-quads, application/n-triples, application/nasdata, application/news-checkgroups, application/news-groupinfo, application/news-transmission, application/nlsml+xml, application/node, application/nss, application/ocsp-request, application/ocsp-response, application/octet-stream, application/oda, application/odm+xml, application/odx, application/oebps-package+xml, application/ogg, application/omdoc+xml, application/onenote, application/oscore, application/oxps, application/p2p-overlay+xml, application/parityfec, application/passport, application/patch-ops-error+xml, application/pdf, application/pdx, application/pem-certificate-chain, application/pgp-encrypted, application/pgp-keys, application/pgp-signature, application/pics-rules, application/pidf+xml, application/pidf-diff+xml, application/pkcs10, application/pkcs12, application/pkcs7-mime, application/pkcs7-signature, application/pkcs8, application/pkcs8-encrypted, application/pkix-attr-cert, application/pkix-cert, application/pkix-crl, application/pkix-pkipath, application/pkixcmp, application/pls+xml, application/poc-settings+xml, application/postscript, application/ppsp-tracker+json, application/problem+json, application/problem+xml, application/provenance+xml, application/prs.alvestrand.titrax-sheet, application/prs.cww, application/prs.hpub+zip, application/prs.nprend, application/prs.plucker, application/prs.rdf-xml-crypt, application/prs.xsf+xml, application/pskc+xml, application/qsig, application/raml+yaml, application/raptorfec, application/rdap+json, application/rdf+xml, application/reginfo+xml, application/relax-ng-compact-syntax, application/remote-printing, application/reputon+json, application/resource-lists+xml, application/resource-lists-diff+xml, application/rfc+xml, application/riscos, application/rlmi+xml, application/rls-services+xml, application/route-apd+xml, application/route-s-tsid+xml, application/route-usd+xml, application/rpki-ghostbusters, application/rpki-manifest, application/rpki-publication, application/rpki-roa, application/rpki-updown, application/rsd+xml, application/rss+xml, application/rtf, application/rtploopback, application/rtx, application/samlassertion+xml, application/samlmetadata+xml, application/sbml+xml, application/scaip+xml, application/scim+json, application/scvp-cv-request, application/scvp-cv-response, application/scvp-vp-request, application/scvp-vp-response, application/sdp, application/secevent+jwt, application/senml+cbor, application/senml+json, application/senml+xml, application/senml-exi, application/sensml+cbor, application/sensml+json, application/sensml+xml, application/sensml-exi, application/sep+xml, application/sep-exi, application/session-info, application/set-payment, application/set-payment-initiation, application/set-registration, application/set-registration-initiation, application/sgml, application/sgml-open-catalog, application/shf+xml, application/sieve, application/simple-filter+xml, application/simple-message-summary, application/simplesymbolcontainer, application/sipc, application/slate, application/smil, application/smil+xml, application/smpte336m, application/soap+fastinfoset, application/soap+xml, application/sparql-query, application/sparql-results+xml, application/spirits-event+xml, application/sql, application/srgs, application/srgs+xml, application/sru+xml, application/ssdl+xml, application/ssml+xml, application/stix+json, application/swid+xml, application/tamp-apex-update, application/tamp-apex-update-confirm, application/tamp-community-update, application/tamp-community-update-confirm, application/tamp-error, application/tamp-sequence-adjust, application/tamp-sequence-adjust-confirm, application/tamp-status-query, application/tamp-status-response, application/tamp-update, application/tamp-update-confirm, application/tar, application/taxii+json, application/tei+xml, application/tetra_isi, application/thraud+xml, application/timestamp-query, application/timestamp-reply, application/timestamped-data, application/tlsrpt+gzip, application/tlsrpt+json, application/tnauthlist, application/toml, application/trickle-ice-sdpfrag, application/trig, application/ttml+xml, application/tve-trigger, application/tzif, application/tzif-leap, application/ulpfec, application/urc-grpsheet+xml, application/urc-ressheet+xml, application/urc-targetdesc+xml, application/urc-uisocketdesc+xml, application/vcard+json, application/vcard+xml, application/vemmi, application/vividence.scriptfile, application/vnd.1000minds.decision-model+xml, application/vnd.3gpp-prose+xml, application/vnd.3gpp-prose-pc3ch+xml, application/vnd.3gpp-v2x-local-service-information, application/vnd.3gpp.access-transfer-events+xml, application/vnd.3gpp.bsf+xml, application/vnd.3gpp.gmop+xml, application/vnd.3gpp.mc-signalling-ear, application/vnd.3gpp.mcdata-affiliation-command+xml, application/vnd.3gpp.mcdata-info+xml, application/vnd.3gpp.mcdata-payload, application/vnd.3gpp.mcdata-service-config+xml, application/vnd.3gpp.mcdata-signalling, application/vnd.3gpp.mcdata-ue-config+xml, application/vnd.3gpp.mcdata-user-profile+xml, application/vnd.3gpp.mcptt-affiliation-command+xml, application/vnd.3gpp.mcptt-floor-request+xml, application/vnd.3gpp.mcptt-info+xml, application/vnd.3gpp.mcptt-location-info+xml, application/vnd.3gpp.mcptt-mbms-usage-info+xml, application/vnd.3gpp.mcptt-service-config+xml, application/vnd.3gpp.mcptt-signed+xml, application/vnd.3gpp.mcptt-ue-config+xml, application/vnd.3gpp.mcptt-ue-init-config+xml, application/vnd.3gpp.mcptt-user-profile+xml, application/vnd.3gpp.mcvideo-affiliation-command+xml, application/vnd.3gpp.mcvideo-affiliation-info+xml, application/vnd.3gpp.mcvideo-info+xml, application/vnd.3gpp.mcvideo-location-info+xml, application/vnd.3gpp.mcvideo-mbms-usage-info+xml, application/vnd.3gpp.mcvideo-service-config+xml, application/vnd.3gpp.mcvideo-transmission-request+xml, application/vnd.3gpp.mcvideo-ue-config+xml, application/vnd.3gpp.mcvideo-user-profile+xml, application/vnd.3gpp.mid-call+xml, application/vnd.3gpp.pic-bw-large, application/vnd.3gpp.pic-bw-small, application/vnd.3gpp.pic-bw-var, application/vnd.3gpp.sms, application/vnd.3gpp.sms+xml, application/vnd.3gpp.srvcc-ext+xml, application/vnd.3gpp.srvcc-info+xml, application/vnd.3gpp.state-and-event-info+xml, application/vnd.3gpp.ussd+xml, application/vnd.3gpp2.bcmcsinfo+xml, application/vnd.3gpp2.sms, application/vnd.3gpp2.tcap, application/vnd.3lightssoftware.imagescal, application/vnd.3m.post-it-notes, application/vnd.accpac.simply.aso, application/vnd.accpac.simply.imp, application/vnd.acucobol, application/vnd.acucorp, application/vnd.adobe.air-application-installer-package+zip, application/vnd.adobe.flash.movie, application/vnd.adobe.formscentral.fcdt, application/vnd.adobe.fxp, application/vnd.adobe.partial-upload, application/vnd.adobe.xdp+xml, application/vnd.adobe.xfdf, application/vnd.aether.imp, application/vnd.afpc.afplinedata, application/vnd.afpc.afplinedata-pagedef, application/vnd.afpc.foca-charset, application/vnd.afpc.foca-codedfont, application/vnd.afpc.foca-codepage, application/vnd.afpc.modca, application/vnd.afpc.modca-formdef, application/vnd.afpc.modca-mediummap, application/vnd.afpc.modca-objectcontainer, application/vnd.afpc.modca-overlay, application/vnd.afpc.modca-pagesegment, application/vnd.ah-barcode, application/vnd.ahead.space, application/vnd.airzip.filesecure.azf, application/vnd.airzip.filesecure.azs, application/vnd.amadeus+json, application/vnd.amazon.ebook, application/vnd.amazon.mobi8-ebook, application/vnd.americandynamics.acc, application/vnd.amiga.ami, application/vnd.amundsen.maze+xml, application/vnd.android.ota, application/vnd.android.package-archive, application/vnd.anki, application/vnd.anser-web-certificate-issue-initiation, application/vnd.anser-web-funds-transfer-initiation, application/vnd.antix.game-component, application/vnd.apache.thrift.binary, application/vnd.apache.thrift.compact, application/vnd.apache.thrift.json, application/vnd.api+json, application/vnd.aplextor.warrp+json, application/vnd.apothekende.reservation+json, application/vnd.apple.installer+xml, application/vnd.apple.keynote, application/vnd.apple.mpegurl, application/vnd.apple.numbers, application/vnd.apple.pages, application/vnd.apple.pkpass, application/vnd.arastra.swi, application/vnd.aristanetworks.swi, application/vnd.artisan+json, application/vnd.artsquare, application/vnd.astraea-software.iota, application/vnd.audiograph, application/vnd.autopackage, application/vnd.avalon+json, application/vnd.avistar+xml, application/vnd.balsamiq.bmml+xml, application/vnd.balsamiq.bmpr, application/vnd.banana-accounting, application/vnd.bbf.usp.error, application/vnd.bbf.usp.msg, application/vnd.bbf.usp.msg+json, application/vnd.bekitzur-stech+json, application/vnd.bint.med-content, application/vnd.biopax.rdf+xml, application/vnd.blink-idb-value-wrapper, application/vnd.blueice.multipass, application/vnd.bluetooth.ep.oob, application/vnd.bluetooth.le.oob, application/vnd.bmi, application/vnd.bpf, application/vnd.bpf3, application/vnd.businessobjects, application/vnd.byu.uapi+json, application/vnd.cab-jscript, application/vnd.canon-cpdl, application/vnd.canon-lips, application/vnd.capasystems-pg+json, application/vnd.cendio.thinlinc.clientconf, application/vnd.century-systems.tcp_stream, application/vnd.chemdraw+xml, application/vnd.chess-pgn, application/vnd.chipnuts.karaoke-mmd, application/vnd.ciedi, application/vnd.cinderella, application/vnd.cirpack.isdn-ext, application/vnd.citationstyles.style+xml, application/vnd.claymore, application/vnd.cloanto.rp9, application/vnd.clonk.c4group, application/vnd.cluetrust.cartomobile-config, application/vnd.cluetrust.cartomobile-config-pkg, application/vnd.coffeescript, application/vnd.collabio.xodocuments.document, application/vnd.collabio.xodocuments.document-template, application/vnd.collabio.xodocuments.presentation, application/vnd.collabio.xodocuments.presentation-template, application/vnd.collabio.xodocuments.spreadsheet, application/vnd.collabio.xodocuments.spreadsheet-template, application/vnd.collection+json, application/vnd.collection.doc+json, application/vnd.collection.next+json, application/vnd.comicbook+zip, application/vnd.comicbook-rar, application/vnd.commerce-battelle, application/vnd.commonspace, application/vnd.contact.cmsg, application/vnd.coreos.ignition+json, application/vnd.cosmocaller, application/vnd.crick.clicker, application/vnd.crick.clicker.keyboard, application/vnd.crick.clicker.palette, application/vnd.crick.clicker.template, application/vnd.crick.clicker.wordbank, application/vnd.criticaltools.wbs+xml, application/vnd.cryptii.pipe+json, application/vnd.crypto-shade-file, application/vnd.ctc-posml, application/vnd.ctct.ws+xml, application/vnd.cups-pdf, application/vnd.cups-postscript, application/vnd.cups-ppd, application/vnd.cups-raster, application/vnd.cups-raw, application/vnd.curl, application/vnd.curl.car, application/vnd.curl.pcurl, application/vnd.cyan.dean.root+xml, application/vnd.cybank, application/vnd.d2l.coursepackage1p0+zip, application/vnd.dart, application/vnd.data-vision.rdz, application/vnd.datapackage+json, application/vnd.dataresource+json, application/vnd.debian.binary-package, application/vnd.dece.data, application/vnd.dece.ttml+xml, application/vnd.dece.unspecified, application/vnd.dece.zip, application/vnd.denovo.fcselayout-link, application/vnd.desmume.movie, application/vnd.dir-bi.plate-dl-nosuffix, application/vnd.dm.delegation+xml, application/vnd.dna, application/vnd.document+json, application/vnd.dolby.mlp, application/vnd.dolby.mobile.1, application/vnd.dolby.mobile.2, application/vnd.doremir.scorecloud-binary-document, application/vnd.dpgraph, application/vnd.dreamfactory, application/vnd.drive+json, application/vnd.ds-keypoint, application/vnd.dtg.local, application/vnd.dtg.local.flash, application/vnd.dtg.local.html, application/vnd.dvb.ait, application/vnd.dvb.dvbj, application/vnd.dvb.esgcontainer, application/vnd.dvb.ipdcdftnotifaccess, application/vnd.dvb.ipdcesgaccess, application/vnd.dvb.ipdcesgaccess2, application/vnd.dvb.ipdcesgpdd, application/vnd.dvb.ipdcroaming, application/vnd.dvb.iptv.alfec-base, application/vnd.dvb.iptv.alfec-enhancement, application/vnd.dvb.notif-aggregate-root+xml, application/vnd.dvb.notif-container+xml, application/vnd.dvb.notif-generic+xml, application/vnd.dvb.notif-ia-msglist+xml, application/vnd.dvb.notif-ia-registration-request+xml, application/vnd.dvb.notif-ia-registration-response+xml, application/vnd.dvb.notif-init+xml, application/vnd.dvb.pfr, application/vnd.dvb.service, application/vnd.dxr, application/vnd.dynageo, application/vnd.dzr, application/vnd.easykaraoke.cdgdownload, application/vnd.ecdis-update, application/vnd.ecip.rlp, application/vnd.ecowin.chart, application/vnd.ecowin.filerequest, application/vnd.ecowin.fileupdate, application/vnd.ecowin.series, application/vnd.ecowin.seriesrequest, application/vnd.ecowin.seriesupdate, application/vnd.efi.img, application/vnd.efi.iso, application/vnd.emclient.accessrequest+xml, application/vnd.enliven, application/vnd.enphase.envoy, application/vnd.eprints.data+xml, application/vnd.epson.esf, application/vnd.epson.msf, application/vnd.epson.quickanime, application/vnd.epson.salt, application/vnd.epson.ssf, application/vnd.ericsson.quickcall, application/vnd.espass-espass+zip, application/vnd.eszigno3+xml, application/vnd.etsi.aoc+xml, application/vnd.etsi.asic-e+zip, application/vnd.etsi.asic-s+zip, application/vnd.etsi.cug+xml, application/vnd.etsi.iptvcommand+xml, application/vnd.etsi.iptvdiscovery+xml, application/vnd.etsi.iptvprofile+xml, application/vnd.etsi.iptvsad-bc+xml, application/vnd.etsi.iptvsad-cod+xml, application/vnd.etsi.iptvsad-npvr+xml, application/vnd.etsi.iptvservice+xml, application/vnd.etsi.iptvsync+xml, application/vnd.etsi.iptvueprofile+xml, application/vnd.etsi.mcid+xml, application/vnd.etsi.mheg5, application/vnd.etsi.overload-control-policy-dataset+xml, application/vnd.etsi.pstn+xml, application/vnd.etsi.sci+xml, application/vnd.etsi.simservs+xml, application/vnd.etsi.timestamp-token, application/vnd.etsi.tsl+xml, application/vnd.etsi.tsl.der, application/vnd.eudora.data, application/vnd.evolv.ecig.profile, application/vnd.evolv.ecig.settings, application/vnd.evolv.ecig.theme, application/vnd.exstream-empower+zip, application/vnd.exstream-package, application/vnd.ezpix-album, application/vnd.ezpix-package, application/vnd.f-secure.mobile, application/vnd.fastcopy-disk-image, application/vnd.fdf, application/vnd.fdsn.mseed, application/vnd.fdsn.seed, application/vnd.ffsns, application/vnd.ficlab.flb+zip, application/vnd.filmit.zfc, application/vnd.fints, application/vnd.firemonkeys.cloudcell, application/vnd.flographit, application/vnd.fluxtime.clip, application/vnd.font-fontforge-sfd, application/vnd.framemaker, application/vnd.frogans.fnc, application/vnd.frogans.ltf, application/vnd.fsc.weblaunch, application/vnd.fujitsu.oasys, application/vnd.fujitsu.oasys2, application/vnd.fujitsu.oasys3, application/vnd.fujitsu.oasysgp, application/vnd.fujitsu.oasysprs, application/vnd.fujixerox.art-ex, application/vnd.fujixerox.art4, application/vnd.fujixerox.ddd, application/vnd.fujixerox.docuworks, application/vnd.fujixerox.docuworks.binder, application/vnd.fujixerox.docuworks.container, application/vnd.fujixerox.hbpl, application/vnd.fut-misnet, application/vnd.futoin+cbor, application/vnd.futoin+json, application/vnd.fuzzysheet, application/vnd.genomatix.tuxedo, application/vnd.gentics.grd+json, application/vnd.geo+json, application/vnd.geocube+xml, application/vnd.geogebra.file, application/vnd.geogebra.tool, application/vnd.geometry-explorer, application/vnd.geonext, application/vnd.geoplan, application/vnd.geospace, application/vnd.gerber, application/vnd.globalplatform.card-content-mgt, application/vnd.globalplatform.card-content-mgt-response, application/vnd.gmx, application/vnd.google-apps.document, application/vnd.google-apps.presentation, application/vnd.google-apps.spreadsheet, application/vnd.google-earth.kml+xml, application/vnd.google-earth.kmz, application/vnd.gov.sk.e-form+xml, application/vnd.gov.sk.e-form+zip, application/vnd.gov.sk.xmldatacontainer+xml, application/vnd.grafeq, application/vnd.gridmp, application/vnd.groove-account, application/vnd.groove-help, application/vnd.groove-identity-message, application/vnd.groove-injector, application/vnd.groove-tool-message, application/vnd.groove-tool-template, application/vnd.groove-vcard, application/vnd.hal+json, application/vnd.hal+xml, application/vnd.handheld-entertainment+xml, application/vnd.hbci, application/vnd.hc+json, application/vnd.hcl-bireports, application/vnd.hdt, application/vnd.heroku+json, application/vnd.hhe.lesson-player, application/vnd.hp-hpgl, application/vnd.hp-hpid, application/vnd.hp-hps, application/vnd.hp-jlyt, application/vnd.hp-pcl, application/vnd.hp-pclxl, application/vnd.httphone, application/vnd.hydrostatix.sof-data, application/vnd.hyper+json, application/vnd.hyper-item+json, application/vnd.hyperdrive+json, application/vnd.hzn-3d-crossword, application/vnd.ibm.afplinedata, application/vnd.ibm.electronic-media, application/vnd.ibm.minipay, application/vnd.ibm.modcap, application/vnd.ibm.rights-management, application/vnd.ibm.secure-container, application/vnd.iccprofile, application/vnd.ieee.1905, application/vnd.igloader, application/vnd.imagemeter.folder+zip, application/vnd.imagemeter.image+zip, application/vnd.immervision-ivp, application/vnd.immervision-ivu, application/vnd.ims.imsccv1p1, application/vnd.ims.imsccv1p2, application/vnd.ims.imsccv1p3, application/vnd.ims.lis.v2.result+json, application/vnd.ims.lti.v2.toolconsumerprofile+json, application/vnd.ims.lti.v2.toolproxy+json, application/vnd.ims.lti.v2.toolproxy.id+json, application/vnd.ims.lti.v2.toolsettings+json, application/vnd.ims.lti.v2.toolsettings.simple+json, application/vnd.informedcontrol.rms+xml, application/vnd.informix-visionary, application/vnd.infotech.project, application/vnd.infotech.project+xml, application/vnd.innopath.wamp.notification, application/vnd.insors.igm, application/vnd.intercon.formnet, application/vnd.intergeo, application/vnd.intertrust.digibox, application/vnd.intertrust.nncp, application/vnd.intu.qbo, application/vnd.intu.qfx, application/vnd.iptc.g2.catalogitem+xml, application/vnd.iptc.g2.conceptitem+xml, application/vnd.iptc.g2.knowledgeitem+xml, application/vnd.iptc.g2.newsitem+xml, application/vnd.iptc.g2.newsmessage+xml, application/vnd.iptc.g2.packageitem+xml, application/vnd.iptc.g2.planningitem+xml, application/vnd.ipunplugged.rcprofile, application/vnd.irepository.package+xml, application/vnd.is-xpr, application/vnd.isac.fcs, application/vnd.iso11783-10+zip, application/vnd.jam, application/vnd.japannet-directory-service, application/vnd.japannet-jpnstore-wakeup, application/vnd.japannet-payment-wakeup, application/vnd.japannet-registration, application/vnd.japannet-registration-wakeup, application/vnd.japannet-setstore-wakeup, application/vnd.japannet-verification, application/vnd.japannet-verification-wakeup, application/vnd.jcp.javame.midlet-rms, application/vnd.jisp, application/vnd.joost.joda-archive, application/vnd.jsk.isdn-ngn, application/vnd.kahootz, application/vnd.kde.karbon, application/vnd.kde.kchart, application/vnd.kde.kformula, application/vnd.kde.kivio, application/vnd.kde.kontour, application/vnd.kde.kpresenter, application/vnd.kde.kspread, application/vnd.kde.kword, application/vnd.kenameaapp, application/vnd.kidspiration, application/vnd.kinar, application/vnd.koan, application/vnd.kodak-descriptor, application/vnd.las, application/vnd.las.las+json, application/vnd.las.las+xml, application/vnd.laszip, application/vnd.leap+json, application/vnd.liberty-request+xml, application/vnd.llamagraphics.life-balance.desktop, application/vnd.llamagraphics.life-balance.exchange+xml, application/vnd.logipipe.circuit+zip, application/vnd.loom, application/vnd.lotus-1-2-3, application/vnd.lotus-approach, application/vnd.lotus-freelance, application/vnd.lotus-notes, application/vnd.lotus-organizer, application/vnd.lotus-screencam, application/vnd.lotus-wordpro, application/vnd.macports.portpkg, application/vnd.mapbox-vector-tile, application/vnd.marlin.drm.actiontoken+xml, application/vnd.marlin.drm.conftoken+xml, application/vnd.marlin.drm.license+xml, application/vnd.marlin.drm.mdcf, application/vnd.mason+json, application/vnd.maxmind.maxmind-db, application/vnd.mcd, application/vnd.medcalcdata, application/vnd.mediastation.cdkey, application/vnd.meridian-slingshot, application/vnd.mfer, application/vnd.mfmp, application/vnd.micro+json, application/vnd.micrografx.flo, application/vnd.micrografx.igx, application/vnd.microsoft.portable-executable, application/vnd.microsoft.windows.thumbnail-cache, application/vnd.miele+json, application/vnd.mif, application/vnd.minisoft-hp3000-save, application/vnd.mitsubishi.misty-guard.trustweb, application/vnd.mobius.daf, application/vnd.mobius.dis, application/vnd.mobius.mbk, application/vnd.mobius.mqy, application/vnd.mobius.msl, application/vnd.mobius.plc, application/vnd.mobius.txf, application/vnd.mophun.application, application/vnd.mophun.certificate, application/vnd.motorola.flexsuite, application/vnd.motorola.flexsuite.adsi, application/vnd.motorola.flexsuite.fis, application/vnd.motorola.flexsuite.gotap, application/vnd.motorola.flexsuite.kmr, application/vnd.motorola.flexsuite.ttc, application/vnd.motorola.flexsuite.wem, application/vnd.motorola.iprm, application/vnd.mozilla.xul+xml, application/vnd.ms-3mfdocument, application/vnd.ms-artgalry, application/vnd.ms-asf, application/vnd.ms-cab-compressed, application/vnd.ms-color.iccprofile, application/vnd.ms-excel, application/vnd.ms-excel.addin.macroenabled.12, application/vnd.ms-excel.sheet.binary.macroenabled.12, application/vnd.ms-excel.sheet.macroenabled.12, application/vnd.ms-excel.template.macroenabled.12, application/vnd.ms-fontobject, application/vnd.ms-htmlhelp, application/vnd.ms-ims, application/vnd.ms-lrm, application/vnd.ms-office.activex+xml, application/vnd.ms-officetheme, application/vnd.ms-opentype, application/vnd.ms-outlook, application/vnd.ms-package.obfuscated-opentype, application/vnd.ms-pki.seccat, application/vnd.ms-pki.stl, application/vnd.ms-playready.initiator+xml, application/vnd.ms-powerpoint, application/vnd.ms-powerpoint.addin.macroenabled.12, application/vnd.ms-powerpoint.presentation.macroenabled.12, application/vnd.ms-powerpoint.slide.macroenabled.12, application/vnd.ms-powerpoint.slideshow.macroenabled.12, application/vnd.ms-powerpoint.template.macroenabled.12, application/vnd.ms-printdevicecapabilities+xml, application/vnd.ms-printing.printticket+xml, application/vnd.ms-printschematicket+xml, application/vnd.ms-project, application/vnd.ms-tnef, application/vnd.ms-windows.devicepairing, application/vnd.ms-windows.nwprinting.oob, application/vnd.ms-windows.printerpairing, application/vnd.ms-windows.wsd.oob, application/vnd.ms-wmdrm.lic-chlg-req, application/vnd.ms-wmdrm.lic-resp, application/vnd.ms-wmdrm.meter-chlg-req, application/vnd.ms-wmdrm.meter-resp, application/vnd.ms-word.document.macroenabled.12, application/vnd.ms-word.template.macroenabled.12, application/vnd.ms-works, application/vnd.ms-wpl, application/vnd.ms-xpsdocument, application/vnd.msa-disk-image, application/vnd.mseq, application/vnd.msign, application/vnd.multiad.creator, application/vnd.multiad.creator.cif, application/vnd.music-niff, application/vnd.musician, application/vnd.muvee.style, application/vnd.mynfc, application/vnd.ncd.control, application/vnd.ncd.reference, application/vnd.nearst.inv+json, application/vnd.nervana, application/vnd.netfpx, application/vnd.neurolanguage.nlu, application/vnd.nimn, application/vnd.nintendo.nitro.rom, application/vnd.nintendo.snes.rom, application/vnd.nitf, application/vnd.noblenet-directory, application/vnd.noblenet-sealer, application/vnd.noblenet-web, application/vnd.nokia.catalogs, application/vnd.nokia.conml+wbxml, application/vnd.nokia.conml+xml, application/vnd.nokia.iptv.config+xml, application/vnd.nokia.isds-radio-presets, application/vnd.nokia.landmark+wbxml, application/vnd.nokia.landmark+xml, application/vnd.nokia.landmarkcollection+xml, application/vnd.nokia.n-gage.ac+xml, application/vnd.nokia.n-gage.data, application/vnd.nokia.n-gage.symbian.install, application/vnd.nokia.ncd, application/vnd.nokia.pcd+wbxml, application/vnd.nokia.pcd+xml, application/vnd.nokia.radio-preset, application/vnd.nokia.radio-presets, application/vnd.novadigm.edm, application/vnd.novadigm.edx, application/vnd.novadigm.ext, application/vnd.ntt-local.content-share, application/vnd.ntt-local.file-transfer, application/vnd.ntt-local.ogw_remote-access, application/vnd.ntt-local.sip-ta_remote, application/vnd.ntt-local.sip-ta_tcp_stream, application/vnd.oasis.opendocument.chart, application/vnd.oasis.opendocument.chart-template, application/vnd.oasis.opendocument.database, application/vnd.oasis.opendocument.formula, application/vnd.oasis.opendocument.formula-template, application/vnd.oasis.opendocument.graphics, application/vnd.oasis.opendocument.graphics-template, application/vnd.oasis.opendocument.image, application/vnd.oasis.opendocument.image-template, application/vnd.oasis.opendocument.presentation, application/vnd.oasis.opendocument.presentation-template, application/vnd.oasis.opendocument.spreadsheet, application/vnd.oasis.opendocument.spreadsheet-template, application/vnd.oasis.opendocument.text, application/vnd.oasis.opendocument.text-master, application/vnd.oasis.opendocument.text-template, application/vnd.oasis.opendocument.text-web, application/vnd.obn, application/vnd.ocf+cbor, application/vnd.oftn.l10n+json, application/vnd.oipf.contentaccessdownload+xml, application/vnd.oipf.contentaccessstreaming+xml, application/vnd.oipf.cspg-hexbinary, application/vnd.oipf.dae.svg+xml, application/vnd.oipf.dae.xhtml+xml, application/vnd.oipf.mippvcontrolmessage+xml, application/vnd.oipf.pae.gem, application/vnd.oipf.spdiscovery+xml, application/vnd.oipf.spdlist+xml, application/vnd.oipf.ueprofile+xml, application/vnd.oipf.userprofile+xml, application/vnd.olpc-sugar, application/vnd.oma-scws-config, application/vnd.oma-scws-http-request, application/vnd.oma-scws-http-response, application/vnd.oma.bcast.associated-procedure-parameter+xml, application/vnd.oma.bcast.drm-trigger+xml, application/vnd.oma.bcast.imd+xml, application/vnd.oma.bcast.ltkm, application/vnd.oma.bcast.notification+xml, application/vnd.oma.bcast.provisioningtrigger, application/vnd.oma.bcast.sgboot, application/vnd.oma.bcast.sgdd+xml, application/vnd.oma.bcast.sgdu, application/vnd.oma.bcast.simple-symbol-container, application/vnd.oma.bcast.smartcard-trigger+xml, application/vnd.oma.bcast.sprov+xml, application/vnd.oma.bcast.stkm, application/vnd.oma.cab-address-book+xml, application/vnd.oma.cab-feature-handler+xml, application/vnd.oma.cab-pcc+xml, application/vnd.oma.cab-subs-invite+xml, application/vnd.oma.cab-user-prefs+xml, application/vnd.oma.dcd, application/vnd.oma.dcdc, application/vnd.oma.dd2+xml, application/vnd.oma.drm.risd+xml, application/vnd.oma.group-usage-list+xml, application/vnd.oma.lwm2m+json, application/vnd.oma.lwm2m+tlv, application/vnd.oma.pal+xml, application/vnd.oma.poc.detailed-progress-report+xml, application/vnd.oma.poc.final-report+xml, application/vnd.oma.poc.groups+xml, application/vnd.oma.poc.invocation-descriptor+xml, application/vnd.oma.poc.optimized-progress-report+xml, application/vnd.oma.push, application/vnd.oma.scidm.messages+xml, application/vnd.oma.xcap-directory+xml, application/vnd.omads-email+xml, application/vnd.omads-file+xml, application/vnd.omads-folder+xml, application/vnd.omaloc-supl-init, application/vnd.onepager, application/vnd.onepagertamp, application/vnd.onepagertamx, application/vnd.onepagertat, application/vnd.onepagertatp, application/vnd.onepagertatx, application/vnd.openblox.game+xml, application/vnd.openblox.game-binary, application/vnd.openeye.oeb, application/vnd.openofficeorg.extension, application/vnd.openstreetmap.data+xml, application/vnd.openxmlformats-officedocument.custom-properties+xml, application/vnd.openxmlformats-officedocument.customxmlproperties+xml, application/vnd.openxmlformats-officedocument.drawing+xml, application/vnd.openxmlformats-officedocument.drawingml.chart+xml, application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml, application/vnd.openxmlformats-officedocument.drawingml.diagramcolors+xml, application/vnd.openxmlformats-officedocument.drawingml.diagramdata+xml, application/vnd.openxmlformats-officedocument.drawingml.diagramlayout+xml, application/vnd.openxmlformats-officedocument.drawingml.diagramstyle+xml, application/vnd.openxmlformats-officedocument.extended-properties+xml, application/vnd.openxmlformats-officedocument.presentationml.commentauthors+xml, application/vnd.openxmlformats-officedocument.presentationml.comments+xml, application/vnd.openxmlformats-officedocument.presentationml.handoutmaster+xml, application/vnd.openxmlformats-officedocument.presentationml.notesmaster+xml, application/vnd.openxmlformats-officedocument.presentationml.notesslide+xml, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml, application/vnd.openxmlformats-officedocument.presentationml.presprops+xml, application/vnd.openxmlformats-officedocument.presentationml.slide, application/vnd.openxmlformats-officedocument.presentationml.slide+xml, application/vnd.openxmlformats-officedocument.presentationml.slidelayout+xml, application/vnd.openxmlformats-officedocument.presentationml.slidemaster+xml, application/vnd.openxmlformats-officedocument.presentationml.slideshow, application/vnd.openxmlformats-officedocument.presentationml.slideshow.main+xml, application/vnd.openxmlformats-officedocument.presentationml.slideupdateinfo+xml, application/vnd.openxmlformats-officedocument.presentationml.tablestyles+xml, application/vnd.openxmlformats-officedocument.presentationml.tags+xml, application/vnd.openxmlformats-officedocument.presentationml.template, application/vnd.openxmlformats-officedocument.presentationml.template.main+xml, application/vnd.openxmlformats-officedocument.presentationml.viewprops+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.calcchain+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.connections+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.dialogsheet+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.externallink+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.pivotcachedefinition+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.pivotcacherecords+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.pivottable+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.querytable+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.revisionheaders+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.revisionlog+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.sharedstrings+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.sheetmetadata+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.tablesinglecells+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.template, application/vnd.openxmlformats-officedocument.spreadsheetml.template.main+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.usernames+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.volatiledependencies+xml, application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml, application/vnd.openxmlformats-officedocument.theme+xml, application/vnd.openxmlformats-officedocument.themeoverride+xml, application/vnd.openxmlformats-officedocument.vmldrawing, application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.wordprocessingml.document.glossary+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.fonttable+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.template, application/vnd.openxmlformats-officedocument.wordprocessingml.template.main+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.websettings+xml, application/vnd.openxmlformats-package.core-properties+xml, application/vnd.openxmlformats-package.digital-signature-xmlsignature+xml, application/vnd.openxmlformats-package.relationships+xml, application/vnd.oracle.resource+json, application/vnd.orange.indata, application/vnd.osa.netdeploy, application/vnd.osgeo.mapguide.package, application/vnd.osgi.bundle, application/vnd.osgi.dp, application/vnd.osgi.subsystem, application/vnd.otps.ct-kip+xml, application/vnd.oxli.countgraph, application/vnd.pagerduty+json, application/vnd.palm, application/vnd.panoply, application/vnd.paos.xml, application/vnd.patentdive, application/vnd.patientecommsdoc, application/vnd.pawaafile, application/vnd.pcos, application/vnd.pg.format, application/vnd.pg.osasli, application/vnd.piaccess.application-licence, application/vnd.picsel, application/vnd.pmi.widget, application/vnd.poc.group-advertisement+xml, application/vnd.pocketlearn, application/vnd.powerbuilder6, application/vnd.powerbuilder6-s, application/vnd.powerbuilder7, application/vnd.powerbuilder7-s, application/vnd.powerbuilder75, application/vnd.powerbuilder75-s, application/vnd.preminet, application/vnd.previewsystems.box, application/vnd.proteus.magazine, application/vnd.psfs, application/vnd.publishare-delta-tree, application/vnd.pvi.ptid1, application/vnd.pwg-multiplexed, application/vnd.pwg-xhtml-print+xml, application/vnd.qualcomm.brew-app-res, application/vnd.quarantainenet, application/vnd.quark.quarkxpress, application/vnd.quobject-quoxdocument, application/vnd.radisys.moml+xml, application/vnd.radisys.msml+xml, application/vnd.radisys.msml-audit+xml, application/vnd.radisys.msml-audit-conf+xml, application/vnd.radisys.msml-audit-conn+xml, application/vnd.radisys.msml-audit-dialog+xml, application/vnd.radisys.msml-audit-stream+xml, application/vnd.radisys.msml-conf+xml, application/vnd.radisys.msml-dialog+xml, application/vnd.radisys.msml-dialog-base+xml, application/vnd.radisys.msml-dialog-fax-detect+xml, application/vnd.radisys.msml-dialog-fax-sendrecv+xml, application/vnd.radisys.msml-dialog-group+xml, application/vnd.radisys.msml-dialog-speech+xml, application/vnd.radisys.msml-dialog-transform+xml, application/vnd.rainstor.data, application/vnd.rapid, application/vnd.rar, application/vnd.realvnc.bed, application/vnd.recordare.musicxml, application/vnd.recordare.musicxml+xml, application/vnd.renlearn.rlprint, application/vnd.restful+json, application/vnd.rig.cryptonote, application/vnd.rim.cod, application/vnd.rn-realmedia, application/vnd.rn-realmedia-vbr, application/vnd.route66.link66+xml, application/vnd.rs-274x, application/vnd.ruckus.download, application/vnd.s3sms, application/vnd.sailingtracker.track, application/vnd.sbm.cid, application/vnd.sbm.mid2, application/vnd.scribus, application/vnd.sealed.3df, application/vnd.sealed.csf, application/vnd.sealed.doc, application/vnd.sealed.eml, application/vnd.sealed.mht, application/vnd.sealed.net, application/vnd.sealed.ppt, application/vnd.sealed.tiff, application/vnd.sealed.xls, application/vnd.sealedmedia.softseal.html, application/vnd.sealedmedia.softseal.pdf, application/vnd.seemail, application/vnd.sema, application/vnd.semd, application/vnd.semf, application/vnd.shade-save-file, application/vnd.shana.informed.formdata, application/vnd.shana.informed.formtemplate, application/vnd.shana.informed.interchange, application/vnd.shana.informed.package, application/vnd.shootproof+json, application/vnd.shopkick+json, application/vnd.sigrok.session, application/vnd.simtech-mindmapper, application/vnd.siren+json, application/vnd.smaf, application/vnd.smart.notebook, application/vnd.smart.teacher, application/vnd.software602.filler.form+xml, application/vnd.software602.filler.form-xml-zip, application/vnd.solent.sdkm+xml, application/vnd.spotfire.dxp, application/vnd.spotfire.sfs, application/vnd.sqlite3, application/vnd.sss-cod, application/vnd.sss-dtf, application/vnd.sss-ntf, application/vnd.stardivision.calc, application/vnd.stardivision.draw, application/vnd.stardivision.impress, application/vnd.stardivision.math, application/vnd.stardivision.writer, application/vnd.stardivision.writer-global, application/vnd.stepmania.package, application/vnd.stepmania.stepchart, application/vnd.street-stream, application/vnd.sun.wadl+xml, application/vnd.sun.xml.calc, application/vnd.sun.xml.calc.template, application/vnd.sun.xml.draw, application/vnd.sun.xml.draw.template, application/vnd.sun.xml.impress, application/vnd.sun.xml.impress.template, application/vnd.sun.xml.math, application/vnd.sun.xml.writer, application/vnd.sun.xml.writer.global, application/vnd.sun.xml.writer.template, application/vnd.sus-calendar, application/vnd.svd, application/vnd.swiftview-ics, application/vnd.symbian.install, application/vnd.syncml+xml, application/vnd.syncml.dm+wbxml, application/vnd.syncml.dm+xml, application/vnd.syncml.dm.notification, application/vnd.syncml.dmddf+wbxml, application/vnd.syncml.dmddf+xml, application/vnd.syncml.dmtnds+wbxml, application/vnd.syncml.dmtnds+xml, application/vnd.syncml.ds.notification, application/vnd.tableschema+json, application/vnd.tao.intent-module-archive, application/vnd.tcpdump.pcap, application/vnd.think-cell.ppttc+json, application/vnd.tmd.mediaflex.api+xml, application/vnd.tml, application/vnd.tmobile-livetv, application/vnd.tri.onesource, application/vnd.trid.tpt, application/vnd.triscape.mxs, application/vnd.trueapp, application/vnd.truedoc, application/vnd.ubisoft.webplayer, application/vnd.ufdl, application/vnd.uiq.theme, application/vnd.umajin, application/vnd.unity, application/vnd.uoml+xml, application/vnd.uplanet.alert, application/vnd.uplanet.alert-wbxml, application/vnd.uplanet.bearer-choice, application/vnd.uplanet.bearer-choice-wbxml, application/vnd.uplanet.cacheop, application/vnd.uplanet.cacheop-wbxml, application/vnd.uplanet.channel, application/vnd.uplanet.channel-wbxml, application/vnd.uplanet.list, application/vnd.uplanet.list-wbxml, application/vnd.uplanet.listcmd, application/vnd.uplanet.listcmd-wbxml, application/vnd.uplanet.signal, application/vnd.uri-map, application/vnd.valve.source.material, application/vnd.vcx, application/vnd.vd-study, application/vnd.vectorworks, application/vnd.vel+json, application/vnd.verimatrix.vcas, application/vnd.veryant.thin, application/vnd.ves.encrypted, application/vnd.vidsoft.vidconference, application/vnd.visio, application/vnd.visionary, application/vnd.vividence.scriptfile, application/vnd.vsf, application/vnd.wap.sic, application/vnd.wap.slc, application/vnd.wap.wbxml, application/vnd.wap.wmlc, application/vnd.wap.wmlscriptc, application/vnd.webturbo, application/vnd.wfa.p2p, application/vnd.wfa.wsc, application/vnd.windows.devicepairing, application/vnd.wmc, application/vnd.wmf.bootstrap, application/vnd.wolfram.mathematica, application/vnd.wolfram.mathematica.package, application/vnd.wolfram.player, application/vnd.wordperfect, application/vnd.wqd, application/vnd.wrq-hp3000-labelled, application/vnd.wt.stf, application/vnd.wv.csp+wbxml, application/vnd.wv.csp+xml, application/vnd.wv.ssp+xml, application/vnd.xacml+json, application/vnd.xara, application/vnd.xfdl, application/vnd.xfdl.webform, application/vnd.xmi+xml, application/vnd.xmpie.cpkg, application/vnd.xmpie.dpkg, application/vnd.xmpie.plan, application/vnd.xmpie.ppkg, application/vnd.xmpie.xlim, application/vnd.yamaha.hv-dic, application/vnd.yamaha.hv-script, application/vnd.yamaha.hv-voice, application/vnd.yamaha.openscoreformat, application/vnd.yamaha.openscoreformat.osfpvg+xml, application/vnd.yamaha.remote-setup, application/vnd.yamaha.smaf-audio, application/vnd.yamaha.smaf-phrase, application/vnd.yamaha.through-ngn, application/vnd.yamaha.tunnel-udpencap, application/vnd.yaoweme, application/vnd.yellowriver-custom-menu, application/vnd.youtube.yt, application/vnd.zul, application/vnd.zzazz.deck+xml, application/voicexml+xml, application/voucher-cms+json, application/vq-rtcpxr, application/wasm, application/watcherinfo+xml, application/webpush-options+json, application/whoispp-query, application/whoispp-response, application/widget, application/winhlp, application/wita, application/wordperfect5.1, application/wsdl+xml, application/wspolicy+xml, application/x-7z-compressed, application/x-abiword, application/x-ace-compressed, application/x-amf, application/x-apple-diskimage, application/x-arj, application/x-authorware-bin, application/x-authorware-map, application/x-authorware-seg, application/x-bcpio, application/x-bdoc, application/x-bittorrent, application/x-blorb, application/x-bzip, application/x-bzip2, application/x-cbr, application/x-cdlink, application/x-cfs-compressed, application/x-chat, application/x-chess-pgn, application/x-chrome-extension, application/x-cocoa, application/x-compress, application/x-conference, application/x-cpio, application/x-csh, application/x-deb, application/x-debian-package, application/x-dgc-compressed, application/x-director, application/x-doom, application/x-dtbncx+xml, application/x-dtbook+xml, application/x-dtbresource+xml, application/x-dvi, application/x-envoy, application/x-eva, application/x-font-bdf, application/x-font-dos, application/x-font-framemaker, application/x-font-ghostscript, application/x-font-libgrx, application/x-font-linux-psf, application/x-font-pcf, application/x-font-snf, application/x-font-speedo, application/x-font-sunos-news, application/x-font-type1, application/x-font-vfont, application/x-freearc, application/x-futuresplash, application/x-gca-compressed, application/x-glulx, application/x-gnumeric, application/x-gramps-xml, application/x-gtar, application/x-gzip, application/x-hdf, application/x-httpd-php, application/x-install-instructions, application/x-iso9660-image, application/x-java-archive-diff, application/x-java-jnlp-file, application/x-javascript, application/x-keepass2, application/x-latex, application/x-lua-bytecode, application/x-lzh-compressed, application/x-makeself, application/x-mie, application/x-mobipocket-ebook, application/x-mpegurl, application/x-ms-application, application/x-ms-shortcut, application/x-ms-wmd, application/x-ms-wmz, application/x-ms-xbap, application/x-msaccess, application/x-msbinder, application/x-mscardfile, application/x-msclip, application/x-msdos-program, application/x-msdownload, application/x-msmediaview, application/x-msmetafile, application/x-msmoney, application/x-mspublisher, application/x-msschedule, application/x-msterminal, application/x-mswrite, application/x-netcdf, application/x-ns-proxy-autoconfig, application/x-nzb, application/x-perl, application/x-pilot, application/x-pkcs12, application/x-pkcs7-certificates, application/x-pkcs7-certreqresp, application/x-rar-compressed, application/x-redhat-package-manager, application/x-research-info-systems, application/x-sea, application/x-sh, application/x-shar, application/x-shockwave-flash, application/x-silverlight-app, application/x-sql, application/x-stuffit, application/x-stuffitx, application/x-subrip, application/x-sv4cpio, application/x-sv4crc, application/x-t3vm-image, application/x-tads, application/x-tar, application/x-tcl, application/x-tex, application/x-tex-tfm, application/x-texinfo, application/x-tgif, application/x-ustar, application/x-virtualbox-hdd, application/x-virtualbox-ova, application/x-virtualbox-ovf, application/x-virtualbox-vbox, application/x-virtualbox-vbox-extpack, application/x-virtualbox-vdi, application/x-virtualbox-vhd, application/x-virtualbox-vmdk, application/x-wais-source, application/x-web-app-manifest+json, application/x-www-form-urlencoded, application/x-x509-ca-cert, application/x-xfig, application/x-xliff+xml, application/x-xpinstall, application/x-xz, application/x-zmachine, application/x400-bp, application/xacml+xml, application/xaml+xml, application/xcap-att+xml, application/xcap-caps+xml, application/xcap-diff+xml, application/xcap-el+xml, application/xcap-error+xml, application/xcap-ns+xml, application/xcon-conference-info+xml, application/xcon-conference-info-diff+xml, application/xenc+xml, application/xhtml+xml, application/xhtml-voice+xml, application/xliff+xml, application/xml, application/xml-dtd, application/xml-external-parsed-entity, application/xml-patch+xml, application/xmpp+xml, application/xop+xml, application/xproc+xml, application/xslt+xml, application/xspf+xml, application/xv+xml, application/yang, application/yang-data+json, application/yang-data+xml, application/yang-patch+json, application/yang-patch+xml, application/yin+xml, application/zip, application/zlib, application/zstd, audio/1d-interleaved-parityfec, audio/32kadpcm, audio/3gpp, audio/3gpp2, audio/aac, audio/ac3, audio/adpcm, audio/amr, audio/amr-wb, audio/amr-wb+, audio/aptx, audio/asc, audio/atrac-advanced-lossless, audio/atrac-x, audio/atrac3, audio/basic, audio/bv16, audio/bv32, audio/clearmode, audio/cn, audio/dat12, audio/dls, audio/dsr-es201108, audio/dsr-es202050, audio/dsr-es202211, audio/dsr-es202212, audio/dv, audio/dvi4, audio/eac3, audio/encaprtp, audio/evrc, audio/evrc-qcp, audio/evrc0, audio/evrc1, audio/evrcb, audio/evrcb0, audio/evrcb1, audio/evrcnw, audio/evrcnw0, audio/evrcnw1, audio/evrcwb, audio/evrcwb0, audio/evrcwb1, audio/evs, audio/flexfec, audio/fwdred, audio/g711-0, audio/g719, audio/g722, audio/g7221, audio/g723, audio/g726-16, audio/g726-24, audio/g726-32, audio/g726-40, audio/g728, audio/g729, audio/g7291, audio/g729d, audio/g729e, audio/gsm, audio/gsm-efr, audio/gsm-hr-08, audio/ilbc, audio/ip-mr_v2.5, audio/isac, audio/l16, audio/l20, audio/l24, audio/l8, audio/lpc, audio/melp, audio/melp1200, audio/melp2400, audio/melp600, audio/midi, audio/mobile-xmf, audio/mp3, audio/mp4, audio/mp4a-latm, audio/mpa, audio/mpa-robust, audio/mpeg, audio/mpeg4-generic, audio/musepack, audio/ogg, audio/opus, audio/parityfec, audio/pcma, audio/pcma-wb, audio/pcmu, audio/pcmu-wb, audio/prs.sid, audio/qcelp, audio/raptorfec, audio/red, audio/rtp-enc-aescm128, audio/rtp-midi, audio/rtploopback, audio/rtx, audio/s3m, audio/silk, audio/smv, audio/smv-qcp, audio/smv0, audio/sp-midi, audio/speex, audio/t140c, audio/t38, audio/telephone-event, audio/tetra_acelp, audio/tone, audio/uemclip, audio/ulpfec, audio/usac, audio/vdvi, audio/vmr-wb, audio/vnd.3gpp.iufp, audio/vnd.4sb, audio/vnd.audiokoz, audio/vnd.celp, audio/vnd.cisco.nse, audio/vnd.cmles.radio-events, audio/vnd.cns.anp1, audio/vnd.cns.inf1, audio/vnd.dece.audio, audio/vnd.digital-winds, audio/vnd.dlna.adts, audio/vnd.dolby.heaac.1, audio/vnd.dolby.heaac.2, audio/vnd.dolby.mlp, audio/vnd.dolby.mps, audio/vnd.dolby.pl2, audio/vnd.dolby.pl2x, audio/vnd.dolby.pl2z, audio/vnd.dolby.pulse.1, audio/vnd.dra, audio/vnd.dts, audio/vnd.dts.hd, audio/vnd.dts.uhd, audio/vnd.dvb.file, audio/vnd.everad.plj, audio/vnd.hns.audio, audio/vnd.lucent.voice, audio/vnd.ms-playready.media.pya, audio/vnd.nokia.mobile-xmf, audio/vnd.nortel.vbk, audio/vnd.nuera.ecelp4800, audio/vnd.nuera.ecelp7470, audio/vnd.nuera.ecelp9600, audio/vnd.octel.sbc, audio/vnd.presonus.multitrack, audio/vnd.qcelp, audio/vnd.rhetorex.32kadpcm, audio/vnd.rip, audio/vnd.rn-realaudio, audio/vnd.sealedmedia.softseal.mpeg, audio/vnd.vmx.cvsd, audio/vnd.wave, audio/vorbis, audio/vorbis-config, audio/wav, audio/wave, audio/webm, audio/x-aac, audio/x-aiff, audio/x-caf, audio/x-flac, audio/x-m4a, audio/x-matroska, audio/x-mpegurl, audio/x-ms-wax, audio/x-ms-wma, audio/x-pn-realaudio, audio/x-pn-realaudio-plugin, audio/x-realaudio, audio/x-tta, audio/x-wav, audio/xm, chemical/x-cdx, chemical/x-cif, chemical/x-cmdf, chemical/x-cml, chemical/x-csml, chemical/x-pdb, chemical/x-xyz, font/collection, font/otf, font/sfnt, font/ttf, font/woff, font/woff2, image/aces, image/apng, image/avci, image/avcs, image/bmp, image/cgm, image/dicom-rle, image/emf, image/fits, image/g3fax, image/gif, image/heic, image/heic-sequence, image/heif, image/heif-sequence, image/hej2k, image/hsj2, image/ief, image/jls, image/jp2, image/jpeg, image/jph, image/jphc, image/jpm, image/jpx, image/jxr, image/jxra, image/jxrs, image/jxs, image/jxsc, image/jxsi, image/jxss, image/ktx, image/naplps, image/pjpeg, image/png, image/prs.btif, image/prs.pti, image/pwg-raster, image/sgi, image/svg+xml, image/t38, image/tiff, image/tiff-fx, image/vnd.adobe.photoshop, image/vnd.airzip.accelerator.azv, image/vnd.cns.inf2, image/vnd.dece.graphic, image/vnd.djvu, image/vnd.dvb.subtitle, image/vnd.dwg, image/vnd.dxf, image/vnd.fastbidsheet, image/vnd.fpx, image/vnd.fst, image/vnd.fujixerox.edmics-mmr, image/vnd.fujixerox.edmics-rlc, image/vnd.globalgraphics.pgb, image/vnd.microsoft.icon, image/vnd.mix, image/vnd.mozilla.apng, image/vnd.ms-dds, image/vnd.ms-modi, image/vnd.ms-photo, image/vnd.net-fpx, image/vnd.radiance, image/vnd.sealed.png, image/vnd.sealedmedia.softseal.gif, image/vnd.sealedmedia.softseal.jpg, image/vnd.svf, image/vnd.tencent.tap, image/vnd.valve.source.texture, image/vnd.wap.wbmp, image/vnd.xiff, image/vnd.zbrush.pcx, image/webp, image/wmf, image/x-3ds, image/x-cmu-raster, image/x-cmx, image/x-freehand, image/x-icon, image/x-jng, image/x-mrsid-image, image/x-ms-bmp, image/x-pcx, image/x-pict, image/x-portable-anymap, image/x-portable-bitmap, image/x-portable-graymap, image/x-portable-pixmap, image/x-rgb, image/x-tga, image/x-xbitmap, image/x-xcf, image/x-xpixmap, image/x-xwindowdump, message/cpim, message/delivery-status, message/disposition-notification, message/external-body, message/feedback-report, message/global, message/global-delivery-status, message/global-disposition-notification, message/global-headers, message/http, message/imdn+xml, message/news, message/partial, message/rfc822, message/s-http, message/sip, message/sipfrag, message/tracking-status, message/vnd.si.simp, message/vnd.wfa.wsc, model/3mf, model/gltf+json, model/gltf-binary, model/iges, model/mesh, model/stl, model/vnd.collada+xml, model/vnd.dwf, model/vnd.flatland.3dml, model/vnd.gdl, model/vnd.gs-gdl, model/vnd.gs.gdl, model/vnd.gtw, model/vnd.moml+xml, model/vnd.mts, model/vnd.opengex, model/vnd.parasolid.transmit.binary, model/vnd.parasolid.transmit.text, model/vnd.rosette.annotated-data-model, model/vnd.usdz+zip, model/vnd.valve.source.compiled-map, model/vnd.vtu, model/vrml, model/x3d+binary, model/x3d+fastinfoset, model/x3d+vrml, model/x3d+xml, model/x3d-vrml, multipart/alternative, multipart/appledouble, multipart/byteranges, multipart/digest, multipart/encrypted, multipart/form-data, multipart/header-set, multipart/mixed, multipart/multilingual, multipart/parallel, multipart/related, multipart/report, multipart/signed, multipart/vnd.bint.med-plus, multipart/voice-message, multipart/x-mixed-replace, text/1d-interleaved-parityfec, text/cache-manifest, text/calendar, text/calender, text/cmd, text/coffeescript, text/css, text/csv, text/csv-schema, text/directory, text/dns, text/ecmascript, text/encaprtp, text/enriched, text/flexfec, text/fwdred, text/grammar-ref-list, text/html, text/jade, text/javascript, text/jcr-cnd, text/jsx, text/less, text/markdown, text/mathml, text/mdx, text/mizar, text/n3, text/parameters, text/parityfec, text/plain, text/provenance-notation, text/prs.fallenstein.rst, text/prs.lines.tag, text/prs.prop.logic, text/raptorfec, text/red, text/rfc822-headers, text/richtext, text/rtf, text/rtp-enc-aescm128, text/rtploopback, text/rtx, text/sgml, text/shex, text/slim, text/strings, text/stylus, text/t140, text/tab-separated-values, text/troff, text/turtle, text/ulpfec, text/uri-list, text/vcard, text/vnd.a, text/vnd.abc, text/vnd.ascii-art, text/vnd.curl, text/vnd.curl.dcurl, text/vnd.curl.mcurl, text/vnd.curl.scurl, text/vnd.debian.copyright, text/vnd.dmclientscript, text/vnd.dvb.subtitle, text/vnd.esmertec.theme-descriptor, text/vnd.ficlab.flt, text/vnd.fly, text/vnd.fmi.flexstor, text/vnd.gml, text/vnd.graphviz, text/vnd.hgl, text/vnd.in3d.3dml, text/vnd.in3d.spot, text/vnd.iptc.newsml, text/vnd.iptc.nitf, text/vnd.latex-z, text/vnd.motorola.reflex, text/vnd.ms-mediapackage, text/vnd.net2phone.commcenter.command, text/vnd.radisys.msml-basic-layout, text/vnd.senx.warpscript, text/vnd.si.uricatalogue, text/vnd.sosi, text/vnd.sun.j2me.app-descriptor, text/vnd.trolltech.linguist, text/vnd.wap.si, text/vnd.wap.sl, text/vnd.wap.wml, text/vnd.wap.wmlscript, text/vtt, text/x-asm, text/x-c, text/x-component, text/x-fortran, text/x-gwt-rpc, text/x-handlebars-template, text/x-java-source, text/x-jquery-tmpl, text/x-lua, text/x-markdown, text/x-nfo, text/x-opml, text/x-org, text/x-pascal, text/x-processing, text/x-sass, text/x-scss, text/x-setext, text/x-sfv, text/x-suse-ymp, text/x-uuencode, text/x-vcalendar, text/x-vcard, text/xml, text/xml-external-parsed-entity, text/yaml, video/1d-interleaved-parityfec, video/3gpp, video/3gpp-tt, video/3gpp2, video/bmpeg, video/bt656, video/celb, video/dv, video/encaprtp, video/flexfec, video/h261, video/h263, video/h263-1998, video/h263-2000, video/h264, video/h264-rcdo, video/h264-svc, video/h265, video/iso.segment, video/jpeg, video/jpeg2000, video/jpm, video/mj2, video/mp1s, video/mp2p, video/mp2t, video/mp4, video/mp4v-es, video/mpeg, video/mpeg4-generic, video/mpv, video/nv, video/ogg, video/parityfec, video/pointer, video/quicktime, video/raptorfec, video/raw, video/rtp-enc-aescm128, video/rtploopback, video/rtx, video/smpte291, video/smpte292m, video/ulpfec, video/vc1, video/vc2, video/vnd.cctv, video/vnd.dece.hd, video/vnd.dece.mobile, video/vnd.dece.mp4, video/vnd.dece.pd, video/vnd.dece.sd, video/vnd.dece.video, video/vnd.directv.mpeg, video/vnd.directv.mpeg-tts, video/vnd.dlna.mpeg-tts, video/vnd.dvb.file, video/vnd.fvt, video/vnd.hns.video, video/vnd.iptvforum.1dparityfec-1010, video/vnd.iptvforum.1dparityfec-2005, video/vnd.iptvforum.2dparityfec-1010, video/vnd.iptvforum.2dparityfec-2005, video/vnd.iptvforum.ttsavc, video/vnd.iptvforum.ttsmpeg2, video/vnd.motorola.video, video/vnd.motorola.videop, video/vnd.mpegurl, video/vnd.ms-playready.media.pyv, video/vnd.nokia.interleaved-multimedia, video/vnd.nokia.mp4vr, video/vnd.nokia.videovoip, video/vnd.objectvideo, video/vnd.radgamettools.bink, video/vnd.radgamettools.smacker, video/vnd.sealed.mpeg1, video/vnd.sealed.mpeg4, video/vnd.sealed.swf, video/vnd.sealedmedia.softseal.mov, video/vnd.uvvu.mp4, video/vnd.vivo, video/vnd.youtube.yt, video/vp8, video/webm, video/x-f4v, video/x-fli, video/x-flv, video/x-m4v, video/x-matroska, video/x-mng, video/x-ms-asf, video/x-ms-vob, video/x-ms-wm, video/x-ms-wmv, video/x-ms-wmx, video/x-ms-wvx, video/x-msvideo, video/x-sgi-movie, video/x-smv, x-conference/x-cooltalk, x-shader/x-fragment, x-shader/x-vertex, default */
+
+/*! exports provided: identity, ip4, tcp, sha1, sha2-256, sha2-512, sha3-512, sha3-384, sha3-256, sha3-224, shake-128, shake-256, keccak-224, keccak-256, keccak-384, keccak-512, dccp, murmur3-128, murmur3-32, ip6, ip6zone, path, multicodec, multihash, multiaddr, multibase, dns, dns4, dns6, dnsaddr, protobuf, cbor, raw, dbl-sha2-256, rlp, bencode, dag-pb, dag-cbor, libp2p-key, git-raw, torrent-info, torrent-file, leofcoin-block, leofcoin-tx, leofcoin-pr, sctp, eth-block, eth-block-list, eth-tx-trie, eth-tx, eth-tx-receipt-trie, eth-tx-receipt, eth-state-trie, eth-account-snapshot, eth-storage-trie, bitcoin-block, bitcoin-tx, zcash-block, zcash-tx, stellar-block, stellar-tx, md4, md5, bmt, decred-block, decred-tx, ipld-ns, ipfs-ns, swarm-ns, ipns-ns, zeronet, ed25519-pub, dash-block, dash-tx, swarm-manifest, swarm-feed, udp, p2p-webrtc-star, p2p-webrtc-direct, p2p-stardust, p2p-circuit, dag-json, udt, utp, unix, p2p, ipfs, https, onion, onion3, garlic64, garlic32, tls, quic, ws, wss, p2p-websocket-star, http, json, messagepack, x11, blake2b-8, blake2b-16, blake2b-24, blake2b-32, blake2b-40, blake2b-48, blake2b-56, blake2b-64, blake2b-72, blake2b-80, blake2b-88, blake2b-96, blake2b-104, blake2b-112, blake2b-120, blake2b-128, blake2b-136, blake2b-144, blake2b-152, blake2b-160, blake2b-168, blake2b-176, blake2b-184, blake2b-192, blake2b-200, blake2b-208, blake2b-216, blake2b-224, blake2b-232, blake2b-240, blake2b-248, blake2b-256, blake2b-264, blake2b-272, blake2b-280, blake2b-288, blake2b-296, blake2b-304, blake2b-312, blake2b-320, blake2b-328, blake2b-336, blake2b-344, blake2b-352, blake2b-360, blake2b-368, blake2b-376, blake2b-384, blake2b-392, blake2b-400, blake2b-408, blake2b-416, blake2b-424, blake2b-432, blake2b-440, blake2b-448, blake2b-456, blake2b-464, blake2b-472, blake2b-480, blake2b-488, blake2b-496, blake2b-504, blake2b-512, blake2s-8, blake2s-16, blake2s-24, blake2s-32, blake2s-40, blake2s-48, blake2s-56, blake2s-64, blake2s-72, blake2s-80, blake2s-88, blake2s-96, blake2s-104, blake2s-112, blake2s-120, blake2s-128, blake2s-136, blake2s-144, blake2s-152, blake2s-160, blake2s-168, blake2s-176, blake2s-184, blake2s-192, blake2s-200, blake2s-208, blake2s-216, blake2s-224, blake2s-232, blake2s-240, blake2s-248, blake2s-256, skein256-8, skein256-16, skein256-24, skein256-32, skein256-40, skein256-48, skein256-56, skein256-64, skein256-72, skein256-80, skein256-88, skein256-96, skein256-104, skein256-112, skein256-120, skein256-128, skein256-136, skein256-144, skein256-152, skein256-160, skein256-168, skein256-176, skein256-184, skein256-192, skein256-200, skein256-208, skein256-216, skein256-224, skein256-232, skein256-240, skein256-248, skein256-256, skein512-8, skein512-16, skein512-24, skein512-32, skein512-40, skein512-48, skein512-56, skein512-64, skein512-72, skein512-80, skein512-88, skein512-96, skein512-104, skein512-112, skein512-120, skein512-128, skein512-136, skein512-144, skein512-152, skein512-160, skein512-168, skein512-176, skein512-184, skein512-192, skein512-200, skein512-208, skein512-216, skein512-224, skein512-232, skein512-240, skein512-248, skein512-256, skein512-264, skein512-272, skein512-280, skein512-288, skein512-296, skein512-304, skein512-312, skein512-320, skein512-328, skein512-336, skein512-344, skein512-352, skein512-360, skein512-368, skein512-376, skein512-384, skein512-392, skein512-400, skein512-408, skein512-416, skein512-424, skein512-432, skein512-440, skein512-448, skein512-456, skein512-464, skein512-472, skein512-480, skein512-488, skein512-496, skein512-504, skein512-512, skein1024-8, skein1024-16, skein1024-24, skein1024-32, skein1024-40, skein1024-48, skein1024-56, skein1024-64, skein1024-72, skein1024-80, skein1024-88, skein1024-96, skein1024-104, skein1024-112, skein1024-120, skein1024-128, skein1024-136, skein1024-144, skein1024-152, skein1024-160, skein1024-168, skein1024-176, skein1024-184, skein1024-192, skein1024-200, skein1024-208, skein1024-216, skein1024-224, skein1024-232, skein1024-240, skein1024-248, skein1024-256, skein1024-264, skein1024-272, skein1024-280, skein1024-288, skein1024-296, skein1024-304, skein1024-312, skein1024-320, skein1024-328, skein1024-336, skein1024-344, skein1024-352, skein1024-360, skein1024-368, skein1024-376, skein1024-384, skein1024-392, skein1024-400, skein1024-408, skein1024-416, skein1024-424, skein1024-432, skein1024-440, skein1024-448, skein1024-456, skein1024-464, skein1024-472, skein1024-480, skein1024-488, skein1024-496, skein1024-504, skein1024-512, skein1024-520, skein1024-528, skein1024-536, skein1024-544, skein1024-552, skein1024-560, skein1024-568, skein1024-576, skein1024-584, skein1024-592, skein1024-600, skein1024-608, skein1024-616, skein1024-624, skein1024-632, skein1024-640, skein1024-648, skein1024-656, skein1024-664, skein1024-672, skein1024-680, skein1024-688, skein1024-696, skein1024-704, skein1024-712, skein1024-720, skein1024-728, skein1024-736, skein1024-744, skein1024-752, skein1024-760, skein1024-768, skein1024-776, skein1024-784, skein1024-792, skein1024-800, skein1024-808, skein1024-816, skein1024-824, skein1024-832, skein1024-840, skein1024-848, skein1024-856, skein1024-864, skein1024-872, skein1024-880, skein1024-888, skein1024-896, skein1024-904, skein1024-912, skein1024-920, skein1024-928, skein1024-936, skein1024-944, skein1024-952, skein1024-960, skein1024-968, skein1024-976, skein1024-984, skein1024-992, skein1024-1000, skein1024-1008, skein1024-1016, skein1024-1024, holochain-adr-v0, holochain-adr-v1, holochain-key-v0, holochain-key-v1, holochain-sig-v0, holochain-sig-v1, default */
+
+/*! follow-redirects */
+
+/*! form-data */
+
+/*! fs */
+
+/*! has-flag */
+
+/*! hi-base32 */
+
+/*! http */
+
+/*! https */
+
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+
+/*! https://mths.be/utf8js v2.1.2 by @mathias */
+
+/*! ip */
+
+/*! ip-regex */
+
+/*! is-buffer */
+
+/*! is-ip */
+
+/*! is-ipfs */
+
+/*! mafmt */
+
+/*! mime-db */
+
+/*! mime-types */
+
+/*! ms */
+
+/*! multiaddr */
+
+/*! multibase */
+
+/*! multicodec */
+
+/*! multicodec/src/base-table.json */
+
+/*! multihashes */
+
+/*! no static exports found */
+
+/*! os */
+
+/*! path */
+
+/*! recursive-fs */
+
+/*! regenerator-runtime/runtime */
+
+/*! safe-buffer */
+
+/*! stream */
+
+/*! supports-color */
+
+/*! tty */
+
+/*! url */
+
+/*! util */
+
+/*! varint */
+
+/*! zlib */
+
+/*!*********************!*\
+        !*** external "fs" ***!
+        \*********************/
+
+/*!*********************!*\
+        !*** external "os" ***!
+        \*********************/
+
+/*!**********************!*\
+        !*** ./src/index.js ***!
+        \**********************/
+
+/*!**********************!*\
+        !*** external "tty" ***!
+        \**********************/
+
+/*!**********************!*\
+        !*** external "url" ***!
+        \**********************/
+
+/*!***********************!*\
+        !*** external "http" ***!
+        \***********************/
+
+/*!***********************!*\
+        !*** external "path" ***!
+        \***********************/
+
+/*!***********************!*\
+        !*** external "util" ***!
+        \***********************/
+
+/*!***********************!*\
+        !*** external "zlib" ***!
+        \***********************/
+
+/*!************************!*\
+        !*** external "https" ***!
+        \************************/
+
+/*!*************************!*\
+        !*** external "assert" ***!
+        \*************************/
+
+/*!*************************!*\
+        !*** external "buffer" ***!
+        \*************************/
+
+/*!*************************!*\
+        !*** external "stream" ***!
+        \*************************/
+
+/*!**************************!*\
+        !*** ./src/constants.js ***!
+        \**************************/
+
+/*!********************************!*\
+        !*** ./src/util/validators.js ***!
+        \********************************/
+
+/*!**********************************!*\
+        !*** ./node_modules/ms/index.js ***!
+        \**********************************/
+
+/*!***********************************!*\
+        !*** ./node_modules/ip/lib/ip.js ***!
+        \***********************************/
+
+/*!************************************!*\
+        !*** ./node_modules/bs58/index.js ***!
+        \************************************/
+
+/*!*************************************!*\
+        !*** ./node_modules/axios/index.js ***!
+        \*************************************/
+
+/*!*************************************!*\
+        !*** ./node_modules/is-ip/index.js ***!
+        \*************************************/
+
+/*!**************************************!*\
+        !*** ./node_modules/core-js/shim.js ***!
+        \**************************************/
+
+/*!**************************************!*\
+        !*** ./node_modules/mime-db/db.json ***!
+        \**************************************/
+
+/*!**************************************!*\
+        !*** ./node_modules/varint/index.js ***!
+        \**************************************/
+
+/*!***************************************!*\
+        !*** ./node_modules/mime-db/index.js ***!
+        \***************************************/
+
+/*!***************************************!*\
+        !*** ./node_modules/varint/decode.js ***!
+        \***************************************/
+
+/*!***************************************!*\
+        !*** ./node_modules/varint/encode.js ***!
+        \***************************************/
+
+/*!***************************************!*\
+        !*** ./node_modules/varint/length.js ***!
+        \***************************************/
+
+/*!****************************************!*\
+        !*** (webpack)/buildin/amd-options.js ***!
+        \****************************************/
+
+/*!****************************************!*\
+        !*** ./node_modules/asynckit/index.js ***!
+        \****************************************/
+
+/*!****************************************!*\
+        !*** ./node_modules/cids/src/index.js ***!
+        \****************************************/
+
+/*!****************************************!*\
+        !*** ./node_modules/class-is/index.js ***!
+        \****************************************/
+
+/*!****************************************!*\
+        !*** ./node_modules/debug/src/node.js ***!
+        \****************************************/
+
+/*!****************************************!*\
+        !*** ./node_modules/has-flag/index.js ***!
+        \****************************************/
+
+/*!****************************************!*\
+        !*** ./node_modules/ip-regex/index.js ***!
+        \****************************************/
+
+/*!*****************************************!*\
+        !*** ./node_modules/asynckit/serial.js ***!
+        \*****************************************/
+
+/*!*****************************************!*\
+        !*** ./node_modules/axios/lib/axios.js ***!
+        \*****************************************/
+
+/*!*****************************************!*\
+        !*** ./node_modules/axios/lib/utils.js ***!
+        \*****************************************/
+
+/*!*****************************************!*\
+        !*** ./node_modules/axios/package.json ***!
+        \*****************************************/
+
+/*!*****************************************!*\
+        !*** ./node_modules/debug/src/debug.js ***!
+        \*****************************************/
+
+/*!*****************************************!*\
+        !*** ./node_modules/debug/src/index.js ***!
+        \*****************************************/
+
+/*!*****************************************!*\
+        !*** ./node_modules/is-buffer/index.js ***!
+        \*****************************************/
+
+/*!*****************************************!*\
+        !*** ./node_modules/mafmt/src/index.js ***!
+        \*****************************************/
+
+/*!******************************************!*\
+        !*** ../baseDirectoryConverter/index.js ***!
+        \******************************************/
+
+/*!******************************************!*\
+        !*** ./node_modules/base-x/src/index.js ***!
+        \******************************************/
+
+/*!******************************************!*\
+        !*** ./node_modules/mime-types/index.js ***!
+        \******************************************/
+
+/*!*******************************************!*\
+        !*** ./node_modules/asynckit/parallel.js ***!
+        \*******************************************/
+
+/*!*******************************************!*\
+        !*** ./node_modules/cids/src/cid-util.js ***!
+        \*******************************************/
+
+/*!*******************************************!*\
+        !*** ./node_modules/debug/src/browser.js ***!
+        \*******************************************/
+
+/*!*******************************************!*\
+        !*** ./node_modules/is-ipfs/src/index.js ***!
+        \*******************************************/
+
+/*!*******************************************!*\
+        !*** ./node_modules/safe-buffer/index.js ***!
+        \*******************************************/
+
+/*!*******************************************!*\
+        !*** ./src/commands/pinning/pinFromFS.js ***!
+        \*******************************************/
+
+/*!*******************************************!*\
+        !*** multi babel-polyfill ./src/index.js ***!
+        \*******************************************/
+
+/*!********************************************!*\
+        !*** ./node_modules/asynckit/lib/abort.js ***!
+        \********************************************/
+
+/*!********************************************!*\
+        !*** ./node_modules/asynckit/lib/async.js ***!
+        \********************************************/
+
+/*!********************************************!*\
+        !*** ./node_modules/asynckit/lib/defer.js ***!
+        \********************************************/
+
+/*!********************************************!*\
+        !*** ./node_modules/asynckit/lib/state.js ***!
+        \********************************************/
+
+/*!********************************************!*\
+        !*** ./node_modules/axios/lib/defaults.js ***!
+        \********************************************/
+
+/*!********************************************!*\
+        !*** ./node_modules/multibase/src/base.js ***!
+        \********************************************/
+
+/*!********************************************!*\
+        !*** ./node_modules/recursive-fs/index.js ***!
+        \********************************************/
+
+/*!*********************************************!*\
+        !*** ./node_modules/multiaddr/src/codec.js ***!
+        \*********************************************/
+
+/*!*********************************************!*\
+        !*** ./node_modules/multiaddr/src/index.js ***!
+        \*********************************************/
+
+/*!*********************************************!*\
+        !*** ./node_modules/multibase/src/index.js ***!
+        \*********************************************/
+
+/*!*********************************************!*\
+        !*** ./node_modules/multicodec/src/util.js ***!
+        \*********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/asynckit/lib/iterate.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/axios/lib/core/Axios.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/core-js/modules/_cof.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/core-js/modules/_ctx.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/core-js/modules/_has.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/core-js/modules/_uid.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/core-js/modules/_wks.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/hi-base32/src/base32.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/multibase/src/base16.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/multibase/src/base32.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/multibase/src/base64.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/multicodec/src/index.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/multicodec/src/print.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./node_modules/supports-color/index.js ***!
+        \**********************************************/
+
+/*!**********************************************!*\
+        !*** ./src/commands/data/pinList/pinList.js ***!
+        \**********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/axios/lib/core/settle.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/core-js/modules/_bind.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/core-js/modules/_core.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/core-js/modules/_hide.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/core-js/modules/_html.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/core-js/modules/_meta.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/core-js/modules/_task.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/multiaddr/src/convert.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./node_modules/multihashes/src/index.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./src/commands/pinning/pinFileToIPFS.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./src/commands/pinning/pinHashToIPFS.js ***!
+        \***********************************************/
+
+/*!***********************************************!*\
+        !*** ./src/commands/pinning/pinJSONToIPFS.js ***!
+        \***********************************************/
+
+/*!************************************************!*\
+        !*** ./node_modules/asynckit/serialOrdered.js ***!
+        \************************************************/
+
+/*!************************************************!*\
+        !*** ./node_modules/axios/lib/adapters/xhr.js ***!
+        \************************************************/
+
+/*!************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/bind.js ***!
+        \************************************************/
+
+/*!************************************************!*\
+        !*** ./node_modules/core-js/modules/_fails.js ***!
+        \************************************************/
+
+/*!************************************************!*\
+        !*** ./node_modules/core-js/modules/_flags.js ***!
+        \************************************************/
+
+/*!************************************************!*\
+        !*** ./node_modules/core-js/modules/_typed.js ***!
+        \************************************************/
+
+/*!************************************************!*\
+        !*** ./node_modules/follow-redirects/index.js ***!
+        \************************************************/
+
+/*!************************************************!*\
+        !*** ./node_modules/form-data/lib/populate.js ***!
+        \************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/asynckit/lib/terminator.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/axios/lib/adapters/http.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/axios/lib/cancel/Cancel.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/core-js/modules/_export.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/core-js/modules/_for-of.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/core-js/modules/_global.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/core-js/modules/_invoke.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/core-js/modules/_shared.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.map.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.set.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/form-data/lib/form_data.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/multibase/src/constants.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/recursive-fs/lib/cpdirr.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./node_modules/recursive-fs/lib/rmdirr.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./src/commands/data/testAuthentication.js ***!
+        \*************************************************/
+
+/*!*************************************************!*\
+        !*** ./src/commands/pinning/pinJobs/pinJobs.js ***!
+        \*************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/spread.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/babel-polyfill/lib/index.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/core-js/fn/regexp/escape.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/core-js/modules/_classof.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/core-js/modules/_defined.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/core-js/modules/_iobject.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/core-js/modules/_library.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/core-js/modules/_perform.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/core-js/modules/_wks-ext.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.asap.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/multicodec/src/constants.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./node_modules/multicodec/src/int-table.js ***!
+        \**************************************************/
+
+/*!**************************************************!*\
+        !*** ./src/commands/data/userPinnedDataTotal.js ***!
+        \**************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/axios/lib/cancel/isCancel.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/cookies.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/core-js/modules/_is-array.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/core-js/modules/_metadata.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/core-js/modules/_own-keys.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/core-js/modules/_redefine.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/core-js/modules/_replacer.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/core-js/modules/_to-index.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/multihashes/src/constants.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./node_modules/recursive-fs/lib/readdirr.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./src/commands/data/pinList/queryBuilder.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./src/commands/pinning/addHashToPinQueue.js ***!
+        \***************************************************/
+
+/*!***************************************************!*\
+        !*** ./src/commands/pinning/removePinFromIPFS.js ***!
+        \***************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/axios/lib/core/createError.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/buildURL.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_an-object.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_enum-keys.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_is-object.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_is-regexp.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_iter-call.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_iter-step.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_iterators.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_math-sign.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_microtask.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-dp.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_parse-int.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_set-proto.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_string-at.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_string-ws.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_to-length.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/_to-object.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.symbol.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.global.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.map.of.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.set.of.js ***!
+        \****************************************************/
+
+/*!****************************************************!*\
+        !*** ./node_modules/core-js/modules/web.timers.js ***!
+        \****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/axios/lib/core/enhanceError.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_a-function.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_array-fill.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_collection.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_dom-create.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_fix-re-wks.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_is-integer.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_math-expm1.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_math-log1p.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_math-scale.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-dps.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-gpo.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-pie.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-sap.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_same-value.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_shared-key.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_string-pad.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_to-integer.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_to-iobject.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_user-agent.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/_wks-define.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.promise.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/multicodec/src/base-table.json ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/multicodec/src/varint-table.js ***!
+        \*****************************************************/
+
+/*!*****************************************************!*\
+        !*** ./node_modules/regenerator-runtime/runtime.js ***!
+        \*****************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/axios/lib/cancel/CancelToken.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/axios/lib/core/transformData.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_an-instance.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_descriptors.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_iter-create.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_iter-define.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_iter-detect.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_math-fround.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-gopd.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-gopn.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-gops.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-keys.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_parse-float.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_regexp-exec.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_set-species.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_string-html.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_string-trim.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/_typed-array.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.of.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.date.now.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.weak-map.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.weak-set.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.map.from.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.set.from.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./src/commands/data/userPinList/userPinList.js ***!
+        \******************************************************/
+
+/*!******************************************************!*\
+        !*** ./src/commands/pinning/pinJobs/queryBuilder.js ***!
+        \******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/combineURLs.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/_array-reduce.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/_redefine-all.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/_to-primitive.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/_typed-buffer.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.map.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.cbrt.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.cosh.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.imul.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.log2.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.sign.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.sinh.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.tanh.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.is.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.parse-int.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.string.at.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/core-js/modules/web.immediate.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./node_modules/multiaddr/src/protocols-table.js ***!
+        \*******************************************************/
+
+/*!*******************************************************!*\
+        !*** ./src/commands/data/userPinList/queryBuilder.js ***!
+        \*******************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/axios/lib/core/dispatchRequest.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/parseHeaders.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/_array-methods.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/_enum-bug-keys.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/_is-array-iter.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-assign.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-create.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/_property-desc.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/_strict-method.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/_string-repeat.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.fill.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.find.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.from.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.join.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.some.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.sort.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.acosh.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.asinh.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.atanh.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.clz32.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.expm1.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.hypot.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.log10.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.log1p.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.trunc.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.big.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.raw.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.sub.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.sup.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.clamp.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.iaddh.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.imulh.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.isubh.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.scale.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.umulh.js ***!
+        \********************************************************/
+
+/*!********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.observable.js ***!
+        \********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/_a-number-value.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/_array-includes.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/_ie8-dom-define.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/_string-context.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.every.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.slice.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.math.fround.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.keys.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.seal.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.parse-float.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.get.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.has.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.set.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.regexp.exec.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.bold.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.link.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.trim.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.map.to-json.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.fscale.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.promise.try.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.set.to-json.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.weak-map.of.js ***!
+        \*********************************************************/
+
+/*!*********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.weak-set.of.js ***!
+        \*********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/_collection-weak.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/_create-property.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/_fails-is-regexp.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-gopn-ext.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-to-array.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/_promise-resolve.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.filter.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.reduce.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.date.to-json.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.regexp.flags.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.regexp.match.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.regexp.split.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.blink.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.fixed.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.small.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.degrees.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.radians.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.signbit.js ***!
+        \**********************************************************/
+
+/*!**********************************************************!*\
+        !*** ./node_modules/core-js/modules/web.dom.iterable.js ***!
+        \**********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/axios/lib/core/InterceptorManager.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.species.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.function.bind.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.function.name.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.is-nan.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.assign.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.create.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.freeze.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.apply.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.regexp.search.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.anchor.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.repeat.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.strike.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.array.flatten.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.object.values.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.system.global.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.weak-map.from.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.weak-set.from.js ***!
+        \***********************************************************/
+
+/*!***********************************************************!*\
+        !*** ./node_modules/delayed-stream/lib/delayed_stream.js ***!
+        \***********************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/_array-copy-within.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/_collection-strong.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/_date-to-primitive.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-forced-pam.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/_set-collection-of.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/_set-to-string-tag.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/_to-absolute-index.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/core.regexp.escape.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.for-each.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.index-of.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.is-array.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.iterator.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.date.to-string.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.epsilon.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.regexp.replace.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.italics.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.array.flat-map.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.array.includes.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.error.is-error.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.object.entries.js ***!
+        \************************************************************/
+
+/*!************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.string.pad-end.js ***!
+        \************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/combined-stream/lib/combined_stream.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/_add-to-unscopables.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/_collection-to-json.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/_date-to-iso-string.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/_flatten-into-array.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/_function-to-string.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.to-fixed.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.fontsize.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.includes.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.iterator.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.data-view.js ***!
+        \*************************************************************/
+
+/*!*************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.promise.finally.js ***!
+        \*************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/_array-from-iterable.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/_inherit-if-required.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/_set-collection-from.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/_species-constructor.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/_validate-collection.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.find-index.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.is-finite.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.parse-int.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.is-frozen.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.is-sealed.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.to-string.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.own-keys.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.regexp.to-string.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.ends-with.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.fontcolor.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.int8-array.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.deg-per-rad.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.math.rad-per-deg.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.metadata.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.string.match-all.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.string.pad-start.js ***!
+        \**************************************************************/
+
+/*!**************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.string.trim-left.js ***!
+        \**************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/_advance-string-index.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/_array-species-create.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/_object-keys-internal.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/_regexp-exec-abstract.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.copy-within.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.date.to-primitive.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.is-integer.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.construct.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.enumerate.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.int16-array.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.int32-array.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.uint8-array.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.string.trim-right.js ***!
+        \***************************************************************/
+
+/*!***************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.symbol.observable.js ***!
+        \***************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.reduce-right.js ***!
+        \****************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.date.to-iso-string.js ***!
+        \****************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.constructor.js ***!
+        \****************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.parse-float.js ***!
+        \****************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.regexp.constructor.js ***!
+        \****************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.starts-with.js ***!
+        \****************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.array-buffer.js ***!
+        \****************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.uint16-array.js ***!
+        \****************************************************************/
+
+/*!****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.uint32-array.js ***!
+        \****************************************************************/
+
+/*!*****************************************************************!*\
+        !*** ./node_modules/core-js/modules/_new-promise-capability.js ***!
+        \*****************************************************************/
+
+/*!*****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.array.last-index-of.js ***!
+        \*****************************************************************/
+
+/*!*****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.to-precision.js ***!
+        \*****************************************************************/
+
+/*!*****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.float32-array.js ***!
+        \*****************************************************************/
+
+/*!*****************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.float64-array.js ***!
+        \*****************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/core.get-iterator-method.js ***!
+        \******************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.is-extensible.js ***!
+        \******************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.code-point-at.js ***!
+        \******************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.object.define-getter.js ***!
+        \******************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.object.define-setter.js ***!
+        \******************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.object.lookup-getter.js ***!
+        \******************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.object.lookup-setter.js ***!
+        \******************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.get-metadata.js ***!
+        \******************************************************************/
+
+/*!******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.has-metadata.js ***!
+        \******************************************************************/
+
+/*!*******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.function.has-instance.js ***!
+        \*******************************************************************/
+
+/*!*******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.is-extensible.js ***!
+        \*******************************************************************/
+
+/*!*******************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.symbol.async-iterator.js ***!
+        \*******************************************************************/
+
+/*!********************************************************************!*\
+        !*** ./node_modules/core-js/modules/_array-species-constructor.js ***!
+        \********************************************************************/
+
+/*!********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.is-safe-integer.js ***!
+        \********************************************************************/
+
+/*!********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.define-property.js ***!
+        \********************************************************************/
+
+/*!********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.string.from-code-point.js ***!
+        \********************************************************************/
+
+/*!*********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.max-safe-integer.js ***!
+        \*********************************************************************/
+
+/*!*********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.number.min-safe-integer.js ***!
+        \*********************************************************************/
+
+/*!*********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.get-prototype-of.js ***!
+        \*********************************************************************/
+
+/*!*********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.set-prototype-of.js ***!
+        \*********************************************************************/
+
+/*!*********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.define-property.js ***!
+        \*********************************************************************/
+
+/*!*********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.delete-property.js ***!
+        \*********************************************************************/
+
+/*!*********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.define-metadata.js ***!
+        \*********************************************************************/
+
+/*!*********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.delete-metadata.js ***!
+        \*********************************************************************/
+
+/*!**********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.define-properties.js ***!
+        \**********************************************************************/
+
+/*!**********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.get-prototype-of.js ***!
+        \**********************************************************************/
+
+/*!**********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.set-prototype-of.js ***!
+        \**********************************************************************/
+
+/*!**********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.get-own-metadata.js ***!
+        \**********************************************************************/
+
+/*!**********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.has-own-metadata.js ***!
+        \**********************************************************************/
+
+/*!***********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.prevent-extensions.js ***!
+        \***********************************************************************/
+
+/*!***********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.typed.uint8-clamped-array.js ***!
+        \***********************************************************************/
+
+/*!***********************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.get-metadata-keys.js ***!
+        \***********************************************************************/
+
+/*!************************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.prevent-extensions.js ***!
+        \************************************************************************/
+
+/*!***************************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.get-own-property-names.js ***!
+        \***************************************************************************/
+
+/*!***************************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.reflect.get-own-metadata-keys.js ***!
+        \***************************************************************************/
+
+/*!********************************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.object.get-own-property-descriptor.js ***!
+        \********************************************************************************/
+
+/*!*********************************************************************************!*\
+        !*** ./node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js ***!
+        \*********************************************************************************/
+
+/*!*********************************************************************************!*\
+        !*** ./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js ***!
+        \*********************************************************************************/
+
+/**
+      	 * A handy class to calculate color values.
+      	 *
+      	 * @version 1.0
+      	 * @author Robert Eisele <robert@xarg.org>
+      	 * @copyright Copyright (c) 2010, Robert Eisele
+      	 * @link http://www.xarg.org/2010/03/generate-client-side-png-files-using-javascript/
+      	 * @license http://www.opensource.org/licenses/bsd-license.php BSD License
+      	 *
+      	 */
+
+/**
+             * [js-sha3]{@link https://github.com/emn178/js-sha3}
+             *
+             * @version 0.5.7
+             * @author Chen, Yi-Cyuan [emn178@gmail.com]
+             * @copyright Chen, Yi-Cyuan 2015-2016
+             * @license MIT
+             */
+
+/**
+           * [js-sha3]{@link https://github.com/emn178/js-sha3}
+           *
+           * @version 0.5.7
+           * @author Chen, Yi-Cyuan [emn178@gmail.com]
+           * @copyright Chen, Yi-Cyuan 2015-2016
+           * @license MIT
+           */
+
+/**
+     * [js-sha256]{@link https://github.com/emn178/js-sha256}
+     *
+     * @version 0.9.0
+     * @author Chen, Yi-Cyuan [emn178@gmail.com]
+     * @copyright Chen, Yi-Cyuan 2014-2017
+     * @license MIT
+     */
+
+/**
+     * [js-sha3]{@link https://github.com/emn178/js-sha3}
+     *
+     * @version 0.5.7
+     * @author Chen, Yi-Cyuan [emn178@gmail.com]
+     * @copyright Chen, Yi-Cyuan 2015-2016
+     * @license MIT
+     */
+
+/**
+     * [js-sha3]{@link https://github.com/emn178/js-sha3}
+     *
+     * @version 0.7.0
+     * @author Chen, Yi-Cyuan [emn178@gmail.com]
+     * @copyright Chen, Yi-Cyuan 2015-2017
+     * @license MIT
+     */
+
+/**
+ * A better abstraction over CSS.
+ *
+ * @copyright Oleg Isonen (Slobodskoi) / Isonen 2014-present
+ * @website https://github.com/cssinjs/jss
+ * @license MIT
+ */
+
+/**
+ * [js-sha3]{@link https://github.com/emn178/js-sha3}
+ *
+ * @version 0.5.7
+ * @author Chen, Yi-Cyuan [emn178@gmail.com]
+ * @copyright Chen, Yi-Cyuan 2015-2016
+ * @license MIT
+ */
+
+/**
+ * [js-sha3]{@link https://github.com/emn178/js-sha3}
+ *
+ * @version 0.8.0
+ * @author Chen, Yi-Cyuan [emn178@gmail.com]
+ * @copyright Chen, Yi-Cyuan 2015-2018
+ * @license MIT
+ */
+
+/** @license React v0.15.0
+     * scheduler.production.min.js
+     *
+     * Copyright (c) Facebook, Inc. and its affiliates.
+     *
+     * This source code is licensed under the MIT license found in the
+     * LICENSE file in the root directory of this source tree.
+     */
+
+/** @license React v0.19.0
+ * scheduler.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.13.0
+ * react-dom.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.13.0
+ * react-is.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.13.0
+ * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.9.0
+     * react-dom.production.min.js
+     *
+     * Copyright (c) Facebook, Inc. and its affiliates.
+     *
+     * This source code is licensed under the MIT license found in the
+     * LICENSE file in the root directory of this source tree.
+     */
+
+/** @license React v16.9.0
+     * react-is.production.min.js
+     *
+     * Copyright (c) Facebook, Inc. and its affiliates.
+     *
+     * This source code is licensed under the MIT license found in the
+     * LICENSE file in the root directory of this source tree.
+     */
+
+/** @license React v16.9.0
+     * react.production.min.js
+     *
+     * Copyright (c) Facebook, Inc. and its affiliates.
+     *
+     * This source code is licensed under the MIT license found in the
+     * LICENSE file in the root directory of this source tree.
+     */
+
+/** @preserve
+   * Counter block mode compatible with  Dr Brian Gladman fileenc.c
+   * derived from CryptoJS.mode.CTR
+   * Jan Hruby jhruby.web@gmail.com
+   */
+
+/** @preserve
+  (c) 2012 by Cédric Mesnil. All rights reserved.
+  	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+  	    - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+      - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+  	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+
+/**!
+ * @fileOverview Kickass library to create and place poppers near their reference elements.
+ * @version 1.16.1
+ * @license
+ * Copyright (c) 2016 Federico Zivolo and contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
