@@ -124,9 +124,17 @@ contract('WildcardSteward', accounts => {
     let totalDepositedDai = await noLossDao.totalDepositedDai.call();
     let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
     let depositedDaiUserVoter = await noLossDao.depositedDai.call(accounts[3]);
+    let votingUsersChoice = await noLossDao.usersNominatedProject.call(
+      0,
+      accounts[3]
+    );
 
     assert.equal(applicationAmount, depositedDaiUser.toString());
     assert.equal(mintAmount, depositedDaiUserVoter.toString());
+    assert.equal(
+      depositedDaiUser.add(depositedDaiUserVoter).toString(),
+      totalDepositedDai.toString()
+    );
     assert.equal(
       depositedDaiUser.add(depositedDaiUserVoter).toString(),
       totalDepositedDai.toString()
@@ -162,6 +170,10 @@ contract('WildcardSteward', accounts => {
     let totalDepositedDai = await noLossDao.totalDepositedDai.call();
     let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
     let depositedDaiUserVoter = await noLossDao.depositedDai.call(accounts[3]);
+    let votingUsersChoice = await noLossDao.usersNominatedProject.call(
+      0,
+      accounts[3]
+    );
 
     assert.equal(applicationAmount, depositedDaiUser.toString());
     assert.equal(mintAmount, depositedDaiUserVoter.toString());
@@ -169,6 +181,7 @@ contract('WildcardSteward', accounts => {
       depositedDaiUser.add(depositedDaiUserVoter).toString(),
       totalDepositedDai.toString()
     );
+    assert.equal(votingUsersChoice.toString(), '1');
     assert.equal(true, true);
   });
 });
