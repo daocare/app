@@ -79,6 +79,8 @@ function useWeb3Connect() {
   const [daoContract, setDaoContract] = useState(null);
   const [daiAllowance, setDaiAllowance] = useState(0);
   const [daiBalance, setDaiBalance] = useState(0);
+  const [daiDeposit, setDaiDeposit] = useState(0);
+  const [hasProposal, setHasProposal] = useState(false);
 
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
@@ -193,10 +195,23 @@ function useWeb3Connect() {
     // console.log({ balance });
     setDaiBalance(Number(web3.utils.fromWei(new BN(balance), 'ether')));
   };
+  const updateDeposit = async () => {
+    let deposit = await daoContract.methods.depositedDai(address).call();
+    // console.log({ balance });
+    setDaiDeposit(Number(web3.utils.fromWei(new BN(deposit), 'ether')));
+  };
+  // const updateProposalOwner = async () => {
+  //   let proposalId = Number(
+  //     await daoContract.methods.usersProposedProject(address).call()
+  //   );
+  //   console.log({ proposalId });
+  //   setHasProposal(proposalId !== 0);
+  // };
   useEffect(() => {
     if (daiContract && connected && address) {
       updateAllowance();
       updateBalance();
+      updateDeposit();
       fetchProposals();
     }
   }, [daiContract, connected, address]);
@@ -217,7 +232,7 @@ function useWeb3Connect() {
     });
     console.log(tx);
     await updateAllowance();
-    // await updateAllowance();
+    await fetchProposals();
   };
 
   const triggerDeposit = async value => {
@@ -228,6 +243,7 @@ function useWeb3Connect() {
     });
     console.log(tx);
     await updateBalance();
+    await updateDeposit();
   };
 
   const fetchProposals = async () => {
@@ -247,6 +263,7 @@ function useWeb3Connect() {
     let numProposals = await daoContract.methods.proposalId().call();
     console.log({ numProposals });
     let tempProposals = [];
+    let foundOwner = false;
     for (let i = 1; i <= numProposals; i++) {
       let hash = await daoContract.methods.proposalDetails(i).call();
       console.log({ hash });
@@ -257,9 +274,24 @@ function useWeb3Connect() {
       if (i === tempCurrentVote) {
         setCurrentVote(proposal);
       }
+
+      let owner = await daoContract.methods.proposalOwner(i).call();
+      proposal.owner = owner;
+      if (owner === address) {
+        foundOwner = true;
+      }
     }
+    setHasProposal(foundOwner);
     setProposals(tempProposals);
     setFetched(true);
+  };
+
+  const vote = async id => {
+    let tx = await daoContract.methods.vote(id).send({
+      from: address,
+    });
+    console.log(tx);
+    await fetchProposals();
   };
 
   return {
@@ -286,13 +318,16 @@ function useWeb3Connect() {
         methods: {
           triggerSubmitProposal,
           triggerDeposit,
+          vote,
         },
       },
     },
     daiAllowance,
     daiBalance,
+    daiDeposit,
     loaded,
     proposals,
+    hasProposal,
     currentVote,
     fetched,
   };

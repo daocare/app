@@ -27,9 +27,9 @@ const useStyles = makeStyles({
 
 export default function ProposalCard(props) {
   const { title, description, website, image, id } = props.proposal;
-  const { votingAllowed } = props;
+  const { votingAllowed, vote } = props;
   const classes = useStyles();
-
+  console.log({ vote });
   const voteTwitter = () => {
     let url =
       'https://twitter.com/intent/tweet?text=' +
@@ -64,7 +64,11 @@ export default function ProposalCard(props) {
         {votingAllowed && (
           <>
             <Tooltip title="Vote using your wallet">
-              <IconButton color="secondary" aria-label="vote" disabled={true}>
+              <IconButton
+                color="primary"
+                aria-label="vote"
+                onClick={() => vote(id)}
+              >
                 <HowToVoteIcon />
               </IconButton>
             </Tooltip>

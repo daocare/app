@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
+import DonateIcon from '@material-ui/icons/AllInclusive';
+import TwitterIcon from '@material-ui/icons/Twitter';
+
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
@@ -96,17 +98,62 @@ const Proposals = props => {
   const web3Connect = useWeb3Connect();
   const { proposals, fetched } = web3Connect;
   const classes = useStyles();
-  // const router = useRouter();
+  const router = useRouter();
 
   // useEffect(() => {
   //   if (web3Connect.loaded && !web3Connect.connected) {
   //     router.history.push('/');
   //   }
   // }, [web3Connect]);
-
+  // console.log({ deposit: web3Connect.daiDeposit });
   return (
-    <Page className={classes.root} title="Whoop Together | All Proposals">
+    <Page
+      className={classes.root}
+      title="Whoop Together | All Proposals"
+      style={{ position: 'relative' }}
+    >
+      <div style={{ position: 'absolute', top: 0, right: 0 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          // className={classes.button}
+          startIcon={<TwitterIcon />}
+          onClick={() => {
+            // router.history.push('/deposit');
+          }}
+        >
+          Enable Twitter voting
+        </Button>
+      </div>
       <Header />
+      {web3Connect.daiDeposit === 0 && (
+        <>
+          <div style={{ margin: 16, textAlign: 'center' }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              className={classes.button}
+              startIcon={<DonateIcon />}
+              onClick={() => {
+                router.history.push('/deposit');
+              }}
+            >
+              Deposit
+            </Button>
+          </div>
+        </>
+      )}
+      {web3Connect.daiDeposit > 0 && !web3Connect.hasProposal && (
+        <>
+          <div style={{ margin: 16, textAlign: 'center' }}>
+            <Typography variant="body1">
+              You have a deposit of {web3Connect.daiDeposit} DAI
+            </Typography>
+          </div>
+        </>
+      )}
       {web3Connect.currentVote !== null && (
         <>
           <Typography variant="h5" className={classes.title}>
@@ -133,7 +180,12 @@ const Proposals = props => {
                   <div className={classes.card}>
                     <ProposalCard
                       proposal={proposal}
-                      votingAllowed={web3Connect.currentVote === null}
+                      votingAllowed={
+                        web3Connect.currentVote === null &&
+                        web3Connect.daiDeposit > 0 &&
+                        !web3Connect.hasProposal
+                      }
+                      vote={web3Connect.contracts.dao.methods.vote}
                     />
                   </div>
                 </Grid>
