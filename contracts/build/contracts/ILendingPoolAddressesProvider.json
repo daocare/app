@@ -12,14 +12,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/ILendingPoolAddressesProvider.sol",
     "exportedSymbols": {
       "ILendingPoolAddressesProvider": [
-        866
+        876
       ]
     },
-    "id": 867,
+    "id": 877,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 865,
+        "id": 875,
         "literals": [
           "solidity",
           "^",
@@ -35,14 +35,14 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 866,
+        "id": 876,
         "linearizedBaseContracts": [
-          866
+          876
         ],
         "name": "ILendingPoolAddressesProvider",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 867,
+        "scope": 877,
         "src": "25:41:4"
       }
     ],
@@ -52,14 +52,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/ILendingPoolAddressesProvider.sol",
     "exportedSymbols": {
       "ILendingPoolAddressesProvider": [
-        866
+        876
       ]
     },
-    "id": 867,
+    "id": 877,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 865,
+        "id": 875,
         "literals": [
           "solidity",
           "^",
@@ -75,14 +75,14 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 866,
+        "id": 876,
         "linearizedBaseContracts": [
-          866
+          876
         ],
         "name": "ILendingPoolAddressesProvider",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 867,
+        "scope": 877,
         "src": "25:41:4"
       }
     ],
@@ -94,7 +94,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-01T02:53:46.090Z",
+  "updatedAt": "2020-03-01T03:52:16.856Z",
   "devdoc": {
     "methods": {}
   },

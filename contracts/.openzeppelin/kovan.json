@@ -1,11 +1,11 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0xc0c2C1Fe3020d8d8e3BDbDd91c8d69Cd4296767B",
-      "constructorCode": "608060405234801561001057600080fd5b50611c9f806100206000396000f3fe",
-      "bodyBytecodeHash": "bbceb91d67f21522dd0f15e9730c5fd7eec5277961d2fae74b666960f12ad57c",
-      "localBytecodeHash": "89db6fdee65d623e03e21704427f4a9352fd6af65ebf781d79ad6e329efbcc27",
-      "deployedBytecodeHash": "89db6fdee65d623e03e21704427f4a9352fd6af65ebf781d79ad6e329efbcc27",
+      "address": "0x21D0bCdfF84b3cFCC3d0e982f1A4e63cC8941C0d",
+      "constructorCode": "608060405234801561001057600080fd5b50611ce2806100206000396000f3fe",
+      "bodyBytecodeHash": "a72e4e21449d1ad15e733bee74e848939a65ec727b5a3eb1ba32d72d99164b76",
+      "localBytecodeHash": "933c6df5ec15d26591397f6ba87d065fffdecff4b1d849ac8f2addbd186d0a2d",
+      "deployedBytecodeHash": "933c6df5ec15d26591397f6ba87d065fffdecff4b1d849ac8f2addbd186d0a2d",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -73,7 +73,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 1942,
+          "astId": 1952,
           "type": "t_bool",
           "src": "757:24:16"
         },
@@ -81,7 +81,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 1944,
+          "astId": 1954,
           "type": "t_bool",
           "src": "876:25:16"
         },
@@ -89,7 +89,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2000,
+          "astId": 2010,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:16"
         },
@@ -227,7 +227,7 @@
           "label": "proposalId",
           "astId": 120,
           "type": "t_uint256",
-          "src": "1087:18:1"
+          "src": "1087:25:1"
         },
         {
           "contract": "NoLossDao",
@@ -235,7 +235,7 @@
           "label": "state",
           "astId": 127,
           "type": "t_mapping<t_enum<NoLossDao.ProposalState>>",
-          "src": "1162:46:1"
+          "src": "1169:46:1"
         },
         {
           "contract": "NoLossDao",
@@ -243,7 +243,7 @@
           "label": "voteDelegations",
           "astId": 131,
           "type": "t_mapping<t_address>",
-          "src": "1244:50:1"
+          "src": "1251:50:1"
         },
         {
           "contract": "NoLossDao",
@@ -251,7 +251,7 @@
           "label": "votingInterval",
           "astId": 133,
           "type": "t_uint256",
-          "src": "1299:29:1"
+          "src": "1306:29:1"
         },
         {
           "contract": "NoLossDao",
@@ -259,7 +259,7 @@
           "label": "proposalDeadline",
           "astId": 135,
           "type": "t_uint256",
-          "src": "1332:31:1"
+          "src": "1339:31:1"
         }
       ],
       "warnings": {
@@ -275,10 +275,17 @@
   "proxies": {
     "example-truffle-migrate/NoLossDao": [
       {
-        "address": "0xbd2c672164b638DbA317Ef849e8cfd1D37589EE1",
+        "address": "0x8AcB9D6CDdE42EF4De2F11Bfd274A29226Ae312D",
         "version": "2.5.3",
-        "implementation": "0xc0c2C1Fe3020d8d8e3BDbDd91c8d69Cd4296767B",
-        "admin": "0x0EA34eF5223C3c7Ff5cfc8f22630fB4f9060b15a",
+        "implementation": "0x21D0bCdfF84b3cFCC3d0e982f1A4e63cC8941C0d",
+        "admin": "0x80C44A6f68559Ab5cdf6D5F0c1722D8bF0460753",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x8c44D9c9F14e32103D7d9aa1E6F8207dd081F10C",
+        "version": "2.5.3",
+        "implementation": "0x21D0bCdfF84b3cFCC3d0e982f1A4e63cC8941C0d",
+        "admin": "0x80C44A6f68559Ab5cdf6D5F0c1722D8bF0460753",
         "kind": "Upgradeable"
       }
     ]
@@ -286,6 +293,6 @@
   "manifestVersion": "2.2",
   "version": "2.5.3",
   "proxyAdmin": {
-    "address": "0x0EA34eF5223C3c7Ff5cfc8f22630fB4f9060b15a"
+    "address": "0x80C44A6f68559Ab5cdf6D5F0c1722D8bF0460753"
   }
 }

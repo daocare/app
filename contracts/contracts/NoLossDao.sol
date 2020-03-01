@@ -30,7 +30,7 @@ contract NoLossDao is Initializable {
 
   uint256 public proposalIteration;
 
-  uint256 proposalId;
+  uint256 public proposalId;
   enum ProposalState {Active, Withdrawn} // Cooldown
   mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
@@ -139,6 +139,10 @@ contract NoLossDao is Initializable {
 
   function changeVotingInterval(uint256 newInterval) public onlyAdmin {
     votingInterval = newInterval;
+  }
+
+  function doesNothing(uint256 myNum) public returns (uint256 num) {
+    return myNum;
   }
 
   // This will return an empty array if no proposal added
