@@ -106,9 +106,9 @@ const start = async () => {
           var diff = Math.floor((user_date - system_date) / 1000);
           console.log('time passed', diff);
 
-          if (diff > 120) {
-            continue;
-          }
+          // if (diff > 12000) {
+          //   continue;
+          // }
 
           // username to check if they are on our 3box database
           let username = data.statuses[i].user.screen_name;
