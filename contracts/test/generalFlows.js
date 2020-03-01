@@ -98,4 +98,31 @@ contract('WildcardSteward', accounts => {
     assert.equal(applicationAmount, depositedDaiUser.toString());
     assert.equal(true, true);
   });
+
+  it('NoLossDao: createProposal and vote', async () => {
+    let mintAmount = '60000000000';
+
+    await erc20Dai.mint(accounts[2], mintAmount);
+    await erc20Dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[2],
+    });
+    await noLossDao.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    await erc20Dai.mint(accounts[3], mintAmount);
+    await erc20Dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[3],
+    });
+    await noLossDao.vote(1, {
+      from: accounts[3],
+    });
+
+    let totalDepositedDai = await noLossDao.totalDepositedDai.call();
+    let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
+
+    assert.equal(applicationAmount, totalDepositedDai.toString());
+    assert.equal(applicationAmount, depositedDaiUser.toString());
+    assert.equal(true, true);
+  });
 });

@@ -203,6 +203,7 @@ contract NoLossDao is Initializable {
 
     proposalDetails[newProposalId] = proposalHash;
     proposalOwner[newProposalId] = msg.sender;
+    usersProposedProject[msg.sender] = newProposalId;
     state[newProposalId] = ProposalState.Active;
   }
 
