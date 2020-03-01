@@ -139,7 +139,17 @@ const Deposit = props => {
           </Typography>
         </>
       )}
-      {!web3Connect.hasProposal && (
+      {!web3Connect.hasProposal && web3Connect.daiDeposit > 0 && (
+        <>
+          <Typography style={{ color: '#FF9494' }}>
+            You can only deposit once per each cycle.
+          </Typography>
+          <Typography variant="body1">
+            Current deposit: {web3Connect.daiDeposit} DAI
+          </Typography>
+        </>
+      )}
+      {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && (
         <>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box className={classes.fieldGroup}>

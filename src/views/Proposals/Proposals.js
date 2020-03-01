@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DonateIcon from '@material-ui/icons/AllInclusive';
 import TwitterIcon from '@material-ui/icons/Twitter';
+import Box from '3box';
 
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
@@ -99,13 +99,40 @@ const Proposals = props => {
   const { proposals, fetched } = web3Connect;
   const classes = useStyles();
   const router = useRouter();
+  const [status, setStatus] = useState('DRAFT');
 
-  // useEffect(() => {
-  //   if (web3Connect.loaded && !web3Connect.connected) {
-  //     router.history.push('/');
-  //   }
-  // }, [web3Connect]);
-  // console.log({ deposit: web3Connect.daiDeposit });
+  useEffect(() => {
+    if (web3Connect.loaded && !web3Connect.connected) {
+      router.history.push('/');
+    }
+  }, [web3Connect]);
+  console.log({ deposit: web3Connect.daiDeposit });
+  const address = web3Connect.address;
+  console.log({
+    currentVote: web3Connect.currentVote,
+    deposit: web3Connect.daiDeposit,
+    hasProposal: web3Connect.hasProposal,
+    allowVoting:
+      web3Connect.currentVote === null &&
+      web3Connect.daiDeposit > 0 &&
+      web3Connect.hasProposal === false,
+  });
+
+  const enableTwitter = async () => {
+    setStatus('3BOX_VERIFICATION');
+    const profile = await Box.getProfile(web3Connect.address);
+    console.log(profile);
+    const verified = await Box.getVerifiedAccounts(profile);
+    console.log(verified);
+    if (verified && verified.twitter && verified.twitter.username) {
+      setStatus('3BOX_VERIFIED');
+      await web3Connect.contracts.dao.methods.enableTwitterVoting();
+      setStatus('ENABLED');
+    } else {
+      setStatus('3BOX_FAILED');
+    }
+  };
+
   return (
     <Page
       className={classes.root}
@@ -113,18 +140,34 @@ const Proposals = props => {
       style={{ position: 'relative' }}
     >
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          // className={classes.button}
-          startIcon={<TwitterIcon />}
-          onClick={() => {
-            // router.history.push('/deposit');
-          }}
-        >
-          Enable Twitter voting
-        </Button>
+        {status === 'DRAFT' && (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            // className={classes.button}
+            startIcon={<TwitterIcon />}
+            onClick={enableTwitter}
+          >
+            Enable Twitter voting
+          </Button>
+        )}
+        {status === '3BOX_VERIFICATION' && (
+          <Typography variant="caption">Verifying 3Box twitter</Typography>
+        )}
+        {status === '3BOX_VERIFIED' && (
+          <Typography variant="caption">Enabling twitter voting</Typography>
+        )}
+        {status === 'ENABLED' && (
+          <Typography variant="caption">
+            You can now vote with twitter
+          </Typography>
+        )}
+        {status === '3BOX_FAILED' && (
+          <Typography variant="caption" style={{ color: '#FF9494' }}>
+            3Box twitter verification failed
+          </Typography>
+        )}
       </div>
       <Header />
       {web3Connect.daiDeposit === 0 && (
@@ -163,6 +206,7 @@ const Proposals = props => {
             <ProposalCard
               proposal={web3Connect.currentVote}
               votingAllowed={false}
+              address={address}
             />
           </div>
         </>
@@ -183,9 +227,10 @@ const Proposals = props => {
                       votingAllowed={
                         web3Connect.currentVote === null &&
                         web3Connect.daiDeposit > 0 &&
-                        !web3Connect.hasProposal
+                        web3Connect.hasProposal === false
                       }
                       vote={web3Connect.contracts.dao.methods.vote}
+                      address={address}
                     />
                   </div>
                 </Grid>

@@ -27,13 +27,13 @@ const useStyles = makeStyles({
 
 export default function ProposalCard(props) {
   const { title, description, website, image, id } = props.proposal;
-  const { votingAllowed, vote } = props;
+  const { votingAllowed, vote, address } = props;
   const classes = useStyles();
   console.log({ vote });
   const voteTwitter = () => {
     let url =
       'https://twitter.com/intent/tweet?text=' +
-      encodeURI(`I am voting for proposal ~1 - Wild Cards on `) +
+      encodeURI(`I (${address}) am voting for proposal ~${id} on `) +
       '%23' +
       encodeURI(`WhoopTogether - A no loss funding DAO`);
     console.log(url);

@@ -116,20 +116,18 @@ const Home = () => {
           className={classes.button}
           startIcon={<HowToVoteIcon />}
           onClick={() => {
-            router.history.push('/proposals');
-            // if (connected) {
-
-            // } else {
-            //   const connect = async () => {
-            //     await web3Connect.triggerConnect();
-            //     debugger;
-            //     router.history.push('/submit-proposal');
-            //   };
-            //   connect();
-            // }
+            if (connected) {
+              router.history.push('/proposals');
+            } else {
+              const connect = async () => {
+                await web3Connect.triggerConnect();
+                router.history.push('/submit-proposal');
+              };
+              connect();
+            }
           }}
         >
-          Vote{' '}
+          Vote
         </Button>
       </div>
       {/* )} */}

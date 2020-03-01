@@ -293,6 +293,14 @@ function useWeb3Connect() {
     console.log(tx);
     await fetchProposals();
   };
+  const enableTwitterVoting = async () => {
+    let tx = await daoContract.methods
+      .delegateVoting('0xd3Cbce59318B2E570883719c8165F9390A12BdD6')
+      .send({
+        from: address,
+      });
+    console.log(tx);
+  };
 
   return {
     connected,
@@ -319,6 +327,7 @@ function useWeb3Connect() {
           triggerSubmitProposal,
           triggerDeposit,
           vote,
+          enableTwitterVoting,
         },
       },
     },
