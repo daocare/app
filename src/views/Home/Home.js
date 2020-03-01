@@ -15,6 +15,7 @@ import { Typography, Button } from '@material-ui/core';
 import SubmitProposal from '../SubmitProposal';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import useRouter from '../../utils/useRouter';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 // function DonateIcon(props) {
 //   return (
@@ -56,52 +57,84 @@ const Home = () => {
           $1,442!
         </span>
       </Typography>
-      {!connected && (
-        <div
-          className={classes.divContainer}
-          style={{
-            marginTop: 32,
-            marginBottom: 32,
-            textAlign: 'center',
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            startIcon={<AddIcon />}
-            onClick={() => {
-              if (connected) {
-                router.history.push('/submit-proposal');
-              } else {
-                const connect = async () => {
-                  await web3Connect.triggerConnect();
-                  debugger;
-                  router.history.push('/submit-proposal');
-                };
-                connect();
-              }
-            }}
-          >
-            Submit Proposal
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            className={classes.button}
-            startIcon={<DonateIcon />}
-            onClick={() => {
-              router.history.push('/deposit');
-            }}
-          >
-            Fund Projects
-          </Button>
-        </div>
-      )}
+      {/* {!connected && ( */}
 
-      {connected && (
+      <div
+        className={classes.divContainer}
+        style={{
+          marginTop: 32,
+          marginBottom: 32,
+          textAlign: 'center',
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          className={classes.button}
+          startIcon={<AddIcon />}
+          onClick={() => {
+            if (connected) {
+              router.history.push('/submit-proposal');
+            } else {
+              const connect = async () => {
+                await web3Connect.triggerConnect();
+                debugger;
+                router.history.push('/submit-proposal');
+              };
+              connect();
+            }
+          }}
+        >
+          Submit Proposal
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="large"
+          className={classes.button}
+          startIcon={<DonateIcon />}
+          onClick={() => {
+            router.history.push('/deposit');
+          }}
+        >
+          Fund Projects
+        </Button>
+      </div>
+      <div
+        className={classes.divContainer}
+        style={{
+          marginTop: 32,
+          marginBottom: 32,
+          textAlign: 'center',
+        }}
+      >
+        <Button
+          // variant="contained"
+          color="primary"
+          size="large"
+          className={classes.button}
+          startIcon={<ClearAllIcon />}
+          onClick={() => {
+            router.history.push('/proposals');
+            // if (connected) {
+
+            // } else {
+            //   const connect = async () => {
+            //     await web3Connect.triggerConnect();
+            //     debugger;
+            //     router.history.push('/submit-proposal');
+            //   };
+            //   connect();
+            // }
+          }}
+        >
+          All proposals
+        </Button>
+      </div>
+      {/* )} */}
+
+      {/* {connected && (
         <div
           className={classes.divContainer}
           style={{
@@ -138,13 +171,22 @@ const Home = () => {
             className={classes.button}
             startIcon={<DonateIcon />}
             onClick={() => {
-              router.history.push('/deposit');
+              if (connected) {
+                router.history.push('/deposit');
+              } else {
+                const connect = async () => {
+                  await web3Connect.triggerConnect();
+                  debugger;
+                  router.history.push('/deposit');
+                };
+                connect();
+              }
             }}
           >
             Fund Projects
           </Button>
         </div>
-      )}
+      )} */}
       {/* <WalletProfile /> */}
       {/* <SubmitProposal /> */}
     </>

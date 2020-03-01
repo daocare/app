@@ -15,12 +15,17 @@ import { Page, WalletProfile } from '../../components';
 import Header from '../../components/Header';
 import ImageUploader from 'react-images-upload';
 import useWeb3Connect from '../../utils/useWeb3Connect';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+
+const BN = require('bn.js');
+
 const STAKING_AMOUNT = 50;
 
 const useStyles = makeStyles(theme => ({
   root: {
     // backgroundColor: theme.palette.white
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   paper: {
     [theme.breakpoints.up('md')]: {
@@ -70,11 +75,17 @@ const useStyles = makeStyles(theme => ({
   image: {
     display: 'block',
   },
+  statusMsg: {
+    marginLeft: 16,
+  },
+  button: {
+    width: 190,
+  },
 }));
 
 const SubmitProposal = props => {
   const { className, ...rest } = props;
-  const [status, setStatus] = useState('DRAFT');
+  const [status, setStatus] = useState('SUBMITTED');
   const [image, setImage] = useState(false);
   const classes = useStyles();
   const router = useRouter();
@@ -89,18 +100,21 @@ const SubmitProposal = props => {
   const { register, handleSubmit /* , watch */ /* , errors  */ } = useForm();
 
   const onSubmit = async data => {
-    setStatus('SENDING');
+    setStatus('IPFS_UPLOAD');
     // const { title, description } = data;
     console.log(data);
 
     let body = { ...data, image };
 
     let hash = await uploadJson(data.title, body);
+    setStatus('SUBMITTING_BLOCKCHAIN');
 
-    console.log({ hash });
-    let json = await getJson(hash);
-    console.log({ json });
-    setStatus('SENT');
+    // console.log({ hash });
+    // let json = await getJson(hash);
+    // console.log({ json });
+    await web3Connect.contracts.dao.methods.triggerSubmitProposal(hash);
+
+    setStatus('SUBMITTED');
   };
 
   const previewFile = () => {
@@ -122,8 +136,13 @@ const SubmitProposal = props => {
       reader.readAsDataURL(file);
     }
   };
+  console.log({
+    status,
+    allowance: web3Connect.daiAllowance,
+    balance: web3Connect.daiBalance,
+  });
   return (
-    <Page className={classes.root} title="ETHLondon DAO">
+    <Page className={classes.root} title="Whoop Together | Submit Proposal">
       <Header />
       <Typography variant="h5" className={classes.title}>
         Submit Proposal
@@ -135,26 +154,29 @@ const SubmitProposal = props => {
           label="Title"
           name="title"
           variant="outlined"
-          inputRef={register}
+          inputRef={register({ required: true })}
           className={clsx(classes.flexGrow, classes.textField)}
+          required
         />
         <TextField
           fullWidth
           label="Description"
           name="email"
           variant="outlined"
-          inputRef={register}
+          inputRef={register({ required: true })}
           className={clsx(classes.flexGrow, classes.textField)}
           multiline
           rows={5}
+          required
         />
         <TextField
           fullWidth
           label="Website"
           name="website"
           variant="outlined"
-          inputRef={register}
+          inputRef={register({ required: true })}
           className={clsx(classes.flexGrow, classes.textField)}
+          required
         />
         <TextField
           fullWidth
@@ -197,14 +219,39 @@ const SubmitProposal = props => {
             variant="contained"
             color="primary"
             className={classes.button}
-            type="submit"
-            disabled={status === 'SENT'}
+            // type="submit"
+            disabled={web3Connect.daiAllowance > 0} // TODO: update to 50Dai
+            onClick={async () => {
+              let execute = async () => {
+                setStatus('APPROVING_DAI');
+                await web3Connect.contracts.dai.methods.triggerDaiApprove(
+                  new BN(STAKING_AMOUNT)
+                );
+                setStatus('DAI_APPROVED');
+              };
+              execute();
+            }}
           >
-            1. Approve DAI
+            1. Allow 50 DAI
           </Button>
-          {/* {status === 'SENDING' && (
-            <CircularProgress size={24} className={classes.buttonProgress} />
-          )} */}
+          {status === 'APPROVING_DAI' && (
+            <Typography
+              variant="body1"
+              component="span"
+              className={classes.statusMsg}
+            >
+              Allowing transferring of 50 DAI...
+            </Typography>
+          )}
+          {(status === 'DAI_APPROVED' || web3Connect.daiAllowance > 0) && (
+            <Typography
+              variant="body2"
+              component="span"
+              className={classes.statusMsg}
+            >
+              Allowance of 50 DAI complete!
+            </Typography>
+          )}
         </div>
         <div className={classes.wrapper}>
           <Button
@@ -212,14 +259,85 @@ const SubmitProposal = props => {
             color="primary"
             className={classes.button}
             type="submit"
-            disabled={status === 'SENT'}
+            disabled={
+              (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+              web3Connect.daiAllowance == 0 ||
+              web3Connect.daiBalance < STAKING_AMOUNT
+            }
           >
             2. Submit Proposal
           </Button>
-          {status === 'SENDING' && (
-            <CircularProgress size={24} className={classes.buttonProgress} />
+          {web3Connect.daiBalance < STAKING_AMOUNT && (
+            <Typography
+              variant="body2"
+              component="span"
+              className={classes.statusMsg}
+              style={{ color: '#FF9494' }}
+            >
+              You don't have enough DAI on your wallet
+            </Typography>
+          )}
+          {status === 'IPFS_UPLOAD' && (
+            <Typography
+              variant="body2"
+              component="span"
+              className={classes.statusMsg}
+            >
+              Uploading proposal to IPFS...
+            </Typography>
+          )}
+          {status === 'SUBMITTING_BLOCKCHAIN' && (
+            <Typography
+              variant="body2"
+              component="span"
+              className={classes.statusMsg}
+            >
+              Submitting proposal to the DAO...
+            </Typography>
+          )}
+          {status === 'SUBMITTED' && (
+            <Typography
+              variant="body2"
+              component="span"
+              className={classes.statusMsg}
+            >
+              Proposal submitted to the DAO successfully!
+            </Typography>
           )}
         </div>
+        {status === 'SUBMITTED' && (
+          <div
+            className={classes.divContainer}
+            style={{
+              marginTop: 24,
+              marginBottom: 24,
+              textAlign: 'center',
+            }}
+          >
+            <Button
+              // variant="contained"
+              color="primary"
+              size="large"
+              className={classes.button}
+              startIcon={<ClearAllIcon />}
+              onClick={() => {
+                router.history.push('/proposals');
+                // if (connected) {
+
+                // } else {
+                //   const connect = async () => {
+                //     await web3Connect.triggerConnect();
+                //     debugger;
+                //     router.history.push('/submit-proposal');
+                //   };
+                //   connect();
+                // }
+              }}
+            >
+              All proposals
+            </Button>
+          </div>
+        )}
         {/* </Box> */}
       </form>
     </Page>

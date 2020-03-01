@@ -29,8 +29,8 @@ const WalletProfile = props => {
     // setSaveType("3BO X_SCREEN");
   };
   if (web3Connect.connected && web3Connect.address) {
-    console.log(web3Connect);
-    console.log({ address: web3Connect.address });
+    // console.log(web3Connect);
+    // console.log({ address: web3Connect.address });
     return (
       <Container maxWidth="md">
         {/* <div>Connected: {web3Connect.address}</div>

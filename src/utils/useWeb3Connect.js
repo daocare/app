@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+// import BigNumber from './bignumber.js';
 import Web3 from 'web3';
 import Web3Connect from 'web3connect';
 
@@ -10,10 +11,15 @@ import Torus from '@toruslabs/torus-embed';
 // import Authereum from "authereum";
 
 import supportedChains from './chains';
-const erc20Abi = require('../abis/ERC20.json');
+const BN = require('bn.js');
+
+const daiAbi = require('../abis/ERC20.json');
+const daoAbi = require('../abis/NoLossDao.json');
+
+const CHAIN_ID = 42;
 
 const ERC20_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
-
+const WHOOP_ADDRESS = daoAbi.networks[CHAIN_ID].address;
 const INFURA_KEY = '32f4c2933abd4a74a383747ccf2d7003';
 
 const providerOptions = {
@@ -69,13 +75,15 @@ function useWeb3Connect() {
   const [loaded, setLoaded] = useState(false);
 
   const [daiContract, setDaiContract] = useState(null);
+  const [daoContract, setDaoContract] = useState(null);
+  const [daiAllowance, setDaiAllowance] = useState(0);
+  const [daiBalance, setDaiBalance] = useState(0);
 
   const getNetworkByChainId = chainIdTemp => {
     // console.log(supportedChains);
     let networkTemp = supportedChains.filter(
       chain => chain.chain_id === chainIdTemp
     );
-    console.log(networkTemp);
     return networkTemp && networkTemp.length > 0
       ? networkTemp[0].network
       : null;
@@ -108,11 +116,11 @@ function useWeb3Connect() {
     console.log({ addressTemp });
 
     // instanciate contracts
-    const daiContract = new web3Inited.eth.Contract(
-      erc20Abi.abi,
-      ERC20_ADDRESS
-    );
+    const daiContract = new web3Inited.eth.Contract(daiAbi.abi, ERC20_ADDRESS);
     setDaiContract(daiContract);
+
+    const daoContract = new web3Inited.eth.Contract(daoAbi.abi, WHOOP_ADDRESS);
+    setDaoContract(daoContract);
 
     setProvider(providerInited);
     setWeb3(web3Inited);
@@ -167,6 +175,55 @@ function useWeb3Connect() {
     });
   };
 
+  // SMART CONTRACT FUNCTIONS
+  const updatAllowance = async () => {
+    let allowance = await daiContract.methods
+      .allowance(address, WHOOP_ADDRESS)
+      .call();
+    // console.log({ allowance });
+    setDaiAllowance(Number(allowance));
+  };
+  const updatBalance = async () => {
+    let balance = await daiContract.methods.balanceOf(address).call();
+    // console.log({ balance });
+    setDaiBalance(Number(web3.utils.fromWei(new BN(balance), 'ether')));
+  };
+  useEffect(() => {
+    if (daiContract && connected && address) {
+      updatAllowance();
+      updatBalance();
+    }
+  }, [daiContract, connected, address]);
+
+  const triggerDaiApprove = async value => {
+    let amount = web3.utils.toWei(value, 'ether');
+    console.log({ amount });
+    let tx = await daiContract.methods.approve(WHOOP_ADDRESS, amount).send({
+      from: address,
+    });
+    console.log(tx);
+    await updatAllowance();
+  };
+
+  const triggerSubmitProposal = async hash => {
+    let tx = await daoContract.methods.createProposal(hash).send({
+      from: address,
+    });
+    console.log(tx);
+    await updatAllowance();
+    // await updatAllowance();
+  };
+
+  const triggerDeposit = async value => {
+    let amount = web3.utils.toWei(value, 'ether');
+    console.log({ amount });
+    let tx = await daoContract.methods.deposit(amount).send({
+      from: address,
+    });
+    console.log(tx);
+    await updatBalance();
+  };
+
   return {
     connected,
     address,
@@ -180,8 +237,22 @@ function useWeb3Connect() {
     resetApp,
     provider,
     contracts: {
-      dai: daiContract,
+      dai: {
+        contract: daiContract,
+        methods: {
+          triggerDaiApprove,
+        },
+      },
+      dao: {
+        contract: daoContract,
+        methods: {
+          triggerSubmitProposal,
+          triggerDeposit,
+        },
+      },
     },
+    daiAllowance,
+    daiBalance,
     loaded,
   };
 }
