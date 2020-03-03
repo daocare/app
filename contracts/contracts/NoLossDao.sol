@@ -290,6 +290,8 @@ contract NoLossDao is Initializable {
   // This function allows users to get their proportion of interest instead of redirecting
   // it to the winning project for the next weeks. (RAGE-QUIT but stay in pool function)
   function veto() public {}
+  // Veto via twitter. To be done later.
+  function vetoProxy() public {}
 
   ///////////////////////////////////
   //// Iteration changes/////////////
@@ -299,7 +301,7 @@ contract NoLossDao is Initializable {
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
 
     // anyone can call this when 2 cycle has ended - incentivize 'anyone' to call this transaction first and get a lil reward ;)
-    require(proposalDeadline > now, 'current vote still active');
+    require(proposalDeadline < now, 'current vote still active');
 
     // figure our what happens with the interest from the first proposal iteration
     if (topProject[proposalIteration] != 0) {
@@ -310,8 +312,7 @@ contract NoLossDao is Initializable {
       adaiContract.redeem(interestEarnedSinceLastIteration);
 
       // Do some asserts here for safety...
-
-      address winner = proposalOwner[topProject[proposalIteration]];
+      address winner = proposalOwner[topProject[proposalIteration]]; // error if no-one voted for in this iteration
       uint256 amount = daiContract.balanceOf(address(this));
 
       // TODO: change this redirectInterestStream to winner.
@@ -323,7 +324,7 @@ contract NoLossDao is Initializable {
     proposalIteration = proposalIteration.add(1);
     topProject[proposalIteration] = 0;
 
-    // send winning miner a little surprise
+    // send winning miner a little surprise [NFT]
 
   }
 

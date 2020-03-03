@@ -46,7 +46,7 @@ contract('NoLossDao', accounts => {
     await erc20ADai.initialize('AveTest', 'AT', 18, aaveLendingPool.address);
   });
 
-  it('NoLossDao: benefactor can create a proposal. This deposit is reflected in all variables.', async () => {
+  it('NoLossDao:benefactorJoin. Benefactor can create a proposal. This deposit is reflected in all variables.', async () => {
     let mintAmount = '60000000000';
 
     await erc20Dai.mint(accounts[2], mintAmount);
@@ -65,7 +65,7 @@ contract('NoLossDao', accounts => {
     assert.equal(true, true); // lol
   });
 
-  it('NoLossDao: benefactor cannot create a proposal if they are a user', async () => {
+  it('NoLossDao:benefactorJoin. Benefactor cannot create a proposal if they are a user', async () => {
     let mintAmount = '90000000000';
     await erc20Dai.mint(accounts[1], mintAmount);
     await erc20Dai.approve(noLossDao.address, mintAmount, {
@@ -81,7 +81,7 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  it('NoLossDao: benefactor cannot create a proposal if they already have an active proposal', async () => {
+  it('NoLossDao:benefactorJoin. Benefactor cannot create a proposal if they already have an active proposal', async () => {
     let mintAmount = '90000000000';
     await erc20Dai.mint(accounts[1], mintAmount);
     await erc20Dai.approve(noLossDao.address, mintAmount, {
@@ -99,7 +99,7 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  it('NoLossDao: benefactor has not approved enough dai to join', async () => {
+  it('NoLossDao:benefactorJoin. Benefactor has not approved enough dai to join', async () => {
     let mintAmount = '600000000';
     await erc20Dai.mint(accounts[1], mintAmount);
     await erc20Dai.approve(noLossDao.address, '4900000', {
@@ -113,7 +113,7 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  it('NoLossDao: benefactor does not have enough dai to join', async () => {
+  it('NoLossDao:benefactorJoin. Benefactor does not have enough dai to join', async () => {
     await erc20Dai.mint(accounts[1], '4900000');
     await erc20Dai.approve(noLossDao.address, '600000000', {
       from: accounts[1],
