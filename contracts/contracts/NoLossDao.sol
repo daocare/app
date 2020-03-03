@@ -51,7 +51,7 @@ contract NoLossDao is Initializable {
   }
 
   modifier blankUser() {
-    require(depositedDai[msg.sender] == 0, 'User already exists');
+    require(depositedDai[msg.sender] == 0, 'Person is already a user');
     _;
   }
 
@@ -84,10 +84,18 @@ contract NoLossDao is Initializable {
     _;
   }
 
+  modifier requiredDai(address givenAddress, uint256 amount) {
+    require(
+      daiContract.balanceOf(givenAddress) >= amount,
+      'User does not have enough DAI'
+    );
+    _;
+  }
+
   modifier userHasNoActiveProposal(address givenAddress) {
     require(
-      state[benefactorsProposal[givenAddress]] == ProposalState.Withdrawn ||
-        benefactorsProposal[givenAddress] == 0,
+      benefactorsProposal[givenAddress] == 0 ||
+        state[benefactorsProposal[givenAddress]] == ProposalState.Withdrawn,
       'User has an active proposal'
     );
     _;
@@ -162,6 +170,7 @@ contract NoLossDao is Initializable {
     blankUser // They haven't already deposited
     noProposal(msg.sender) // Checks they are not a benefactor
     allowanceAvailable(amount) // Apprroved DAI for this function
+    requiredDai(msg.sender, amount)
   {
     daiContract.transferFrom(msg.sender, address(this), amount);
     daiContract.approve(address(aaveLendingContractCore), amount);
@@ -190,6 +199,9 @@ contract NoLossDao is Initializable {
   function createProposal(string memory proposalHash)
     public
     allowanceAvailable(proposalAmount)
+    requiredDai(msg.sender, proposalAmount)
+    userHasNoActiveProposal(msg.sender)
+    blankUser()
     returns (uint256 newProposalId)
   {
     // DAI things. TODO: Approve where necessary

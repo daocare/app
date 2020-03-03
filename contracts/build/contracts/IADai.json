@@ -223,14 +223,14 @@
     "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol",
     "exportedSymbols": {
       "IADai": [
-        786
+        794
       ]
     },
-    "id": 787,
+    "id": 795,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 777,
+        "id": 785,
         "literals": [
           "solidity",
           "^",
@@ -243,10 +243,10 @@
       {
         "absolutePath": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
-        "id": 778,
+        "id": 786,
         "nodeType": "ImportDirective",
-        "scope": 787,
-        "sourceUnit": 1648,
+        "scope": 795,
+        "sourceUnit": 1656,
         "src": "25:82:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -257,31 +257,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 779,
+              "id": 787,
               "name": "IERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1873,
+              "referencedDeclaration": 1881,
               "src": "127:6:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC20_$1873",
+                "typeIdentifier": "t_contract$_IERC20_$1881",
                 "typeString": "contract IERC20"
               }
             },
-            "id": 780,
+            "id": 788,
             "nodeType": "InheritanceSpecifier",
             "src": "127:6:2"
           }
         ],
         "contractDependencies": [
-          1873
+          1881
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 786,
+        "id": 794,
         "linearizedBaseContracts": [
-          786,
-          1873
+          794,
+          1881
         ],
         "name": "IADai",
         "nodeType": "ContractDefinition",
@@ -289,22 +289,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 785,
+            "id": 793,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 783,
+              "id": 791,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 782,
+                  "id": 790,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 785,
+                  "scope": 793,
                   "src": "154:15:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -313,7 +313,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 781,
+                    "id": 789,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "154:7:2",
@@ -329,19 +329,19 @@
               "src": "153:17:2"
             },
             "returnParameters": {
-              "id": 784,
+              "id": 792,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "177:0:2"
             },
-            "scope": 786,
+            "scope": 794,
             "src": "138:40:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 787,
+        "scope": 795,
         "src": "109:71:2"
       }
     ],
@@ -351,14 +351,14 @@
     "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol",
     "exportedSymbols": {
       "IADai": [
-        786
+        794
       ]
     },
-    "id": 787,
+    "id": 795,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 777,
+        "id": 785,
         "literals": [
           "solidity",
           "^",
@@ -371,10 +371,10 @@
       {
         "absolutePath": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
-        "id": 778,
+        "id": 786,
         "nodeType": "ImportDirective",
-        "scope": 787,
-        "sourceUnit": 1648,
+        "scope": 795,
+        "sourceUnit": 1656,
         "src": "25:82:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -385,31 +385,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 779,
+              "id": 787,
               "name": "IERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1873,
+              "referencedDeclaration": 1881,
               "src": "127:6:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC20_$1873",
+                "typeIdentifier": "t_contract$_IERC20_$1881",
                 "typeString": "contract IERC20"
               }
             },
-            "id": 780,
+            "id": 788,
             "nodeType": "InheritanceSpecifier",
             "src": "127:6:2"
           }
         ],
         "contractDependencies": [
-          1873
+          1881
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 786,
+        "id": 794,
         "linearizedBaseContracts": [
-          786,
-          1873
+          794,
+          1881
         ],
         "name": "IADai",
         "nodeType": "ContractDefinition",
@@ -417,22 +417,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 785,
+            "id": 793,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 783,
+              "id": 791,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 782,
+                  "id": 790,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 785,
+                  "scope": 793,
                   "src": "154:15:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -441,7 +441,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 781,
+                    "id": 789,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "154:7:2",
@@ -457,19 +457,19 @@
               "src": "153:17:2"
             },
             "returnParameters": {
-              "id": 784,
+              "id": 792,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "177:0:2"
             },
-            "scope": 786,
+            "scope": 794,
             "src": "138:40:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 787,
+        "scope": 795,
         "src": "109:71:2"
       }
     ],
@@ -481,7 +481,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-  "updatedAt": "2020-03-02T23:32:17.759Z",
+  "updatedAt": "2020-03-03T13:34:37.225Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

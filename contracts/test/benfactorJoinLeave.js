@@ -46,7 +46,7 @@ contract('NoLossDao', accounts => {
     await erc20ADai.initialize('AveTest', 'AT', 18, aaveLendingPool.address);
   });
 
-  it('NoLossDao: benefactor can create a proposal', async () => {
+  it('NoLossDao: benefactor can create a proposal. This deposit is reflected in all variables.', async () => {
     let mintAmount = '60000000000';
 
     await erc20Dai.mint(accounts[2], mintAmount);
@@ -58,37 +58,76 @@ contract('NoLossDao', accounts => {
     });
 
     let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
+    let totalDai = await noLossDao.totalDepositedDai.call();
 
     assert.equal(applicationAmount, depositedDaiUser.toString());
+    assert.equal(applicationAmount, totalDai);
     assert.equal(true, true); // lol
   });
 
   it('NoLossDao: benefactor cannot create a proposal if they are a user', async () => {
-    let mintAmount = '60000000000';
-
-    await erc20Dai.mint(accounts[2], mintAmount);
+    let mintAmount = '90000000000';
+    await erc20Dai.mint(accounts[1], mintAmount);
     await erc20Dai.approve(noLossDao.address, mintAmount, {
-      from: accounts[2],
+      from: accounts[1],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
-      from: accounts[2],
-    });
+    await noLossDao.deposit('30000000000', { from: accounts[1] });
 
-    // await erc20Dai.mint(accounts[3], mintAmount);
-    // await erc20Dai.approve(noLossDao.address, mintAmount, {
-    //   from: accounts[3],
-    // });
-    // await noLossDao.createProposal('Some IPFS hash string', {
-    //   from: accounts[3],
-    // });
-
-    let totalDepositedDai = await noLossDao.totalDepositedDai.call();
-    let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
-
-    assert.equal(applicationAmount, totalDepositedDai.toString());
-    assert.equal(applicationAmount, depositedDaiUser.toString());
-    assert.equal(true, true);
+    await expectRevert(
+      noLossDao.createProposal('Some IPFS hash string', {
+        from: accounts[1],
+      }),
+      'Person is already a user'
+    );
   });
 
-  // Tests about the benefactor leaving...
+  it('NoLossDao: benefactor cannot create a proposal if they already have an active proposal', async () => {
+    let mintAmount = '90000000000';
+    await erc20Dai.mint(accounts[1], mintAmount);
+    await erc20Dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[1],
+    });
+    await noLossDao.createProposal('Some IPFS hash string project 1', {
+      from: accounts[1],
+    });
+
+    await expectRevert(
+      noLossDao.createProposal('Some IPFS hash string project 2', {
+        from: accounts[1],
+      }),
+      'User has an active proposal'
+    );
+  });
+
+  it('NoLossDao: benefactor has not approved enough dai to join', async () => {
+    let mintAmount = '600000000';
+    await erc20Dai.mint(accounts[1], mintAmount);
+    await erc20Dai.approve(noLossDao.address, '4900000', {
+      from: accounts[1],
+    });
+    await expectRevert(
+      noLossDao.createProposal('Some IPFS hash string project 1', {
+        from: accounts[1],
+      }),
+      'amount not available'
+    );
+  });
+
+  it('NoLossDao: benefactor does not have enough dai to join', async () => {
+    await erc20Dai.mint(accounts[1], '4900000');
+    await erc20Dai.approve(noLossDao.address, '600000000', {
+      from: accounts[1],
+    });
+    await expectRevert(
+      noLossDao.createProposal('Some IPFS hash string project 1', {
+        from: accounts[1],
+      }),
+      'User does not have enough DAI'
+    );
+  });
+
+  // Check if they create a proposal, withdraw, and recreate in same cycle
+  // Specifically check what happens if they are the top project when withdrawn (if they are winning the vote)
+
+  // Tests about the benefactor leaving... THESE ARE NB SECURITY
 });

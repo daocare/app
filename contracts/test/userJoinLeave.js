@@ -76,7 +76,7 @@ contract('NoLossDao', accounts => {
     await noLossDao.deposit('30000000000', { from: accounts[1] });
     await expectRevert(
       noLossDao.deposit('30000000000', { from: accounts[1] }),
-      'User already exists'
+      'Person is already a user'
     ); // double deposit not allowed
   });
 
@@ -87,6 +87,19 @@ contract('NoLossDao', accounts => {
     await expectRevert(
       noLossDao.deposit(mintAmount, { from: accounts[1] }),
       'amount not available'
+    );
+  });
+
+  it('NoLossDao:userJoinLeave. deposit - should revert if user doesnt have enough DAi', async () => {
+    let mintAmount = '60000000000';
+    // await erc20Dai.mint(accounts[1], mintAmount);
+    await erc20Dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[1],
+    });
+
+    await expectRevert(
+      noLossDao.deposit(mintAmount, { from: accounts[1] }),
+      'User does not have enough DAI'
     );
   });
 
