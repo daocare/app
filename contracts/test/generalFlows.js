@@ -11,7 +11,7 @@ const NoLossDao = artifacts.require('NoLossDao');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
 const ERC20token = artifacts.require('MockERC20');
 
-contract('WildcardSteward', accounts => {
+contract('NoLossDao', accounts => {
   let aaveLendingPool;
   let noLossDao;
   let erc20Dai;
@@ -44,32 +44,6 @@ contract('WildcardSteward', accounts => {
     );
     await erc20Dai.initialize('AveTest', 'AT', 18, accounts[0]);
     await erc20ADai.initialize('AveTest', 'AT', 18, aaveLendingPool.address);
-  });
-
-  it('NoLossDao: deposit - happy path', async () => {
-    let mintAmount = '60000000000';
-    // deposit
-    await erc20Dai.mint(accounts[1], mintAmount);
-    await erc20Dai.approve(noLossDao.address, mintAmount, {
-      from: accounts[1],
-    });
-    let allowance = await erc20Dai.allowance.call(
-      accounts[1],
-      noLossDao.address
-    );
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
-
-    assert.equal(mintAmount, allowance.toString());
-  });
-
-  it('NoLossDao: deposit - should revert if no deposit available', async () => {
-    let mintAmount = '60000000000';
-    await erc20Dai.mint(accounts[1], mintAmount);
-
-    await expectRevert(
-      noLossDao.deposit(mintAmount, { from: accounts[1] }),
-      'amount not available'
-    );
   });
 
   it('NoLossDao: createProposal', async () => {
@@ -117,7 +91,7 @@ contract('WildcardSteward', accounts => {
     await noLossDao.deposit(mintAmount, {
       from: accounts[3],
     });
-    await noLossDao.vote(1, {
+    await noLossDao.voteDirect(1, {
       from: accounts[3],
     });
 

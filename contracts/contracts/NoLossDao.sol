@@ -143,11 +143,16 @@ contract NoLossDao is Initializable {
     proposalDeadline = now.add(_votingInterval);
   }
 
+  ///////////////////////////////////
+  /////// Config functions //////////
+  ///////////////////////////////////
   function changeVotingInterval(uint256 newInterval) public onlyAdmin {
     votingInterval = newInterval;
   }
 
   // Add function to change stake amount required for proposal
+
+  // change miner reward
 
   ///////////////////////////////////
   ///// Users join and leave ////////
@@ -168,6 +173,7 @@ contract NoLossDao is Initializable {
     iterationJoined[msg.sender] = proposalIteration;
   }
 
+  // MOST CRITICAL
   function withdrawDeposit() public {
     // Participant withdraws all there DAI and exits our system :(
     // Check the user exists in our system
@@ -200,12 +206,12 @@ contract NoLossDao is Initializable {
 
     // So the first proposal will have an ID of 1
     proposalId = proposalId.add(1);
-    newProposalId = proposalId;
 
-    proposalDetails[newProposalId] = proposalHash;
-    proposalOwner[newProposalId] = msg.sender;
-    benefactorsProposal[msg.sender] = newProposalId;
-    state[newProposalId] = ProposalState.Active;
+    proposalDetails[proposalId] = proposalHash;
+    proposalOwner[proposalId] = msg.sender;
+    benefactorsProposal[msg.sender] = proposalId;
+    state[proposalId] = ProposalState.Active;
+    return proposalId;
   }
 
   function withdrawProposal() public userHasActiveProposal(msg.sender) {
@@ -269,6 +275,10 @@ contract NoLossDao is Initializable {
     }
   }
 
+  // This function allows users to get their proportion of interest instead of redirecting
+  // it to the winning project for the next weeks. (RAGE-QUIT but stay in pool function)
+  function veto() public {}
+
   ///////////////////////////////////
   //// Iteration changes/////////////
   ///////////////////////////////////
@@ -300,6 +310,9 @@ contract NoLossDao is Initializable {
 
     proposalIteration = proposalIteration.add(1);
     topProject[proposalIteration] = 0;
+
+    // send winning miner a little surprise
+
   }
 
 }
