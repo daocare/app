@@ -16,9 +16,9 @@ const WalletProfile = props => {
   const web3Connect = useWeb3Connect();
   const router = useRouter();
 
-  // const handleConnect = () => {
-  //   web3Connect.triggerConnect();
-  // };
+  const handleConnect = () => {
+    web3Connect.triggerConnect();
+  };
   const handleLogout = async () => {
     // await logout3Box();
     await web3Connect.resetApp();
@@ -66,21 +66,22 @@ const WalletProfile = props => {
       </Container>
     );
   }
-  return null;
-  // return (
-  //   <React.Fragment>
-  //     <div>
-  //       <Button
-  //         variant="contained"
-  //         color="primary"
-  //         disableElevation
-  //         onClick={handleConnect}
-  //       >
-  //         Connect with wallet
-  //       </Button>
-  //     </div>
-  //   </React.Fragment>
-  // );
+  return (
+    <Container maxWidth="md">
+      {/* <div>Connected: {web3Connect.address}</div>
+        <div>Network: {web3Connect.network}</div> */}
+      <div style={{ float: 'right', marginTop: 16, marginBottom: 16 }}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          disableElevation
+          onClick={handleConnect}
+        >
+          Connect
+        </Button>
+      </div>
+    </Container>
+  );
 };
 
 export default WalletProfile;

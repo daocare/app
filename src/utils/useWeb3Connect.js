@@ -175,6 +175,7 @@ function useWeb3Connect() {
         WHOOP_ADDRESS
       );
       setDaoContractReadOnly(daoContractReadOnly);
+      fetchProposals(daoContractReadOnly);
     }
     if (web3Connect.cachedProvider && !connected) {
       onConnect();
@@ -279,10 +280,9 @@ function useWeb3Connect() {
       updateAllowance();
       updateBalance();
       updateDeposit();
-      fetchProposals();
       updateDelegation();
       setLastFetchTimestamp(Date.now());
-      console.log('...');
+      fetchProposals();
     }
   }, [daiContract, connected, address]);
 
@@ -316,26 +316,28 @@ function useWeb3Connect() {
     await updateDeposit();
   };
 
-  const fetchProposals = async () => {
+  const fetchProposals = async (daoContract = daoContractReadOnly) => {
+    // let contract = daoContract ? daoContract
+
     let iteration = Number(
-      await daoContractReadOnly.methods.proposalIteration().call()
+      await daoContract.methods.proposalIteration().call()
     );
-    console.log({ iteration });
+    console.log({ iteration, address });
     let tempCurrentVote = 0;
-    if (connected) {
+    if (connected && address) {
       tempCurrentVote = Number(
-        await daoContractReadOnly.methods
+        await daoContract.methods
           .usersNominatedProject(iteration, address)
           .call()
       );
       console.log({ tempCurrentVote });
     }
-    let numProposals = await daoContractReadOnly.methods.proposalId().call();
+    let numProposals = await daoContract.methods.proposalId().call();
     console.log({ numProposals });
     let tempProposals = [];
     let foundOwner = false;
     for (let i = 1; i <= numProposals; i++) {
-      let hash = await daoContractReadOnly.methods.proposalDetails(i).call();
+      let hash = await daoContract.methods.proposalDetails(i).call();
       console.log({ hash });
       let proposal = await getJson(hash);
       proposal.id = i;
@@ -345,7 +347,7 @@ function useWeb3Connect() {
         setCurrentVote(proposal);
       }
 
-      let owner = await daoContractReadOnly.methods.proposalOwner(i).call();
+      let owner = await daoContract.methods.proposalOwner(i).call();
       proposal.owner = owner;
       if (owner === address) {
         foundOwner = true;

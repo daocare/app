@@ -135,15 +135,7 @@ const Home = () => {
           className={classes.button}
           startIcon={<HowToVoteIcon />}
           onClick={() => {
-            if (connected) {
-              router.history.push('/proposals');
-            } else {
-              const connect = async () => {
-                await web3Connect.triggerConnect();
-                router.history.push('/proposals');
-              };
-              connect();
-            }
+            router.history.push('/proposals');
           }}
         >
           All Proposals
