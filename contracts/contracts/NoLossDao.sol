@@ -183,14 +183,17 @@ contract NoLossDao is Initializable {
   }
 
   // MOST CRITICAL
-  function withdrawDeposit() public {
-    // Participant withdraws all there DAI and exits our system :(
-    // Check the user exists in our system
-    // Check the amount they have deposited
-    // Exchange aDAI to DAI for this amount
-    // Send them back their dai
-    // Remove their amount of dai from the total we have
-    // IMPORTANT, remove their vote amount...
+  function withdrawDeposit() public userStaked(msg.sender) {
+    uint256 amount = depositedDai[msg.sender];
+    adaiContract.redeem(amount);
+    daiContract.transferFrom(address(this), msg.sender, amount);
+
+    // remove their votes, or can't withdraw once voted...
+
+    //setting values
+    depositedDai[msg.sender] = 0;
+    totalDepositedDai = totalDepositedDai.sub(amount);
+    iterationJoined[msg.sender] = 0; // setting to default (haven't joined)
   }
 
   ///////////////////////////////////
