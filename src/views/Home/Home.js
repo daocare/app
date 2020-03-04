@@ -62,9 +62,12 @@ const Home = () => {
       <Header />
       <Typography variant="body1" style={{ fontSize: 24 }}>
         Every two weeks, the preferred project of the community will receive{' '}
-        <span style={{ fontSize: 28, fontWeight: 'bold', color: '#A362A5' }}>
-          ${interest}!
-        </span>
+        {interest > 0 && (
+          <span style={{ fontSize: 28, fontWeight: 'bold', color: '#A362A5' }}>
+            ${interest}!
+          </span>
+        )}
+        {interest === 0 && <span>...</span>}
       </Typography>
       {/* {!connected && ( */}
 
@@ -88,7 +91,6 @@ const Home = () => {
             } else {
               const connect = async () => {
                 await web3Connect.triggerConnect();
-                debugger;
                 router.history.push('/submit-proposal');
               };
               connect();
@@ -104,7 +106,15 @@ const Home = () => {
           className={classes.button}
           startIcon={<DonateIcon />}
           onClick={() => {
-            router.history.push('/deposit');
+            if (connected) {
+              router.history.push('/deposit');
+            } else {
+              const connect = async () => {
+                await web3Connect.triggerConnect();
+                router.history.push('/deposit');
+              };
+              connect();
+            }
           }}
         >
           Join Pool
@@ -130,13 +140,13 @@ const Home = () => {
             } else {
               const connect = async () => {
                 await web3Connect.triggerConnect();
-                router.history.push('/submit-proposal');
+                router.history.push('/proposals');
               };
               connect();
             }
           }}
         >
-          Vote
+          All Proposals
         </Button>
       </div>
       {/* )} */}

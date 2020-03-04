@@ -87,7 +87,7 @@ const Dashboard = props => {
           <Container maxWidth="md">
             <Paper elevation={0}>
               <Suspense fallback={<LinearProgress />}>
-                <Page className={classes.pageContainer} title="Whoop Together">
+                <Page className={classes.pageContainer} title="DAO.care">
                   {renderRoutes(route.routes)}
                 </Page>
               </Suspense>

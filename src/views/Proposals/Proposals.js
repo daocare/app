@@ -136,7 +136,7 @@ const Proposals = props => {
   return (
     <Page
       className={classes.root}
-      title="Whoop Together | All Proposals"
+      title="DAO.care | All Proposals"
       style={{ position: 'relative' }}
     >
       <div style={{ position: 'absolute', top: 0, right: 0 }}>

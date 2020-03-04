@@ -104,7 +104,7 @@ const Deposit = props => {
   let amount = watch('amount') ? watch('amount') : 0;
   let balance = Number(web3Connect.daiBalance);
   let deposit = Number(web3Connect.daiDeposit);
-  console.log({ allowance: web3Connect.daiBalance, amount });
+  // console.log({ allowance: web3Connect.daiBalance, amount });
   const onSubmit = async data => {
     let { amount } = data;
 
@@ -126,7 +126,7 @@ const Deposit = props => {
   };
 
   return (
-    <Page className={classes.root} title="Whoop Together | Deposit">
+    <Page className={classes.root} title="DAO.care | Deposit">
       <Header />
       <Typography variant="h5" className={classes.title}>
         Deposit DAI
@@ -141,9 +141,9 @@ const Deposit = props => {
       )}
       {!web3Connect.hasProposal && web3Connect.daiDeposit > 0 && (
         <>
-          <Typography style={{ color: '#FF9494' }}>
+          {/* <Typography style={{ color: '#FF9494' }}>
             You can only deposit once per each cycle.
-          </Typography>
+          </Typography> */}
           <Typography variant="body1">
             Current deposit: {web3Connect.daiDeposit} DAI
           </Typography>

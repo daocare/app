@@ -141,7 +141,7 @@ const SubmitProposal = props => {
     balance: web3Connect.daiBalance,
   });
   return (
-    <Page className={classes.root} title="Whoop Together | Submit Proposal">
+    <Page className={classes.root} title="DAO.care | Submit Proposal">
       <Header />
       <Typography variant="h5" className={classes.title}>
         Submit Proposal

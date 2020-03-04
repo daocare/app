@@ -35,7 +35,7 @@ export default function ProposalCard(props) {
       'https://twitter.com/intent/tweet?text=' +
       encodeURI(`I (${address}) am voting for proposal ~${id} on `) +
       '%23' +
-      encodeURI(`WhoopTogether - A no loss funding DAO`);
+      encodeURI(`DAOcare - A no loss funding DAO @dao_care`);
     console.log(url);
     var win = window.open(url, '_blank');
     win.focus();
