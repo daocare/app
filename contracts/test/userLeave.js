@@ -10,30 +10,32 @@ const {
 const NoLossDao = artifacts.require('NoLossDao');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
 const ERC20token = artifacts.require('MockERC20');
+const ADai = artifacts.require('ADai');
 
 contract('NoLossDao', accounts => {
   let aaveLendingPool;
   let noLossDao;
-  let erc20Dai;
-  let erc20ADai;
+  let dai;
+  let aDai;
 
   const applicationAmount = '5000000';
 
   beforeEach(async () => {
-    erc20Dai = await ERC20token.new({
+    dai = await ERC20token.new('AveTest', 'AT', 18, accounts[0], {
       from: accounts[0],
     });
-    erc20ADai = await ERC20token.new({
+    aDai = await ADai.new(dai.address, {
       from: accounts[0],
     });
-    aaveLendingPool = await AaveLendingPool.new(erc20ADai.address, {
+    aaveLendingPool = await AaveLendingPool.new(aDai.address, {
       from: accounts[0],
     });
     noLossDao = await NoLossDao.new({ from: accounts[0] });
+    await dai.addMinter(aDai.address, { from: accounts[0] });
 
     await noLossDao.initialize(
-      erc20Dai.address,
-      erc20ADai.address,
+      dai.address,
+      aDai.address,
       aaveLendingPool.address,
       aaveLendingPool.address,
       applicationAmount,
@@ -42,23 +44,18 @@ contract('NoLossDao', accounts => {
         from: accounts[0],
       }
     );
-    await erc20Dai.initialize('AveTest', 'AT', 18, accounts[0]);
-    await erc20ADai.initialize('AveTest', 'AT', 18, aaveLendingPool.address);
   });
 
-  it('NoLossDao:userJoin. User can leave pool', async () => {
+  it('NoLossDao:userLEAVE. User can leave pool', async () => {
     let mintAmount = '60000000000';
     // Join in iteration 1
-    await erc20Dai.mint(accounts[1], mintAmount);
-    await erc20Dai.approve(noLossDao.address, mintAmount, {
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
       from: accounts[1],
     });
     await noLossDao.deposit(mintAmount, { from: accounts[1] });
 
-    //await time.increase(time.duration.seconds(1801)); // when can they leave?
-    //await noLossDao.distributeFunds();
-
-    let beforeDai = await erc20Dai.balanceOf.call(accounts[1]);
+    let beforeDai = await dai.balanceOf.call(accounts[1]);
     let beforeDeposit = await noLossDao.depositedDai.call(accounts[1]);
 
     assert.equal(beforeDai.toString(), '0');
@@ -67,10 +64,86 @@ contract('NoLossDao', accounts => {
     // withdraw their funds
     await noLossDao.withdrawDeposit({ from: accounts[1] });
 
-    let afterDai = await erc20Dai.balanceOf.call(accounts[1]);
+    let afterDai = await dai.balanceOf.call(accounts[1]);
     let afterDeposit = await noLossDao.depositedDai.call(accounts[1]);
 
     assert.equal(afterDai.toString(), mintAmount);
     assert.equal(afterDeposit.toString(), '0');
+  });
+
+  it('NoLossDao:userLEAVE. User cannot leave pool till new iteration if they have voted', async () => {
+    let mintAmount = '60000000000';
+
+    // Deposit
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[1],
+    });
+    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+
+    // someone create a proposal
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[2],
+    });
+    await noLossDao.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
+
+    await noLossDao.voteDirect(1, { from: accounts[1] });
+
+    // withdraw their funds
+    await expectRevert(
+      noLossDao.withdrawDeposit({ from: accounts[1] }),
+      'User already voted this iteration'
+    );
+
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
+    await noLossDao.distributeFunds();
+
+    await noLossDao.withdrawDeposit({ from: accounts[1] });
+    let afterDai = await dai.balanceOf.call(accounts[1]);
+    let afterDeposit = await noLossDao.depositedDai.call(accounts[1]);
+
+    assert.equal(afterDai.toString(), mintAmount);
+    assert.equal(afterDeposit.toString(), '0');
+  });
+
+  it('NoLossDao:userLEAVE. User cannot once already left pool', async () => {
+    let mintAmount = '60000000000';
+    // Join in iteration 1
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[1],
+    });
+    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+
+    // withdraw their funds
+    await noLossDao.withdrawDeposit({ from: accounts[1] });
+
+    await expectRevert(
+      noLossDao.withdrawDeposit({ from: accounts[1] }),
+      'User has no stake'
+    );
+  });
+
+  it('NoLossDao:userLEAVE. Someone with a proposal cant call withdraw deposit', async () => {
+    let mintAmount = '60000000000';
+    // Join in iteration 1
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[2],
+    });
+    await noLossDao.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    await expectRevert(
+      noLossDao.withdrawDeposit({ from: accounts[2] }),
+      'User has a proposal'
+    );
   });
 });

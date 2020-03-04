@@ -23,7 +23,7 @@ contract NoLossDao is Initializable {
   mapping(uint256 => string) public proposalDetails;
   mapping(address => uint256) public benefactorsProposal; // benefactor -> proposal id
   mapping(uint256 => address) public proposalOwner; // proposal id -> benefactor (1:1 mapping)
-  enum ProposalState {Active, Withdrawn} // Add Cooldown state
+  enum ProposalState {Active, Withdrawn} // Add Cooldown state and pending state
   mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
   //////// User specific //////////
@@ -101,6 +101,11 @@ contract NoLossDao is Initializable {
     _;
   }
 
+  modifier userHasNoProposal(address givenAddress) {
+    require(benefactorsProposal[givenAddress] == 0, 'User has a proposal');
+    _;
+  }
+
   modifier proposalActive(uint256 propId) {
     require(state[propId] == ProposalState.Active, "Proposal isn't active");
     _;
@@ -163,7 +168,7 @@ contract NoLossDao is Initializable {
   // change miner reward
 
   ///////////////////////////////////
-  ///// Users join and leave ////////
+  ///// Users join and leave /////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////
   function deposit(uint256 amount)
     public
@@ -183,21 +188,26 @@ contract NoLossDao is Initializable {
   }
 
   // MOST CRITICAL
-  function withdrawDeposit() public userStaked(msg.sender) {
+  // Can't withdraw if voted
+  function withdrawDeposit()
+    public
+    userStaked(msg.sender)
+    noVoteYet(msg.sender)
+    userHasNoProposal(msg.sender)
+  {
     uint256 amount = depositedDai[msg.sender];
-    adaiContract.redeem(amount);
-    daiContract.transferFrom(address(this), msg.sender, amount);
-
-    // remove their votes, or can't withdraw once voted...
 
     //setting values
     depositedDai[msg.sender] = 0;
     totalDepositedDai = totalDepositedDai.sub(amount);
     iterationJoined[msg.sender] = 0; // setting to default (haven't joined)
+
+    adaiContract.redeem(amount);
+    daiContract.transfer(msg.sender, amount);
   }
 
   ///////////////////////////////////
-  /// Benefactors join and leave ////
+  /// Benefactors join and leave ////////////////////////////////////////////////////////////////////
   ///////////////////////////////////
   function createProposal(string memory proposalHash)
     public
@@ -241,7 +251,7 @@ contract NoLossDao is Initializable {
   }
 
   ///////////////////////////////////
-  //// DAO functionality ////////////
+  //// DAO functionality ////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////
   function delegateVoting(address delegatedAddress)
     public
@@ -259,7 +269,7 @@ contract NoLossDao is Initializable {
     noVoteYet(msg.sender)
     userStaked(msg.sender)
     userHasNoActiveProposal(msg.sender)
-  // joinedInTime(msg.sender) // TODO: add this back, it is important! (only removed for ease of demoing)
+    joinedInTime(msg.sender)
   {
     _vote(proposalIdToVoteFor, msg.sender);
   }
@@ -271,15 +281,15 @@ contract NoLossDao is Initializable {
     noVoteYet(delegatedFrom)
     userStaked(delegatedFrom)
     userHasNoActiveProposal(delegatedFrom)
-  // joinedInTime(delegatedFrom) // TODO: add this back, it is important! (only removed for ease of demoing)
+    joinedInTime(delegatedFrom)
   {
     _vote(proposalIdToVoteFor, delegatedFrom);
   }
 
   function _vote(uint256 proposalIdToVoteFor, address voteAddress) internal {
+    usersNominatedProject[proposalIteration][voteAddress] = proposalIdToVoteFor;
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
       .add(depositedDai[voteAddress]);
-    usersNominatedProject[proposalIteration][voteAddress] = proposalIdToVoteFor;
 
     uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
@@ -293,11 +303,11 @@ contract NoLossDao is Initializable {
   // This function allows users to get their proportion of interest instead of redirecting
   // it to the winning project for the next weeks. (RAGE-QUIT but stay in pool function)
   function veto() public {}
-  // Veto via twitter. To be done later.
+  // Veto via twitter. v2 possibly.
   function vetoProxy() public {}
 
   ///////////////////////////////////
-  //// Iteration changes/////////////
+  //// Iteration changes/////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////
   function distributeFunds() public {
     // On a *whatever we decide basis* the funds are distributed to the winning project
@@ -307,21 +317,13 @@ contract NoLossDao is Initializable {
     require(proposalDeadline < now, 'current vote still active');
 
     // figure our what happens with the interest from the first proposal iteration
+    // Possibly make first iteration an extended one for our launch (for marketing)
     if (topProject[proposalIteration] != 0) {
-      uint256 interestEarnedSinceLastIteration = adaiContract
-        .balanceOf(address(this))
-        .sub(totalDepositedDai);
-
-      adaiContract.redeem(interestEarnedSinceLastIteration);
-
       // Do some asserts here for safety...
       address winner = proposalOwner[topProject[proposalIteration]]; // error if no-one voted for in this iteration
-      uint256 amount = daiContract.balanceOf(address(this));
-
-      // TODO: change this redirectInterestStream to winner.
-      daiContract.transfer(winner, amount);
+      adaiContract.redirectInterestStream(winner);
     }
-
+    //
     proposalDeadline = proposalDeadline.add(votingInterval);
 
     proposalIteration = proposalIteration.add(1);
