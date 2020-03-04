@@ -101,22 +101,13 @@ const Proposals = props => {
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
 
-  useEffect(() => {
-    if (web3Connect.loaded && !web3Connect.connected) {
-      router.history.push('/');
-    }
-  }, [web3Connect]);
-  console.log({ deposit: web3Connect.daiDeposit });
+  // useEffect(() => {
+  //   if (web3Connect.loaded && !web3Connect.connected) {
+  //     router.history.push('/');
+  //   }
+  // }, [web3Connect]);
+
   const address = web3Connect.address;
-  console.log({
-    currentVote: web3Connect.currentVote,
-    deposit: web3Connect.daiDeposit,
-    hasProposal: web3Connect.hasProposal,
-    allowVoting:
-      web3Connect.currentVote === null &&
-      web3Connect.daiDeposit > 0 &&
-      web3Connect.hasProposal === false,
-  });
 
   const enableTwitter = async () => {
     setStatus('3BOX_VERIFICATION');
@@ -132,26 +123,32 @@ const Proposals = props => {
       setStatus('3BOX_FAILED');
     }
   };
+  let votingAllowed =
+    web3Connect.currentVote === null &&
+    web3Connect.daiDeposit > 0 &&
+    web3Connect.hasProposal === false;
 
   return (
     <Page
       className={classes.root}
-      title="Whoop Together | All Proposals"
+      title="DAO.care | All Proposals"
       style={{ position: 'relative' }}
     >
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
-        {status === 'DRAFT' && !web3Connect.enabledTwitter && (
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            // className={classes.button}
-            startIcon={<TwitterIcon />}
-            onClick={enableTwitter}
-          >
-            Enable Twitter voting
-          </Button>
-        )}
+        {status === 'DRAFT' &&
+          !web3Connect.enabledTwitter &&
+          web3Connect.connected && (
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              // className={classes.button}
+              startIcon={<TwitterIcon />}
+              onClick={enableTwitter}
+            >
+              Enable Twitter voting
+            </Button>
+          )}
         {status === '3BOX_VERIFICATION' && (
           <Typography variant="caption">Verifying 3Box twitter</Typography>
         )}
@@ -170,7 +167,7 @@ const Proposals = props => {
         )}
       </div>
       <Header />
-      {web3Connect.daiDeposit === 0 && (
+      {web3Connect.daiDeposit === 0 && web3Connect.connected && (
         <>
           <div style={{ margin: 16, textAlign: 'center' }}>
             <Button
@@ -206,6 +203,7 @@ const Proposals = props => {
             <ProposalCard
               proposal={web3Connect.currentVote}
               votingAllowed={false}
+              twitterAllowed={false}
               address={address}
             />
           </div>
@@ -224,11 +222,8 @@ const Proposals = props => {
                   <div className={classes.card}>
                     <ProposalCard
                       proposal={proposal}
-                      votingAllowed={
-                        web3Connect.currentVote === null &&
-                        web3Connect.daiDeposit > 0 &&
-                        web3Connect.hasProposal === false
-                      }
+                      votingAllowed={votingAllowed}
+                      twitterAllowed={!web3Connect.connected || votingAllowed}
                       vote={web3Connect.contracts.dao.methods.vote}
                       address={address}
                     />

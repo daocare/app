@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 // import { TopBar } from './components';
@@ -87,8 +87,23 @@ const Dashboard = props => {
           <Container maxWidth="md">
             <Paper elevation={0}>
               <Suspense fallback={<LinearProgress />}>
-                <Page className={classes.pageContainer} title="Whoop Together">
+                <Page className={classes.pageContainer} title="DAO.care">
                   {renderRoutes(route.routes)}
+                  <Typography
+                    variant="caption"
+                    color="secondary"
+                    style={{ textAlign: 'center' }}
+                  >
+                    We are currently run on Kovan network. Please get DAI from
+                    Aave{' '}
+                    <a
+                      href="https://testnet.aave.com/faucet/DAI"
+                      target="_blank"
+                    >
+                      test app
+                    </a>
+                    .
+                  </Typography>
                 </Page>
               </Suspense>
             </Paper>

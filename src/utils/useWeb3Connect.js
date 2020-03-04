@@ -19,13 +19,14 @@ const daoAbi = require('../abis/NoLossDao.json');
 
 const CHAIN_ID = 42;
 
-const ERC20_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
+const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
 const ADAI_ADDRESS = '0x58ad4cb396411b691a9aab6f74545b2c5217fe6a'; //kovan
 const WHOOP_ADDRESS = daoAbi.networks[CHAIN_ID].address;
-const INFURA_KEY = '32f4c2933abd4a74a383747ccf2d7003';
+const INFURA_KEY = 'fd2fcca3c26e41cf88b907df3596b14e';
+const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
-
+const FETCH_UPDATE_TIMESTAMP = 5000;
 const providerOptions = {
   // portis: {
   //   package: Portis, // required
@@ -70,6 +71,7 @@ const web3Connect = new Web3Connect.Core({
 function useWeb3Connect() {
   const [provider, setProvider] = useState(null);
   const [web3, setWeb3] = useState(null);
+  const [web3ReadOnly, setWeb3ReadOnly] = useState(null);
 
   const [connected, setConnected] = useState(false);
   const [address, setAddress] = useState(null);
@@ -79,8 +81,11 @@ function useWeb3Connect() {
   const [loaded, setLoaded] = useState(false);
 
   const [daiContract, setDaiContract] = useState(null);
+  const [daiContractReadOnly, setDaiContractReadOnly] = useState(null);
   const [adaiContract, setAdaiContract] = useState(null);
+  const [adaiContractReadOnly, setAdaiContractReadOnly] = useState(null);
   const [daoContract, setDaoContract] = useState(null);
+  const [daoContractReadOnly, setDaoContractReadOnly] = useState(null);
   const [daiAllowance, setDaiAllowance] = useState(0);
   const [daiBalance, setDaiBalance] = useState(0);
   const [daiDeposit, setDaiDeposit] = useState(0);
@@ -90,6 +95,8 @@ function useWeb3Connect() {
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
   const [fetched, setFetched] = useState(false);
+
+  const [lastFetchTimestamp, setLastFetchTimestamp] = useState(0);
 
   const getNetworkByChainId = chainIdTemp => {
     // console.log(supportedChains);
@@ -125,10 +132,9 @@ function useWeb3Connect() {
     const networkIdTemp = await web3Inited.eth.net.getId();
 
     const chainIdTemp = await web3Inited.eth.chainId();
-    console.log({ addressTemp });
 
     // instanciate contracts
-    const daiContract = new web3Inited.eth.Contract(daiAbi.abi, ERC20_ADDRESS);
+    const daiContract = new web3Inited.eth.Contract(daiAbi.abi, DAI_ADDRESS);
     setDaiContract(daiContract);
 
     const adaiContract = new web3Inited.eth.Contract(daiAbi.abi, ADAI_ADDRESS);
@@ -148,6 +154,29 @@ function useWeb3Connect() {
   };
 
   useEffect(() => {
+    if (!loaded) {
+      let web3Infura = new Web3(INFURA_ENDPOINT);
+      setWeb3ReadOnly(web3Infura);
+
+      const daiContractReadOnly = new web3Infura.eth.Contract(
+        daiAbi.abi,
+        DAI_ADDRESS
+      );
+      setDaiContractReadOnly(daiContractReadOnly);
+
+      const adaiContractReadOnly = new web3Infura.eth.Contract(
+        daiAbi.abi,
+        ADAI_ADDRESS
+      );
+      setAdaiContractReadOnly(adaiContractReadOnly);
+
+      const daoContractReadOnly = new web3Infura.eth.Contract(
+        daoAbi.abi,
+        WHOOP_ADDRESS
+      );
+      setDaoContractReadOnly(daoContractReadOnly);
+      fetchProposals(daoContractReadOnly);
+    }
     if (web3Connect.cachedProvider && !connected) {
       onConnect();
     } else {
@@ -192,40 +221,45 @@ function useWeb3Connect() {
 
   // SMART CONTRACT FUNCTIONS
   const updateAllowance = async () => {
-    let allowance = await daiContract.methods
+    let allowance = await daiContractReadOnly.methods
       .allowance(address, WHOOP_ADDRESS)
       .call();
     // console.log({ allowance });
     setDaiAllowance(Number(allowance));
   };
   const updateBalance = async () => {
-    let balance = await daiContract.methods.balanceOf(address).call();
-    // console.log({ balance });
-    setDaiBalance(Number(web3.utils.fromWei(new BN(balance), 'ether')));
+    let balance = await daiContractReadOnly.methods.balanceOf(address).call();
+    console.log({ balance });
+    setDaiBalance(Number(web3ReadOnly.utils.fromWei('' + balance, 'ether')));
   };
   const getInterest = async () => {
-    if (!adaiContract) {
+    if (!adaiContractReadOnly) {
       return 0;
     }
     let balance = Number(
-      await adaiContract.methods.balanceOf(WHOOP_ADDRESS).call()
+      await adaiContractReadOnly.methods.balanceOf(WHOOP_ADDRESS).call()
     );
     let depositedAmount = Number(
-      await daoContract.methods.totalDepositedDai().call()
+      await daoContractReadOnly.methods.totalDepositedDai().call()
     );
     // console.log({ balance });
     let interest = balance - depositedAmount;
 
-    return Number(web3.utils.fromWei(new BN(interest), 'ether'));
+    // let interestBn = new BN(interest);
+    return Number(web3ReadOnly.utils.fromWei('' + interest, 'ether'));
   };
   const updateDeposit = async () => {
-    let deposit = await daoContract.methods.depositedDai(address).call();
+    let deposit = await daoContractReadOnly.methods
+      .depositedDai(address)
+      .call();
     // console.log({ balance });
-    setDaiDeposit(Number(web3.utils.fromWei(new BN(deposit), 'ether')));
+    setDaiDeposit(Number(web3ReadOnly.utils.fromWei('' + deposit, 'ether')));
   };
 
   const updateDelegation = async () => {
-    let delegation = await daoContract.methods.voteDelegations(address).call();
+    let delegation = await daoContractReadOnly.methods
+      .voteDelegations(address)
+      .call();
     // console.log({ balance });
     setEnabledTwitter(delegation === TWITTER_PROXY);
   };
@@ -237,12 +271,18 @@ function useWeb3Connect() {
   //   setHasProposal(proposalId !== 0);
   // };
   useEffect(() => {
-    if (daiContract && connected && address) {
+    if (
+      lastFetchTimestamp + FETCH_UPDATE_TIMESTAMP < Date.now() &&
+      daiContract &&
+      connected &&
+      address
+    ) {
       updateAllowance();
       updateBalance();
       updateDeposit();
-      fetchProposals();
       updateDelegation();
+      setLastFetchTimestamp(Date.now());
+      fetchProposals();
     }
   }, [daiContract, connected, address]);
 
@@ -276,13 +316,15 @@ function useWeb3Connect() {
     await updateDeposit();
   };
 
-  const fetchProposals = async () => {
+  const fetchProposals = async (daoContract = daoContractReadOnly) => {
+    // let contract = daoContract ? daoContract
+
     let iteration = Number(
       await daoContract.methods.proposalIteration().call()
     );
-    console.log({ iteration });
+    console.log({ iteration, address });
     let tempCurrentVote = 0;
-    if (connected) {
+    if (connected && address) {
       tempCurrentVote = Number(
         await daoContract.methods
           .usersNominatedProject(iteration, address)

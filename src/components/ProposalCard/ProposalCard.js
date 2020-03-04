@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 export default function ProposalCard(props) {
   const { title, description, website, image, id } = props.proposal;
-  const { votingAllowed, vote, address } = props;
+  const { votingAllowed, twitterAllowed, vote, address } = props;
   const classes = useStyles();
   console.log({ vote });
   const voteTwitter = () => {
@@ -35,7 +35,7 @@ export default function ProposalCard(props) {
       'https://twitter.com/intent/tweet?text=' +
       encodeURI(`I (${address}) am voting for proposal ~${id} on `) +
       '%23' +
-      encodeURI(`WhoopTogether - A no loss funding DAO`);
+      encodeURI(`DAOcare - A no loss funding DAO @dao_care`);
     console.log(url);
     var win = window.open(url, '_blank');
     win.focus();
@@ -67,26 +67,26 @@ export default function ProposalCard(props) {
           </IconButton>
         </Tooltip>
         {votingAllowed && (
-          <>
-            <Tooltip title="Vote using your wallet">
-              <IconButton
-                color="primary"
-                aria-label="vote"
-                onClick={() => vote(id)}
-              >
-                <HowToVoteIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Vote via Twitter">
-              <IconButton
-                color="secondary"
-                aria-label="vote via twitter"
-                onClick={voteTwitter}
-              >
-                <TwitterIcon />
-              </IconButton>
-            </Tooltip>
-          </>
+          <Tooltip title="Vote using your wallet">
+            <IconButton
+              color="primary"
+              aria-label="vote"
+              onClick={() => vote(id)}
+            >
+              <HowToVoteIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {twitterAllowed && (
+          <Tooltip title="Vote via Twitter">
+            <IconButton
+              color="secondary"
+              aria-label="vote via twitter"
+              onClick={voteTwitter}
+            >
+              <TwitterIcon />
+            </IconButton>
+          </Tooltip>
         )}
       </CardActions>
     </Card>

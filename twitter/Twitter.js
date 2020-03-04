@@ -16,8 +16,7 @@ let mainAddress;
 const setupWeb3 = async () => {
   const CHAIN_ID = 42;
 
-  const noLossDaoAbi = require('../contracts/build/contracts/NoLossDao.json');
-
+  const noLossDaoAbi = require('../src/abis/NoLossDao.json');
   var HDWalletProvider = require('truffle-hdwallet-provider');
   var provider = new HDWalletProvider(mnemonic, kovanProviderUrl);
 
@@ -47,7 +46,7 @@ const setupWeb3 = async () => {
 // instanciate contracts
 
 var params = {
-  q: '#WhoopTogether',
+  q: '#DAOcare',
   count: 3,
   result_type: 'recent',
   lang: 'en',

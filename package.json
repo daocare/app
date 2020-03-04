@@ -38,6 +38,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "truffle-hdwallet-provider": "^1.0.17",
     "twitter": "^1.7.1",
     "web3": "^1.2.6",
     "web3connect": "^1.0.0-beta.32"
