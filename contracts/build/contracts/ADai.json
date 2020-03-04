@@ -1,0 +1,867 @@
+{
+  "contractName": "ADai",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract MockERC20",
+          "name": "aDaiAddress",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "aDai",
+      "outputs": [
+        {
+          "internalType": "contract MockERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "redeem",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"contract MockERC20\",\"name\":\"aDaiAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"aDai\",\"outputs\":[{\"internalType\":\"contract MockERC20\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"redeem\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"allowance(address,address)\":{\"details\":\"Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through `transferFrom`. This is zero by default.     * This value changes when `approve` or `transferFrom` are called.\"},\"approve(address,uint256)\":{\"details\":\"Sets `amount` as the allowance of `spender` over the caller's tokens.     * Returns a boolean value indicating whether the operation succeeded.     * > Beware that changing an allowance with this method brings the risk that someone may use both the old and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards: https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729     * Emits an `Approval` event.\"},\"balanceOf(address)\":{\"details\":\"Returns the amount of tokens owned by `account`.\"},\"totalSupply()\":{\"details\":\"Returns the amount of tokens in existence.\"},\"transfer(address,uint256)\":{\"details\":\"Moves `amount` tokens from the caller's account to `recipient`.     * Returns a boolean value indicating whether the operation succeeded.     * Emits a `Transfer` event.\"},\"transferFrom(address,address,uint256)\":{\"details\":\"Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism. `amount` is then deducted from the caller's allowance.     * Returns a boolean value indicating whether the operation succeeded.     * Emits a `Transfer` event.\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/ADai.sol\":\"ADai\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol\":{\"keccak256\":\"0xe1ca36b60a9cb25c5ece239ebda2308ed429d9b0f22ac1357d30f981aeda8a51\",\"urls\":[\"bzz-raw://420f40aa529ebdc459bb2499e62ca7553c77f4c6acf758dbe962691fe42887bf\",\"dweb:/ipfs/QmaxYwxySN5tCUCG2faTYTcs2a8eL41fo5M8LM4437EWcR\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/ADai.sol\":{\"keccak256\":\"0xd9297156654ff2caa3b3da26cbd6dcd5c81f8494b4b0923f818f5b739e10e2be\",\"urls\":[\"bzz-raw://09e92b9c7a34c6075352b3090ced236bd70e28470c24d1ca14fb9c3b74bd6344\",\"dweb:/ipfs/QmV4JoiTF5ngGxBnWz47cjDfa6C1QJ74ru8mDR4u4Y82tb\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/MockERC20.sol\":{\"keccak256\":\"0xe96a7ee0e6bd0ef2296a40e85f2dcb279b1e2faa117bdcfc2f4010f9ce3d4f23\",\"urls\":[\"bzz-raw://a8d51352c3eb1a20d200133e278553bacc6b2df104973356d46c5252c451f170\",\"dweb:/ipfs/Qme5ADbbmA4qW5rMHHtgcFx8YTFHToexYSGDTTmRkZaNwS\"]},\"@openzeppelin/contracts-ethereum-package/contracts/GSN/Context.sol\":{\"keccak256\":\"0x0d4306da5305cb78f09c70c18ec86dbc66f22fa5ade90edc20e1ab88e16d4d10\",\"urls\":[\"bzz-raw://c89dee1b8e96cb83f529b8b5c93be6b420c1913363a3fed01241942f08cc968f\",\"dweb:/ipfs/QmfWWwzg9hah3YwZRFWvAwq91HLjCHkKnxXqP6uLGURUou\"]},\"@openzeppelin/contracts-ethereum-package/contracts/access/Roles.sol\":{\"keccak256\":\"0xb002c378d7b82a101bd659c341518953ca0919d342c0a400196982c0e7e7bcdb\",\"urls\":[\"bzz-raw://00a788c4631466c220b385bdd100c571d24b2deccd657615cfbcef6cadf669a4\",\"dweb:/ipfs/QmTEwDbjJNxmMNCDMqtuou3dyM8Wtp8Q9NFvn7SAVM7Jf3\"]},\"@openzeppelin/contracts-ethereum-package/contracts/access/roles/MinterRole.sol\":{\"keccak256\":\"0xdf50b7ae128ae6234bf297a03a7622b3d146734479b26b749052e61ee9dae650\",\"urls\":[\"bzz-raw://93218d23526253d8e8634e5f5be8c21e3c46f12992eae378b202ca22d48564a0\",\"dweb:/ipfs/QmfG4XhTbsxnzCGXgsvxWmuJtU8snNaMEpW9drGde2yY6S\"]},\"@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x4ccf2d7b51873db1ccfd54ca2adae5eac3b184f9699911ed4490438419f1c690\",\"urls\":[\"bzz-raw://d62d769b2219d5de39013093412623e624fa887f871826ea3bae6052ee893610\",\"dweb:/ipfs/QmV3yVktya1s617QmuzQR2CfuJgUi3dR2xEZY9ecmqZ2G1\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol\":{\"keccak256\":\"0xec9f5e2dd33c13f1c1a63b22257724b61d2af536a2d22b2343144e1044b005fe\",\"urls\":[\"bzz-raw://ed49a07c7fa5f07a2e5fff28f07933bf56f8fd932be3c90e797e4d5c4689f94f\",\"dweb:/ipfs/QmdNEMKyATnnccVv8kip5eZFyuY77PU9SrBYVptioZC6pV\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Burnable.sol\":{\"keccak256\":\"0xa8d5fc6a480f6de5320c06f397e810198bf4a6c8b0b2405a4b28fb3909c3771e\",\"urls\":[\"bzz-raw://1c01ff2789027e0a9cbaaeabbc239d59906b40776e2936fcbdbc92dab7a4f912\",\"dweb:/ipfs/QmPYwzjB1GcQndyFqUNkpHNXs1CqxBqE3diVDWuWs5UaDb\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol\":{\"keccak256\":\"0x836e5248258c1eeef170a2b394d74cdec21adfbfca71a8feac303339182c4a39\",\"urls\":[\"bzz-raw://5a429cd7eac29f48bcbb6981f34ba43232e0fcb2bf9e752d2aaa2a64a27e07d5\",\"dweb:/ipfs/QmaFoHVPCY9Z5iZjZuwxq6pJ8cEqZdy7foLNNp46BzFNju\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Mintable.sol\":{\"keccak256\":\"0xcae60acc572a549182cd7b26a169dbe5154ad0602cfb6c37533e9ee4ec1b4b06\",\"urls\":[\"bzz-raw://8d2bcd2a72821122b854e9467276090df516c50b34860d170164f4f080d1e579\",\"dweb:/ipfs/QmbxUTBMdADhXPAfzaPXFbAHEhYZyugdHwedNh43W1BUmt\"]},\"@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x90e8c2521653bbb1768b05889c5760031e688d9cd361f167489b89215e201b95\",\"urls\":[\"bzz-raw://d0abb99bb8bfc2bc0a89902b8ed1dc0442ad08cc78cee64c291b3df6a27bcccc\",\"dweb:/ipfs/QmP5NaEwZthQeM2ESz4WTT3osrP7jhbvu7ocbttBi2JAw6\"]},\"@openzeppelin/upgrades/contracts/Initializable.sol\":{\"keccak256\":\"0xf79d9851c085aa8412e87d7a26d3485488fe12538ecb4e317ce41fc1f2c3a16a\",\"urls\":[\"bzz-raw://6af1a35ad6aed2169ce9f44095438b3192cd6066903908f769d5c49a06a0caf8\",\"dweb:/ipfs/QmaH41CwJ7WrMQwSnbfCKuL2pd8bxF7sbGSLPZb6JaHBFF\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.0;\n\nimport '../interfaces/IADai.sol';\nimport './MockERC20.sol';\nimport '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';\n\ncontract ADai is IADai {\n  MockERC20 public aDai;\n  constructor(MockERC20 aDaiAddress) public {\n    aDai = aDaiAddress;\n  }\n  function redeem(uint256 _amount) public {\n    // For now, do nothing\n  }\n}\n",
+  "sourcePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/ADai.sol",
+  "ast": {
+    "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/ADai.sol",
+    "exportedSymbols": {
+      "ADai": [
+        916
+      ]
+    },
+    "id": 917,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 892,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:5"
+      },
+      {
+        "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol",
+        "file": "../interfaces/IADai.sol",
+        "id": 893,
+        "nodeType": "ImportDirective",
+        "scope": 917,
+        "sourceUnit": 876,
+        "src": "25:33:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/MockERC20.sol",
+        "file": "./MockERC20.sol",
+        "id": 894,
+        "nodeType": "ImportDirective",
+        "scope": 917,
+        "sourceUnit": 992,
+        "src": "59:25:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+        "file": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+        "id": 895,
+        "nodeType": "ImportDirective",
+        "scope": 917,
+        "sourceUnit": 1763,
+        "src": "85:82:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 896,
+              "name": "IADai",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 875,
+              "src": "186:5:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IADai_$875",
+                "typeString": "contract IADai"
+              }
+            },
+            "id": 897,
+            "nodeType": "InheritanceSpecifier",
+            "src": "186:5:5"
+          }
+        ],
+        "contractDependencies": [
+          875,
+          1988
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 916,
+        "linearizedBaseContracts": [
+          916,
+          875,
+          1988
+        ],
+        "name": "ADai",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 899,
+            "name": "aDai",
+            "nodeType": "VariableDeclaration",
+            "scope": 916,
+            "src": "196:21:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_MockERC20_$991",
+              "typeString": "contract MockERC20"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 898,
+              "name": "MockERC20",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 991,
+              "src": "196:9:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_MockERC20_$991",
+                "typeString": "contract MockERC20"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 908,
+              "nodeType": "Block",
+              "src": "263:29:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 906,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 904,
+                      "name": "aDai",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 899,
+                      "src": "269:4:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_MockERC20_$991",
+                        "typeString": "contract MockERC20"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 905,
+                      "name": "aDaiAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 901,
+                      "src": "276:11:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_MockERC20_$991",
+                        "typeString": "contract MockERC20"
+                      }
+                    },
+                    "src": "269:18:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_MockERC20_$991",
+                      "typeString": "contract MockERC20"
+                    }
+                  },
+                  "id": 907,
+                  "nodeType": "ExpressionStatement",
+                  "src": "269:18:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 909,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 902,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 901,
+                  "name": "aDaiAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 909,
+                  "src": "233:21:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_MockERC20_$991",
+                    "typeString": "contract MockERC20"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 900,
+                    "name": "MockERC20",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 991,
+                    "src": "233:9:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_MockERC20_$991",
+                      "typeString": "contract MockERC20"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "232:23:5"
+            },
+            "returnParameters": {
+              "id": 903,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "263:0:5"
+            },
+            "scope": 916,
+            "src": "221:71:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 914,
+              "nodeType": "Block",
+              "src": "335:32:5",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 915,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "redeem",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 912,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 911,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 915,
+                  "src": "311:15:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 910,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "311:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "310:17:5"
+            },
+            "returnParameters": {
+              "id": 913,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "335:0:5"
+            },
+            "scope": 916,
+            "src": "295:72:5",
+            "stateMutability": "nonpayable",
+            "superFunction": 874,
+            "visibility": "public"
+          }
+        ],
+        "scope": 917,
+        "src": "169:200:5"
+      }
+    ],
+    "src": "0:370:5"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/ADai.sol",
+    "exportedSymbols": {
+      "ADai": [
+        916
+      ]
+    },
+    "id": 917,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 892,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:5"
+      },
+      {
+        "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol",
+        "file": "../interfaces/IADai.sol",
+        "id": 893,
+        "nodeType": "ImportDirective",
+        "scope": 917,
+        "sourceUnit": 876,
+        "src": "25:33:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/mocks/MockERC20.sol",
+        "file": "./MockERC20.sol",
+        "id": 894,
+        "nodeType": "ImportDirective",
+        "scope": 917,
+        "sourceUnit": 992,
+        "src": "59:25:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+        "file": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+        "id": 895,
+        "nodeType": "ImportDirective",
+        "scope": 917,
+        "sourceUnit": 1763,
+        "src": "85:82:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 896,
+              "name": "IADai",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 875,
+              "src": "186:5:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IADai_$875",
+                "typeString": "contract IADai"
+              }
+            },
+            "id": 897,
+            "nodeType": "InheritanceSpecifier",
+            "src": "186:5:5"
+          }
+        ],
+        "contractDependencies": [
+          875,
+          1988
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 916,
+        "linearizedBaseContracts": [
+          916,
+          875,
+          1988
+        ],
+        "name": "ADai",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 899,
+            "name": "aDai",
+            "nodeType": "VariableDeclaration",
+            "scope": 916,
+            "src": "196:21:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_MockERC20_$991",
+              "typeString": "contract MockERC20"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 898,
+              "name": "MockERC20",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 991,
+              "src": "196:9:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_MockERC20_$991",
+                "typeString": "contract MockERC20"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 908,
+              "nodeType": "Block",
+              "src": "263:29:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 906,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 904,
+                      "name": "aDai",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 899,
+                      "src": "269:4:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_MockERC20_$991",
+                        "typeString": "contract MockERC20"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 905,
+                      "name": "aDaiAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 901,
+                      "src": "276:11:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_MockERC20_$991",
+                        "typeString": "contract MockERC20"
+                      }
+                    },
+                    "src": "269:18:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_MockERC20_$991",
+                      "typeString": "contract MockERC20"
+                    }
+                  },
+                  "id": 907,
+                  "nodeType": "ExpressionStatement",
+                  "src": "269:18:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 909,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 902,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 901,
+                  "name": "aDaiAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 909,
+                  "src": "233:21:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_MockERC20_$991",
+                    "typeString": "contract MockERC20"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 900,
+                    "name": "MockERC20",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 991,
+                    "src": "233:9:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_MockERC20_$991",
+                      "typeString": "contract MockERC20"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "232:23:5"
+            },
+            "returnParameters": {
+              "id": 903,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "263:0:5"
+            },
+            "scope": 916,
+            "src": "221:71:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 914,
+              "nodeType": "Block",
+              "src": "335:32:5",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 915,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "redeem",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 912,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 911,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 915,
+                  "src": "311:15:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 910,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "311:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "310:17:5"
+            },
+            "returnParameters": {
+              "id": 913,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "335:0:5"
+            },
+            "scope": 916,
+            "src": "295:72:5",
+            "stateMutability": "nonpayable",
+            "superFunction": 874,
+            "visibility": "public"
+          }
+        ],
+        "scope": 917,
+        "src": "169:200:5"
+      }
+    ],
+    "src": "0:370:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.6",
+  "updatedAt": "2020-03-04T15:27:45.722Z",
+  "devdoc": {
+    "methods": {
+      "allowance(address,address)": {
+        "details": "Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through `transferFrom`. This is zero by default.     * This value changes when `approve` or `transferFrom` are called."
+      },
+      "approve(address,uint256)": {
+        "details": "Sets `amount` as the allowance of `spender` over the caller's tokens.     * Returns a boolean value indicating whether the operation succeeded.     * > Beware that changing an allowance with this method brings the risk that someone may use both the old and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards: https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729     * Emits an `Approval` event."
+      },
+      "balanceOf(address)": {
+        "details": "Returns the amount of tokens owned by `account`."
+      },
+      "totalSupply()": {
+        "details": "Returns the amount of tokens in existence."
+      },
+      "transfer(address,uint256)": {
+        "details": "Moves `amount` tokens from the caller's account to `recipient`.     * Returns a boolean value indicating whether the operation succeeded.     * Emits a `Transfer` event."
+      },
+      "transferFrom(address,address,uint256)": {
+        "details": "Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism. `amount` is then deducted from the caller's allowance.     * Returns a boolean value indicating whether the operation succeeded.     * Emits a `Transfer` event."
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
