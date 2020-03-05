@@ -2,7 +2,6 @@
 import React from 'react';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import ProfileHover from 'profile-hover';
 import Container from '@material-ui/core/Container';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -12,7 +11,6 @@ import useRouter from '../../utils/useRouter';
 
 // import useRouter from 'utils/useRouter';
 const WalletProfile = props => {
-  const { title, children, ...rest } = props;
   const web3Connect = useWeb3Connect();
   const router = useRouter();
 

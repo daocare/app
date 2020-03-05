@@ -3,17 +3,12 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { useForm } from 'react-hook-form';
 import useRouter from '../../utils/useRouter';
-import { uploadJson, getJson } from '../../modules/pinata';
-import { Page, WalletProfile } from '../../components';
+import { uploadJson } from '../../modules/pinata';
+import { Page } from '../../components';
 import Header from '../../components/Header';
-import ImageUploader from 'react-images-upload';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 const BN = require('bn.js');
@@ -83,7 +78,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SubmitProposal = props => {
-  const { className, ...rest } = props;
   const [status, setStatus] = useState('DRAFT');
   const [image, setImage] = useState(false);
   const classes = useStyles();
@@ -94,7 +88,7 @@ const SubmitProposal = props => {
     if (web3Connect.loaded && !web3Connect.connected) {
       router.history.push('/');
     }
-  }, [web3Connect]);
+  }, [web3Connect, router.history]);
 
   const { register, handleSubmit /* , watch */ /* , errors  */ } = useForm();
 
@@ -141,7 +135,7 @@ const SubmitProposal = props => {
     balance: web3Connect.daiBalance,
   });
   return (
-    <Page className={classes.root} title="DAO.care | Submit Proposal">
+    <Page className={classes.root} title="dao.care | Submit Proposal">
       <Header />
       <Typography variant="h5" className={classes.title}>
         Submit Proposal
@@ -207,7 +201,7 @@ const SubmitProposal = props => {
           src=""
           className={image ? classes.image : classes.hiddenImage}
           height="200"
-          alt="Image preview..."
+          alt="Uploaded logo"
         />
 
         <Typography variant="body1" style={{ marginTop: 16 }}>
@@ -260,7 +254,7 @@ const SubmitProposal = props => {
             type="submit"
             disabled={
               (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-              web3Connect.daiAllowance == 0 ||
+              web3Connect.daiAllowance === 0 ||
               web3Connect.daiBalance < STAKING_AMOUNT
             }
           >

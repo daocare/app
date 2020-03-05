@@ -1,6 +1,5 @@
 const pinataSDK = require('@pinata/sdk');
 const axios = require('axios');
-const fs = require('fs');
 
 const pinata = pinataSDK(
   '085ac1eb0e0a04056f88',

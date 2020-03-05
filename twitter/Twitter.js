@@ -4,6 +4,7 @@ var T = new Twitter(config);
 const Web3 = require('web3');
 const Box = require('3box');
 // const moment = require('moment');
+const firebase = require('./firebase');
 
 const {
   mnemonic,
@@ -126,11 +127,13 @@ const start = async () => {
           // let username = data.statuses[i].user.screen_name;
           // scrape their vote from the text
           let text = data.statuses[i].text;
+          const screen_name = data.statuses[i].user.screen_name;
 
-          console.log({ text });
+          console.log({ text, screen_name });
 
-          const regexEthAddrs = /(0x[a-fA-F0-9]{40})/g;
-          const foundEthAddrs = text.match(regexEthAddrs);
+          // const regexEthAddrs = /(0x[a-fA-F0-9]{40})/g;
+          // const foundEthAddrs = text.match(regexEthAddrs);
+          const foundEthAddrs = await firebase.getAddressByHandle(screen_name);
 
           const regexProposalId = /~(\d+)/g;
           const foundProposalId = text.match(regexProposalId);
@@ -151,7 +154,6 @@ const start = async () => {
             const verifiedAccounts = await Box.getVerifiedAccounts(profile);
 
             // console.log(data.statuses[i].user.s);
-            const screen_name = data.statuses[i].user.screen_name;
 
             if (
               !!verifiedAccounts.twitter &&

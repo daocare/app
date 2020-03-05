@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 
 // import useRouter from 'utils/useRouter';
 
-const REACT_ENV = process.env.REACT_APP_ENV;
-
 const Page = props => {
   const { title, children, ...rest } = props;
 

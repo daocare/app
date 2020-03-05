@@ -52,9 +52,9 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     right: 0,
     // backgroundColor: theme.palette.background.default,
-    background: 'red', //#0f0c29' /* fallback for old browsers */,
     background:
       '-webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29)' /* Chrome 10-25, Safari 5.1-6 */,
+    // eslint-disable-next-line
     background:
       'linear-gradient(to right, #24243e, #302b63, #0f0c29)' /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */,
   },
@@ -87,18 +87,19 @@ const Dashboard = props => {
           <Container maxWidth="md">
             <Paper elevation={0}>
               <Suspense fallback={<LinearProgress />}>
-                <Page className={classes.pageContainer} title="DAO.care">
+                <Page className={classes.pageContainer} title="dao.care">
                   {renderRoutes(route.routes)}
                   <Typography
                     variant="caption"
                     color="secondary"
                     style={{ textAlign: 'center' }}
                   >
-                    We are currently run on Kovan network. Please get DAI from
-                    Aave{' '}
+                    We are currently running on Kovan network. Please get DAI
+                    from Aave{' '}
                     <a
                       href="https://testnet.aave.com/faucet/DAI"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       test app
                     </a>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DonateIcon from '@material-ui/icons/AllInclusive';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -7,25 +7,12 @@ import Box from '3box';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { useForm } from 'react-hook-form';
 import useRouter from '../../utils/useRouter';
-import { uploadJson, getJson } from '../../modules/pinata';
-import { Page, WalletProfile } from '../../components';
+import { Page } from '../../components';
 import Header from '../../components/Header';
-import ImageUploader from 'react-images-upload';
 import useWeb3Connect from '../../utils/useWeb3Connect';
-import Input from '@material-ui/core/Input';
-import FilledInput from '@material-ui/core/FilledInput';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import ProposalCard from '../../components/ProposalCard';
-const BN = require('bn.js');
+import { FIREBASE_FUNCTIONS_ENDPOINT } from '../../config/firebase';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -93,19 +80,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Proposals = props => {
-  const { className, ...rest } = props;
+const Proposals = () => {
   const web3Connect = useWeb3Connect();
   const { proposals, fetched } = web3Connect;
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
-
-  // useEffect(() => {
-  //   if (web3Connect.loaded && !web3Connect.connected) {
-  //     router.history.push('/');
-  //   }
-  // }, [web3Connect]);
 
   const address = web3Connect.address;
 
@@ -117,8 +97,36 @@ const Proposals = props => {
     console.log(verified);
     if (verified && verified.twitter && verified.twitter.username) {
       setStatus('3BOX_VERIFIED');
-      await web3Connect.contracts.dao.methods.enableTwitterVoting();
-      setStatus('ENABLED');
+      let tx = await web3Connect.contracts.dao.methods.enableTwitterVoting();
+      if (!tx) {
+        setStatus('TX_FAILED');
+      } else {
+        let txHash = tx.transactionHash;
+        try {
+          const response = await fetch(
+            FIREBASE_FUNCTIONS_ENDPOINT + 'registerTwitterHandle',
+            {
+              method: 'POST',
+              mode: 'cors',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+
+              body: JSON.stringify({
+                handle: verified.twitter.username,
+                address,
+                txHash,
+              }), // body data type must match "Content-Type" header
+            }
+          );
+          let result = await response.json();
+          console.log({ result });
+          setStatus('ENABLED');
+        } catch (error) {
+          console.error(error);
+          setStatus('TX_FAILED');
+        }
+      }
     } else {
       setStatus('3BOX_FAILED');
     }
@@ -131,7 +139,7 @@ const Proposals = props => {
   return (
     <Page
       className={classes.root}
-      title="DAO.care | All Proposals"
+      title="dao.care | All Proposals"
       style={{ position: 'relative' }}
     >
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
@@ -155,7 +163,8 @@ const Proposals = props => {
         {status === '3BOX_VERIFIED' && (
           <Typography variant="caption">Enabling twitter voting</Typography>
         )}
-        {(status === 'ENABLED' || web3Connect.enabledTwitter) && (
+        {(status === 'ENABLED' ||
+          (status !== '3BOX_VERIFIED' && web3Connect.enabledTwitter)) && (
           <Typography variant="caption">
             You can now vote with twitter
           </Typography>
@@ -163,6 +172,11 @@ const Proposals = props => {
         {status === '3BOX_FAILED' && (
           <Typography variant="caption" style={{ color: '#FF9494' }}>
             3Box twitter verification failed
+          </Typography>
+        )}
+        {status === 'TX_FAILED' && (
+          <Typography variant="caption" style={{ color: '#FF9494' }}>
+            Transaction failed, please check your wallet.{' '}
           </Typography>
         )}
       </div>

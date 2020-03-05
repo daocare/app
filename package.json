@@ -18,6 +18,8 @@
     "bignumber.js": "^9.0.0",
     "bn.js": "^5.1.1",
     "clsx": "^1.1.0",
+    "firebase-admin": "^8.9.2",
+    "firebase-functions": "^3.3.0",
     "fs": "^0.0.1-security",
     "history": "^4.10.1",
     "ipfs": "^0.41.2",
