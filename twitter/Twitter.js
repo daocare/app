@@ -133,7 +133,7 @@ const start = async () => {
 
           // const regexEthAddrs = /(0x[a-fA-F0-9]{40})/g;
           // const foundEthAddrs = text.match(regexEthAddrs);
-          const foundEthAddrs = firebase.getAddressByHandle(screen_name);
+          const foundEthAddrs = await firebase.getAddressByHandle(screen_name);
 
           const regexProposalId = /~(\d+)/g;
           const foundProposalId = text.match(regexProposalId);
