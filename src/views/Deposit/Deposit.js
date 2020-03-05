@@ -1,27 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { useForm } from 'react-hook-form';
 import useRouter from '../../utils/useRouter';
-import { uploadJson, getJson } from '../../modules/pinata';
-import { Page, WalletProfile } from '../../components';
+import { Page } from '../../components';
 import Header from '../../components/Header';
-import ImageUploader from 'react-images-upload';
 import useWeb3Connect from '../../utils/useWeb3Connect';
-import Input from '@material-ui/core/Input';
-import FilledInput from '@material-ui/core/FilledInput';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 const BN = require('bn.js');
 
@@ -87,8 +75,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Deposit = props => {
-  const { className, ...rest } = props;
+const Deposit = () => {
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
   const router = useRouter();
@@ -98,12 +85,12 @@ const Deposit = props => {
     if (web3Connect.loaded && !web3Connect.connected) {
       router.history.push('/');
     }
-  }, [web3Connect]);
+  }, [web3Connect, router.history]);
 
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
   let amount = watch('amount') ? watch('amount') : 0;
   let balance = Number(web3Connect.daiBalance);
-  let deposit = Number(web3Connect.daiDeposit);
+  // let deposit = Number(web3Connect.daiDeposit);
   // console.log({ allowance: web3Connect.daiBalance, amount });
   const onSubmit = async data => {
     let { amount } = data;
@@ -126,7 +113,7 @@ const Deposit = props => {
   };
 
   return (
-    <Page className={classes.root} title="DAO.care | Deposit">
+    <Page className={classes.root} title="dao.care | Deposit">
       <Header />
       <Typography variant="h5" className={classes.title}>
         Deposit DAI
@@ -252,7 +239,7 @@ const Deposit = props => {
                 type="submit"
                 disabled={
                   (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                  web3Connect.daiAllowance == 0 ||
+                  web3Connect.daiAllowance === 0 ||
                   balance < amount ||
                   balance === 0
                 }

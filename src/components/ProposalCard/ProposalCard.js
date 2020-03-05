@@ -5,14 +5,12 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import InsertLinkIcon from '@material-ui/icons/InsertLink';
-import { Link } from 'react-router';
 
 const useStyles = makeStyles({
   root: {

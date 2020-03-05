@@ -27,9 +27,7 @@ exports.registerTwitterHandle = functions.https.onRequest(
 
         // 2. verify 3box
         const profile = await Box.getProfile(address);
-        console.log(profile);
         const verifiedAccounts = await Box.getVerifiedAccounts(profile);
-        console.log(verifiedAccounts);
 
         if (
           Boolean(verifiedAccounts.twitter) &&

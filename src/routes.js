@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import React, { lazy } from 'react';
+import { lazy } from 'react';
 // import { Redirect } from 'react-router-dom';
 
 import MainLayout from './layouts/Main';

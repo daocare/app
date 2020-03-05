@@ -17,7 +17,7 @@ const Header = props => {
             router.history.push('/');
           }}
         >
-          DAO.care
+          dao.care
         </Typography>
 
         <Typography variant="body1" style={{ marginTop: 16 }}>
