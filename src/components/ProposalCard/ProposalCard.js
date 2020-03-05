@@ -31,7 +31,7 @@ export default function ProposalCard(props) {
   const voteTwitter = () => {
     let url =
       'https://twitter.com/intent/tweet?text=' +
-      encodeURI(`I (${address}) am voting for proposal ~${id} on `) +
+      encodeURI(`I am voting for proposal ~${id} on `) +
       '%23' +
       encodeURI(`DAOcare - A no loss funding DAO @dao_care`);
     console.log(url);
