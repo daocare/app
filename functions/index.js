@@ -14,8 +14,8 @@ exports.registerTwitterHandle = functions.https.onRequest(
   (request, response) => {
     return cors(request, response, async () => {
       try {
-        console.log(request);
         let { handle, address, txHash } = request.body;
+        console.log({ handle, address, txHash });
         // 1. check if handle is already associated
         let handleExists = await twitterDb.isTwitterHandleRegistered(handle);
         if (handleExists) {
@@ -27,7 +27,10 @@ exports.registerTwitterHandle = functions.https.onRequest(
 
         // 2. verify 3box
         const profile = await Box.getProfile(address);
+        console.log(profile);
         const verifiedAccounts = await Box.getVerifiedAccounts(profile);
+        console.log(verifiedAccounts);
+
         if (
           Boolean(verifiedAccounts.twitter) &&
           Boolean(verifiedAccounts.twitter.username) &&
@@ -40,7 +43,11 @@ exports.registerTwitterHandle = functions.https.onRequest(
           throw new Error(error);
         }
 
-        // 3. add to firebase
+        // // 3. verify balance
+
+        // // TODO
+
+        // // 4. add to firebase
         await twitterDb.registerTwitterHandle(handle, address, txHash);
 
         response.json({ result: 'OK' });
