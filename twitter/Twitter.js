@@ -5,7 +5,8 @@ const Web3 = require('web3');
 const Box = require('3box');
 // const moment = require('moment');
 const firebase = require('./firebase');
-
+const DAO_ADDRESS = process.env.REACT_APP_DAO_ADDRESS;
+conseole.log({ address: DAO_ADDRESS });
 const {
   mnemonic,
   kovanProviderUrl,
