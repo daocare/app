@@ -38,14 +38,14 @@
     "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IAaveLendingPool.sol",
     "exportedSymbols": {
       "IAaveLendingPool": [
-        887
+        936
       ]
     },
-    "id": 888,
+    "id": 937,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 877,
+        "id": 926,
         "literals": [
           "solidity",
           "^",
@@ -61,9 +61,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 887,
+        "id": 936,
         "linearizedBaseContracts": [
-          887
+          936
         ],
         "name": "IAaveLendingPool",
         "nodeType": "ContractDefinition",
@@ -71,22 +71,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 886,
+            "id": 935,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "deposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 884,
+              "id": 933,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 879,
+                  "id": 928,
                   "name": "_reserve",
                   "nodeType": "VariableDeclaration",
-                  "scope": 886,
+                  "scope": 935,
                   "src": "72:16:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -95,7 +95,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 878,
+                    "id": 927,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "72:7:3",
@@ -110,10 +110,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 881,
+                  "id": 930,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 886,
+                  "scope": 935,
                   "src": "90:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -122,7 +122,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 880,
+                    "id": 929,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "90:7:3",
@@ -136,10 +136,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 883,
+                  "id": 932,
                   "name": "_referralCode",
                   "nodeType": "VariableDeclaration",
-                  "scope": 886,
+                  "scope": 935,
                   "src": "107:20:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -148,7 +148,7 @@
                     "typeString": "uint16"
                   },
                   "typeName": {
-                    "id": 882,
+                    "id": 931,
                     "name": "uint16",
                     "nodeType": "ElementaryTypeName",
                     "src": "107:6:3",
@@ -164,19 +164,19 @@
               "src": "71:57:3"
             },
             "returnParameters": {
-              "id": 885,
+              "id": 934,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "139:0:3"
             },
-            "scope": 887,
+            "scope": 936,
             "src": "55:85:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 888,
+        "scope": 937,
         "src": "25:117:3"
       }
     ],
@@ -186,14 +186,14 @@
     "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IAaveLendingPool.sol",
     "exportedSymbols": {
       "IAaveLendingPool": [
-        887
+        936
       ]
     },
-    "id": 888,
+    "id": 937,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 877,
+        "id": 926,
         "literals": [
           "solidity",
           "^",
@@ -209,9 +209,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 887,
+        "id": 936,
         "linearizedBaseContracts": [
-          887
+          936
         ],
         "name": "IAaveLendingPool",
         "nodeType": "ContractDefinition",
@@ -219,22 +219,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 886,
+            "id": 935,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "deposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 884,
+              "id": 933,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 879,
+                  "id": 928,
                   "name": "_reserve",
                   "nodeType": "VariableDeclaration",
-                  "scope": 886,
+                  "scope": 935,
                   "src": "72:16:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -243,7 +243,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 878,
+                    "id": 927,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "72:7:3",
@@ -258,10 +258,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 881,
+                  "id": 930,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 886,
+                  "scope": 935,
                   "src": "90:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -270,7 +270,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 880,
+                    "id": 929,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "90:7:3",
@@ -284,10 +284,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 883,
+                  "id": 932,
                   "name": "_referralCode",
                   "nodeType": "VariableDeclaration",
-                  "scope": 886,
+                  "scope": 935,
                   "src": "107:20:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -296,7 +296,7 @@
                     "typeString": "uint16"
                   },
                   "typeName": {
-                    "id": 882,
+                    "id": 931,
                     "name": "uint16",
                     "nodeType": "ElementaryTypeName",
                     "src": "107:6:3",
@@ -312,19 +312,19 @@
               "src": "71:57:3"
             },
             "returnParameters": {
-              "id": 885,
+              "id": 934,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "139:0:3"
             },
-            "scope": 887,
+            "scope": 936,
             "src": "55:85:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 888,
+        "scope": 937,
         "src": "25:117:3"
       }
     ],
@@ -336,7 +336,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-  "updatedAt": "2020-03-04T19:19:27.622Z",
+  "updatedAt": "2020-03-04T23:23:41.541Z",
   "devdoc": {
     "methods": {}
   },

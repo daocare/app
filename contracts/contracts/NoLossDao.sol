@@ -23,7 +23,7 @@ contract NoLossDao is Initializable {
   mapping(uint256 => string) public proposalDetails;
   mapping(address => uint256) public benefactorsProposal; // benefactor -> proposal id
   mapping(uint256 => address) public proposalOwner; // proposal id -> benefactor (1:1 mapping)
-  enum ProposalState {Active, Withdrawn} // Add Cooldown state and pending state
+  enum ProposalState {DoesNotExist, Withdrawn, Active} // Add Cooldown state and pending state
   mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
   //////// User specific //////////
@@ -79,7 +79,7 @@ contract NoLossDao is Initializable {
   modifier userHasActiveProposal(address givenAddress) {
     require(
       state[benefactorsProposal[givenAddress]] == ProposalState.Active,
-      "User doesn't have an active proposal"
+      'User proposal does not exist'
     );
     _;
   }
@@ -107,7 +107,7 @@ contract NoLossDao is Initializable {
   }
 
   modifier proposalActive(uint256 propId) {
-    require(state[propId] == ProposalState.Active, "Proposal isn't active");
+    require(state[propId] == ProposalState.Active, 'Proposal is not active');
     _;
   }
 
@@ -131,6 +131,14 @@ contract NoLossDao is Initializable {
     require(
       iterationJoined[givenAddress] < proposalIteration,
       'User only eligible to vote next iteration'
+    );
+    _;
+  }
+
+  modifier lockInFulfilled(address givenAddress) {
+    require(
+      iterationJoined[givenAddress] + 2 < proposalIteration,
+      'Benefactor only eligible to receive funds in later iteration'
     );
     _;
   }
@@ -236,18 +244,24 @@ contract NoLossDao is Initializable {
     proposalOwner[proposalId] = msg.sender;
     benefactorsProposal[msg.sender] = proposalId;
     state[proposalId] = ProposalState.Active;
+    iterationJoined[msg.sender] = proposalIteration;
     return proposalId;
   }
 
-  function withdrawProposal() public userHasActiveProposal(msg.sender) {
+  function withdrawProposal()
+    public
+    userHasActiveProposal(msg.sender)
+    lockInFulfilled(msg.sender)
+  {
     //This can only be executed after every cycle
-    //state[benefactorsProposal[msg.sender]] = ProposalState.Withdrawn;
-    //totalDepositedDai = totalDepositedDai.sub(depositedDai[msg.sender]);
-    //depositedDai[msg.sender] = 0;
-    // TODO
-    // Remove proposalAmount from aDAI
-    // Convert to DAI
-    // Send back to owner
+    state[benefactorsProposal[msg.sender]] = ProposalState.Withdrawn;
+
+    uint256 amount = depositedDai[msg.sender];
+    depositedDai[msg.sender] = 0;
+    totalDepositedDai = totalDepositedDai.sub(amount);
+
+    adaiContract.redeem(amount);
+    daiContract.transfer(msg.sender, amount);
   }
 
   ///////////////////////////////////

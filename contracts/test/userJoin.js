@@ -31,7 +31,7 @@ contract('NoLossDao', accounts => {
       from: accounts[0],
     });
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    await aDai.addMinter(aaveLendingPool.address);
+    await dai.addMinter(aDai.address, { from: accounts[0] });
     await noLossDao.initialize(
       dai.address,
       aDai.address,
