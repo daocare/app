@@ -12,14 +12,14 @@
     "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/ILendingPoolAddressesProvider.sol",
     "exportedSymbols": {
       "ILendingPoolAddressesProvider": [
-        890
+        939
       ]
     },
-    "id": 891,
+    "id": 940,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 889,
+        "id": 938,
         "literals": [
           "solidity",
           "^",
@@ -35,14 +35,14 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 890,
+        "id": 939,
         "linearizedBaseContracts": [
-          890
+          939
         ],
         "name": "ILendingPoolAddressesProvider",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 891,
+        "scope": 940,
         "src": "25:41:4"
       }
     ],
@@ -52,14 +52,14 @@
     "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/ILendingPoolAddressesProvider.sol",
     "exportedSymbols": {
       "ILendingPoolAddressesProvider": [
-        890
+        939
       ]
     },
-    "id": 891,
+    "id": 940,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 889,
+        "id": 938,
         "literals": [
           "solidity",
           "^",
@@ -75,14 +75,14 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 890,
+        "id": 939,
         "linearizedBaseContracts": [
-          890
+          939
         ],
         "name": "ILendingPoolAddressesProvider",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 891,
+        "scope": 940,
         "src": "25:41:4"
       }
     ],
@@ -94,7 +94,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-  "updatedAt": "2020-03-04T19:19:27.622Z",
+  "updatedAt": "2020-03-04T23:23:41.541Z",
   "devdoc": {
     "methods": {}
   },
