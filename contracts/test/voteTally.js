@@ -45,7 +45,7 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  it('NoLossDao:userVote. Votes tally gets correctly registered.', async () => {
+  it('NoLossDao:voteTally. Votes tally gets correctly registered.', async () => {
     let mintAmount1 = '60000000000';
     let mintAmount2 = '70000000000';
     //////////// ITERATION 0 /////////////////

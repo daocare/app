@@ -91,11 +91,10 @@ contract NoLossDao is Initializable {
     );
     _;
   }
-
+  // Work on this modifier to be more accurate
   modifier userHasNoActiveProposal(address givenAddress) {
     require(
-      benefactorsProposal[givenAddress] == 0 ||
-        state[benefactorsProposal[givenAddress]] == ProposalState.Withdrawn,
+      state[benefactorsProposal[givenAddress]] != ProposalState.Active,
       'User has an active proposal'
     );
     _;
@@ -122,7 +121,7 @@ contract NoLossDao is Initializable {
   modifier proxyRight(address delegatedFrom) {
     require(
       voteDelegations[delegatedFrom] == msg.sender,
-      "User doesn't have proxy right"
+      'User does not have proxy right'
     );
     _;
   }
@@ -270,7 +269,8 @@ contract NoLossDao is Initializable {
   function delegateVoting(address delegatedAddress)
     public
     userStaked(msg.sender)
-    userHasNoActiveProposal(msg.sender)
+    userHasNoActiveProposal(msg.sender) //Careful when in cooldown can delegate then ???
+    userHasNoActiveProposal(delegatedAddress)
   {
     voteDelegations[msg.sender] = delegatedAddress;
   }
@@ -283,7 +283,7 @@ contract NoLossDao is Initializable {
     proposalActive(proposalIdToVoteFor)
     noVoteYet(msg.sender)
     userStaked(msg.sender)
-    userHasNoActiveProposal(msg.sender)
+    userHasNoActiveProposal(msg.sender) // Or no cooldown proposal?
     joinedInTime(msg.sender)
   {
     _vote(proposalIdToVoteFor, msg.sender);

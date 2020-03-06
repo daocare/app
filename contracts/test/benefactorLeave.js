@@ -168,6 +168,7 @@ contract('NoLossDao', accounts => {
       from: accounts[2],
     });
 
+    // this is failing
     await noLossDao.createProposal('Some IPFS hash string again', {
       from: accounts[2],
     });
