@@ -53,10 +53,10 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     // backgroundColor: theme.palette.background.default,
     background:
-      '-webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29)' /* Chrome 10-25, Safari 5.1-6 */,
+      '-webkit-radial-gradient(#B1A4D4 5%, #9E8DC9 30%, #6850A8 60%);' /* Chrome 10-25, Safari 5.1-6 */,
     // eslint-disable-next-line
     background:
-      'linear-gradient(to right, #24243e, #302b63, #0f0c29)' /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */,
+      'radial-gradient(#B1A4D4 10%, #9E8DC9 30%, #6850A8 90%);' /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */,
   },
 }));
 

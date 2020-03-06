@@ -8,11 +8,21 @@ const Header = props => {
   const router = useRouter();
   return (
     <React.Fragment>
-      <div style={{ marginBottom: 16 }}>
+      <div style={{ margin: '30px 0px 16px 0px' }}>
+        <img
+          src="/assets/logo.svg"
+          style={{ height: '90px', display: 'inline' }}
+        />
         <Typography
           gutterBottom
-          variant="h4"
-          style={{ marginTop: 16, cursor: 'pointer' }}
+          variant="h1"
+          style={{
+            marginTop: '76px',
+            cursor: 'pointer',
+            fontFamily: 'nunito',
+            fontWeight: 700,
+            display: 'inline',
+          }}
           onClick={() => {
             router.history.push('/');
           }}

@@ -7,6 +7,7 @@ import Container from '@material-ui/core/Container';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import purple from '@material-ui/core/colors/purple';
 import useRouter from '../../utils/useRouter';
 
 // import useRouter from 'utils/useRouter';
@@ -33,10 +34,18 @@ const WalletProfile = props => {
       <Container maxWidth="md">
         {/* <div>Connected: {web3Connect.address}</div>
         <div>Network: {web3Connect.network}</div> */}
-        <div style={{ float: 'right', marginTop: 16, marginBottom: 16 }}>
+        <div
+          style={{
+            float: 'right',
+            marginTop: 16,
+            marginBottom: 16,
+            color: 'white !important',
+          }}
+        >
           <ProfileHover
             address={web3Connect.address}
             showName={true}
+            noTheme={true}
             // orientation="bottom"
             displayFull={true}
           />
@@ -53,7 +62,7 @@ const WalletProfile = props => {
           </Link> */}
           <Tooltip title="Disconnect from wallet">
             <IconButton
-              // color="secondary"
+              style={{ color: purple[50] }}
               aria-label="add an alarm"
               onClick={handleLogout}
             >
@@ -70,7 +79,7 @@ const WalletProfile = props => {
         <div>Network: {web3Connect.network}</div> */}
       <div style={{ float: 'right', marginTop: 16, marginBottom: 16 }}>
         <Button
-          variant="outlined"
+          variant="contained"
           color="secondary"
           disableElevation
           onClick={handleConnect}
