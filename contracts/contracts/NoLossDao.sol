@@ -306,11 +306,9 @@ contract NoLossDao is Initializable {
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
       .add(depositedDai[voteAddress]);
 
-    //topProject[proposalIteration] ---> 0
     uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
-    // TODO:: if they are equal there is a problem (we must handle this!!)
-    // Currently, proposal getting to top vote first wins
+    // Currently, proposal getting to top vote first will win [this is fine]
     if (
       proposalVotes[proposalIteration][proposalIdToVoteFor] > topProjectVotes
     ) {
