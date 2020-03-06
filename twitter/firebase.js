@@ -1,10 +1,16 @@
 var admin = require('firebase-admin');
-var config = require('./config.js');
+var fs = require('fs');
+var path = require('path');
 
-const serviceAccount = './firebase_service_key.json';
+var configPath = path.join(__dirname, 'config.js');
+var config = require(configPath);
+
+var serviceAccountPath = path.join(__dirname, 'firebase_service_key.json');
+
+const TWITTER_HANLDES_DB = 'twitterHandlesAddresses';
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(serviceAccountPath),
   databaseURL: config.databaseURL,
 });
 

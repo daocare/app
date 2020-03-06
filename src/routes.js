@@ -31,6 +31,11 @@ const routes = [
         exact: true,
         component: lazy(() => import('./views/Proposals')),
       },
+      {
+        path: '/network-not-supported',
+        exact: true,
+        component: lazy(() => import('./views/NetworkNotSupported')),
+      },
     ],
   },
 ];

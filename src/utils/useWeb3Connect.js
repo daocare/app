@@ -13,19 +13,21 @@ import Torus from '@toruslabs/torus-embed';
 import supportedChains from './chains';
 import { getJson } from '../modules/pinata';
 import useInterval from '../utils/useInterval';
+import useRouter from './useRouter';
 
 const daiAbi = require('../abis/ERC20.json');
 const daoAbi = require('../abis/NoLossDao.json');
 
-// const CHAIN_ID = 42;
+const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
+const SUPPORTED_NETWORK = 'kovan';
 
 const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
 const ADAI_ADDRESS = '0x58ad4cb396411b691a9aab6f74545b2c5217fe6a'; //kovan
 const WHOOP_ADDRESS = process.env.REACT_APP_DAO_ADDRESS; //daoAbi.networks[CHAIN_ID].address;
-console.log(process.env);
-console.log({ WHOOP_ADDRESS });
 const INFURA_KEY = 'fd2fcca3c26e41cf88b907df3596b14e';
 const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
+
+const NOT_SUPPORTED_URL = '/network-not-supported';
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
 const FETCH_UPDATE_INTERVAL = 3000;
@@ -82,6 +84,8 @@ function useWeb3Connect() {
   const [network, setNetwork] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
+  const router = useRouter();
+
   const [daiContract, setDaiContract] = useState(null);
   const [daiContractReadOnly, setDaiContractReadOnly] = useState(null);
   // const [adaiContract, setAdaiContract] = useState(null);
@@ -135,6 +139,18 @@ function useWeb3Connect() {
 
     const chainIdTemp = await web3Inited.eth.chainId();
 
+    if (chainIdTemp !== SUPPORTED_CHAIN_ID) {
+      if (window.location.pathname !== NOT_SUPPORTED_URL) {
+        router.history.push(NOT_SUPPORTED_URL);
+      }
+    }
+    if (
+      window.location.pathname === NOT_SUPPORTED_URL &&
+      networkId === SUPPORTED_CHAIN_ID
+    ) {
+      router.history.push('/');
+    }
+
     // instanciate contracts
     const daiContract = new web3Inited.eth.Contract(daiAbi.abi, DAI_ADDRESS);
     setDaiContract(daiContract);
@@ -186,6 +202,12 @@ function useWeb3Connect() {
   useInterval(async () => {
     if (daoContractReadOnly) {
       fetchProposals();
+    }
+    if (
+      window.location.pathname === NOT_SUPPORTED_URL &&
+      networkId === SUPPORTED_CHAIN_ID
+    ) {
+      router.history.push('/');
     }
     if (connected && address) {
       updateAllowance();
@@ -393,6 +415,7 @@ function useWeb3Connect() {
     chainId,
     networkId,
     network,
+    supportedNetwork: SUPPORTED_NETWORK,
 
     triggerConnect: onConnect,
     web3,

@@ -1,5 +1,10 @@
 var Twitter = require('twitter');
-var config = require('./config.js');
+
+var path = require('path');
+
+var configPath = path.join(__dirname, 'config.js');
+var config = require(configPath);
+
 var T = new Twitter(config);
 const Web3 = require('web3');
 const Box = require('3box');
@@ -38,10 +43,13 @@ const setupWeb3 = async () => {
   mainAddress = accounts[0];
 
   // const chainIdTemp = await web3Inited.eth.chainId();
-  const WHOOP_ADDRESS = noLossDaoAbi.networks[CHAIN_ID].address;
+  // const DAO_ADDRESS = noLossDaoAbi.networks[CHAIN_ID].address;
+  const DAO_ADDRESS = process.env.REACT_APP_DAO_ADDRESS;
+  console.log({ address: DAO_ADDRESS });
+
   noLossDaoContract = new web3Inited.eth.Contract(
     noLossDaoAbi.abi,
-    WHOOP_ADDRESS
+    DAO_ADDRESS
   );
 };
 // instanciate contracts
@@ -131,9 +139,8 @@ const start = async () => {
 
           console.log({ text, screen_name });
 
-          // const regexEthAddrs = /(0x[a-fA-F0-9]{40})/g;
-          // const foundEthAddrs = text.match(regexEthAddrs);
-          const foundEthAddrs = await firebase.getAddressByHandle(screen_name);
+          let dbEntry = await firebase.getAddressByHandle(screen_name);
+          const foundEthAddrs = dbEntry ? dbEntry.address : null;
 
           const regexProposalId = /~(\d+)/g;
           const foundProposalId = text.match(regexProposalId);
@@ -142,11 +149,10 @@ const start = async () => {
 
           if (
             !!foundEthAddrs &&
-            foundEthAddrs.length > 0 &&
             !!foundProposalId &&
             foundProposalId.length > 0
           ) {
-            const userEthAddress = foundEthAddrs[0];
+            const userEthAddress = foundEthAddrs;
             const proposalId = foundProposalId[0].substring(1);
             console.log('found values', userEthAddress, proposalId);
 
