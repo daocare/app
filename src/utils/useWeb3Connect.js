@@ -83,6 +83,7 @@ function useWeb3Connect() {
   const [networkId, setNetworkId] = useState(null);
   const [network, setNetwork] = useState(null);
   const [loaded, setLoaded] = useState(false);
+  const [loadingWeb3, setLoadingWeb3] = useState(false);
 
   const router = useRouter();
 
@@ -170,7 +171,7 @@ function useWeb3Connect() {
 
   // eslint-disable-next-line
   useEffect(() => {
-    if (!loaded) {
+    if (!loaded && !loadingWeb3) {
       let web3Infura = new Web3(INFURA_ENDPOINT);
       setWeb3ReadOnly(web3Infura);
 
@@ -191,11 +192,13 @@ function useWeb3Connect() {
         WHOOP_ADDRESS
       );
       setDaoContractReadOnly(daoContractReadOnly);
-    }
-    if (web3Connect.cachedProvider && !connected) {
-      onConnect();
-    } else {
-      setLoaded(true);
+
+      if (web3Connect.cachedProvider && !connected) {
+        setLoadingWeb3(true);
+        onConnect();
+      } else {
+        setLoaded(true);
+      }
     }
   });
 
@@ -444,6 +447,7 @@ function useWeb3Connect() {
     daiBalance,
     daiDeposit,
     loaded,
+    loadingWeb3,
     proposals,
     hasProposal,
     enabledTwitter,

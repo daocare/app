@@ -5,12 +5,12 @@ var admin = require('firebase-admin');
 const TWITTER_HANLDES_DB = 'twitterHandlesAddresses';
 
 const isTwitterHandleRegistered = async handle => {
-  let docRef = admin
+  const docRef = admin
     .firestore()
     .collection(TWITTER_HANLDES_DB)
     .doc(handle);
 
-  let docSnapshot = await docRef.get();
+  const docSnapshot = await docRef.get();
   return docSnapshot.exists;
 };
 
@@ -39,7 +39,7 @@ const registerTwitterHandle = async (handle, address, txHash) => {
 // };
 
 const getAddressByHandle = async handle => {
-  let doc = await admin
+  const doc = await admin
     .firestore()
     .collection(TWITTER_HANLDES_DB)
     .doc(handle)
