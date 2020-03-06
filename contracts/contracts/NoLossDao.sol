@@ -275,6 +275,7 @@ contract NoLossDao is Initializable {
     voteDelegations[msg.sender] = delegatedAddress;
   }
 
+  // Write a modifier not allowing proposals in cooldown to be voted for...
   function voteDirect(
     uint256 proposalIdToVoteFor // breaking change -> function name change from vote to voteDirect
   )
@@ -305,12 +306,15 @@ contract NoLossDao is Initializable {
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
       .add(depositedDai[voteAddress]);
 
+    //topProject[proposalIteration] ---> 0
     uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
     // TODO:: if they are equal there is a problem (we must handle this!!)
     // Currently, proposal getting to top vote first wins
-    if (proposalVotes[proposalIteration][proposalId] > topProjectVotes) {
-      topProject[proposalIteration] = proposalId;
+    if (
+      proposalVotes[proposalIteration][proposalIdToVoteFor] > topProjectVotes
+    ) {
+      topProject[proposalIteration] = proposalIdToVoteFor;
     }
   }
 
@@ -341,7 +345,6 @@ contract NoLossDao is Initializable {
     proposalDeadline = proposalDeadline.add(votingInterval);
 
     proposalIteration = proposalIteration.add(1);
-    topProject[proposalIteration] = 0;
 
     // send winning miner a little surprise [NFT]
 
