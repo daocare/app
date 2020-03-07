@@ -115,18 +115,6 @@ const Deposit = () => {
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
-      <Header />
-      <Typography variant="h5" className={classes.title}>
-        Deposit DAI
-      </Typography>
-      {web3Connect.hasProposal && (
-        <>
-          <Typography style={{ color: '#FF9494' }}>
-            As an owner of a proposal, you are not allowed to join the pool and
-            vote on proposals.
-          </Typography>
-        </>
-      )}
       {web3Connect.loadingWeb3 && (
         <>
           <LoadingWeb3 />
@@ -134,6 +122,19 @@ const Deposit = () => {
       )}
       {!web3Connect.loadingWeb3 && (
         <>
+          <Header />
+
+          <Typography variant="h5" className={classes.title}>
+            Deposit DAI
+          </Typography>
+          {web3Connect.hasProposal && (
+            <>
+              <Typography style={{ color: '#FF9494' }}>
+                As an owner of a proposal, you are not allowed to join the pool
+                and vote on proposals.
+              </Typography>
+            </>
+          )}
           {!web3Connect.hasProposal && web3Connect.daiDeposit > 0 && (
             <>
               {/* <Typography style={{ color: '#FF9494' }}>

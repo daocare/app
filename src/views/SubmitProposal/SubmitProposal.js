@@ -11,6 +11,7 @@ import { Page } from '../../components';
 import Header from '../../components/Header';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import LoadingWeb3 from '../../components/LoadingWeb3';
 const BN = require('bn.js');
 
 const STAKING_AMOUNT = 50;
@@ -133,55 +134,66 @@ const SubmitProposal = props => {
     status,
     allowance: web3Connect.daiAllowance,
     balance: web3Connect.daiBalance,
+    hasProposal: web3Connect.hasProposal,
   });
   return (
     <Page className={classes.root} title="dao.care | Submit Proposal">
-      <Header />
-      <Typography variant="h5" className={classes.title}>
-        Submit Proposal
-      </Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* <Box className={classes.fieldGroup}> */}
-        <TextField
-          fullWidth
-          label="Title"
-          name="title"
-          variant="outlined"
-          inputRef={register({ required: true })}
-          className={clsx(classes.flexGrow, classes.textField)}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Description"
-          name="description"
-          variant="outlined"
-          inputRef={register({ required: true })}
-          className={clsx(classes.flexGrow, classes.textField)}
-          multiline
-          rows={5}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Website"
-          name="website"
-          variant="outlined"
-          inputRef={register({ required: true })}
-          className={clsx(classes.flexGrow, classes.textField)}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Team"
-          name="team"
-          variant="outlined"
-          inputRef={register}
-          className={clsx(classes.flexGrow, classes.textField)}
-          multiline
-          rows={3}
-        />
-        {/* <ImageUploader
+      {web3Connect.loadingWeb3 && (
+        <>
+          <LoadingWeb3 />
+        </>
+      )}
+
+      {!web3Connect.loadingWeb3 && (
+        <>
+          <Header />
+          <Typography variant="h5" className={classes.title}>
+            Submit Proposal
+          </Typography>
+          {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && (
+            <>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {/* <Box className={classes.fieldGroup}> */}
+                <TextField
+                  fullWidth
+                  label="Title"
+                  name="title"
+                  variant="outlined"
+                  inputRef={register({ required: true })}
+                  className={clsx(classes.flexGrow, classes.textField)}
+                  required
+                />
+                <TextField
+                  fullWidth
+                  label="Description"
+                  name="description"
+                  variant="outlined"
+                  inputRef={register({ required: true })}
+                  className={clsx(classes.flexGrow, classes.textField)}
+                  multiline
+                  rows={5}
+                  required
+                />
+                <TextField
+                  fullWidth
+                  label="Website"
+                  name="website"
+                  variant="outlined"
+                  inputRef={register({ required: true })}
+                  className={clsx(classes.flexGrow, classes.textField)}
+                  required
+                />
+                <TextField
+                  fullWidth
+                  label="Team"
+                  name="team"
+                  variant="outlined"
+                  inputRef={register}
+                  className={clsx(classes.flexGrow, classes.textField)}
+                  multiline
+                  rows={3}
+                />
+                {/* <ImageUploader
           withIcon={true}
           buttonText="Project Logo"
           onChange={e => {
@@ -192,137 +204,147 @@ const SubmitProposal = props => {
           withPreview={true}
           // fileContainerStyle={{ boxShadow: 0 }}
         /> */}
-        <Typography variant="caption" display="block">
-          Logo
-        </Typography>
-        <input type="file" onChange={previewFile} />
-        <img
-          id="logoImg"
-          src=""
-          className={image ? classes.image : classes.hiddenImage}
-          height="200"
-          alt="Uploaded logo"
-        />
+                <Typography variant="caption" display="block">
+                  Logo
+                </Typography>
+                <input type="file" onChange={previewFile} />
+                <img
+                  id="logoImg"
+                  src=""
+                  className={image ? classes.image : classes.hiddenImage}
+                  height="200"
+                  alt="Uploaded logo"
+                />
 
-        <Typography variant="body1" style={{ marginTop: 16 }}>
-          In order to submit a proposol you need to stake {STAKING_AMOUNT} DAI.
-        </Typography>
-        <div className={classes.wrapper}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            // type="submit"
-            disabled={web3Connect.daiAllowance > 0} // TODO: update to 50Dai
-            onClick={async () => {
-              let execute = async () => {
-                setStatus('APPROVING_DAI');
-                await web3Connect.contracts.dai.methods.triggerDaiApprove(
-                  new BN(STAKING_AMOUNT)
-                );
-                setStatus('DAI_APPROVED');
-              };
-              execute();
-            }}
-          >
-            1. Allow 50 DAI
-          </Button>
-          {status === 'APPROVING_DAI' && (
-            <Typography
-              variant="body1"
-              component="span"
-              className={classes.statusMsg}
-            >
-              Allowing transferring of 50 DAI...
-            </Typography>
+                <Typography variant="body1" style={{ marginTop: 16 }}>
+                  In order to submit a proposol you need to stake{' '}
+                  {STAKING_AMOUNT} DAI.
+                </Typography>
+                <div className={classes.wrapper}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    disabled={web3Connect.daiAllowance > 0} // TODO: update to 50Dai
+                    onClick={async () => {
+                      let execute = async () => {
+                        setStatus('APPROVING_DAI');
+                        await web3Connect.contracts.dai.methods.triggerDaiApprove(
+                          new BN(STAKING_AMOUNT)
+                        );
+                        setStatus('DAI_APPROVED');
+                      };
+                      execute();
+                    }}
+                  >
+                    1. Allow 50 DAI
+                  </Button>
+                  {status === 'APPROVING_DAI' && (
+                    <Typography
+                      variant="body1"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Allowing transferring of 50 DAI...
+                    </Typography>
+                  )}
+                  {(status === 'DAI_APPROVED' ||
+                    web3Connect.daiAllowance > 0) && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Allowance of 50 DAI complete!
+                    </Typography>
+                  )}
+                </div>
+                <div className={classes.wrapper}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    type="submit"
+                    disabled={
+                      (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+                      web3Connect.daiAllowance === 0 ||
+                      web3Connect.daiBalance < STAKING_AMOUNT
+                    }
+                  >
+                    2. Submit Proposal
+                  </Button>
+                  {web3Connect.daiBalance < STAKING_AMOUNT && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                      style={{ color: '#FF9494' }}
+                    >
+                      You don't have enough DAI on your wallet
+                    </Typography>
+                  )}
+                  {status === 'IPFS_UPLOAD' && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Uploading proposal to IPFS...
+                    </Typography>
+                  )}
+                  {status === 'SUBMITTING_BLOCKCHAIN' && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Submitting proposal to the DAO...
+                    </Typography>
+                  )}
+                  {status === 'SUBMITTED' && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Proposal submitted to the DAO successfully!
+                    </Typography>
+                  )}
+                </div>
+                {status === 'SUBMITTED' && (
+                  <div
+                    className={classes.divContainer}
+                    style={{
+                      marginTop: 24,
+                      marginBottom: 24,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Button
+                      color="primary"
+                      size="large"
+                      className={classes.button}
+                      startIcon={<HowToVoteIcon />}
+                      onClick={() => {
+                        router.history.push('/proposals');
+                      }}
+                    >
+                      Vote{' '}
+                    </Button>
+                  </div>
+                )}
+              </form>
+            </>
           )}
-          {(status === 'DAI_APPROVED' || web3Connect.daiAllowance > 0) && (
-            <Typography
-              variant="body2"
-              component="span"
-              className={classes.statusMsg}
-            >
-              Allowance of 50 DAI complete!
-            </Typography>
+          {web3Connect.daiDeposit > 0 && (
+            <p>
+              You have already deposited and you can't add a proposal with the
+              same account, please create a new one.
+            </p>
           )}
-        </div>
-        <div className={classes.wrapper}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            type="submit"
-            disabled={
-              (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-              web3Connect.daiAllowance === 0 ||
-              web3Connect.daiBalance < STAKING_AMOUNT
-            }
-          >
-            2. Submit Proposal
-          </Button>
-          {web3Connect.daiBalance < STAKING_AMOUNT && (
-            <Typography
-              variant="body2"
-              component="span"
-              className={classes.statusMsg}
-              style={{ color: '#FF9494' }}
-            >
-              You don't have enough DAI on your wallet
-            </Typography>
-          )}
-          {status === 'IPFS_UPLOAD' && (
-            <Typography
-              variant="body2"
-              component="span"
-              className={classes.statusMsg}
-            >
-              Uploading proposal to IPFS...
-            </Typography>
-          )}
-          {status === 'SUBMITTING_BLOCKCHAIN' && (
-            <Typography
-              variant="body2"
-              component="span"
-              className={classes.statusMsg}
-            >
-              Submitting proposal to the DAO...
-            </Typography>
-          )}
-          {status === 'SUBMITTED' && (
-            <Typography
-              variant="body2"
-              component="span"
-              className={classes.statusMsg}
-            >
-              Proposal submitted to the DAO successfully!
-            </Typography>
-          )}
-        </div>
-        {status === 'SUBMITTED' && (
-          <div
-            className={classes.divContainer}
-            style={{
-              marginTop: 24,
-              marginBottom: 24,
-              textAlign: 'center',
-            }}
-          >
-            <Button
-              // variant="contained"
-              color="primary"
-              size="large"
-              className={classes.button}
-              startIcon={<HowToVoteIcon />}
-              onClick={() => {
-                router.history.push('/proposals');
-              }}
-            >
-              Vote{' '}
-            </Button>
-          </div>
-        )}
-        {/* </Box> */}
-      </form>
+          {web3Connect.hasProposal && <p>You already have a proposal</p>}
+        </>
+      )}
     </Page>
   );
 };

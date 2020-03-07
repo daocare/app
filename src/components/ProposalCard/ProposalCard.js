@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 
 export default function ProposalCard(props) {
   const { title, description, website, image, id } = props.proposal;
-  const { votingAllowed, twitterAllowed, vote, address } = props;
+  const { votingAllowed, twitterAllowed, vote } = props;
   const classes = useStyles();
   console.log({ vote });
   const voteTwitter = () => {

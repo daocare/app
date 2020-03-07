@@ -167,6 +167,7 @@ function useWeb3Connect() {
     setNetworkId(networkIdTemp);
     setNetwork(getNetworkByChainId(networkIdTemp));
     setLoaded(true);
+    setLoadingWeb3(false);
   };
 
   // eslint-disable-next-line
@@ -396,7 +397,7 @@ function useWeb3Connect() {
   };
 
   const vote = async id => {
-    let tx = await daoContract.methods.vote(id).send({
+    let tx = await daoContract.methods.voteDirect(id).send({
       from: address,
     });
     console.log(tx);
