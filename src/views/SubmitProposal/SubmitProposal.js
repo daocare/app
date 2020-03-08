@@ -12,6 +12,19 @@ import Header from '../../components/Header';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import LoadingWeb3 from '../../components/LoadingWeb3';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepContent from '@material-ui/core/StepContent';
+import useInterval from '../../utils/useInterval';
+import {
+  open3Box,
+  isLoggedIn,
+  isFetching,
+  getBox,
+  getSpace,
+} from '../../utils/3BoxManager';
+
 const BN = require('bn.js');
 
 const STAKING_AMOUNT = 50;
@@ -76,6 +89,12 @@ const useStyles = makeStyles(theme => ({
   button: {
     width: 190,
   },
+  stepContent: {
+    padding: 32,
+  },
+  step3Box: {
+    textAlign: 'center',
+  },
 }));
 
 const SubmitProposal = props => {
@@ -84,14 +103,56 @@ const SubmitProposal = props => {
   const classes = useStyles();
   const router = useRouter();
   const web3Connect = useWeb3Connect();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [check3BoxProfile, setCheck3BoxProfile] = React.useState(false);
+  const [spaceStatus, setSpaceStatus] = React.useState(null);
+
+  useInterval(async () => {
+    if (isLoggedIn(web3Connect.address) && !isFetching()) {
+      open3Box(web3Connect.address, web3Connect.provider, setSpaceStatus);
+    }
+    if (
+      isLoggedIn(web3Connect.address) &&
+      !isFetching() &&
+      getSpace() !== null &&
+      activeStep === 0
+    ) {
+      setActiveStep(1);
+    }
+    if (check3BoxProfile) {
+      let { profile, verifiedAccounts } = web3Connect.update3BoxDetails();
+      if (profile && verifiedAccounts.twitter) {
+        setCheck3BoxProfile(false);
+      }
+    }
+  }, 3000);
 
   useEffect(() => {
     if (web3Connect.loaded && !web3Connect.connected) {
       router.history.push('/');
     }
+    // if (
+    //   activeStep === 0 &&
+    //   web3Connect.userVerifiedAccounts &&
+    //   web3Connect.userVerifiedAccounts.twitter
+    // ) {
+    //   setActiveStep(1);
+    // }
   }, [web3Connect, router.history]);
 
   const { register, handleSubmit /* , watch */ /* , errors  */ } = useForm();
+
+  const handleNext = () => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
   const onSubmit = async data => {
     setStatus('IPFS_UPLOAD');
@@ -130,12 +191,12 @@ const SubmitProposal = props => {
       reader.readAsDataURL(file);
     }
   };
-  console.log({
-    status,
-    allowance: web3Connect.daiAllowance,
-    balance: web3Connect.daiBalance,
-    hasProposal: web3Connect.hasProposal,
-  });
+  // console.log({
+  //   status,
+  //   allowance: web3Connect.daiAllowance,
+  //   balance: web3Connect.daiBalance,
+  //   hasProposal: web3Connect.hasProposal,
+  // });
   return (
     <Page className={classes.root} title="dao.care | Submit Proposal">
       {web3Connect.loadingWeb3 && (
@@ -150,6 +211,168 @@ const SubmitProposal = props => {
           <Typography variant="h5" className={classes.title}>
             Submit Proposal
           </Typography>
+          <Stepper activeStep={activeStep} orientation="vertical">
+            <Step>
+              <StepLabel>3Box verification</StepLabel>
+              <StepContent>
+                <div className={classes.stepContent}>
+                  {/* {web3Connect.is3BoxLoggedIn && ( */}
+                  <div className={classes.step3Box}>
+                    <a
+                      href="https://3box.io/hub"
+                      target="_blank"
+                      onClick={() => setCheck3BoxProfile(true)}
+                    >
+                      <img
+                        src="/3box-cloud.svg"
+                        alt="3Box"
+                        style={{
+                          width: 200,
+                          display: 'block',
+                          margin: 'auto',
+                          marginBottom: 16,
+                          cursor: 'pointer',
+                        }}
+                      />
+                    </a>
+                    {!web3Connect.userProfile && (
+                      <>
+                        <Typography
+                          variant="body2"
+                          gutterBottom
+                          style={{ marginBottom: 16 }}
+                        >
+                          In order to submit a proposal, you need to have a 3Box
+                          profile with a twitter verification.
+                        </Typography>
+                        {/* <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleNext}
+                          className={classes.button}
+                        >
+                          Create Profile
+                        </Button> */}
+                      </>
+                    )}
+                    {web3Connect.userProfile &&
+                      (!web3Connect.userVerifiedAccounts ||
+                        !web3Connect.userVerifiedAccounts.twitter) && (
+                        <Typography
+                          variant="body2"
+                          gutterBottom
+                          style={{ marginBottom: 16 }}
+                        >
+                          We still need to know your twitter profile, please use
+                          3Box to verify your twitter
+                        </Typography>
+                      )}
+                    {web3Connect.userProfile &&
+                      web3Connect.userVerifiedAccounts &&
+                      web3Connect.userVerifiedAccounts.twitter && (
+                        <>
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            style={{ marginBottom: 16 }}
+                          >
+                            {!spaceStatus && (
+                              <span>
+                                One last step, we need to open a dao.care space
+                                on your 3Box
+                              </span>
+                            )}
+                            {spaceStatus && <span>{spaceStatus}</span>}
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleNext}
+                            className={classes.button}
+                            onClick={async () => {
+                              await open3Box(
+                                web3Connect.address,
+                                web3Connect.provider,
+                                setSpaceStatus
+                              );
+                              setActiveStep(1);
+                            }}
+                            disabled={spaceStatus !== null}
+                          >
+                            Open 3Box Space
+                          </Button>
+                        </>
+                      )}
+                  </div>
+                  {/* )} */}
+                  {/* <div>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={classes.button}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === 2 ? 'Finish' : 'Next'}
+                    </Button>
+                  </div> */}
+                </div>
+              </StepContent>
+            </Step>
+
+            <Step>
+              <StepLabel>Proposal details</StepLabel>
+              <StepContent>
+                <div>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className={classes.button}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === 2 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
+              </StepContent>
+            </Step>
+
+            <Step>
+              <StepLabel>Proposal submission</StepLabel>
+              <StepContent>
+                <div>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className={classes.button}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === 2 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
+              </StepContent>
+            </Step>
+          </Stepper>
+
           {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && (
             <>
               <form onSubmit={handleSubmit(onSubmit)}>
