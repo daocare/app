@@ -23,7 +23,7 @@ contract NoLossDao is Initializable {
   mapping(uint256 => string) public proposalDetails;
   mapping(address => uint256) public benefactorsProposal; // benefactor -> proposal id
   mapping(uint256 => address) public proposalOwner; // proposal id -> benefactor (1:1 mapping)
-  enum ProposalState {DoesNotExist, Withdrawn, Active} // Add Cooldown state and pending state
+  enum ProposalState {DoesNotExist, Withdrawn, Active, Cooldown} // Add Cooldown state and pending state
   mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
   //////// User specific //////////
@@ -330,14 +330,25 @@ contract NoLossDao is Initializable {
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
 
     // anyone can call this when 2 cycle has ended - incentivize 'anyone' to call this transaction first and get a lil reward ;)
-    require(proposalDeadline < now, 'current vote still active');
+    require(proposalDeadline < now, 'iteration interval not ended');
 
     // figure our what happens with the interest from the first proposal iteration
     // Possibly make first iteration an extended one for our launch (for marketing)
     if (topProject[proposalIteration] != 0) {
       // Do some asserts here for safety...
+
+      // Only if last winner is not withdrawn (i.e. still in cooldown) make it active again
+      if (state[topProject[proposalIteration - 1]] == ProposalState.Cooldown) {
+        state[topProject[proposalIteration - 1]] = ProposalState.Active;
+      }
+      // Only if they haven't withdrawn, put them in cooldown
+      if (state[topProject[proposalIteration]] != ProposalState.Withdrawn) {
+        state[topProject[proposalIteration]] = ProposalState.Cooldown;
+      }
+
       address winner = proposalOwner[topProject[proposalIteration]]; // error if no-one voted for in this iteration
       adaiContract.redirectInterestStream(winner);
+
     }
     //
     proposalDeadline = proposalDeadline.add(votingInterval);

@@ -144,6 +144,7 @@ contract('NoLossDao', accounts => {
     assert.equal('0', depositedDaiUser2.toString());
   });
 
+  // This one is also weird and failling sometimes...
   it('NoLossDao:benefactorLeave. Benefactor create withdraw, create withdraw... ', async () => {
     let mintAmount = '60000000000';
 

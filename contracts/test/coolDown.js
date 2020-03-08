@@ -75,17 +75,17 @@ contract('NoLossDao', accounts => {
     await dai.approve(noLossDao.address, mintAmount1, {
       from: accounts[4],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await noLossDao.createProposal('Some IPFS hash string1', {
       from: accounts[4],
     });
     let proposalID2 = 2;
 
-    await dai.mint(accounts[9], mintAmount1);
+    await dai.mint(accounts[6], mintAmount1);
     await dai.approve(noLossDao.address, mintAmount1, {
-      from: accounts[9],
+      from: accounts[6],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
-      from: accounts[9],
+    await noLossDao.createProposal('Some IPFS hash string2', {
+      from: accounts[6],
     });
     let proposalID3 = 3;
 
@@ -95,17 +95,6 @@ contract('NoLossDao', accounts => {
 
     await noLossDao.voteDirect(proposalID1, { from: accounts[1] });
     await noLossDao.voteDirect(proposalID2, { from: accounts[2] }); // this proposal should win
-
-    let votesForProposal1 = await noLossDao.proposalVotes.call(
-      '1',
-      proposalID1
-    );
-    let votesForProposal2 = await noLossDao.proposalVotes.call(
-      '1',
-      proposalID2
-    );
-    assert.equal(mintAmount1, votesForProposal1.toString());
-    assert.equal(mintAmount2, votesForProposal2.toString());
 
     // Create 3rd voting user (account 5) vote power = 6
     await dai.mint(accounts[5], mintAmount1);
@@ -122,30 +111,20 @@ contract('NoLossDao', accounts => {
     assert.equal(proposalID2, winner.toString());
 
     await noLossDao.voteDirect(proposalID1, { from: accounts[1] }); // 1 gets 6 votes
-    await noLossDao.voteDirect(proposalID3, { from: accounts[2] }); // 3 gets 7 votes
+    await expectRevert(
+      noLossDao.voteDirect(proposalID2, { from: accounts[2] }),
+      'Proposal is not active'
+    );
     await noLossDao.voteDirect(proposalID1, { from: accounts[5] }); // 1 gets another 6 votes
     // Proposal 1 should win
 
-    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds(); //check who winner was
-    //////////// ITERATION 3 /////////////////
 
-    let nextWinner = await noLossDao.topProject.call('2'); //iteration 2
-
-    let votesForProposal1NextIteration = await noLossDao.proposalVotes.call(
-      '2',
-      proposalID1
+    await noLossDao.voteDirect(proposalID2, { from: accounts[1] }); // can now vote again for winning proposal
+    await expectRevert(
+      noLossDao.voteDirect(proposalID1, { from: accounts[2] }),
+      'Proposal is not active'
     );
-    let votesForProposal2NextIteration = await noLossDao.proposalVotes.call(
-      '2',
-      proposalID3
-    );
-
-    assert.equal(
-      votesForProposal1NextIteration.toString(),
-      (parseInt(mintAmount1) * 2).toString()
-    );
-    assert.equal(votesForProposal2NextIteration.toString(), mintAmount2);
-    assert.equal(proposalID1, nextWinner.toString());
   });
 });

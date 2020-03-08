@@ -152,6 +152,14 @@ contract('NoLossDao', accounts => {
       from: accounts[2],
     });
 
+    await dai.mint(accounts[3], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[3],
+    });
+    await noLossDao.createProposal('Some IPFS hash string2', {
+      from: accounts[3],
+    });
+
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
@@ -163,7 +171,7 @@ contract('NoLossDao', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
-    await noLossDao.voteDirect(1, { from: accounts[1] });
+    await noLossDao.voteDirect(2, { from: accounts[1] }); // other is in cooldown
   });
 
   it('NoLossDao:userVote. User cannot join, withdraw then vote.', async () => {

@@ -63,6 +63,15 @@ contract('NoLossDao', accounts => {
       from: accounts[2],
     });
 
+    // Proposal ID will be 2
+    await dai.mint(accounts[9], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[9],
+    });
+    await noLossDao.createProposal('Some IPFS hash string', {
+      from: accounts[9],
+    });
+
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
@@ -80,9 +89,9 @@ contract('NoLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     // User can vote before proxy
-    await noLossDao.voteDirect(1, { from: accounts[1] });
+    await noLossDao.voteDirect(2, { from: accounts[1] });
     await expectRevert(
-      noLossDao.voteProxy(1, accounts[1], { from: accounts[3] }),
+      noLossDao.voteProxy(2, accounts[1], { from: accounts[3] }),
       'User already voted this iteration'
     );
   });
@@ -115,9 +124,60 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  // Weird behaviour. This sometimes fails. think it fails on
-  // setting proxy back to yourself -> await noLossDao.delegateVoting(accounts[1], { from: accounts[1] });
+  //   Weird behaviour. This sometimes fails. Its not deterministic...
+  //   setting proxy back to yourself -> await noLossDao.delegateVoting(accounts[1], { from: accounts[1] });
+
   it('NoLossDao:voteProxy. Proxy vote can be set back to only user.', async () => {
+    let mintAmount = '60000000000';
+    // deposit
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[1],
+    });
+    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+
+    // Proposal ID will be 1
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[2],
+    });
+    await noLossDao.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    // Proposal ID will be 2
+    await dai.mint(accounts[9], mintAmount);
+    await dai.approve(noLossDao.address, mintAmount, {
+      from: accounts[9],
+    });
+    await noLossDao.createProposal('Some IPFS hash string', {
+      from: accounts[9],
+    });
+
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
+
+    await noLossDao.delegateVoting(accounts[3], { from: accounts[1] });
+    noLossDao.voteProxy(1, accounts[1], { from: accounts[3] });
+
+    // proxy can no longer vote on your behalf
+    await noLossDao.delegateVoting(accounts[1], { from: accounts[1] });
+
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
+    await noLossDao.distributeFunds();
+
+    await expectRevert(
+      noLossDao.voteProxy(2, accounts[1], { from: accounts[3] }),
+      'User does not have proxy right'
+    );
+    await noLossDao.voteDirect(2, { from: accounts[1] });
+    await expectRevert(
+      noLossDao.voteProxy(2, accounts[1], { from: accounts[1] }),
+      'User already voted this iteration'
+    );
+  });
+
+  it('NoLossDao:voteProxy. User can Proxy multiple times.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
@@ -139,18 +199,19 @@ contract('NoLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     await noLossDao.delegateVoting(accounts[3], { from: accounts[1] });
-    noLossDao.voteProxy(1, accounts[1], { from: accounts[3] });
-
-    // proxy can no longer vote on your behalf
-    await noLossDao.delegateVoting(accounts[1], { from: accounts[1] });
-
-    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
-    await noLossDao.distributeFunds();
+    await noLossDao.delegateVoting(accounts[4], { from: accounts[1] });
+    await noLossDao.delegateVoting(accounts[5], { from: accounts[1] });
 
     await expectRevert(
       noLossDao.voteProxy(1, accounts[1], { from: accounts[3] }),
       'User does not have proxy right'
     );
+
+    await expectRevert(
+      noLossDao.voteProxy(1, accounts[1], { from: accounts[4] }),
+      'User does not have proxy right'
+    );
+    noLossDao.voteProxy(1, accounts[1], { from: accounts[5] });
   });
 
   it('NoLossDao:voteProxy. Users proxy each other', async () => {
