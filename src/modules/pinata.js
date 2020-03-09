@@ -27,39 +27,12 @@ export const getJson = async hash => {
   return json.data;
 };
 
-// export const uploadImage = (proposalHash, image) =>
-//   new Promise((resolve, reject) => {
-//     debugger;
-
-//     const reader = new FileReader();
-
-//     reader.addEventListener("load", function () {
-//       // convert image file to base64 string
-//       preview.src = reader.result;
-//     }, false);
-
-//     if (file) {
-//       reader.readAsDataURL(file);
-//     }
-
-//     let reader = new window.FileReader();
-//     // this.setState({ fileName: file.name });
-//     reader.readAsArrayBuffer(image);
-//     reader.onloadend = async () => {
-//       const options = {
-//         pinataMetadata: {
-//           name: proposalHash + '-image',
-//         },
-//         pinataOptions: {
-//           cidVersion: 0,
-//         },
-//       };
-//       let result = await pinata.pinFileToIPFS(reader, options);
-//       console.log(result);
-//       resolve(result.IpfsHash);
-//       // await this.convertToBuffer(reader);
-//       // this.uploadFile();
-//     };
-
-//     // const readableStreamForFile = fs.createReadStream(image.name);
-//   });
+export const pinHash = async (hash, filename) => {
+  const options = {
+    pinataMetadata: {
+      name: filename,
+    },
+  };
+  let res = await pinata.addHashToPinQueue(hash, options);
+  return res;
+};

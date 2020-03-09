@@ -6,7 +6,7 @@ import { Typography, Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import useRouter from '../../utils/useRouter';
-import { uploadJson } from '../../modules/pinata';
+import { uploadJson, pinHash } from '../../modules/pinata';
 import { Page } from '../../components';
 import Header from '../../components/Header';
 import useWeb3Connect from '../../utils/useWeb3Connect';
@@ -34,6 +34,8 @@ import ReactMde from 'react-mde';
 // import ReactDOM from 'react-dom';
 import * as Showdown from 'showdown';
 import 'react-mde/lib/styles/css/react-mde-all.css';
+import { emojiExists } from '../../modules/twitterDb';
+import IpfsUpload from '../../components/IpfsUpload';
 
 const BN = require('bn.js');
 
@@ -126,17 +128,28 @@ const SubmitProposal = props => {
   const [spaceStatus, setSpaceStatus] = React.useState(null);
 
   const [chosenEmoji, setChosenEmoji] = useState(null);
+  const [emojiError, setEmojiError] = useState(false);
   const [team, setTeam] = React.useState([]);
   const [currentTeamMember, setCurrentTeamMember] = React.useState('');
 
   const [descriptionValue, setDescriptionValue] = React.useState('');
   const [selectedTab, setSelectedTab] = React.useState('write');
 
-  const onEmojiClick = (event, emojiObject) => {
+  const [ipfsImage, setIpfsImage] = React.useState(null);
+
+  const onEmojiClick = async (event, emojiObject) => {
     event.preventDefault();
     console.log(emojiObject);
-    setChosenEmoji(emojiObject);
+    if (await emojiExists(emojiObject.emoji)) {
+      setChosenEmoji(emojiObject);
+
+      setEmojiError('This emoji is already being used by another proposal');
+    } else {
+      setChosenEmoji(emojiObject);
+      setEmojiError('');
+    }
   };
+
   useInterval(async () => {
     if (isLoggedIn(web3Connect.address) && !isFetching()) {
       open3Box(web3Connect.address, web3Connect.provider, setSpaceStatus);
@@ -180,10 +193,6 @@ const SubmitProposal = props => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
   const addTeamMember = handle => {
     let newTeam = team;
     newTeam.push(handle);
@@ -213,25 +222,25 @@ const SubmitProposal = props => {
     setStatus('SUBMITTED');
   };
 
-  const previewFile = () => {
-    const preview = document.getElementById('logoImg');
-    const file = document.querySelector('input[type=file]').files[0];
-    const reader = new FileReader();
+  // const previewFile = () => {
+  //   const preview = document.getElementById('logoImg');
+  //   const file = document.querySelector('input[type=file]').files[0];
+  //   const reader = new FileReader();
 
-    reader.addEventListener(
-      'load',
-      function() {
-        // convert image file to base64 string
-        preview.src = reader.result;
-        setImage(reader.result);
-      },
-      false
-    );
+  //   reader.addEventListener(
+  //     'load',
+  //     function() {
+  //       // convert image file to base64 string
+  //       preview.src = reader.result;
+  //       setImage(reader.result);
+  //     },
+  //     false
+  //   );
 
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
+  //   if (file) {
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const converter = new Showdown.Converter({
     tables: true,
@@ -407,7 +416,7 @@ const SubmitProposal = props => {
                       display="block"
                       className={classes.textField}
                     >
-                      Emoji
+                      Emoji *
                       {chosenEmoji && (
                         <span
                           role="img"
@@ -416,6 +425,9 @@ const SubmitProposal = props => {
                           {' '}
                           {chosenEmoji.emoji}
                         </span>
+                      )}
+                      {emojiError && (
+                        <span style={{ color: 'red' }}> {emojiError}</span>
                       )}
                     </Typography>
                     <Picker
@@ -453,7 +465,7 @@ const SubmitProposal = props => {
                       display="block"
                       className={classes.textField}
                     >
-                      Team
+                      Team *
                     </Typography>
                     <div>
                       {team.map(member => (
@@ -476,6 +488,7 @@ const SubmitProposal = props => {
                         variant="outlined"
                         size="small"
                         className={clsx(classes.flexGrow, classes.textField)}
+                        style={{ width: 200 }}
                         value={currentTeamMember}
                         onChange={e => setCurrentTeamMember(e.target.value)}
                         onKeyPress={ev => {
@@ -488,6 +501,7 @@ const SubmitProposal = props => {
                       />
                       <Tooltip title="Add team member">
                         <IconButton
+                          color="secondary"
                           aria-label="add"
                           style={{ marginTop: 4, marginLeft: -8 }}
                           onClick={e => {
@@ -500,150 +514,44 @@ const SubmitProposal = props => {
                       </Tooltip>
                     </div>
 
-                    {/* <ImageUploader
-          withIcon={true}
-          buttonText="Project Logo"
-          onChange={e => {
-            setImages(e);
-          }}
-          imgExtension={['.jpg', '.gif', '.png']}
-          maxFileSize={5242880}
-          withPreview={true}
-          // fileContainerStyle={{ boxShadow: 0 }}
-        /> */}
-                    <Typography variant="caption" display="block">
-                      Logo
+                    <Typography
+                      variant="body1"
+                      display="block"
+                      className={classes.textField}
+                    >
+                      Logo *
                     </Typography>
-                    <input type="file" onChange={previewFile} />
-                    <img
-                      id="logoImg"
-                      src=""
-                      className={image ? classes.image : classes.hiddenImage}
-                      height="200"
-                      alt="Uploaded logo"
+                    <IpfsUpload
+                      fileUploadedCB={(url, hash) => {
+                        console.log({ url, hash });
+                        setIpfsImage({ url, hash });
+                        pinHash(hash, web3Connect.address + '-logo');
+                      }}
+                      caption={'Select image'}
                     />
-
-                    <Typography variant="body1" style={{ marginTop: 16 }}>
-                      In order to submit a proposol you need to stake{' '}
-                      {STAKING_AMOUNT} DAI.
-                    </Typography>
-                    <div className={classes.wrapper}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        disabled={web3Connect.daiAllowance > 0} // TODO: update to 50Dai
-                        onClick={async () => {
-                          let execute = async () => {
-                            setStatus('APPROVING_DAI');
-                            await web3Connect.contracts.dai.methods.triggerDaiApprove(
-                              new BN(STAKING_AMOUNT)
-                            );
-                            setStatus('DAI_APPROVED');
-                          };
-                          execute();
-                        }}
-                      >
-                        1. Allow 50 DAI
-                      </Button>
-                      {status === 'APPROVING_DAI' && (
-                        <Typography
-                          variant="body1"
-                          component="span"
-                          className={classes.statusMsg}
-                        >
-                          Allowing transferring of 50 DAI...
-                        </Typography>
-                      )}
-                      {(status === 'DAI_APPROVED' ||
-                        web3Connect.daiAllowance > 0) && (
-                        <Typography
-                          variant="body2"
-                          component="span"
-                          className={classes.statusMsg}
-                        >
-                          Allowance of 50 DAI complete!
-                        </Typography>
-                      )}
-                    </div>
-                    <div className={classes.wrapper}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        type="submit"
-                        disabled={
-                          (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                          web3Connect.daiAllowance === 0 ||
-                          web3Connect.daiBalance < STAKING_AMOUNT
-                        }
-                      >
-                        2. Submit Proposal
-                      </Button>
-                      {web3Connect.daiBalance < STAKING_AMOUNT && (
-                        <Typography
-                          variant="body2"
-                          component="span"
-                          className={classes.statusMsg}
-                          style={{ color: '#FF9494' }}
-                        >
-                          You don't have enough DAI on your wallet
-                        </Typography>
-                      )}
-                      {status === 'IPFS_UPLOAD' && (
-                        <Typography
-                          variant="body2"
-                          component="span"
-                          className={classes.statusMsg}
-                        >
-                          Uploading proposal to IPFS...
-                        </Typography>
-                      )}
-                      {status === 'SUBMITTING_BLOCKCHAIN' && (
-                        <Typography
-                          variant="body2"
-                          component="span"
-                          className={classes.statusMsg}
-                        >
-                          Submitting proposal to the DAO...
-                        </Typography>
-                      )}
-                      {status === 'SUBMITTED' && (
-                        <Typography
-                          variant="body2"
-                          component="span"
-                          className={classes.statusMsg}
-                        >
-                          Proposal submitted to the DAO successfully!
-                        </Typography>
-                      )}
-                    </div>
-                    {status === 'SUBMITTED' && (
-                      <div
-                        className={classes.divContainer}
-                        style={{
-                          marginTop: 24,
-                          marginBottom: 24,
-                          textAlign: 'center',
-                        }}
-                      >
-                        <Button
-                          color="primary"
-                          size="large"
-                          className={classes.button}
-                          startIcon={<HowToVoteIcon />}
-                          onClick={() => {
-                            router.history.push('/proposals');
-                          }}
-                        >
-                          Vote{' '}
-                        </Button>
-                      </div>
+                    {ipfsImage && (
+                      <img
+                        style={{ maxWidth: 200 }}
+                        alt="Logo"
+                        src={ipfsImage.url}
+                      />
                     )}
                   </form>
                 </>
-
-                <div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.storeButton}
+                  type="submit"
+                  disabled={
+                    (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+                    web3Connect.daiAllowance === 0 ||
+                    web3Connect.daiBalance < STAKING_AMOUNT
+                  }
+                >
+                  Store Proposal
+                </Button>
+                {/* <div>
                   <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
@@ -659,13 +567,130 @@ const SubmitProposal = props => {
                   >
                     {activeStep === 2 ? 'Finish' : 'Next'}
                   </Button>
-                </div>
+                </div> */}
               </StepContent>
             </Step>
 
             <Step>
               <StepLabel>Staking</StepLabel>
               <StepContent>
+                <Typography variant="body1" style={{ marginTop: 16 }}>
+                  In order to submit a proposol you need to stake{' '}
+                  {STAKING_AMOUNT} DAI.
+                </Typography>
+                <div className={classes.wrapper}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    disabled={web3Connect.daiAllowance > 0} // TODO: update to 50Dai
+                    onClick={async () => {
+                      let execute = async () => {
+                        setStatus('APPROVING_DAI');
+                        await web3Connect.contracts.dai.methods.triggerDaiApprove(
+                          new BN(STAKING_AMOUNT)
+                        );
+                        setStatus('DAI_APPROVED');
+                      };
+                      execute();
+                    }}
+                  >
+                    1. Allow 50 DAI
+                  </Button>
+                  {status === 'APPROVING_DAI' && (
+                    <Typography
+                      variant="body1"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Allowing transferring of 50 DAI...
+                    </Typography>
+                  )}
+                  {(status === 'DAI_APPROVED' ||
+                    web3Connect.daiAllowance > 0) && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Allowance of 50 DAI complete!
+                    </Typography>
+                  )}
+                </div>
+                <div className={classes.wrapper}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    type="submit"
+                    disabled={
+                      (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+                      web3Connect.daiAllowance === 0 ||
+                      web3Connect.daiBalance < STAKING_AMOUNT
+                    }
+                  >
+                    2. Submit Proposal
+                  </Button>
+                  {web3Connect.daiBalance < STAKING_AMOUNT && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                      style={{ color: '#FF9494' }}
+                    >
+                      You don't have enough DAI on your wallet
+                    </Typography>
+                  )}
+                  {status === 'IPFS_UPLOAD' && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Uploading proposal to IPFS...
+                    </Typography>
+                  )}
+                  {status === 'SUBMITTING_BLOCKCHAIN' && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Submitting proposal to the DAO...
+                    </Typography>
+                  )}
+                  {status === 'SUBMITTED' && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Proposal submitted to the DAO successfully!
+                    </Typography>
+                  )}
+                </div>
+                {status === 'SUBMITTED' && (
+                  <div
+                    className={classes.divContainer}
+                    style={{
+                      marginTop: 24,
+                      marginBottom: 24,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Button
+                      color="primary"
+                      size="large"
+                      className={classes.button}
+                      startIcon={<HowToVoteIcon />}
+                      onClick={() => {
+                        router.history.push('/proposals');
+                      }}
+                    >
+                      Vote{' '}
+                    </Button>
+                  </div>
+                )}
                 <div>
                   <Button
                     disabled={activeStep === 0}
