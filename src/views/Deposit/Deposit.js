@@ -15,7 +15,6 @@ const BN = require('bn.js');
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // backgroundColor: theme.palette.white
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
@@ -27,27 +26,18 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     padding: theme.spacing(3),
   },
-  title: {
-    // marginBottom: theme.spacing(2),
-  },
+  decriptionBlurb: { margin: '16px 0' },
   textField: {
     margin: theme.spacing(1, 0),
     [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing(2),
     },
-
-    // fontWeight: "0.8em"
-    // minWidth: 150
-  },
-  subscribeButton: {
-    // padding: theme.spacing(0, 1)
   },
   fieldGroup: {
     [theme.breakpoints.up('sm')]: {
       display: 'flex',
       marginTop: theme.spacing(1),
     },
-
     alignItems: 'center',
   },
   flexGrow: {
@@ -90,47 +80,32 @@ const Deposit = () => {
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
   let amount = watch('amount') ? watch('amount') : 0;
   let balance = Number(web3Connect.daiBalance);
-  // let deposit = Number(web3Connect.daiDeposit);
-  // console.log({ allowance: web3Connect.daiBalance, amount });
   const onSubmit = async data => {
     let { amount } = data;
-
     setStatus(`DEPOSITING`);
-    // const { title, description } = data;
-    console.log(data);
-
-    // let body = { ...data, image };
-
-    // let hash = await uploadJson(data.title, body);
-    // setStatus('SUBMITTING_BLOCKCHAIN');
-
-    // // console.log({ hash });
-    // // let json = await getJson(hash);
-    // // console.log({ json });
     await web3Connect.contracts.dao.methods.triggerDeposit(amount);
-
     setStatus('DEPOSITED');
   };
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
       <Header />
-      <Typography variant="h5" className={classes.title}>
-        Deposit DAI
+      <Typography variant="body1" className={classes.decriptionBlurb}>
+        Deposit your DAI. Let your idle interest support community projects. The
+        amount of DAI you stake in the fund determines the level of your voting
+        power.
       </Typography>
+      <Typography variant="h5">Deposit DAI</Typography>
       {web3Connect.hasProposal && (
         <>
           <Typography style={{ color: '#FF9494' }}>
-            As an owner of a proposal, you are not allowed to join the pool and
-            vote on proposals.
+            As an owner of a proposal, you are unable to join the pool and vote
+            on proposals from the same address.
           </Typography>
         </>
       )}
       {!web3Connect.hasProposal && web3Connect.daiDeposit > 0 && (
         <>
-          {/* <Typography style={{ color: '#FF9494' }}>
-            You can only deposit once per each cycle.
-          </Typography> */}
           <Typography variant="body1">
             Current deposit: {web3Connect.daiDeposit} DAI
           </Typography>
