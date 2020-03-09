@@ -11,6 +11,7 @@ import Header from '../../components/Header';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import LoadingWeb3 from '../../components/LoadingWeb3';
 const BN = require('bn.js');
 
 const useStyles = makeStyles(theme => ({
@@ -114,190 +115,200 @@ const Deposit = () => {
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
-      <Header />
-      <Typography variant="h5" className={classes.title}>
-        Deposit DAI
-      </Typography>
-      {web3Connect.hasProposal && (
+      {web3Connect.loadingWeb3 && (
         <>
-          <Typography style={{ color: '#FF9494' }}>
-            As an owner of a proposal, you are not allowed to join the pool and
-            vote on proposals.
-          </Typography>
+          <LoadingWeb3 />
         </>
       )}
-      {!web3Connect.hasProposal && web3Connect.daiDeposit > 0 && (
+      {!web3Connect.loadingWeb3 && (
         <>
-          {/* <Typography style={{ color: '#FF9494' }}>
+          <Header />
+
+          <Typography variant="h5" className={classes.title}>
+            Deposit DAI
+          </Typography>
+          {web3Connect.hasProposal && (
+            <>
+              <Typography style={{ color: '#FF9494' }}>
+                As an owner of a proposal, you are not allowed to join the pool
+                and vote on proposals.
+              </Typography>
+            </>
+          )}
+          {!web3Connect.hasProposal && web3Connect.daiDeposit > 0 && (
+            <>
+              {/* <Typography style={{ color: '#FF9494' }}>
             You can only deposit once per each cycle.
           </Typography> */}
-          <Typography variant="body1">
-            Current deposit: {web3Connect.daiDeposit} DAI
-          </Typography>
-          <div
-            className={classes.divContainer}
-            style={{
-              marginTop: 24,
-              marginBottom: 24,
-              textAlign: 'center',
-            }}
-          >
-            <Button
-              // variant="contained"
-              color="primary"
-              size="large"
-              className={classes.button}
-              startIcon={<HowToVoteIcon />}
-              onClick={() => {
-                router.history.push('/proposals');
-              }}
-            >
-              Vote
-            </Button>
-          </div>
-        </>
-      )}
-      {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && (
-        <>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box className={classes.fieldGroup}>
-              <TextField
-                // fullWidth
-                label="Amount"
-                name="amount"
-                variant="outlined"
-                inputRef={register({ required: true })}
-                className={classes.textField}
-                required
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">DAI</InputAdornment>
-                  ),
+              <Typography variant="body1">
+                Current deposit: {web3Connect.daiDeposit} DAI
+              </Typography>
+              <div
+                className={classes.divContainer}
+                style={{
+                  marginTop: 24,
+                  marginBottom: 24,
+                  textAlign: 'center',
                 }}
-                style={{ width: 300 }}
-                helperText={`Balance: ${web3Connect.daiBalance} DAI | Deposit: ${web3Connect.daiDeposit} DAI`}
-              />
-              {(web3Connect.daiAllowance === 0 ||
-                status === 'DAI_APPROVED' ||
-                status === 'APPROVING_DAI') && (
-                <>
+              >
+                <Button
+                  // variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  startIcon={<HowToVoteIcon />}
+                  onClick={() => {
+                    router.history.push('/proposals');
+                  }}
+                >
+                  Vote
+                </Button>
+              </div>
+            </>
+          )}
+          {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && (
+            <>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Box className={classes.fieldGroup}>
+                  <TextField
+                    // fullWidth
+                    label="Amount"
+                    name="amount"
+                    variant="outlined"
+                    inputRef={register({ required: true })}
+                    className={classes.textField}
+                    required
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">DAI</InputAdornment>
+                      ),
+                    }}
+                    style={{ width: 300 }}
+                    helperText={`Balance: ${web3Connect.daiBalance} DAI | Deposit: ${web3Connect.daiDeposit} DAI`}
+                  />
+                  {(web3Connect.daiAllowance === 0 ||
+                    status === 'DAI_APPROVED' ||
+                    status === 'APPROVING_DAI') && (
+                    <>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        // className={classes.button}
+                        style={{ width: 190, marginBottom: 22 }}
+                        // type="submit"
+                        disabled={
+                          web3Connect.daiAllowance > 0 || status !== 'DRAFT'
+                        } // TODO: update to 50Dai
+                        onClick={async () => {
+                          let execute = async () => {
+                            setStatus('APPROVING_DAI');
+                            await web3Connect.contracts.dai.methods.triggerDaiApprove(
+                              new BN(999999)
+                            );
+                            setStatus('DAI_APPROVED');
+                          };
+                          execute();
+                        }}
+                      >
+                        Allow DAI deposit
+                      </Button>
+                      {status === 'APPROVING_DAI' && (
+                        <Typography
+                          variant="body1"
+                          component="span"
+                          className={classes.statusMsg}
+                          style={{ marginBottom: 22 }}
+                        >
+                          Allowing deposits of DAI...
+                        </Typography>
+                      )}
+                      {(status === 'DAI_APPROVED' ||
+                        web3Connect.daiAllowance > 0) && (
+                        <Typography
+                          variant="body2"
+                          component="span"
+                          className={classes.statusMsg}
+                          style={{ marginBottom: 22 }}
+                        >
+                          Deposit of DAI enabled
+                        </Typography>
+                      )}
+                    </>
+                  )}
+                </Box>
+                {/* <Typography variant="body1" style={{ marginTop: 16 }}>
+          In order to submit a proposol you need to stake {STAKING_AMOUNT} DAI.
+        </Typography> */}
+
+                <div className={classes.wrapper}>
                   <Button
                     variant="contained"
                     color="primary"
-                    // className={classes.button}
-                    style={{ width: 190, marginBottom: 22 }}
-                    // type="submit"
+                    className={classes.button}
+                    type="submit"
                     disabled={
-                      web3Connect.daiAllowance > 0 || status !== 'DRAFT'
-                    } // TODO: update to 50Dai
-                    onClick={async () => {
-                      let execute = async () => {
-                        setStatus('APPROVING_DAI');
-                        await web3Connect.contracts.dai.methods.triggerDaiApprove(
-                          new BN(999999)
-                        );
-                        setStatus('DAI_APPROVED');
-                      };
-                      execute();
-                    }}
+                      (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+                      web3Connect.daiAllowance === 0 ||
+                      balance < amount ||
+                      balance === 0
+                    }
                   >
-                    Allow DAI deposit
+                    Deposit
                   </Button>
-                  {status === 'APPROVING_DAI' && (
-                    <Typography
-                      variant="body1"
-                      component="span"
-                      className={classes.statusMsg}
-                      style={{ marginBottom: 22 }}
-                    >
-                      Allowing deposits of DAI...
-                    </Typography>
-                  )}
-                  {(status === 'DAI_APPROVED' ||
-                    web3Connect.daiAllowance > 0) && (
+                  {web3Connect.daiBalance < amount && (
                     <Typography
                       variant="body2"
                       component="span"
                       className={classes.statusMsg}
-                      style={{ marginBottom: 22 }}
+                      style={{ color: '#FF9494' }}
                     >
-                      Deposit of DAI enabled
+                      You don't have enough DAI on your wallet
                     </Typography>
                   )}
-                </>
-              )}
-            </Box>
-            {/* <Typography variant="body1" style={{ marginTop: 16 }}>
-          In order to submit a proposol you need to stake {STAKING_AMOUNT} DAI.
-        </Typography> */}
-
-            <div className={classes.wrapper}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                type="submit"
-                disabled={
-                  (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                  web3Connect.daiAllowance === 0 ||
-                  balance < amount ||
-                  balance === 0
-                }
-              >
-                Deposit
-              </Button>
-              {web3Connect.daiBalance < amount && (
-                <Typography
-                  variant="body2"
-                  component="span"
-                  className={classes.statusMsg}
-                  style={{ color: '#FF9494' }}
+                  {status === 'DEPOSITING' && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Depositing {amount} DAI...
+                    </Typography>
+                  )}
+                  {status === 'DEPOSITED' && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      className={classes.statusMsg}
+                    >
+                      Your funds have been deposited, thank you!
+                    </Typography>
+                  )}
+                </div>
+                <div
+                  className={classes.divContainer}
+                  style={{
+                    marginTop: 24,
+                    marginBottom: 24,
+                    textAlign: 'center',
+                  }}
                 >
-                  You don't have enough DAI on your wallet
-                </Typography>
-              )}
-              {status === 'DEPOSITING' && (
-                <Typography
-                  variant="body2"
-                  component="span"
-                  className={classes.statusMsg}
-                >
-                  Depositing {amount} DAI...
-                </Typography>
-              )}
-              {status === 'DEPOSITED' && (
-                <Typography
-                  variant="body2"
-                  component="span"
-                  className={classes.statusMsg}
-                >
-                  Your funds have been deposited, thank you!
-                </Typography>
-              )}
-            </div>
-            <div
-              className={classes.divContainer}
-              style={{
-                marginTop: 24,
-                marginBottom: 24,
-                textAlign: 'center',
-              }}
-            >
-              <Button
-                // variant="contained"
-                color="primary"
-                size="large"
-                className={classes.button}
-                startIcon={<HowToVoteIcon />}
-                onClick={() => {
-                  router.history.push('/proposals');
-                }}
-              >
-                Vote
-              </Button>
-            </div>
-            {/* </Box> */}
-          </form>
+                  <Button
+                    // variant="contained"
+                    color="primary"
+                    size="large"
+                    className={classes.button}
+                    startIcon={<HowToVoteIcon />}
+                    onClick={() => {
+                      router.history.push('/proposals');
+                    }}
+                  >
+                    Vote
+                  </Button>
+                </div>
+                {/* </Box> */}
+              </form>
+            </>
+          )}
         </>
       )}
     </Page>

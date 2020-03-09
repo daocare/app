@@ -1,15 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import useWeb3Connect from '../../utils/useWeb3Connect';
-import AddIcon from '@material-ui/icons/Add';
-import { Typography, Button } from '@material-ui/core';
-import useRouter from '../../utils/useRouter';
-import HowToVoteIcon from '@material-ui/icons/HowToVote';
-import useInterval from '../../utils/useInterval';
+import { Typography } from '@material-ui/core';
 import { Page } from '../../components';
-
-import DonateIcon from '@material-ui/icons/AllInclusive';
-import Header from '../../components/Header';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -21,17 +14,6 @@ const useStyles = makeStyles(theme => ({
 const Home = () => {
   const classes = useStyles();
   const web3Connect = useWeb3Connect();
-  let connected = web3Connect.connected;
-  const router = useRouter();
-  const [interest, setInterest] = useState(0);
-
-  useInterval(async () => {
-    if (web3Connect) {
-      let interest = await web3Connect.contracts.dao.methods.getInterest();
-      console.log({ interest });
-      setInterest(interest);
-    }
-  }, 2000);
 
   return (
     <Page

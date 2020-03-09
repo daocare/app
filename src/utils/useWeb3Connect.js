@@ -15,6 +15,16 @@ import { getJson } from '../modules/pinata';
 import useInterval from '../utils/useInterval';
 import useRouter from './useRouter';
 
+import {
+  open3Box,
+  logout3Box,
+  isLoggedIn,
+  get3BoxProfile,
+  isFetching,
+} from './3BoxManager';
+
+const Box = require('3box');
+
 const daiAbi = require('../abis/ERC20.json');
 const daoAbi = require('../abis/NoLossDao.json');
 
@@ -30,7 +40,7 @@ const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 const NOT_SUPPORTED_URL = '/network-not-supported';
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
-const FETCH_UPDATE_INTERVAL = 3000;
+const FETCH_UPDATE_INTERVAL = 10000;
 const providerOptions = {
   // portis: {
   //   package: Portis, // required
@@ -83,6 +93,7 @@ function useWeb3Connect() {
   const [networkId, setNetworkId] = useState(null);
   const [network, setNetwork] = useState(null);
   const [loaded, setLoaded] = useState(false);
+  const [loadingWeb3, setLoadingWeb3] = useState(false);
 
   const router = useRouter();
 
@@ -98,11 +109,16 @@ function useWeb3Connect() {
   const [hasProposal, setHasProposal] = useState(false);
   const [enabledTwitter, setEnabledTwitter] = useState(false);
 
+  const [currentIteration, setCurrentIteration] = useState(0);
+  const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
   const [fetched, setFetched] = useState(false);
-
   const [lastFetchTimestamp, setLastFetchTimestamp] = useState(0);
+
+  const [is3BoxLoggedIn, setIs3BoxLoggedIn] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
+  const [userVerifiedAccounts, setUserVerifiedAccounts] = useState(null);
 
   const getNetworkByChainId = chainIdTemp => {
     // console.log(supportedChains);
@@ -166,11 +182,14 @@ function useWeb3Connect() {
     setNetworkId(networkIdTemp);
     setNetwork(getNetworkByChainId(networkIdTemp));
     setLoaded(true);
+    setLoadingWeb3(false);
+
+    update3BoxDetails(addressTemp);
   };
 
   // eslint-disable-next-line
   useEffect(() => {
-    if (!loaded) {
+    if (!loaded && !loadingWeb3) {
       let web3Infura = new Web3(INFURA_ENDPOINT);
       setWeb3ReadOnly(web3Infura);
 
@@ -191,11 +210,13 @@ function useWeb3Connect() {
         WHOOP_ADDRESS
       );
       setDaoContractReadOnly(daoContractReadOnly);
-    }
-    if (web3Connect.cachedProvider && !connected) {
-      onConnect();
-    } else {
-      setLoaded(true);
+
+      if (web3Connect.cachedProvider && !connected) {
+        setLoadingWeb3(true);
+        onConnect();
+      } else {
+        setLoaded(true);
+      }
     }
   });
 
@@ -236,12 +257,15 @@ function useWeb3Connect() {
 
     provider.on('accountsChanged', async accounts => {
       setAddress(accounts[0]);
+      fetchProposals();
+      update3BoxDetails(accounts[0]);
     });
 
     provider.on('chainChanged', async chainId => {
       const networkId = await web3.eth.net.getId();
       setChainId(networkId);
       setNetwork(getNetworkByChainId(networkId));
+      fetchProposals();
     });
 
     provider.on('networkChanged', async networkId => {
@@ -249,7 +273,30 @@ function useWeb3Connect() {
       setChainId(chainId);
       setNetworkId(networkId);
       setNetwork(getNetworkByChainId(networkId));
+      fetchProposals();
     });
+  };
+
+  // 3BOX Functions
+  const update3BoxDetails = async (addr = address, prov = provider) => {
+    if (addr) {
+      const loggedIn = await Box.isLoggedIn(addr);
+      // const config = await Box.getConfig(addr);
+      // console.log({ config });
+      // console.log({ isLoggedIn });
+      setIs3BoxLoggedIn(loggedIn);
+
+      let { profile, verifiedAccounts } = await get3BoxProfile(addr);
+      console.log({ profile, verifiedAccounts });
+      setUserProfile(profile);
+      setUserVerifiedAccounts(verifiedAccounts);
+
+      if (loggedIn && !isFetching) {
+        await open3Box(addr, prov);
+      }
+      return { profile, verifiedAccounts };
+    }
+    return { profile: null, verifiedAccounts: null };
   };
 
   // SMART CONTRACT FUNCTIONS
@@ -317,7 +364,10 @@ function useWeb3Connect() {
 
   const fetchProposals = async (daoContract = daoContractReadOnly) => {
     // let contract = daoContract ? daoContract
-    if (lastFetchTimestamp + FETCH_UPDATE_INTERVAL < Date.now()) {
+    if (
+      lastFetchTimestamp + FETCH_UPDATE_INTERVAL < Date.now() &&
+      daoContract
+    ) {
       let iteration = Number(
         await daoContract.methods.proposalIteration().call()
       );
@@ -352,6 +402,12 @@ function useWeb3Connect() {
           foundOwner = true;
         }
       }
+
+      let deadline = await daoContract.methods.proposalDeadline().call();
+      console.log({ deadline });
+
+      setCurrentIteration(iteration);
+      setCurrentIterationDeadline(deadline);
       setHasProposal(foundOwner);
       setProposals(tempProposals);
       setFetched(true);
@@ -393,7 +449,7 @@ function useWeb3Connect() {
   };
 
   const vote = async id => {
-    let tx = await daoContract.methods.vote(id).send({
+    let tx = await daoContract.methods.voteDirect(id).send({
       from: address,
     });
     console.log(tx);
@@ -408,6 +464,8 @@ function useWeb3Connect() {
     updateDelegation();
     return tx;
   };
+
+  // const triggerOpenSpace
 
   return {
     connected,
@@ -444,11 +502,16 @@ function useWeb3Connect() {
     daiBalance,
     daiDeposit,
     loaded,
+    loadingWeb3,
     proposals,
     hasProposal,
     enabledTwitter,
     currentVote,
     fetched,
+    is3BoxLoggedIn,
+    userProfile,
+    userVerifiedAccounts,
+    update3BoxDetails,
   };
 }
 
