@@ -23,7 +23,7 @@ contract NoLossDao is Initializable {
   mapping(uint256 => string) public proposalDetails;
   mapping(address => uint256) public benefactorsProposal; // benefactor -> proposal id
   mapping(uint256 => address) public proposalOwner; // proposal id -> benefactor (1:1 mapping)
-  enum ProposalState {DoesNotExist, Withdrawn, Active} // Add Cooldown state and pending state
+  enum ProposalState {DoesNotExist, Withdrawn, Active, Cooldown} // Add Cooldown state and pending state
   mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
   //////// User specific //////////
@@ -91,11 +91,10 @@ contract NoLossDao is Initializable {
     );
     _;
   }
-
+  // Work on this modifier to be more accurate
   modifier userHasNoActiveProposal(address givenAddress) {
     require(
-      benefactorsProposal[givenAddress] == 0 ||
-        state[benefactorsProposal[givenAddress]] == ProposalState.Withdrawn,
+      state[benefactorsProposal[givenAddress]] != ProposalState.Active,
       'User has an active proposal'
     );
     _;
@@ -122,7 +121,7 @@ contract NoLossDao is Initializable {
   modifier proxyRight(address delegatedFrom) {
     require(
       voteDelegations[delegatedFrom] == msg.sender,
-      "User doesn't have proxy right"
+      'User does not have proxy right'
     );
     _;
   }
@@ -270,11 +269,13 @@ contract NoLossDao is Initializable {
   function delegateVoting(address delegatedAddress)
     public
     userStaked(msg.sender)
-    userHasNoActiveProposal(msg.sender)
+    userHasNoActiveProposal(msg.sender) //Careful when in cooldown can delegate then ???
+    userHasNoActiveProposal(delegatedAddress)
   {
     voteDelegations[msg.sender] = delegatedAddress;
   }
 
+  // Write a modifier not allowing proposals in cooldown to be voted for...
   function voteDirect(
     uint256 proposalIdToVoteFor // breaking change -> function name change from vote to voteDirect
   )
@@ -282,7 +283,7 @@ contract NoLossDao is Initializable {
     proposalActive(proposalIdToVoteFor)
     noVoteYet(msg.sender)
     userStaked(msg.sender)
-    userHasNoActiveProposal(msg.sender)
+    userHasNoActiveProposal(msg.sender) // Or no cooldown proposal?
     joinedInTime(msg.sender)
   {
     _vote(proposalIdToVoteFor, msg.sender);
@@ -307,10 +308,11 @@ contract NoLossDao is Initializable {
 
     uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
-    // TODO:: if they are equal there is a problem (we must handle this!!)
-    // Currently, proposal getting to top vote first wins
-    if (proposalVotes[proposalIteration][proposalId] > topProjectVotes) {
-      topProject[proposalIteration] = proposalId;
+    // Currently, proposal getting to top vote first will win [this is fine]
+    if (
+      proposalVotes[proposalIteration][proposalIdToVoteFor] > topProjectVotes
+    ) {
+      topProject[proposalIteration] = proposalIdToVoteFor;
     }
   }
 
@@ -328,20 +330,30 @@ contract NoLossDao is Initializable {
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
 
     // anyone can call this when 2 cycle has ended - incentivize 'anyone' to call this transaction first and get a lil reward ;)
-    require(proposalDeadline < now, 'current vote still active');
+    require(proposalDeadline < now, 'iteration interval not ended');
 
     // figure our what happens with the interest from the first proposal iteration
     // Possibly make first iteration an extended one for our launch (for marketing)
     if (topProject[proposalIteration] != 0) {
       // Do some asserts here for safety...
+
+      // Only if last winner is not withdrawn (i.e. still in cooldown) make it active again
+      if (state[topProject[proposalIteration - 1]] == ProposalState.Cooldown) {
+        state[topProject[proposalIteration - 1]] = ProposalState.Active;
+      }
+      // Only if they haven't withdrawn, put them in cooldown
+      if (state[topProject[proposalIteration]] != ProposalState.Withdrawn) {
+        state[topProject[proposalIteration]] = ProposalState.Cooldown;
+      }
+
       address winner = proposalOwner[topProject[proposalIteration]]; // error if no-one voted for in this iteration
       adaiContract.redirectInterestStream(winner);
+
     }
     //
     proposalDeadline = proposalDeadline.add(votingInterval);
 
     proposalIteration = proposalIteration.add(1);
-    topProject[proposalIteration] = 0;
 
     // send winning miner a little surprise [NFT]
 
