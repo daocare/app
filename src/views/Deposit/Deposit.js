@@ -4,13 +4,13 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import { useForm } from 'react-hook-form';
-import useRouter from '../../utils/useRouter';
-import { Page } from '../../components';
-import Header from '../../components/Header';
-import useWeb3Connect from '../../utils/useWeb3Connect';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import { useForm } from 'react-hook-form';
+import { Page } from '../../components';
+import Header from '../../components/Header';
+import useRouter from '../../utils/useRouter';
+import useWeb3Connect from '../../utils/useWeb3Connect';
 const BN = require('bn.js');
 
 const useStyles = makeStyles(theme => ({
@@ -118,7 +118,6 @@ const Deposit = () => {
             }}
           >
             <Button
-              // variant="contained"
               color="primary"
               size="large"
               className={classes.button}
@@ -137,7 +136,6 @@ const Deposit = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box className={classes.fieldGroup}>
               <TextField
-                // fullWidth
                 label="Amount"
                 name="amount"
                 variant="outlined"
@@ -159,9 +157,7 @@ const Deposit = () => {
                   <Button
                     variant="contained"
                     color="primary"
-                    // className={classes.button}
                     style={{ width: 190, marginBottom: 22 }}
-                    // type="submit"
                     disabled={
                       web3Connect.daiAllowance > 0 || status !== 'DRAFT'
                     } // TODO: update to 50Dai
@@ -202,10 +198,6 @@ const Deposit = () => {
                 </>
               )}
             </Box>
-            {/* <Typography variant="body1" style={{ marginTop: 16 }}>
-          In order to submit a proposol you need to stake {STAKING_AMOUNT} DAI.
-        </Typography> */}
-
             <div className={classes.wrapper}>
               <Button
                 variant="contained"
@@ -259,7 +251,6 @@ const Deposit = () => {
               }}
             >
               <Button
-                // variant="contained"
                 color="primary"
                 size="large"
                 className={classes.button}
@@ -271,7 +262,6 @@ const Deposit = () => {
                 Vote
               </Button>
             </div>
-            {/* </Box> */}
           </form>
         </>
       )}

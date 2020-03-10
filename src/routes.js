@@ -23,7 +23,7 @@ const routes = [
       {
         path: '/deposit',
         exact: true,
-        component: lazy(() => import('./views/Deposit')),
+        component: lazy(() => import('./views/Deposit/Deposit')),
       },
       {
         path: '/proposals',
