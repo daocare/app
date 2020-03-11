@@ -11,6 +11,7 @@ const Header = props => {
         <img
           src="/assets/logo.svg"
           style={{ height: '90px', display: 'inline' }}
+          alt="dao.care logo"
         />
         <Typography
           gutterBottom

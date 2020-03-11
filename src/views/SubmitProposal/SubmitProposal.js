@@ -21,7 +21,7 @@ import {
   open3Box,
   isLoggedIn,
   isFetching,
-  getBox,
+  // getBox,
   getSpace,
 } from '../../utils/3BoxManager';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
@@ -273,6 +273,7 @@ const SubmitProposal = props => {
                     <a
                       href="https://3box.io/hub"
                       target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() => setCheck3BoxProfile(true)}
                     >
                       <img
@@ -456,6 +457,7 @@ const SubmitProposal = props => {
                       <a
                         href="https://www.markdownguide.org/basic-syntax/"
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         markdown style
                       </a>

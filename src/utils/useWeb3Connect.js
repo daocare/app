@@ -17,8 +17,8 @@ import useRouter from './useRouter';
 
 import {
   open3Box,
-  logout3Box,
-  isLoggedIn,
+  // logout3Box,
+  // isLoggedIn,
   get3BoxProfile,
   isFetching,
 } from './3BoxManager';
@@ -109,8 +109,8 @@ function useWeb3Connect() {
   const [hasProposal, setHasProposal] = useState(false);
   const [enabledTwitter, setEnabledTwitter] = useState(false);
 
-  const [currentIteration, setCurrentIteration] = useState(0);
-  const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
+  // const [currentIteration, setCurrentIteration] = useState(0);
+  // const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
   const [fetched, setFetched] = useState(false);
@@ -403,11 +403,11 @@ function useWeb3Connect() {
         }
       }
 
-      let deadline = await daoContract.methods.proposalDeadline().call();
-      console.log({ deadline });
+      // let deadline = await daoContract.methods.proposalDeadline().call();
+      // console.log({ deadline });
 
-      setCurrentIteration(iteration);
-      setCurrentIterationDeadline(deadline);
+      // setCurrentIteration(iteration);
+      // setCurrentIterationDeadline(deadline);
       setHasProposal(foundOwner);
       setProposals(tempProposals);
       setFetched(true);

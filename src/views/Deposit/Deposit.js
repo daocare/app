@@ -11,8 +11,6 @@ import { Page } from '../../components';
 import Header from '../../components/Header';
 import useRouter from '../../utils/useRouter';
 import useWeb3Connect from '../../utils/useWeb3Connect';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import LoadingWeb3 from '../../components/LoadingWeb3';
 const BN = require('bn.js');
 
