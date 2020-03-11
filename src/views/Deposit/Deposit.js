@@ -101,14 +101,17 @@ const Deposit = () => {
         <>
           <Header />
 
-          <Typography variant="h5" className={classes.title}>
-            Deposit DAI
+          <Typography variant="body1" className={classes.decriptionBlurb}>
+            Deposit your DAI. Let your idle interest support community projects.
+            The amount of DAI you stake in the fund determines the level of your
+            voting power.
           </Typography>
+          <Typography variant="h5">Deposit DAI</Typography>
           {web3Connect.hasProposal && (
             <>
               <Typography style={{ color: '#FF9494' }}>
-                As an owner of a proposal, you are not allowed to join the pool
-                and vote on proposals.
+                As an owner of a proposal, you are unable to join the pool and
+                vote on proposals from the same address.
               </Typography>
             </>
           )}
