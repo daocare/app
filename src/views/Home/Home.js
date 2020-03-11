@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import useWeb3Connect from '../../utils/useWeb3Connect';
 import AddIcon from '@material-ui/icons/Add';
 import { Typography, Button } from '@material-ui/core';
-import useRouter from '../../utils/useRouter';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import useWeb3Connect from '../../utils/useWeb3Connect';
+import useRouter from '../../utils/useRouter';
 import useInterval from '../../utils/useInterval';
 
 import DonateIcon from '@material-ui/icons/AllInclusive';
@@ -12,14 +12,23 @@ import Header from '../../components/Header';
 
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: 32,
+    margin: '20px 32px 20px 32px',
     width: 220,
   },
-  // divContainer: {
-  //   [theme.breakpoints.up('sm')]: {
-  //     backgroundSize: '39%',
-  //   },
-  // }
+  decriptionBlurb: { margin: '16px 0' },
+  interestBlurb: {
+    fontSize: 24,
+  },
+  interestCountUp: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#A362A5',
+  },
+  buttonContainer: {
+    marginTop: 20,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
 }));
 
 const Home = () => {
@@ -32,7 +41,6 @@ const Home = () => {
   useInterval(async () => {
     if (web3Connect) {
       let interest = await web3Connect.contracts.dao.methods.getInterest();
-      console.log({ interest });
       setInterest(interest);
     }
   }, 2000);
@@ -40,25 +48,21 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Typography variant="body1" style={{ fontSize: 24 }}>
+      <Typography variant="body1" className={classes.decriptionBlurb}>
+        Deposit your DAI. Let your idle interest support community projects.
+        Vote DAO style on twitter for your favourite project every 2 weeks.
+        Interest from the pool is sent to the chosen community project for 2
+        weeks if selected by the DAO. Withdraw your original DAI at anytime.
+      </Typography>
+      <Typography variant="body1" className={classes.interestBlurb}>
         Every two weeks, the preferred project of the community will receive{' '}
         {interest > 0 && (
-          <span style={{ fontSize: 28, fontWeight: 'bold', color: '#A362A5' }}>
-            ${interest}!
-          </span>
+          <span className={classes.interestCountUp}>${interest}!</span>
         )}
         {interest === 0 && <span>...</span>}
       </Typography>
-      {/* {!connected && ( */}
 
-      <div
-        className={classes.divContainer}
-        style={{
-          marginTop: 32,
-          marginBottom: 32,
-          textAlign: 'center',
-        }}
-      >
+      <div className={classes.buttonContainer}>
         <Button
           variant="contained"
           color="primary"
@@ -100,16 +104,9 @@ const Home = () => {
           Join Pool
         </Button>
       </div>
-      <div
-        className={classes.divContainer}
-        style={{
-          marginTop: 32,
-          marginBottom: 32,
-          textAlign: 'center',
-        }}
-      >
+      <div className={classes.buttonContainer}>
         <Button
-          // variant="contained"
+          variant="outlined"
           color="primary"
           size="large"
           className={classes.button}
@@ -121,63 +118,6 @@ const Home = () => {
           All Proposals
         </Button>
       </div>
-      {/* )} */}
-
-      {/* {connected && (
-        <div
-          className={classes.divContainer}
-          style={{
-            marginTop: 32,
-            marginBottom: 32,
-            textAlign: 'center',
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            startIcon={<AddIcon />}
-            onClick={() => {
-              if (connected) {
-                router.history.push('/submit-proposal');
-              } else {
-                const connect = async () => {
-                  await web3Connect.triggerConnect();
-                  debugger;
-                  router.history.push('/submit-proposal');
-                };
-                connect();
-              }
-            }}
-          >
-            Submit Proposal
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            className={classes.button}
-            startIcon={<DonateIcon />}
-            onClick={() => {
-              if (connected) {
-                router.history.push('/deposit');
-              } else {
-                const connect = async () => {
-                  await web3Connect.triggerConnect();
-                  debugger;
-                  router.history.push('/deposit');
-                };
-                connect();
-              }
-            }}
-          >
-            Fund Projects
-          </Button>
-        </div>
-      )} */}
-      {/* <WalletProfile /> */}
-      {/* <SubmitProposal /> */}
     </>
   );
 };

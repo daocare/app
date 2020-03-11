@@ -181,6 +181,11 @@ const Proposals = () => {
         )}
       </div>
       <Header />
+      <Typography variant="body1" className={classes.decriptionBlurb}>
+        Deposit your DAI. Let your idle interest support community projects. The
+        amount of DAI you stake in the fund determines the level of your voting
+        power.
+      </Typography>
       {web3Connect.daiDeposit === 0 && web3Connect.connected && (
         <>
           <div style={{ margin: 16, textAlign: 'center' }}>

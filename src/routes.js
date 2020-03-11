@@ -1,7 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import { lazy } from 'react';
-// import { Redirect } from 'react-router-dom';
 
 import MainLayout from './layouts/Main';
 
@@ -14,7 +13,7 @@ const routes = [
       {
         path: '/',
         exact: true,
-        component: lazy(() => import('./views/Home')),
+        component: lazy(() => import('./views/Home/Home')),
       },
       {
         path: '/submit-proposal',
@@ -24,7 +23,7 @@ const routes = [
       {
         path: '/deposit',
         exact: true,
-        component: lazy(() => import('./views/Deposit')),
+        component: lazy(() => import('./views/Deposit/Deposit')),
       },
       {
         path: '/proposals',

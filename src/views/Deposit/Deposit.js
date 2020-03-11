@@ -4,10 +4,12 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import { useForm } from 'react-hook-form';
-import useRouter from '../../utils/useRouter';
 import { Page } from '../../components';
 import Header from '../../components/Header';
+import useRouter from '../../utils/useRouter';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
@@ -16,7 +18,6 @@ const BN = require('bn.js');
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // backgroundColor: theme.palette.white
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
@@ -28,27 +29,18 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     padding: theme.spacing(3),
   },
-  title: {
-    // marginBottom: theme.spacing(2),
-  },
+  decriptionBlurb: { margin: '16px 0' },
   textField: {
     margin: theme.spacing(1, 0),
     [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing(2),
     },
-
-    // fontWeight: "0.8em"
-    // minWidth: 150
-  },
-  subscribeButton: {
-    // padding: theme.spacing(0, 1)
   },
   fieldGroup: {
     [theme.breakpoints.up('sm')]: {
       display: 'flex',
       marginTop: theme.spacing(1),
     },
-
     alignItems: 'center',
   },
   flexGrow: {
@@ -91,25 +83,10 @@ const Deposit = () => {
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
   let amount = watch('amount') ? watch('amount') : 0;
   let balance = Number(web3Connect.daiBalance);
-  // let deposit = Number(web3Connect.daiDeposit);
-  // console.log({ allowance: web3Connect.daiBalance, amount });
   const onSubmit = async data => {
     let { amount } = data;
-
     setStatus(`DEPOSITING`);
-    // const { title, description } = data;
-    console.log(data);
-
-    // let body = { ...data, image };
-
-    // let hash = await uploadJson(data.title, body);
-    // setStatus('SUBMITTING_BLOCKCHAIN');
-
-    // // console.log({ hash });
-    // // let json = await getJson(hash);
-    // // console.log({ json });
     await web3Connect.contracts.dao.methods.triggerDeposit(amount);
-
     setStatus('DEPOSITED');
   };
 
