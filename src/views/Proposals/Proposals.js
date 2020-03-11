@@ -78,6 +78,7 @@ const useStyles = makeStyles(theme => ({
     width: 210,
     height: 370,
   },
+  decriptionBlurb: { margin: '16px 0' },
 }));
 
 const Proposals = () => {

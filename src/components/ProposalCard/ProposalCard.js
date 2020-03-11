@@ -11,6 +11,7 @@ import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import InsertLinkIcon from '@material-ui/icons/InsertLink';
+import { getUrlByHash } from '../../modules/pinata';
 
 const useStyles = makeStyles({
   root: {
@@ -24,10 +25,10 @@ const useStyles = makeStyles({
 });
 
 export default function ProposalCard(props) {
-  const { title, description, website, image, id } = props.proposal;
-  const { votingAllowed, twitterAllowed, vote } = props;
+  const { title, shortDescription, website, image, id } = props.proposal;
+  let imageUrl = getUrlByHash(image);
+  const { votingAllowed, twitterAllowed, vote, ...rest } = props;
   const classes = useStyles();
-  console.log({ vote });
   const voteTwitter = () => {
     let url =
       'https://twitter.com/intent/tweet?text=' +
@@ -39,10 +40,10 @@ export default function ProposalCard(props) {
     win.focus();
   };
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} {...rest}>
       <CardActionArea>
-        {image && (
-          <CardMedia className={classes.media} image={image} title={title} />
+        {imageUrl && (
+          <CardMedia className={classes.media} image={imageUrl} title={title} />
         )}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -54,7 +55,7 @@ export default function ProposalCard(props) {
             component="p"
             style={{ maxHeight: 60 }}
           >
-            {description}
+            {shortDescription}
           </Typography>
         </CardContent>
       </CardActionArea>
