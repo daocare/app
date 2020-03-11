@@ -23,6 +23,7 @@ import {
   isFetching,
   // getBox,
   getSpace,
+  getBox,
 } from '../../utils/3BoxManager';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import Avatar from '@material-ui/core/Avatar';
@@ -122,7 +123,9 @@ const SubmitProposal = props => {
   const [image, setImage] = useState(false);
   const classes = useStyles();
   const router = useRouter();
+
   const web3Connect = useWeb3Connect();
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [check3BoxProfile, setCheck3BoxProfile] = React.useState(false);
   const [spaceStatus, setSpaceStatus] = React.useState(null);
@@ -151,11 +154,13 @@ const SubmitProposal = props => {
   };
 
   useInterval(async () => {
-    if (isLoggedIn(web3Connect.address) && !isFetching()) {
+    let is3BoxLoggedIn = await isLoggedIn(web3Connect.address);
+    if (getBox() === null && is3BoxLoggedIn && !isFetching()) {
+      console.log('TRYING TO OPEN BOX');
       open3Box(web3Connect.address, web3Connect.provider, setSpaceStatus);
     }
     if (
-      isLoggedIn(web3Connect.address) &&
+      is3BoxLoggedIn &&
       !isFetching() &&
       getSpace() !== null &&
       activeStep === 0
@@ -163,7 +168,9 @@ const SubmitProposal = props => {
       setActiveStep(1);
     }
     if (check3BoxProfile) {
-      let { profile, verifiedAccounts } = web3Connect.update3BoxDetails();
+      console.log('I am checking if 3box has been created...');
+      let { profile, verifiedAccounts } = await web3Connect.update3BoxDetails();
+      console.log({ verifiedAccounts });
       if (profile && verifiedAccounts.twitter) {
         setCheck3BoxProfile(false);
       }
@@ -174,13 +181,6 @@ const SubmitProposal = props => {
     if (web3Connect.loaded && !web3Connect.connected) {
       router.history.push('/');
     }
-    // if (
-    //   activeStep === 0 &&
-    //   web3Connect.userVerifiedAccounts &&
-    //   web3Connect.userVerifiedAccounts.twitter
-    // ) {
-    //   setActiveStep(1);
-    // }
   }, [web3Connect, router.history]);
 
   const { register, handleSubmit /* , watch */ /* , errors  */ } = useForm();
@@ -250,7 +250,7 @@ const SubmitProposal = props => {
   });
 
   return (
-    <Page className={classes.root} title="dao.care | Submit Proposal">
+    <Page className={classes.root} title="dao.care | submit proposal">
       {web3Connect.loadingWeb3 && (
         <>
           <LoadingWeb3 />
@@ -297,6 +297,9 @@ const SubmitProposal = props => {
                         >
                           In order to submit a proposal, you need to have a 3Box
                           profile with a twitter verification.
+                          <br />
+                          Please click on the 3Box cloud to create a profile on
+                          3Box hub.
                         </Typography>
                         {/* <Button
                           variant="contained"
@@ -331,8 +334,11 @@ const SubmitProposal = props => {
                           >
                             {!spaceStatus && (
                               <span>
-                                One last step, we need to open a dao.care space
-                                on your 3Box
+                                We found your 3Box profile with a twitter
+                                account!
+                                <br />
+                                We now need to open a dao.care space on your
+                                3Box.
                               </span>
                             )}
                             {spaceStatus && <span>{spaceStatus}</span>}

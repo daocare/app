@@ -21,7 +21,10 @@ import {
   // isLoggedIn,
   get3BoxProfile,
   isFetching,
+  logout3Box,
+  isLoggedIn,
 } from './3BoxManager';
+import { BOX_SPACE } from './Documents3BoxSpace';
 
 const Box = require('3box');
 
@@ -243,6 +246,8 @@ function useWeb3Connect() {
       await web3.currentProvider.close();
     }
     await web3Connect.clearCachedProvider();
+    await logout3Box();
+
     await setProvider(null);
     await setWeb3(null);
     await setConnected(false);
@@ -280,10 +285,10 @@ function useWeb3Connect() {
   // 3BOX Functions
   const update3BoxDetails = async (addr = address, prov = provider) => {
     if (addr) {
-      const loggedIn = await Box.isLoggedIn(addr);
+      const loggedIn = await isLoggedIn(addr);
       // const config = await Box.getConfig(addr);
       // console.log({ config });
-      // console.log({ isLoggedIn });
+      // console.log({ loggedIn });
       setIs3BoxLoggedIn(loggedIn);
 
       let { profile, verifiedAccounts } = await get3BoxProfile(addr);
@@ -291,12 +296,24 @@ function useWeb3Connect() {
       setUserProfile(profile);
       setUserVerifiedAccounts(verifiedAccounts);
 
-      if (loggedIn && !isFetching) {
+      // check if user has this space, if so we can open the box in the bg
+      if (
+        loggedIn &&
+        !isFetching
+        // config.spaces &&
+        // config.spaces[BOX_SPACE]
+      ) {
         await open3Box(addr, prov);
       }
+
       return { profile, verifiedAccounts };
     }
     return { profile: null, verifiedAccounts: null };
+  };
+  const triggerOpen3Box = async (addr = address, prov = provider) => {
+    if (addr && prov) {
+      await open3Box(addr, prov);
+    }
   };
 
   // SMART CONTRACT FUNCTIONS
@@ -512,6 +529,7 @@ function useWeb3Connect() {
     userProfile,
     userVerifiedAccounts,
     update3BoxDetails,
+    triggerOpen3Box,
   };
 }
 
