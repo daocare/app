@@ -37,6 +37,7 @@ import * as Showdown from 'showdown';
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import { emojiExists } from '../../modules/twitterDb';
 import IpfsUpload from '../../components/IpfsUpload';
+import Box from '3box';
 
 const BN = require('bn.js');
 
@@ -140,6 +141,8 @@ const SubmitProposal = props => {
 
   const [ipfsImage, setIpfsImage] = React.useState(null);
 
+  const [threadAddress, setThreadAddress] = React.useState(null);
+
   const onEmojiClick = async (event, emojiObject) => {
     event.preventDefault();
     console.log(emojiObject);
@@ -183,7 +186,7 @@ const SubmitProposal = props => {
     }
   }, [web3Connect, router.history]);
 
-  const { register, handleSubmit /* , watch */ /* , errors  */ } = useForm();
+  const { register, handleSubmit, watch, errors } = useForm();
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -205,42 +208,62 @@ const SubmitProposal = props => {
   };
 
   const onSubmit = async data => {
-    setStatus('IPFS_UPLOAD');
-    // const { title, description } = data;
-    console.log(data);
+    setStatus('STORING_PROPOSAL');
 
-    let body = { ...data, image };
+    let space = getSpace();
+    if (!space) {
+      throw Error("Space can't be empty at this stage...");
+    }
 
-    let hash = await uploadJson(data.title, body);
-    setStatus('SUBMITTING_BLOCKCHAIN');
+    const thread = await space.joinThread('proposal');
 
-    // console.log({ hash });
-    // let json = await getJson(hash);
-    // console.log({ json });
-    await web3Connect.contracts.dao.methods.triggerSubmitProposal(hash);
+    console.log(thread);
 
-    setStatus('SUBMITTED');
+    let currentPosts = await thread.getPosts();
+    console.log(currentPosts);
+
+    // delete existing thread posts
+    for (let i = 0; i < currentPosts.length; i++) {
+      let postId = currentPosts[i].postId;
+      await thread.deletePost(postId);
+    }
+
+    let body = {
+      ...data,
+      logo: ipfsImage.hash,
+      description: descriptionValue,
+      team,
+      emoji: chosenEmoji.emoji,
+      ownerTwitter: web3Connect.userVerifiedAccounts.twitter.username,
+    };
+    console.log(body);
+
+    await thread.post(body);
+
+    let newPosts = await thread.getPosts();
+    console.log(newPosts);
+
+    setThreadAddress(thread.address);
+    setActiveStep(2);
+    // let staticThread = await Box.getThreadByAddress(threadAddress);
   };
+  const validationErrors = () => {
+    let result = { ...errors };
 
-  // const previewFile = () => {
-  //   const preview = document.getElementById('logoImg');
-  //   const file = document.querySelector('input[type=file]').files[0];
-  //   const reader = new FileReader();
+    const isEmpty = str => !str || str.trim() === '';
 
-  //   reader.addEventListener(
-  //     'load',
-  //     function() {
-  //       // convert image file to base64 string
-  //       preview.src = reader.result;
-  //       setImage(reader.result);
-  //     },
-  //     false
-  //   );
+    let values = watch();
 
-  //   if (file) {
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+    if (isEmpty(values.title)) result.title = "Title can't be empty";
+    if (isEmpty(values.shortDescription))
+      result.shortDescription = "Short description can't be empty";
+    if (isEmpty(values.website)) result.website = "Website can't be empty";
+    if (!chosenEmoji || emojiError) result.emoji = "Emoji can't be empty";
+    if (!ipfsImage) result.logo = "Logo can't be empty";
+    if (isEmpty(descriptionValue)) result.logo = "Description can't be empty";
+
+    return result;
+  };
 
   const converter = new Showdown.Converter({
     tables: true,
@@ -363,24 +386,6 @@ const SubmitProposal = props => {
                         </>
                       )}
                   </div>
-                  {/* )} */}
-                  {/* <div>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      className={classes.button}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                      className={classes.button}
-                    >
-                      {activeStep === 2 ? 'Finish' : 'Next'}
-                    </Button>
-                  </div> */}
                 </div>
               </StepContent>
             </Step>
@@ -388,9 +393,8 @@ const SubmitProposal = props => {
             <Step>
               <StepLabel>Proposal details</StepLabel>
               <StepContent>
-                <>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* <Box className={classes.fieldGroup}> */}
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <>
                     <TextField
                       fullWidth
                       label="Title"
@@ -446,7 +450,7 @@ const SubmitProposal = props => {
                       display="block"
                       className={classes.textField}
                     >
-                      Description
+                      Description *
                     </Typography>
 
                     <ReactMde
@@ -544,43 +548,42 @@ const SubmitProposal = props => {
                         src={ipfsImage.url}
                       />
                     )}
-                  </form>
-                </>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.storeButton}
-                  type="submit"
-                  disabled={
-                    (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                    web3Connect.daiAllowance === 0 ||
-                    web3Connect.daiBalance < STAKING_AMOUNT
-                  }
-                >
-                  Store Proposal
-                </Button>
-                {/* <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
+                  </>
+                  <div
+                    style={{ width: '100%', textAlign: 'center', padding: 32 }}
                   >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === 2 ? 'Finish' : 'Next'}
-                  </Button>
-                </div> */}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      className={classes.storeButton}
+                      type="submit"
+                      style={{ marginBottom: 16 }}
+                      disabled={
+                        // (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+                        // web3Connect.daiAllowance === 0 ||
+                        // web3Connect.daiBalance < STAKING_AMOUNT
+                        Object.keys(validationErrors()).length !== 0 ||
+                        status === 'STORING_PROPOSAL'
+                      }
+                    >
+                      Store Proposal
+                    </Button>
+                    {status === 'STORING_PROPOSAL' && (
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        display="block"
+                      >
+                        Storing proposal to 3Box...
+                      </Typography>
+                    )}
+                  </div>
+                </form>
               </StepContent>
             </Step>
 
             <Step>
-              <StepLabel>Staking</StepLabel>
+              <StepLabel>Stake &amp; Submit</StepLabel>
               <StepContent>
                 <Typography variant="body1" style={{ marginTop: 16 }}>
                   In order to submit a proposol you need to stake{' '}
@@ -699,28 +702,6 @@ const SubmitProposal = props => {
                     </Button>
                   </div>
                 )}
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === 3 ? 'Finish' : 'Next'}
-                  </Button>
-                </div>
-              </StepContent>
-            </Step>
-            <Step>
-              <StepLabel>Proposal submission</StepLabel>
-              <StepContent>
                 <div>
                   <Button
                     disabled={activeStep === 0}

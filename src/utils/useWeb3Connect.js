@@ -292,7 +292,6 @@ function useWeb3Connect() {
       setIs3BoxLoggedIn(loggedIn);
 
       let { profile, verifiedAccounts } = await get3BoxProfile(addr);
-      console.log({ profile, verifiedAccounts });
       setUserProfile(profile);
       setUserVerifiedAccounts(verifiedAccounts);
 
