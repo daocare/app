@@ -210,6 +210,11 @@ const SubmitProposal = props => {
   };
 
   const onSubmit = async data => {
+    if (Object.keys(validationErrors()).length !== 0
+    ) {
+      console.log("Not all fields are filled-in...");
+      return;
+    }
     setStatus('STORING_PROPOSAL');
 
     let space = getSpace();
@@ -628,10 +633,10 @@ const SubmitProposal = props => {
                   <Tooltip
                     title={`This operation will ${
                       web3Connect.daiAllowance === null ||
-                      web3Connect.daiAllowance < STAKING_AMOUNT
+                        web3Connect.daiAllowance < STAKING_AMOUNT
                         ? `first allow dao.care to extract ${STAKING_AMOUNT} DAI from your wallet and then `
                         : ''
-                    }transfer ${STAKING_AMOUNT} DAI to the pool in order to submit your proposal`}
+                      }transfer ${STAKING_AMOUNT} DAI to the pool in order to submit your proposal`}
                     placement="top"
                   >
                     <Button
