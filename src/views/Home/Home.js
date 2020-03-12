@@ -9,6 +9,7 @@ import useInterval from '../../utils/useInterval';
 
 import DonateIcon from '@material-ui/icons/AllInclusive';
 import Header from '../../components/Header';
+import CountUp from './TotalRaisedEtherCountup';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -56,9 +57,16 @@ const Home = () => {
       </Typography>
       <Typography variant="body1" className={classes.interestBlurb}>
         Every two weeks, the preferred project of the community will receive{' '}
+        <CountUp totalRaised={interest} />
         {interest > 0 && (
-          <span className={classes.interestCountUp}>${interest}!</span>
+          <span className={classes.interestCountUp}>
+            {' '}
+            <CountUp totalRaised={interest} />
+          </span>
         )}
+        {/* {interest > 0 && (
+          <span className={classes.interestCountUp}>${interest}!</span>
+        )} */}
         {interest === 0 && <span>...</span>}
       </Typography>
 
