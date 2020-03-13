@@ -3,6 +3,7 @@ pragma solidity 0.5.16;
 // import "./interfaces/IERC20.sol";
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
+import './interfaces/IPoolDeposits.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 
 contract NoLossDao is Initializable {
@@ -10,14 +11,14 @@ contract NoLossDao is Initializable {
 
   //////// MASTER //////////////
   address public admin;
-  uint256 public totalDepositedDai;
+  //uint256 public totalDepositedDai;
 
   //////// Iteration specific //////////
   uint256 public votingInterval;
   uint256 public proposalIteration;
 
   ///////// Proposal specific ///////////
-  uint256 public proposalAmount; // Add mapping of the proposal amount per iteration...
+  //uint256 public proposalAmount; // Add mapping of the proposal amount per iteration...
   uint256 public proposalId;
   uint256 public proposalDeadline; // keeping track of time
   mapping(uint256 => string) public proposalDetails;
@@ -27,7 +28,7 @@ contract NoLossDao is Initializable {
   mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
   //////// User specific //////////
-  mapping(address => uint256) public depositedDai;
+  //mapping(address => uint256) public depositedDai;
   mapping(address => uint256) public iterationJoined; // Which iteration did user join DAO
   mapping(uint256 => mapping(address => uint256)) public usersNominatedProject; // iteration -> user -> chosen project
 
@@ -38,11 +39,12 @@ contract NoLossDao is Initializable {
 
   ///////// DEFI Contrcats ///////////
   IERC20 public daiContract;
-  IAaveLendingPool public aaveLendingContract;
-  IADai public adaiContract;
-  address public aaveLendingContractCore;
+  //IAaveLendingPool public aaveLendingContract;
+  //IADai public adaiContract;
+  //address public aaveLendingContractCore;
 
-  address public depositContractAddress;
+  IPoolDeposits public depositContract;
+  //address public depositContractAddress;
 
   ////////////////////////////////////
   //////// Modifiers /////////////////
@@ -53,12 +55,18 @@ contract NoLossDao is Initializable {
   }
 
   modifier blankUser() {
-    require(depositedDai[msg.sender] == 0, 'Person is already a user');
+    require(
+      depositContract.usersDeposit(msg.sender) == 0,
+      'Person is already a user'
+    );
     _;
   }
 
   modifier userStaked(address givenAddress) {
-    require(depositedDai[givenAddress] > 0, 'User has no stake');
+    require(
+      depositContract.usersDeposit(givenAddress) > 0,
+      'User has no stake'
+    );
     _;
   }
 
@@ -146,7 +154,7 @@ contract NoLossDao is Initializable {
 
   modifier depositContractOnly() {
     require(
-      depositContractAddress == msg.sender,
+      address(depositContract) == msg.sender, // Is this a valid way of getting the address?
       'function can only be called by deposit contract'
     );
     _;
@@ -157,20 +165,12 @@ contract NoLossDao is Initializable {
   //// NOTE: Upgradable at the moment
   function initialize(
     address daiAddress,
-    address aDaiAddress,
-    address aavePoolAddress,
-    address aavePoolCoreAddress,
     address _depositContractAddress,
-    uint256 _proposalAmount,
     uint256 _votingInterval
   ) public initializer {
     daiContract = IERC20(daiAddress);
-    aaveLendingContract = IAaveLendingPool(aavePoolAddress);
-    adaiContract = IADai(aDaiAddress);
-    aaveLendingContractCore = aavePoolCoreAddress;
-    depositContractAddress = _depositContractAddress;
+    depositContract = IPoolDeposits(_depositContractAddress);
     admin = msg.sender;
-    proposalAmount = _proposalAmount;
     votingInterval = _votingInterval;
 
     proposalDeadline = now.add(_votingInterval);
@@ -183,20 +183,42 @@ contract NoLossDao is Initializable {
     votingInterval = newInterval;
   }
 
-  // Add function to change stake amount required for proposal
-
   // change miner reward
 
   function canDeposit(address userAddress) external view returns (bool) {
+    //   blankUser // They haven't already deposited
+    //   noProposal(msg.sender) // Checks they are not a benefactor
+    //   allowanceAvailable(amount) // Apprroved DAI for this function
+    //   requiredDai(msg.sender, amount)
     return false;
   }
   function canWithdraw(address userAddress) external view returns (bool) {
+    //   userStaked(msg.sender)
+    //   noVoteYet(msg.sender)
+    //   userHasNoProposal(msg.sender)
+    return false;
+  }
+
+  function canCreateProposal(address userAddress) external view returns (bool) {
+    //   allowanceAvailable(proposalAmount)
+    //   requiredDai(msg.sender, proposalAmount)
+    //   userHasNoActiveProposal(msg.sender)
+    //   blankUser()
+    return false;
+  }
+  function canWithdrawProposal(address userAddress)
+    external
+    view
+    returns (bool)
+  {
+    //   userHasActiveProposal(msg.sender)
+    //   lockInFulfilled(msg.sender)
     return false;
   }
 
   function setUserIterationJoined(address userAddress)
     external
-    depositContractOnly
+    depositContractOnly // Important as deposit contract sets this on deposit event
   {
     iterationJoined[userAddress] = proposalIteration;
   }
@@ -207,98 +229,31 @@ contract NoLossDao is Initializable {
     iterationJoined[userAddress] = 0;
   }
 
-  ///////////////////////////////////
-  ///// Users join and leave /////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////
-  // function deposit(uint256 amount)
-  //   public
-  //   blankUser // They haven't already deposited
-  //   noProposal(msg.sender) // Checks they are not a benefactor
-  //   allowanceAvailable(amount) // Apprroved DAI for this function
-  //   requiredDai(msg.sender, amount)
-  // {
-  //   daiContract.transferFrom(msg.sender, address(this), amount);
-  //   daiContract.approve(address(aaveLendingContractCore), amount);
-  //   aaveLendingContract.deposit(address(daiContract), amount, 0);
-
-  //   //setting values
-  //   depositedDai[msg.sender] = amount;
-  //   totalDepositedDai = totalDepositedDai.add(amount);
-  //   iterationJoined[msg.sender] = proposalIteration;
-  // }
-
-  // // MOST CRITICAL
-  // // Can't withdraw if voted
-  // function withdrawDeposit()
-  //   public
-  //   userStaked(msg.sender)
-  //   noVoteYet(msg.sender)
-  //   userHasNoProposal(msg.sender)
-  // {
-  //   uint256 amount = depositedDai[msg.sender];
-
-  //   //setting values
-  //   depositedDai[msg.sender] = 0;
-  //   totalDepositedDai = totalDepositedDai.sub(amount);
-  //   iterationJoined[msg.sender] = 0; // setting to default (haven't joined)
-
-  //   adaiContract.redeem(amount);
-  //   daiContract.transfer(msg.sender, amount);
-  // }
-
-  ///////////////////////////////////
-  /// Benefactors join and leave ////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////
-  function createProposal(string memory proposalHash)
+  function _setProposal(string memory proposalHash, address benefactorAddress)
     public
-    allowanceAvailable(proposalAmount)
-    requiredDai(msg.sender, proposalAmount)
-    userHasNoActiveProposal(msg.sender)
-    blankUser()
+    depositContractOnly
     returns (uint256 newProposalId)
   {
-    // DAI things. TODO: Approve where necessary
-    daiContract.transferFrom(msg.sender, address(this), proposalAmount);
-    daiContract.approve(address(aaveLendingContractCore), proposalAmount);
-    aaveLendingContract.deposit(
-      address(daiContract),
-      proposalAmount,
-      0 /* We should research this referal code stuff... https://developers.aave.com/#referral-program */
-    );
-
-    totalDepositedDai = totalDepositedDai.add(proposalAmount);
-    depositedDai[msg.sender] = proposalAmount;
-
     // So the first proposal will have an ID of 1
     proposalId = proposalId.add(1);
 
     proposalDetails[proposalId] = proposalHash;
-    proposalOwner[proposalId] = msg.sender;
-    benefactorsProposal[msg.sender] = proposalId;
+    proposalOwner[proposalId] = benefactorAddress;
+    benefactorsProposal[benefactorAddress] = proposalId;
     state[proposalId] = ProposalState.Active;
-    iterationJoined[msg.sender] = proposalIteration;
+    iterationJoined[benefactorAddress] = proposalIteration;
     return proposalId;
   }
 
-  function withdrawProposal()
+  function _withdrawProposal(address benefactorAddress)
     public
-    userHasActiveProposal(msg.sender)
-    lockInFulfilled(msg.sender)
+    depositContractOnly
   {
-    //This can only be executed after every cycle
-    state[benefactorsProposal[msg.sender]] = ProposalState.Withdrawn;
+    state[benefactorsProposal[benefactorAddress]] = ProposalState.Withdrawn;
 
-    uint256 amount = depositedDai[msg.sender];
-    depositedDai[msg.sender] = 0;
-    totalDepositedDai = totalDepositedDai.sub(amount);
-
-    adaiContract.redeem(amount);
-    daiContract.transfer(msg.sender, amount);
   }
 
-  ///////////////////////////////////
-  //// DAO functionality ////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////
+  //// DAO functionality
   function delegateVoting(address delegatedAddress)
     public
     userStaked(msg.sender)
@@ -337,7 +292,9 @@ contract NoLossDao is Initializable {
   function _vote(uint256 proposalIdToVoteFor, address voteAddress) internal {
     usersNominatedProject[proposalIteration][voteAddress] = proposalIdToVoteFor;
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
-      .add(depositedDai[voteAddress]);
+      .add(depositContract.usersDeposit(voteAddress));
+
+    //uint256 temp = depositContract.usersDeposit(voteAddress);
 
     uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
@@ -380,7 +337,8 @@ contract NoLossDao is Initializable {
       }
 
       address winner = proposalOwner[topProject[proposalIteration]]; // error if no-one voted for in this iteration
-      adaiContract.redirectInterestStream(winner);
+
+      depositContract.redirectInterestStreamToWinner(winner);
 
     }
     //
