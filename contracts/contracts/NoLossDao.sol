@@ -42,6 +42,8 @@ contract NoLossDao is Initializable {
   IADai public adaiContract;
   address public aaveLendingContractCore;
 
+  address public depositContractAddress;
+
   ////////////////////////////////////
   //////// Modifiers /////////////////
   ////////////////////////////////////
@@ -141,6 +143,15 @@ contract NoLossDao is Initializable {
     );
     _;
   }
+
+  modifier depositContractOnly() {
+    require(
+      depositContractAddress == msg.sender,
+      'function can only be called by deposit contract'
+    );
+    _;
+  }
+
   ////////////////////////////////////
   //////// SETUP CONTRACT////////////
   //// NOTE: Upgradable at the moment
@@ -149,6 +160,7 @@ contract NoLossDao is Initializable {
     address aDaiAddress,
     address aavePoolAddress,
     address aavePoolCoreAddress,
+    address _depositContractAddress,
     uint256 _proposalAmount,
     uint256 _votingInterval
   ) public initializer {
@@ -156,6 +168,7 @@ contract NoLossDao is Initializable {
     aaveLendingContract = IAaveLendingPool(aavePoolAddress);
     adaiContract = IADai(aDaiAddress);
     aaveLendingContractCore = aavePoolCoreAddress;
+    depositContractAddress = _depositContractAddress;
     admin = msg.sender;
     proposalAmount = _proposalAmount;
     votingInterval = _votingInterval;
@@ -174,44 +187,64 @@ contract NoLossDao is Initializable {
 
   // change miner reward
 
+  function canDeposit(address userAddress) external view returns (bool) {
+    return false;
+  }
+  function canWithdraw(address userAddress) external view returns (bool) {
+    return false;
+  }
+
+  function setUserIterationJoined(address userAddress)
+    external
+    depositContractOnly
+  {
+    iterationJoined[userAddress] = proposalIteration;
+  }
+  function resetUserIterationJoined(address userAddress)
+    external
+    depositContractOnly
+  {
+    iterationJoined[userAddress] = 0;
+  }
+
   ///////////////////////////////////
   ///// Users join and leave /////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////
-  function deposit(uint256 amount)
-    public
-    blankUser // They haven't already deposited
-    noProposal(msg.sender) // Checks they are not a benefactor
-    allowanceAvailable(amount) // Apprroved DAI for this function
-    requiredDai(msg.sender, amount)
-  {
-    daiContract.transferFrom(msg.sender, address(this), amount);
-    daiContract.approve(address(aaveLendingContractCore), amount);
-    aaveLendingContract.deposit(address(daiContract), amount, 0);
+  // function deposit(uint256 amount)
+  //   public
+  //   blankUser // They haven't already deposited
+  //   noProposal(msg.sender) // Checks they are not a benefactor
+  //   allowanceAvailable(amount) // Apprroved DAI for this function
+  //   requiredDai(msg.sender, amount)
+  // {
+  //   daiContract.transferFrom(msg.sender, address(this), amount);
+  //   daiContract.approve(address(aaveLendingContractCore), amount);
+  //   aaveLendingContract.deposit(address(daiContract), amount, 0);
 
-    //setting values
-    depositedDai[msg.sender] = amount;
-    totalDepositedDai = totalDepositedDai.add(amount);
-    iterationJoined[msg.sender] = proposalIteration;
-  }
+  //   //setting values
+  //   depositedDai[msg.sender] = amount;
+  //   totalDepositedDai = totalDepositedDai.add(amount);
+  //   iterationJoined[msg.sender] = proposalIteration;
+  // }
 
-  // MOST CRITICAL
-  // Can't withdraw if voted
-  function withdrawDeposit()
-    public
-    userStaked(msg.sender)
-    noVoteYet(msg.sender)
-    userHasNoProposal(msg.sender)
-  {
-    uint256 amount = depositedDai[msg.sender];
+  // // MOST CRITICAL
+  // // Can't withdraw if voted
+  // function withdrawDeposit()
+  //   public
+  //   userStaked(msg.sender)
+  //   noVoteYet(msg.sender)
+  //   userHasNoProposal(msg.sender)
+  // {
+  //   uint256 amount = depositedDai[msg.sender];
 
-    //setting values
-    depositedDai[msg.sender] = 0;
-    totalDepositedDai = totalDepositedDai.sub(amount);
-    iterationJoined[msg.sender] = 0; // setting to default (haven't joined)
+  //   //setting values
+  //   depositedDai[msg.sender] = 0;
+  //   totalDepositedDai = totalDepositedDai.sub(amount);
+  //   iterationJoined[msg.sender] = 0; // setting to default (haven't joined)
 
-    adaiContract.redeem(amount);
-    daiContract.transfer(msg.sender, amount);
-  }
+  //   adaiContract.redeem(amount);
+  //   daiContract.transfer(msg.sender, amount);
+  // }
 
   ///////////////////////////////////
   /// Benefactors join and leave ////////////////////////////////////////////////////////////////////
