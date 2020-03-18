@@ -170,8 +170,18 @@ function useWeb3Connect() {
     const daiContract = new web3Inited.eth.Contract(daiAbi.abi, DAI_ADDRESS);
     setDaiContract(daiContract);
 
+    // console.log('daiContract');
+    // console.log(
+    //   daiContract.methods
+    //   // .balanceOf('0x9241DcC41515150E8363BEf238f92B15167791d7')
+    //   // .call()
+    // );
+
     const daoContract = new web3Inited.eth.Contract(daoAbi.abi, WHOOP_ADDRESS);
     setDaoContract(daoContract);
+    // console.log('daoContract');
+    // console.log(daoContract);
+    // console.log(daoContract.methods.totalDepositedDai().call());
 
     setProvider(providerInited);
     setWeb3(web3Inited);
@@ -374,6 +384,18 @@ function useWeb3Connect() {
     return Number(web3ReadOnly.utils.fromWei('' + interest, 'ether'));
   };
 
+  const getTotalDepositedAmount = async () => {
+    if (!adaiContractReadOnly) {
+      return 0;
+    }
+
+    let depositedAmount = Number(
+      await daoContractReadOnly.methods.totalDepositedDai().call()
+    );
+
+    return Number(web3ReadOnly.utils.fromWei('' + depositedAmount, 'ether'));
+  };
+
   const fetchProposals = async (daoContract = daoContractReadOnly) => {
     // let contract = daoContract ? daoContract
     if (
@@ -515,6 +537,7 @@ function useWeb3Connect() {
           vote,
           enableTwitterVoting,
           getInterest,
+          getTotalDepositedAmount,
         },
       },
     },

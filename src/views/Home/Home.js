@@ -37,13 +37,28 @@ const Home = () => {
   let connected = web3Connect.connected;
   const router = useRouter();
   const [interest, setInterest] = useState(0);
+  const [totalFundAmount, setTotalFundAmount] = useState(0);
+  const [inlineLoader, setInlineLoader] = useState('.  ');
 
   useInterval(async () => {
     if (web3Connect) {
       let interest = await web3Connect.contracts.dao.methods.getInterest();
       setInterest(interest);
+      let totalFundAmount = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
+      setTotalFundAmount(totalFundAmount);
     }
   }, 2000);
+
+  useInterval(async () => {
+    // inline loading animation
+    if (inlineLoader == '.  ') {
+      setInlineLoader('.. ');
+    } else if (inlineLoader == '.. ') {
+      setInlineLoader('...');
+    } else if (inlineLoader == '...') {
+      setInlineLoader('.  ');
+    }
+  }, 300);
 
   return (
     <>
@@ -55,11 +70,21 @@ const Home = () => {
         weeks if selected by the DAO. Withdraw your original DAI at anytime.
       </Typography>
       <Typography variant="body1" className={classes.interestBlurb}>
+        The dao.care fund is currently{' '}
+        {totalFundAmount === 0 ? (
+          <span>{inlineLoader}</span>
+        ) : (
+          <span className={classes.interestCountUp}>
+            {' '}
+            {totalFundAmount} DAI!
+          </span>
+        )}
+        <br />
         Every two weeks, the preferred project of the community will receive{' '}
         {interest > 0 && (
           <span className={classes.interestCountUp}>${interest}!</span>
         )}
-        {interest === 0 && <span>...</span>}
+        {interest === 0 && <span>{inlineLoader}</span>}
       </Typography>
 
       <div className={classes.buttonContainer}>
