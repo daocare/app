@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { LinearProgress, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-// import { TopBar } from './components';
+import BetaFlag from '../../components/BetaFlag/BetaFlag';
 import { Page, WalletProfile } from '../../components';
 
 const useStyles = makeStyles(theme => ({
@@ -83,6 +83,7 @@ const Dashboard = props => {
       /> */}
       <div className={classes.container}>
         <main className={classes.content}>
+          <BetaFlag />
           <WalletProfile />
           <Container maxWidth="md">
             <Paper elevation={0}>
