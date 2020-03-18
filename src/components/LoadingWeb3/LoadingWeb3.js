@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Header from '../Header';
 
 const useStyles = makeStyles({
   root: {
@@ -16,27 +17,31 @@ const useStyles = makeStyles({
 export default function LoadingWeb3(props) {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Typography
-        variant="body1"
-        style={{
-          margin: 16,
-          textAlign: 'center',
-          color: '#A362A5',
-          fontWeight: 400,
-        }}
-      >
-        Waiting for your wallet...
-      </Typography>
-      <img
-        src="/waiting-web3.svg"
-        style={{ maxWidth: '100%', maxHeight: 280 }}
-        alt="Waiting for web3"
-      />
-      <LinearProgress
-        color="secondary"
-        style={{ maxWidth: '80%', margin: 'auto', marginTop: 32 }}
-      />
+    <div>
+      <Header />
+
+      <div className={classes.root}>
+        <Typography
+          variant="body1"
+          style={{
+            margin: 16,
+            textAlign: 'center',
+            color: '#A362A5',
+            fontWeight: 400,
+          }}
+        >
+          Waiting for your wallet...
+        </Typography>
+        <img
+          src="/waiting-web3.svg"
+          style={{ maxWidth: '100%', maxHeight: 280 }}
+          alt="Waiting for web3"
+        />
+        <LinearProgress
+          color="secondary"
+          style={{ maxWidth: '80%', margin: 'auto', marginTop: 32 }}
+        />
+      </div>
     </div>
   );
 }

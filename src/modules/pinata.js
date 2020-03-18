@@ -36,3 +36,5 @@ export const pinHash = async (hash, filename) => {
   let res = await pinata.addHashToPinQueue(hash, options);
   return res;
 };
+
+export const getUrlByHash = hash => pinataEndpoint + hash;

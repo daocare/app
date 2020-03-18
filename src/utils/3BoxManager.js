@@ -81,3 +81,11 @@ export const isLoggedIn = async address => {
 export const getBox = () => box;
 export const getSpace = () => space;
 export const isFetching = () => fetching;
+
+export const getThreadFirstPost = async threadAddress => {
+  let posts = await Box.getThreadByAddress(threadAddress);
+  if (posts && posts.length > 0) {
+    return posts[0];
+  }
+  return null;
+};

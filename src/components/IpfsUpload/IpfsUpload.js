@@ -4,7 +4,7 @@ import { getIpfsUrl, getIpfs } from '../../modules/ipfs';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { CircularProgress, Grid } from '@material-ui/core';
+import { CircularProgress, Grid, Typography } from '@material-ui/core';
 
 const styles = theme => ({
   button: {
@@ -96,7 +96,7 @@ class IpfsUpload extends Component {
   render() {
     // let uploadDisabled = this.state.buffer === undefined ? 'disabled' : '';
     let uploading = this.state.status === 'UPLOADING';
-    // let uploaded = this.state.status === 'UPLOADED';
+    let uploaded = this.state.status === 'UPLOADED';
     // let buttonLabel = uploading ? "Uploading..." : "Upload to IPFS";
     // let status = uploaded ? " File successfully uploaded to IPFS" : '';
     let caption = this.props.caption ? this.props.caption : 'Select File';
@@ -135,6 +135,9 @@ class IpfsUpload extends Component {
             )}
           </Grid>
         </label>
+        {uploading && (
+          <Typography variant="caption">Uploading to IPFS...</Typography>
+        )}
       </div>
     );
   }

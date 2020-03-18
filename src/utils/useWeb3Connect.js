@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-
-// import BigNumber from './bignumber.js';
 import Web3 from 'web3';
 import Web3Connect from 'web3connect';
 
@@ -11,7 +9,6 @@ import Torus from '@toruslabs/torus-embed';
 // import Authereum from "authereum";
 
 import supportedChains from './chains';
-import { getJson } from '../modules/pinata';
 import useInterval from '../utils/useInterval';
 import useRouter from './useRouter';
 
@@ -21,9 +18,10 @@ import {
   // isLoggedIn,
   get3BoxProfile,
   isFetching,
+  logout3Box,
+  isLoggedIn,
+  getThreadFirstPost,
 } from './3BoxManager';
-
-const Box = require('3box');
 
 const daiAbi = require('../abis/ERC20.json');
 const daoAbi = require('../abis/NoLossDao.json');
@@ -75,6 +73,7 @@ const providerOptions = {
   //   options: {}
   // }
 };
+let isFetchingProposals = false;
 
 const web3Connect = new Web3Connect.Core({
   // network: "mainnet", // optional
@@ -103,9 +102,9 @@ function useWeb3Connect() {
   const [adaiContractReadOnly, setAdaiContractReadOnly] = useState(null);
   const [daoContract, setDaoContract] = useState(null);
   const [daoContractReadOnly, setDaoContractReadOnly] = useState(null);
-  const [daiAllowance, setDaiAllowance] = useState(0);
-  const [daiBalance, setDaiBalance] = useState(0);
-  const [daiDeposit, setDaiDeposit] = useState(0);
+  const [daiAllowance, setDaiAllowance] = useState(null);
+  const [daiBalance, setDaiBalance] = useState(null);
+  const [daiDeposit, setDaiDeposit] = useState(null);
   const [hasProposal, setHasProposal] = useState(false);
   const [enabledTwitter, setEnabledTwitter] = useState(false);
 
@@ -243,6 +242,8 @@ function useWeb3Connect() {
       await web3.currentProvider.close();
     }
     await web3Connect.clearCachedProvider();
+    await logout3Box();
+
     await setProvider(null);
     await setWeb3(null);
     await setConnected(false);
@@ -280,23 +281,34 @@ function useWeb3Connect() {
   // 3BOX Functions
   const update3BoxDetails = async (addr = address, prov = provider) => {
     if (addr) {
-      const loggedIn = await Box.isLoggedIn(addr);
+      const loggedIn = await isLoggedIn(addr);
       // const config = await Box.getConfig(addr);
       // console.log({ config });
-      // console.log({ isLoggedIn });
+      // console.log({ loggedIn });
       setIs3BoxLoggedIn(loggedIn);
 
       let { profile, verifiedAccounts } = await get3BoxProfile(addr);
-      console.log({ profile, verifiedAccounts });
       setUserProfile(profile);
       setUserVerifiedAccounts(verifiedAccounts);
 
-      if (loggedIn && !isFetching) {
+      // check if user has this space, if so we can open the box in the bg
+      if (
+        loggedIn &&
+        !isFetching
+        // config.spaces &&
+        // config.spaces[BOX_SPACE]
+      ) {
         await open3Box(addr, prov);
       }
+
       return { profile, verifiedAccounts };
     }
     return { profile: null, verifiedAccounts: null };
+  };
+  const triggerOpen3Box = async (addr = address, prov = provider) => {
+    if (addr && prov) {
+      await open3Box(addr, prov);
+    }
   };
 
   // SMART CONTRACT FUNCTIONS
@@ -366,12 +378,14 @@ function useWeb3Connect() {
     // let contract = daoContract ? daoContract
     if (
       lastFetchTimestamp + FETCH_UPDATE_INTERVAL < Date.now() &&
-      daoContract
+      daoContract &&
+      !isFetchingProposals
     ) {
+      isFetchingProposals = true;
       let iteration = Number(
         await daoContract.methods.proposalIteration().call()
       );
-      console.log({ iteration, address });
+      // console.log({ iteration, address });
       let tempCurrentVote = 0;
       if (connected && address) {
         tempCurrentVote = Number(
@@ -387,11 +401,15 @@ function useWeb3Connect() {
       let foundOwner = false;
       for (let i = 1; i <= numProposals; i++) {
         let hash = await daoContract.methods.proposalDetails(i).call();
+        if (!hash.includes('orbitdb')) {
+          console.log(`Skipping ${hash} as it is not stored on a thread...`);
+          continue;
+        }
         console.log({ hash });
-        let proposal = await getJson(hash);
+        let proposal = await getThreadFirstPost(hash);
         proposal.id = i;
         console.log({ proposal });
-        tempProposals.push(proposal);
+        tempProposals.push(proposal.message);
         if (i === tempCurrentVote) {
           setCurrentVote(proposal);
         }
@@ -411,7 +429,9 @@ function useWeb3Connect() {
       setHasProposal(foundOwner);
       setProposals(tempProposals);
       setFetched(true);
+      console.log(Date.now() / 1000 - lastFetchTimestamp / 1000);
       setLastFetchTimestamp(Date.now());
+      isFetchingProposals = false;
     }
   };
 
@@ -512,6 +532,7 @@ function useWeb3Connect() {
     userProfile,
     userVerifiedAccounts,
     update3BoxDetails,
+    triggerOpen3Box,
   };
 }
 
