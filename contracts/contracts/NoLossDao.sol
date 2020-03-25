@@ -117,7 +117,7 @@ contract NoLossDao is Initializable {
 
   modifier allowanceAvailable(address givenAddress, uint256 amount) {
     require(
-      amount <= daiContract.allowance(givenAddress, msg.sender), // checking the pool deposits contract
+      amount <= daiContract.allowance(givenAddress, address(depositContract)), // checking the pool deposits contract
       'amount not available'
     );
     _;
