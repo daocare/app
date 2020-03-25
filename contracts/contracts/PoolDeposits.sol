@@ -41,6 +41,7 @@ contract PoolDeposits is Initializable {
     address noLossDaoAddress
   ) public initializer {
     daiContract = IERC20(daiAddress);
+    //provider = LendingPoolAddressesProvider(/*contract_address*/);
     aaveLendingContract = IAaveLendingPool(aavePoolAddress);
     adaiContract = IADai(aDaiAddress);
     aaveLendingContractCore = aavePoolCoreAddress;
@@ -48,101 +49,70 @@ contract PoolDeposits is Initializable {
     admin = msg.sender;
   }
 
-  /**
-    * @dev Returns the DAI deposited by this user
-    * @param userAddress the user you would like to check
-    * ?? I guess we don't need this function we could simply call the value from the contract
-    */
-  function usersDeposit(address userAddress) external view returns (uint256) {
-    return depositedDai[userAddress];
+  function _depositFunds(uint256 amount) internal {
+    // Get from aave lending pool the latest address....
+    //LendingPoolAddressesProvider provider = LendingPoolAddressesProvider();
+    /*contract_address*/
+    // IAaveLendingPool lendingPool = IAaveLendingPool(provider.getLendingPool());
+
+    daiContract.transferFrom(msg.sender, address(this), amount);
+    daiContract.approve(address(aaveLendingContractCore), amount);
+    aaveLendingContract.deposit(address(daiContract), amount, 0);
+
+    depositedDai[msg.sender] = amount;
+    totalDepositedDai = totalDepositedDai.add(amount);
+  }
+
+  function _withdrawFunds() internal {
+    uint256 amount = depositedDai[msg.sender];
+
+    depositedDai[msg.sender] = 0;
+    totalDepositedDai = totalDepositedDai.sub(amount);
+
+    adaiContract.redeem(amount);
+    daiContract.transfer(msg.sender, amount);
   }
 
   /**
     * @dev Lets a user join DAOcare through depositing
     * @param amount the user wants to deposit into the DAOcare pool
     */
-  function deposit(uint256 amount) public {
-    // This is so much less granular now which I don't like
-    require(
-      noLossDaoContract.canDeposit(msg.sender) == true,
-      'User not eligible to deposit'
-    );
-
-    // Get from aave lending pool the latest address....
-    daiContract.transferFrom(msg.sender, address(this), amount);
-    daiContract.approve(address(aaveLendingContractCore), amount);
-    aaveLendingContract.deposit(address(daiContract), amount, 0);
-
-    // Set here
-    depositedDai[msg.sender] = amount;
-    totalDepositedDai = totalDepositedDai.add(amount);
-
-    // Set in NoLossDAo
-    noLossDaoContract.setUserIterationJoined(msg.sender);
+  function deposit(uint256 amount) external {
+    uint256 usersBalance = depositedDai[msg.sender];
+    _depositFunds(amount);
+    noLossDaoContract.noLossDeposit(msg.sender, amount, usersBalance);
   }
 
   /**
      * @dev Lets a user withdraw their original amount sent to DAOcare
+     * Calls the NoLossDao conrrtact to determine eligibility to withdraw
+     * Withdraws the proposalAmount (50DAI) if succesful
      */
-  function withdrawDeposit() public {
-    require(
-      noLossDaoContract.canWithdraw(msg.sender) == true,
-      'User not eligible to withdraw'
-    );
-
-    uint256 amount = depositedDai[msg.sender];
-
-    depositedDai[msg.sender] = 0;
-    totalDepositedDai = totalDepositedDai.sub(amount);
-
-    noLossDaoContract.resetUserIterationJoined(msg.sender);
-
-    adaiContract.redeem(amount);
-    daiContract.transfer(msg.sender, amount);
+  function withdrawDeposit() external {
+    uint256 usersBalance = depositedDai[msg.sender];
+    _withdrawFunds();
+    noLossDaoContract.noLossWithdraw(msg.sender, usersBalance);
   }
 
-  function createProposal(string memory proposalHash)
-    public
+  function createProposal(string calldata proposalHash)
+    external
     returns (uint256 newProposalId)
   {
-    require(
-      noLossDaoContract.canCreateProposal(msg.sender) == true,
-      'User not eligible to create proposal'
-    );
+    uint256 usersBalance = depositedDai[msg.sender];
+    _depositFunds(proposalAmount);
 
-    // DAI things. TODO: Approve where necessary
-    daiContract.transferFrom(msg.sender, address(this), proposalAmount);
-    daiContract.approve(address(aaveLendingContractCore), proposalAmount);
-    aaveLendingContract.deposit(
-      address(daiContract),
-      proposalAmount,
-      0 /* We should research this referal code stuff... https://developers.aave.com/#referral-program */
-    );
-
-    totalDepositedDai = totalDepositedDai.add(proposalAmount);
-    depositedDai[msg.sender] = proposalAmount;
-
-    uint256 proposalId = noLossDaoContract._setProposal(
+    uint256 proposalId = noLossDaoContract.noLossCreateProposal(
       proposalHash,
-      msg.sender
+      msg.sender,
+      usersBalance,
+      proposalAmount
     );
-
     return proposalId;
   }
 
-  function withdrawProposal() public {
-    require(
-      noLossDaoContract.canWithdrawProposal(msg.sender) == true,
-      'Benefactor cannot withdraw proposal now'
-    );
-    noLossDaoContract._withdrawProposal(msg.sender);
-
-    uint256 amount = depositedDai[msg.sender];
-    depositedDai[msg.sender] = 0;
-    totalDepositedDai = totalDepositedDai.sub(amount);
-
-    adaiContract.redeem(amount);
-    daiContract.transfer(msg.sender, amount);
+  function withdrawProposal() external {
+    _withdrawFunds();
+    noLossDaoContract.noLossWithdrawProposal(msg.sender);
   }
 
   function redirectInterestStreamToWinner(address _winner)

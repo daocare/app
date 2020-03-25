@@ -1,21 +1,24 @@
 pragma solidity ^0.5.0;
 
 contract INoLossDao {
-  function canDeposit(address userAddress) external view returns (bool);
-  function canWithdraw(address userAddress) external view returns (bool);
-  function canCreateProposal(address userAddress) external view returns (bool);
-  function canWithdrawProposal(address userAddress)
+  function noLossDeposit(
+    address userAddress,
+    uint256 amountToDeposit,
+    uint256 currentDeposit
+  ) external returns (bool);
+  function noLossWithdraw(address userAddress, uint256 userBalance)
     external
-    view
     returns (bool);
 
-  function setUserIterationJoined(address _address) public;
-  function resetUserIterationJoined(address _address) public;
+  function noLossCreateProposal(
+    string calldata proposalHash,
+    address benefactorAddress,
+    uint256 currentDeposit,
+    uint256 proposalAmount
+  ) external returns (uint256 newProposalId);
 
-  function _setProposal(string memory proposalHash, address benefactorAddress)
-    public
-    returns (uint256 newProposalId);
-
-  function _withdrawProposal(address benefactorAddress) public;
+  function noLossWithdrawProposal(address benefactorAddress)
+    external
+    returns (bool);
 
 }

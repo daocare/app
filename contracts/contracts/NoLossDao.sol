@@ -11,7 +11,6 @@ contract NoLossDao is Initializable {
 
   //////// MASTER //////////////
   address public admin;
-  //uint256 public totalDepositedDai;
 
   //////// Iteration specific //////////
   uint256 public votingInterval;
@@ -28,7 +27,6 @@ contract NoLossDao is Initializable {
   mapping(uint256 => ProposalState) public state; // ProposalId to current state
 
   //////// User specific //////////
-  //mapping(address => uint256) public depositedDai;
   mapping(address => uint256) public iterationJoined; // Which iteration did user join DAO
   mapping(uint256 => mapping(address => uint256)) public usersNominatedProject; // iteration -> user -> chosen project
 
@@ -39,12 +37,7 @@ contract NoLossDao is Initializable {
 
   ///////// DEFI Contrcats ///////////
   IERC20 public daiContract;
-  //IAaveLendingPool public aaveLendingContract;
-  //IADai public adaiContract;
-  //address public aaveLendingContractCore;
-
   IPoolDeposits public depositContract;
-  //address public depositContractAddress;
 
   ////////////////////////////////////
   //////// Modifiers /////////////////
@@ -54,19 +47,21 @@ contract NoLossDao is Initializable {
     _;
   }
 
-  modifier blankUser() {
-    require(
-      depositContract.usersDeposit(msg.sender) == 0,
-      'Person is already a user'
-    );
+  modifier blankUser(uint256 amount) {
+    require(amount == 0, 'Person is already a user');
     _;
   }
 
   modifier userStaked(address givenAddress) {
     require(
-      depositContract.usersDeposit(givenAddress) > 0,
+      depositContract.depositedDai(givenAddress) > 0,
       'User has no stake'
     );
+    _;
+  }
+
+  modifier userStakedSimple(uint256 amount) {
+    require(amount > 0, 'User has no stake');
     _;
   }
 
@@ -120,9 +115,9 @@ contract NoLossDao is Initializable {
     _;
   }
 
-  modifier allowanceAvailable(uint256 amount) {
+  modifier allowanceAvailable(address givenAddress, uint256 amount) {
     require(
-      amount <= daiContract.allowance(msg.sender, address(this)),
+      amount <= daiContract.allowance(givenAddress, msg.sender), // checking the pool deposits contract
       'amount not available'
     );
     _;
@@ -136,6 +131,9 @@ contract NoLossDao is Initializable {
     _;
   }
 
+  // We reset the iteration back to zero when a user leaves. Means this modifier will no longer protect.
+  // But, its okay because it cannot be exploited. When 0, the user will have zero deposit.
+  // Therefore that modifier will always catch them in that case :)
   modifier joinedInTime(address givenAddress) {
     require(
       iterationJoined[givenAddress] < proposalIteration,
@@ -165,11 +163,11 @@ contract NoLossDao is Initializable {
   //// NOTE: Upgradable at the moment
   function initialize(
     address daiAddress,
-    address _depositContractAddress,
+    address depositContractAddress,
     uint256 _votingInterval
   ) public initializer {
     daiContract = IERC20(daiAddress);
-    depositContract = IPoolDeposits(_depositContractAddress);
+    depositContract = IPoolDeposits(depositContractAddress);
     admin = msg.sender;
     votingInterval = _votingInterval;
 
@@ -183,58 +181,81 @@ contract NoLossDao is Initializable {
     votingInterval = newInterval;
   }
 
-  // change miner reward
+  // change miner reward here
 
-  function canDeposit(address userAddress) external view returns (bool) {
-    //   blankUser // They haven't already deposited
-    //   noProposal(msg.sender) // Checks they are not a benefactor
-    //   allowanceAvailable(amount) // Apprroved DAI for this function
-    //   requiredDai(msg.sender, amount)
-    return false;
-  }
-  function canWithdraw(address userAddress) external view returns (bool) {
-    //   userStaked(msg.sender)
-    //   noVoteYet(msg.sender)
-    //   userHasNoProposal(msg.sender)
-    return false;
-  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  /////// Deposit & withdraw function for users //////////
+  ////////and proposal holders (benefactors) /////////////
+  ////////////////////////////////////////////////////////
 
-  function canCreateProposal(address userAddress) external view returns (bool) {
-    //   allowanceAvailable(proposalAmount)
-    //   requiredDai(msg.sender, proposalAmount)
-    //   userHasNoActiveProposal(msg.sender)
-    //   blankUser()
-    return false;
-  }
-  function canWithdrawProposal(address userAddress)
+  /**
+     * @dev Checks whether user is eligible deposit
+      * Sets the proposal iteration joined, to the current iteration
+     * @param userAddress address of the user wanting to deposit
+     * @param amountToDeposit amount user wants to deposit
+     * @param currentDeposit amount user has currently deposited (should be zero)
+     * @return boolean whether the above executes successfully
+     */
+  function noLossDeposit(
+    address userAddress,
+    uint256 amountToDeposit,
+    uint256 currentDeposit
+  )
     external
-    view
+    depositContractOnly
+    blankUser(currentDeposit) // They haven't already deposited
+    noProposal(userAddress) // Checks they are not a benefactor
+    allowanceAvailable(userAddress, amountToDeposit) // Apprroved DAI for this function
+    requiredDai(userAddress, amountToDeposit)
     returns (bool)
   {
-    //   userHasActiveProposal(msg.sender)
-    //   lockInFulfilled(msg.sender)
-    return false;
+    iterationJoined[userAddress] = proposalIteration;
+    return true;
   }
 
-  function setUserIterationJoined(address userAddress)
-    external
-    depositContractOnly // Important as deposit contract sets this on deposit event
-  {
-    iterationJoined[userAddress] = proposalIteration;
-  }
-  function resetUserIterationJoined(address userAddress)
+  /**
+     * @dev Checks whether user is eligible to withdraw their deposit
+     * Sets the proposal iteration joined to zero
+     * @param userAddress address of the user wanting to withdraw 
+     * @param userBalance amount user is trying to withdraw (will always be the total sum they deposited)
+     * @return boolean whether the above executes successfully
+     */
+  function noLossWithdraw(address userAddress, uint256 userBalance)
     external
     depositContractOnly
+    userStakedSimple(userBalance)
+    noVoteYet(userAddress)
+    userHasNoProposal(userAddress)
+    returns (bool)
   {
     iterationJoined[userAddress] = 0;
+    return true;
   }
 
-  function _setProposal(string memory proposalHash, address benefactorAddress)
-    public
+  /**
+     * @dev Checks whether user is eligible to create a proposal then creates it.
+     * Executes a range of logic to add the new propsal (increments proposal ID, sets proposal owner, sets iteration joined, etc...)
+     * @param proposalHash Hash of the proposal text
+     * @param benefactorAddress address of benefactor creating proposal
+     * @param currentDeposit checking if benefactor has existing deposit (shouldn't)
+     * @param proposalAmount current amount required to stake to submit a proposal
+     * @return boolean whether the above executes successfully
+     */
+  function noLossCreateProposal(
+    string calldata proposalHash,
+    address benefactorAddress,
+    uint256 currentDeposit,
+    uint256 proposalAmount
+  )
+    external
     depositContractOnly
+    allowanceAvailable(benefactorAddress, proposalAmount)
+    requiredDai(benefactorAddress, proposalAmount)
+    userHasNoActiveProposal(benefactorAddress)
+    blankUser(currentDeposit)
     returns (uint256 newProposalId)
   {
-    // So the first proposal will have an ID of 1
     proposalId = proposalId.add(1);
 
     proposalDetails[proposalId] = proposalHash;
@@ -245,17 +266,36 @@ contract NoLossDao is Initializable {
     return proposalId;
   }
 
-  function _withdrawProposal(address benefactorAddress)
-    public
+  /**
+     * @dev Checks whether user is eligible to withdraw their proposal
+     * Sets the state of the users proposal to withdrawn
+     * resets the iteration of user joined back to 0
+      * @param benefactorAddress address of benefactor withdrawing proposal
+     * @return boolean whether the above is possible
+     */
+  function noLossWithdrawProposal(address benefactorAddress)
+    external
     depositContractOnly
+    userHasActiveProposal(benefactorAddress)
+    lockInFulfilled(benefactorAddress)
+    returns (bool)
   {
+    iterationJoined[benefactorAddress] = 0;
     state[benefactorsProposal[benefactorAddress]] = ProposalState.Withdrawn;
-
+    return true;
   }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  //// DAO functionality
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  /////// DAO voting functionality  //////////////////////
+  ////////////////////////////////////////////////////////
+
+  /**
+     * @dev Allows user to delegate their full voting power to another user
+     */
   function delegateVoting(address delegatedAddress)
-    public
+    external
     userStaked(msg.sender)
     userHasNoActiveProposal(msg.sender) //Careful when in cooldown can delegate then ???
     userHasNoActiveProposal(delegatedAddress)
@@ -267,7 +307,7 @@ contract NoLossDao is Initializable {
   function voteDirect(
     uint256 proposalIdToVoteFor // breaking change -> function name change from vote to voteDirect
   )
-    public
+    external
     proposalActive(proposalIdToVoteFor)
     noVoteYet(msg.sender)
     userStaked(msg.sender)
@@ -278,7 +318,7 @@ contract NoLossDao is Initializable {
   }
 
   function voteProxy(uint256 proposalIdToVoteFor, address delegatedFrom)
-    public
+    external
     proposalActive(proposalIdToVoteFor)
     proxyRight(delegatedFrom)
     noVoteYet(delegatedFrom)
@@ -294,8 +334,6 @@ contract NoLossDao is Initializable {
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
       .add(depositContract.usersDeposit(voteAddress));
 
-    //uint256 temp = depositContract.usersDeposit(voteAddress);
-
     uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
     // Currently, proposal getting to top vote first will win [this is fine]
@@ -306,16 +344,15 @@ contract NoLossDao is Initializable {
     }
   }
 
-  // This function allows users to get their proportion of interest instead of redirecting
-  // it to the winning project for the next weeks. (RAGE-QUIT but stay in pool function)
-  function veto() public {}
-  // Veto via twitter. v2 possibly.
-  function vetoProxy() public {}
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  ///////////////////////////////////
-  //// Iteration changes/////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////
-  function distributeFunds() public {
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
+  /////// Iteration changer / mining function  //////////////////////
+  ///////////////////////////////////////////////////////////////////
+
+  // Should make it so smart contracts cannot call this function to allow a more fair way of winning
+  function distributeFunds() external {
     // On a *whatever we decide basis* the funds are distributed to the winning project
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
 
