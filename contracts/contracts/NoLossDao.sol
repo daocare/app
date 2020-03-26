@@ -204,12 +204,7 @@ contract NoLossDao is Initializable {
   function noLossCreateProposal(
     string calldata proposalHash,
     address benefactorAddress
-  )
-    external
-    depositContractOnly
-    userHasNoActiveProposal(benefactorAddress)
-    returns (uint256 newProposalId)
-  {
+  ) external depositContractOnly returns (uint256 newProposalId) {
     proposalId = proposalId.add(1);
 
     proposalDetails[proposalId] = proposalHash;
@@ -286,7 +281,7 @@ contract NoLossDao is Initializable {
   function _vote(uint256 proposalIdToVoteFor, address voteAddress) internal {
     usersNominatedProject[proposalIteration][voteAddress] = proposalIdToVoteFor;
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
-      .add(depositContract.usersDeposit(voteAddress));
+      .add(depositContract.depositedDai(voteAddress));
 
     uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
