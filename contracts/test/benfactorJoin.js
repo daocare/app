@@ -85,7 +85,7 @@ contract('PoolDeposits', accounts => {
     );
   });
 
-  it('NoLossDao:benefactorJoin. Benefactor cannot create a proposal if they already have an active proposal', async () => {
+  it('poolDeposits:benefactorJoin. Benefactor cannot create a proposal if they already have an active proposal', async () => {
     let mintAmount = '90000000000';
     await dai.mint(accounts[1], mintAmount);
     await dai.approve(poolDeposits.address, mintAmount, {
@@ -103,32 +103,32 @@ contract('PoolDeposits', accounts => {
     );
   });
 
-  //   it('NoLossDao:benefactorJoin. Benefactor has not approved enough dai to join', async () => {
-  //     let mintAmount = '600000000';
-  //     await dai.mint(accounts[1], mintAmount);
-  //     await dai.approve(noLossDao.address, '4900000', {
-  //       from: accounts[1],
-  //     });
-  //     await expectRevert(
-  //       noLossDao.createProposal('Some IPFS hash string project 1', {
-  //         from: accounts[1],
-  //       }),
-  //       'amount not available'
-  //     );
-  //   });
+  it('poolDeposits:benefactorJoin. Benefactor has not approved enough dai to join', async () => {
+    let mintAmount = '600000000';
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(poolDeposits.address, '4900000', {
+      from: accounts[1],
+    });
+    await expectRevert(
+      poolDeposits.createProposal('Some IPFS hash string project 1', {
+        from: accounts[1],
+      }),
+      'amount not available'
+    );
+  });
 
-  //   it('NoLossDao:benefactorJoin. Benefactor does not have enough dai to join', async () => {
-  //     await dai.mint(accounts[1], '4900000');
-  //     await dai.approve(noLossDao.address, '600000000', {
-  //       from: accounts[1],
-  //     });
-  //     await expectRevert(
-  //       noLossDao.createProposal('Some IPFS hash string project 1', {
-  //         from: accounts[1],
-  //       }),
-  //       'User does not have enough DAI'
-  //     );
-  //   });
+  it('poolDeposits:benefactorJoin. Benefactor does not have enough dai to join', async () => {
+    await dai.mint(accounts[1], '4900000');
+    await dai.approve(poolDeposits.address, '600000000', {
+      from: accounts[1],
+    });
+    await expectRevert(
+      poolDeposits.createProposal('Some IPFS hash string project 1', {
+        from: accounts[1],
+      }),
+      'User does not have enough DAI'
+    );
+  });
 
   // Check if they create a proposal, withdraw, and recreate in same cycle
   // Specifically check what happens if they are the top project when withdrawn (if they are winning the vote)
