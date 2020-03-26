@@ -7,7 +7,7 @@ import './interfaces/INoLossDao.sol';
 import './NoLossDao.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 
-contract PoolDeposits is Initializable {
+contract PoolDeposits {
   using SafeMath for uint256;
 
   address public admin;
@@ -33,13 +33,13 @@ contract PoolDeposits is Initializable {
     _;
   }
 
-  function initialize(
+  constructor(
     address daiAddress,
     address aDaiAddress,
     address aavePoolAddress,
     address aavePoolCoreAddress,
     address noLossDaoAddress
-  ) public initializer {
+  ) public {
     daiContract = IERC20(daiAddress);
     //provider = LendingPoolAddressesProvider(/*contract_address*/);
     aaveLendingContract = IAaveLendingPool(aavePoolAddress);
