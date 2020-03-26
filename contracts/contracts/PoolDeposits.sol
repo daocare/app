@@ -33,12 +33,38 @@ contract PoolDeposits {
     _;
   }
 
+  modifier allowanceAvailable(uint256 amount) {
+    require(
+      amount <= daiContract.allowance(msg.sender, address(this)), // checking the pool deposits contract
+      'amount not available'
+    );
+    _;
+  }
+
+  modifier requiredDai(uint256 amount) {
+    require(
+      daiContract.balanceOf(msg.sender) >= amount,
+      'User does not have enough DAI'
+    );
+    _;
+  }
+
+  modifier blankUser() {
+    require(depositedDai[msg.sender] == 0, 'Person is already a user');
+    _;
+  }
+
+  modifier userStaked() {
+    require(depositedDai[msg.sender] > 0, 'User has no stake');
+    _;
+  }
   constructor(
     address daiAddress,
     address aDaiAddress,
     address aavePoolAddress,
     address aavePoolCoreAddress,
-    address noLossDaoAddress
+    address noLossDaoAddress,
+    uint256 _proposalAmount
   ) public {
     daiContract = IERC20(daiAddress);
     //provider = LendingPoolAddressesProvider(/*contract_address*/);
@@ -47,6 +73,7 @@ contract PoolDeposits {
     aaveLendingContractCore = aavePoolCoreAddress;
     noLossDaoContract = INoLossDao(noLossDaoAddress);
     admin = msg.sender;
+    proposalAmount = _proposalAmount;
   }
 
   function _depositFunds(uint256 amount) internal {
@@ -77,10 +104,14 @@ contract PoolDeposits {
     * @dev Lets a user join DAOcare through depositing
     * @param amount the user wants to deposit into the DAOcare pool
     */
-  function deposit(uint256 amount) external {
-    uint256 usersBalance = depositedDai[msg.sender];
+  function deposit(uint256 amount)
+    external
+    blankUser
+    allowanceAvailable(amount)
+    requiredDai(amount)
+  {
     _depositFunds(amount);
-    noLossDaoContract.noLossDeposit(msg.sender, amount, usersBalance);
+    noLossDaoContract.noLossDeposit(msg.sender);
   }
 
   /**
@@ -88,24 +119,23 @@ contract PoolDeposits {
      * Calls the NoLossDao conrrtact to determine eligibility to withdraw
      * Withdraws the proposalAmount (50DAI) if succesful
      */
-  function withdrawDeposit() external {
-    uint256 usersBalance = depositedDai[msg.sender];
+  function withdrawDeposit() external userStaked {
     _withdrawFunds();
-    noLossDaoContract.noLossWithdraw(msg.sender, usersBalance);
+    noLossDaoContract.noLossWithdraw(msg.sender);
   }
 
   function createProposal(string calldata proposalHash)
     external
+    blankUser
+    allowanceAvailable(proposalAmount)
+    requiredDai(proposalAmount)
     returns (uint256 newProposalId)
   {
-    uint256 usersBalance = depositedDai[msg.sender];
     _depositFunds(proposalAmount);
 
     uint256 proposalId = noLossDaoContract.noLossCreateProposal(
       proposalHash,
-      msg.sender,
-      usersBalance,
-      proposalAmount
+      msg.sender
     );
     return proposalId;
   }

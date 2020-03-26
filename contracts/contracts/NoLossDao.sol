@@ -36,7 +36,6 @@ contract NoLossDao is Initializable {
   mapping(address => address) public voteDelegations;
 
   ///////// DEFI Contrcats ///////////
-  IERC20 public daiContract;
   IPoolDeposits public depositContract;
 
   ////////////////////////////////////
@@ -47,21 +46,11 @@ contract NoLossDao is Initializable {
     _;
   }
 
-  modifier blankUser(uint256 amount) {
-    require(amount == 0, 'Person is already a user');
-    _;
-  }
-
   modifier userStaked(address givenAddress) {
     require(
       depositContract.depositedDai(givenAddress) > 0,
       'User has no stake'
     );
-    _;
-  }
-
-  modifier userStakedSimple(uint256 amount) {
-    require(amount > 0, 'User has no stake');
     _;
   }
 
@@ -89,13 +78,6 @@ contract NoLossDao is Initializable {
     _;
   }
 
-  modifier requiredDai(address givenAddress, uint256 amount) {
-    require(
-      daiContract.balanceOf(givenAddress) >= amount,
-      'User does not have enough DAI'
-    );
-    _;
-  }
   // Work on this modifier to be more accurate
   modifier userHasNoActiveProposal(address givenAddress) {
     require(
@@ -112,14 +94,6 @@ contract NoLossDao is Initializable {
 
   modifier proposalActive(uint256 propId) {
     require(state[propId] == ProposalState.Active, 'Proposal is not active');
-    _;
-  }
-
-  modifier allowanceAvailable(address givenAddress, uint256 amount) {
-    require(
-      amount <= daiContract.allowance(givenAddress, address(depositContract)), // checking the pool deposits contract
-      'amount not available'
-    );
     _;
   }
 
@@ -161,12 +135,10 @@ contract NoLossDao is Initializable {
   ////////////////////////////////////
   //////// SETUP CONTRACT////////////
   //// NOTE: Upgradable at the moment
-  function initialize(
-    address daiAddress,
-    address depositContractAddress,
-    uint256 _votingInterval
-  ) public initializer {
-    daiContract = IERC20(daiAddress);
+  function initialize(address depositContractAddress, uint256 _votingInterval)
+    public
+    initializer
+  {
     depositContract = IPoolDeposits(depositContractAddress);
     admin = msg.sender;
     votingInterval = _votingInterval;
@@ -193,21 +165,12 @@ contract NoLossDao is Initializable {
      * @dev Checks whether user is eligible deposit
       * Sets the proposal iteration joined, to the current iteration
      * @param userAddress address of the user wanting to deposit
-     * @param amountToDeposit amount user wants to deposit
-     * @param currentDeposit amount user has currently deposited (should be zero)
      * @return boolean whether the above executes successfully
      */
-  function noLossDeposit(
-    address userAddress,
-    uint256 amountToDeposit,
-    uint256 currentDeposit
-  )
+  function noLossDeposit(address userAddress)
     external
     depositContractOnly
-    blankUser(currentDeposit) // They haven't already deposited
     noProposal(userAddress) // Checks they are not a benefactor
-    allowanceAvailable(userAddress, amountToDeposit) // Apprroved DAI for this function
-    requiredDai(userAddress, amountToDeposit)
     returns (bool)
   {
     iterationJoined[userAddress] = proposalIteration;
@@ -218,13 +181,11 @@ contract NoLossDao is Initializable {
      * @dev Checks whether user is eligible to withdraw their deposit
      * Sets the proposal iteration joined to zero
      * @param userAddress address of the user wanting to withdraw 
-     * @param userBalance amount user is trying to withdraw (will always be the total sum they deposited)
      * @return boolean whether the above executes successfully
      */
-  function noLossWithdraw(address userAddress, uint256 userBalance)
+  function noLossWithdraw(address userAddress)
     external
     depositContractOnly
-    userStakedSimple(userBalance)
     noVoteYet(userAddress)
     userHasNoProposal(userAddress)
     returns (bool)
@@ -238,22 +199,15 @@ contract NoLossDao is Initializable {
      * Executes a range of logic to add the new propsal (increments proposal ID, sets proposal owner, sets iteration joined, etc...)
      * @param proposalHash Hash of the proposal text
      * @param benefactorAddress address of benefactor creating proposal
-     * @param currentDeposit checking if benefactor has existing deposit (shouldn't)
-     * @param proposalAmount current amount required to stake to submit a proposal
      * @return boolean whether the above executes successfully
      */
   function noLossCreateProposal(
     string calldata proposalHash,
-    address benefactorAddress,
-    uint256 currentDeposit,
-    uint256 proposalAmount
+    address benefactorAddress
   )
     external
     depositContractOnly
-    allowanceAvailable(benefactorAddress, proposalAmount)
-    requiredDai(benefactorAddress, proposalAmount)
     userHasNoActiveProposal(benefactorAddress)
-    blankUser(currentDeposit)
     returns (uint256 newProposalId)
   {
     proposalId = proposalId.add(1);
