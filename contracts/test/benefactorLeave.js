@@ -1,202 +1,208 @@
-// const {
-//   BN,
-//   expectRevert,
-//   ether,
-//   expectEvent,
-//   balance,
-//   time,
-// } = require('@openzeppelin/test-helpers');
+const {
+  BN,
+  expectRevert,
+  ether,
+  expectEvent,
+  balance,
+  time,
+} = require('@openzeppelin/test-helpers');
 
-// const NoLossDao = artifacts.require('NoLossDao');
-// const AaveLendingPool = artifacts.require('AaveLendingPool');
-// const ERC20token = artifacts.require('MockERC20');
-// const ADai = artifacts.require('ADai');
+const PoolDeposits = artifacts.require('PoolDeposits');
+const NoLossDao = artifacts.require('NoLossDao');
+const AaveLendingPool = artifacts.require('AaveLendingPool');
+const ERC20token = artifacts.require('MockERC20');
+const ADai = artifacts.require('ADai');
 
-// contract('NoLossDao', accounts => {
-//   let aaveLendingPool;
-//   let noLossDao;
-//   let dai;
-//   let aDai;
+contract('PoolDeposits', accounts => {
+  let aaveLendingPool;
+  let poolDeposits;
+  let noLossDao;
+  let dai;
+  let aDai;
 
-//   const applicationAmount = '5000000';
+  const applicationAmount = '5000000';
 
-//   beforeEach(async () => {
-//     dai = await ERC20token.new('AveTest', 'AT', 18, accounts[0], {
-//       from: accounts[0],
-//     });
-//     aDai = await ADai.new(dai.address, {
-//       from: accounts[0],
-//     });
-//     aaveLendingPool = await AaveLendingPool.new(aDai.address, {
-//       from: accounts[0],
-//     });
-//     noLossDao = await NoLossDao.new({ from: accounts[0] });
-//     await dai.addMinter(aDai.address, { from: accounts[0] });
-//     await noLossDao.initialize(
-//       dai.address,
-//       aDai.address,
-//       aaveLendingPool.address,
-//       aaveLendingPool.address,
-//       applicationAmount,
-//       '1800',
-//       {
-//         from: accounts[0],
-//       }
-//     );
-//   });
-//   it('NoLossDao:benefactorLeave. Cannot withdraw proposal as a user ', async () => {
-//     let mintAmount = '60000000000';
+  beforeEach(async () => {
+    dai = await ERC20token.new('AveTest', 'AT', 18, accounts[0], {
+      from: accounts[0],
+    });
+    aDai = await ADai.new(dai.address, {
+      from: accounts[0],
+    });
+    aaveLendingPool = await AaveLendingPool.new(aDai.address, {
+      from: accounts[0],
+    });
+    noLossDao = await NoLossDao.new({ from: accounts[0] });
+    await dai.addMinter(aDai.address, { from: accounts[0] });
 
-//     await dai.mint(accounts[1], mintAmount);
-//     await dai.approve(noLossDao.address, mintAmount, {
-//       from: accounts[1],
-//     });
-//     await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    poolDeposits = await PoolDeposits.new(
+      dai.address,
+      aDai.address,
+      aaveLendingPool.address,
+      aaveLendingPool.address,
+      noLossDao.address,
+      applicationAmount,
+      { from: accounts[0] }
+    );
 
-//     await time.increase(time.duration.seconds(1801)); //1
-//     await noLossDao.distributeFunds();
+    await noLossDao.initialize(poolDeposits.address, '1800', {
+      from: accounts[0],
+    });
+  });
 
-//     await time.increase(time.duration.seconds(1801)); //2
-//     await noLossDao.distributeFunds();
+  it('poolDeposits:benefactorLeave. Cannot withdraw proposal as a user ', async () => {
+    let mintAmount = '60000000000';
 
-//     await time.increase(time.duration.seconds(1801)); //3
-//     await noLossDao.distributeFunds();
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
-//     await expectRevert(
-//       noLossDao.withdrawProposal({
-//         from: accounts[1],
-//       }),
-//       'User proposal does not exist'
-//     );
-//   });
+    await time.increase(time.duration.seconds(1801)); //1
+    await noLossDao.distributeFunds();
 
-//   it('NoLossDao:benefactorLeave. Cannot withdraw proposal as nobody ', async () => {
-//     await time.increase(time.duration.seconds(1801));
-//     await noLossDao.distributeFunds();
+    await time.increase(time.duration.seconds(1801)); //2
+    await noLossDao.distributeFunds();
 
-//     await time.increase(time.duration.seconds(1801));
-//     await noLossDao.distributeFunds();
+    await time.increase(time.duration.seconds(1801)); //3
+    await noLossDao.distributeFunds();
 
-//     await time.increase(time.duration.seconds(1801));
-//     await noLossDao.distributeFunds();
+    await expectRevert(
+      poolDeposits.withdrawProposal({
+        from: accounts[1],
+      }),
+      'User proposal does not exist'
+    );
+  });
 
-//     await expectRevert(
-//       noLossDao.withdrawProposal({
-//         from: accounts[1],
-//       }),
-//       'User proposal does not exist'
-//     );
-//   });
+  it('poolDeposits:benefactorLeave. Cannot withdraw proposal as nobody ', async () => {
+    await time.increase(time.duration.seconds(1801));
+    await noLossDao.distributeFunds();
 
-//   it('NoLossDao:benefactorLeave. Benefactor can create a proposal and only withdraw after 3 iterations ', async () => {
-//     let mintAmount = '60000000000';
+    await time.increase(time.duration.seconds(1801));
+    await noLossDao.distributeFunds();
 
-//     await dai.mint(accounts[2], mintAmount);
-//     await dai.approve(noLossDao.address, mintAmount, {
-//       from: accounts[2],
-//     });
-//     await noLossDao.createProposal('Some IPFS hash string', {
-//       from: accounts[2],
-//     });
+    await time.increase(time.duration.seconds(1801));
+    await noLossDao.distributeFunds();
 
-//     let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
-//     let totalDai = await noLossDao.totalDepositedDai.call();
+    await expectRevert(
+      poolDeposits.withdrawProposal({
+        from: accounts[1],
+      }),
+      'User proposal does not exist'
+    );
+  });
 
-//     assert.equal(applicationAmount, depositedDaiUser.toString());
-//     assert.equal(applicationAmount, totalDai);
+  it('poolDeposits:benefactorLeave. Benefactor can create a proposal and only withdraw after 3 iterations ', async () => {
+    let mintAmount = '60000000000';
 
-//     await expectRevert(
-//       noLossDao.withdrawProposal({
-//         from: accounts[2],
-//       }),
-//       'Benefactor only eligible to receive funds in later iteration'
-//     );
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[2],
+    });
+    await poolDeposits.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
-//     await noLossDao.distributeFunds();
+    let depositedDaiUser = await poolDeposits.depositedDai.call(accounts[2]);
+    let totalDai = await poolDeposits.totalDepositedDai.call();
 
-//     await expectRevert(
-//       noLossDao.withdrawProposal({
-//         from: accounts[2],
-//       }),
-//       'Benefactor only eligible to receive funds in later iteration'
-//     );
+    assert.equal(applicationAmount, depositedDaiUser.toString());
+    assert.equal(applicationAmount, totalDai);
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
-//     await noLossDao.distributeFunds();
+    await expectRevert(
+      poolDeposits.withdrawProposal({
+        from: accounts[2],
+      }),
+      'Benefactor only eligible to receive funds in later iteration'
+    );
 
-//     await expectRevert(
-//       noLossDao.withdrawProposal({
-//         from: accounts[2],
-//       }),
-//       'Benefactor only eligible to receive funds in later iteration'
-//     );
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
-//     await noLossDao.distributeFunds();
+    await expectRevert(
+      poolDeposits.withdrawProposal({
+        from: accounts[2],
+      }),
+      'Benefactor only eligible to receive funds in later iteration'
+    );
 
-//     noLossDao.withdrawProposal({
-//       from: accounts[2],
-//     });
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
+    await noLossDao.distributeFunds();
 
-//     // Once withdrawn later
-//     let depositedDaiUser2 = await noLossDao.depositedDai.call(accounts[2]);
-//     assert.equal('0', depositedDaiUser2.toString());
-//   });
+    await expectRevert(
+      poolDeposits.withdrawProposal({
+        from: accounts[2],
+      }),
+      'Benefactor only eligible to receive funds in later iteration'
+    );
 
-//   // This one is also weird and failling sometimes...
-//   it('NoLossDao:benefactorLeave. Benefactor create withdraw, create withdraw... ', async () => {
-//     let mintAmount = '60000000000';
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 3
+    await noLossDao.distributeFunds();
 
-//     await dai.mint(accounts[2], mintAmount);
-//     await dai.approve(noLossDao.address, mintAmount, {
-//       from: accounts[2],
-//     });
-//     await noLossDao.createProposal('Some IPFS hash string', {
-//       from: accounts[2],
-//     });
+    poolDeposits.withdrawProposal({
+      from: accounts[2],
+    });
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
-//     await noLossDao.distributeFunds();
+    // Once withdrawn later
+    let depositedDaiUser2 = await poolDeposits.depositedDai.call(accounts[2]);
+    assert.equal('0', depositedDaiUser2.toString());
+  });
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
-//     await noLossDao.distributeFunds();
+  // This one is also weird and failling sometimes...
+  it('poolDeposits:benefactorLeave. Benefactor create withdraw, create withdraw... ', async () => {
+    let mintAmount = '60000000000';
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
-//     await noLossDao.distributeFunds();
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[2],
+    });
+    await poolDeposits.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
 
-//     noLossDao.withdrawProposal({
-//       from: accounts[2],
-//     });
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
 
-//     // this is failing
-//     await noLossDao.createProposal('Some IPFS hash string again', {
-//       from: accounts[2],
-//     });
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
+    await noLossDao.distributeFunds();
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
-//     await noLossDao.distributeFunds();
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 3
+    await noLossDao.distributeFunds();
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
-//     await noLossDao.distributeFunds();
+    poolDeposits.withdrawProposal({
+      from: accounts[2],
+    });
 
-//     await expectRevert(
-//       noLossDao.withdrawProposal({
-//         from: accounts[2],
-//       }),
-//       'Benefactor only eligible to receive funds in later iteration'
-//     );
+    // this is failing
+    await poolDeposits.createProposal('Some IPFS hash string again', {
+      from: accounts[2],
+    });
 
-//     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
-//     await noLossDao.distributeFunds();
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
 
-//     noLossDao.withdrawProposal({
-//       from: accounts[2],
-//     });
-//   });
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
+    await noLossDao.distributeFunds();
 
-//   // Check if they create a proposal, withdraw, and recreate in same cycle
-//   // Specifically check what happens if they are the top project when withdrawn (if they are winning the vote)
+    await expectRevert(
+      poolDeposits.withdrawProposal({
+        from: accounts[2],
+      }),
+      'Benefactor only eligible to receive funds in later iteration'
+    );
 
-//   // Tests about the benefactor leaving... THESE ARE NB SECURITY
-// });
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 3
+    await noLossDao.distributeFunds();
+
+    poolDeposits.withdrawProposal({
+      from: accounts[2],
+    });
+  });
+
+  // Check if they create a proposal, withdraw, and recreate in same cycle
+  // Specifically check what happens if they are the top project when withdrawn (if they are winning the vote)
+
+  // Tests about the benefactor leaving... THESE ARE NB SECURITY
+});
