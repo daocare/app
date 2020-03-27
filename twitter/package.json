@@ -1,0 +1,16 @@
+{
+  "name": "dao-care-twitter-bot",
+  "version": "0.0.0",
+  "description": "Twitter bot that tallies and acts on votes for daocare users.",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Barney Rubble",
+    "url": "http://github.com/jasoons"
+  },
+  "devDependencies": {
+    "bs-let": "^0.1.16",
+    "bs-platform": "^7.2.2",
+    "decco": "^1.2.0"
+  }
+}
