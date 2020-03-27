@@ -32,11 +32,11 @@ contract PoolDeposits {
   modifier emergencyEnacted() {
     require(
       totalDepositedDai < emergencyVoteAmount.mul(2), //safe 50%
-      'Emergency not activated'
+      '50% of total pool needs to have voted for emergency state'
     );
     require(
       totalDepositedDai > 200000000000000000000000, //200 000 DAI needed in contract
-      'Emergency not activated'
+      '200 000DAI required in pool before emergency state can be declared'
     );
     _;
   }
@@ -47,12 +47,12 @@ contract PoolDeposits {
   }
 
   modifier stableState() {
-    require(isEmergencyState == false, 'State of emergency decalred');
+    require(isEmergencyState == false, 'State of emergency declared');
     _;
   }
 
   modifier emergencyState() {
-    require(isEmergencyState == true, 'State of emergency not decalred');
+    require(isEmergencyState == true, 'State of emergency not declared');
     _;
   }
 
@@ -60,7 +60,7 @@ contract PoolDeposits {
   modifier eligibleToEmergencyVote() {
     require(
       timeJoined[msg.sender].add(8640000) < now,
-      'State of emergency not decalred'
+      'Need to have joined for 100days to vote an emergency'
     );
     _;
   }
