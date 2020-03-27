@@ -12,5 +12,11 @@
     "bs-let": "^0.1.16",
     "bs-platform": "^7.2.2",
     "decco": "^1.2.0"
+  },
+  "dependencies": {
+    "3box": "^1.17.1",
+    "firebase-admin": "^8.10.0",
+    "twitter": "^1.7.1",
+    "web3": "^1.2.6"
   }
 }
