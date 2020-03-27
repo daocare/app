@@ -23,8 +23,49 @@ contract PoolDeposits {
   INoLossDao public noLossDaoContract;
   address public aaveLendingContractCore;
 
-  // Mods
+  // EMERGENCY MODULES
+  uint256 public emergencyVoteAmount;
+  mapping(address => bool) public emergencyVoted;
+  mapping(address => uint256) public timeJoined;
+  bool public isEmergencyState;
 
+  modifier emergencyEnacted() {
+    require(
+      totalDepositedDai < emergencyVoteAmount.mul(2), //safe 50%
+      'Emergency not activated'
+    );
+    require(
+      totalDepositedDai > 200000000000000000000000, //200 000 DAI needed in contract
+      'Emergency not activated'
+    );
+    _;
+  }
+
+  modifier noEmergencyVoteYet() {
+    require(emergencyVoted[msg.sender] == false, 'Already voted for emergency');
+    _;
+  }
+
+  modifier stableState() {
+    require(isEmergencyState == false, 'State of emergency decalred');
+    _;
+  }
+
+  modifier emergencyState() {
+    require(isEmergencyState == true, 'State of emergency not decalred');
+    _;
+  }
+
+  // Required to be part of the pool for 100 days. Make it costly to borrow and put into state of emergency.
+  modifier eligibleToEmergencyVote() {
+    require(
+      timeJoined[msg.sender].add(8640000) < now,
+      'State of emergency not decalred'
+    );
+    _;
+  }
+
+  // Mods
   modifier noLossDaoContractOnly() {
     require(
       address(noLossDaoContract) == msg.sender, // Is this a valid way of getting the address?
@@ -58,6 +99,7 @@ contract PoolDeposits {
     require(depositedDai[msg.sender] > 0, 'User has no stake');
     _;
   }
+
   constructor(
     address daiAddress,
     address aDaiAddress,
@@ -73,7 +115,8 @@ contract PoolDeposits {
     aaveLendingContractCore = aavePoolCoreAddress;
     noLossDaoContract = INoLossDao(noLossDaoAddress);
     admin = msg.sender;
-    proposalAmount = _proposalAmount;
+    proposalAmount = _proposalAmount; // if we want this configurable put in other contract
+    isEmergencyState = false;
   }
 
   function _depositFunds(uint256 amount) internal {
@@ -81,17 +124,18 @@ contract PoolDeposits {
     //LendingPoolAddressesProvider provider = LendingPoolAddressesProvider();
     /*contract_address*/
     // IAaveLendingPool lendingPool = IAaveLendingPool(provider.getLendingPool());
-
     daiContract.transferFrom(msg.sender, address(this), amount);
     daiContract.approve(address(aaveLendingContractCore), amount);
     aaveLendingContract.deposit(address(daiContract), amount, 0);
 
+    timeJoined[msg.sender] = now;
     depositedDai[msg.sender] = amount;
     totalDepositedDai = totalDepositedDai.add(amount);
   }
 
   function _withdrawFunds() internal {
     uint256 amount = depositedDai[msg.sender];
+    _removeEmergencyVote();
 
     depositedDai[msg.sender] = 0;
     totalDepositedDai = totalDepositedDai.sub(amount);
@@ -109,6 +153,7 @@ contract PoolDeposits {
     blankUser
     allowanceAvailable(amount)
     requiredDai(amount)
+    stableState
   {
     _depositFunds(amount);
     noLossDaoContract.noLossDeposit(msg.sender);
@@ -124,15 +169,18 @@ contract PoolDeposits {
     noLossDaoContract.noLossWithdraw(msg.sender);
   }
 
+  /**
+     * @dev Lets user create proposal
+     */
   function createProposal(string calldata proposalHash)
     external
     blankUser
     allowanceAvailable(proposalAmount)
     requiredDai(proposalAmount)
+    stableState
     returns (uint256 newProposalId)
   {
     _depositFunds(proposalAmount);
-
     uint256 proposalId = noLossDaoContract.noLossCreateProposal(
       proposalHash,
       msg.sender
@@ -140,16 +188,52 @@ contract PoolDeposits {
     return proposalId;
   }
 
+  /**
+     * @dev Lets user withdraw proposal
+     */
   function withdrawProposal() external {
     _withdrawFunds();
     noLossDaoContract.noLossWithdrawProposal(msg.sender);
   }
 
+  /**
+     * @dev Sets the interest to acrue to winner
+     */
   function redirectInterestStreamToWinner(address _winner)
     external
     noLossDaoContractOnly
   {
     adaiContract.redirectInterestStream(_winner);
+  }
+
+  ///////////////////
+  // EMERGENCY MODULE
+  ///////////////////
+  function declareStateOfEmergency() external emergencyEnacted {
+    isEmergencyState = true;
+  }
+
+  function emergencyWithdraw() external userStaked emergencyState {
+    _withdrawFunds();
+  }
+
+  // Require time lock here to defeat flash loan punks
+  function voteEmergency()
+    external
+    userStaked
+    noEmergencyVoteYet
+    eligibleToEmergencyVote
+  {
+    emergencyVoted[msg.sender] = true;
+    emergencyVoteAmount = emergencyVoteAmount.add(depositedDai[msg.sender]);
+  }
+
+  function _removeEmergencyVote() internal {
+    bool status = emergencyVoted[msg.sender];
+    emergencyVoted[msg.sender] = false;
+    if (status == true) {
+      emergencyVoteAmount = emergencyVoteAmount.sub(depositedDai[msg.sender]);
+    }
   }
 
 }

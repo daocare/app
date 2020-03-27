@@ -123,6 +123,10 @@ contract NoLossDao is Initializable {
     );
     _;
   }
+  modifier iterationElapsed() {
+    require(proposalDeadline < now, 'iteration interval not ended');
+    _;
+  }
 
   modifier depositContractOnly() {
     require(
@@ -301,13 +305,9 @@ contract NoLossDao is Initializable {
   ///////////////////////////////////////////////////////////////////
 
   // Should make it so smart contracts cannot call this function to allow a more fair way of winning
-  function distributeFunds() external {
+  function distributeFunds() external iterationElapsed {
     // On a *whatever we decide basis* the funds are distributed to the winning project
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
-
-    // anyone can call this when 2 cycle has ended - incentivize 'anyone' to call this transaction first and get a lil reward ;)
-    require(proposalDeadline < now, 'iteration interval not ended');
-
     // figure our what happens with the interest from the first proposal iteration
     // Possibly make first iteration an extended one for our launch (for marketing)
     if (topProject[proposalIteration] != 0) {
