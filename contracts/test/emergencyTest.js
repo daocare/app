@@ -91,6 +91,45 @@ contract('PoolDeposits', accounts => {
     await poolDeposits.emergencyWithdraw({ from: accounts[1] });
   });
 
+  it('poolDeposits:emergency. Cannot deposit or create proposal once emergency declared', async () => {
+    let mintAmount1 = '100000000000000000000000';
+    let mintAmount2 = '100000000000000000000001';
+    // deposit
+    await dai.mint(accounts[1], mintAmount1);
+    await dai.approve(poolDeposits.address, mintAmount1, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount1, { from: accounts[1] });
+
+    await dai.mint(accounts[2], mintAmount2);
+    await dai.approve(poolDeposits.address, mintAmount2, {
+      from: accounts[2],
+    });
+    await poolDeposits.deposit(mintAmount2, { from: accounts[2] });
+
+    await time.increase(time.duration.days(101));
+
+    await poolDeposits.voteEmergency({ from: accounts[2] });
+    await poolDeposits.declareStateOfEmergency({ from: accounts[5] });
+
+    await dai.mint(accounts[3], mintAmount2);
+    await dai.approve(poolDeposits.address, mintAmount2, {
+      from: accounts[3],
+    });
+    await expectRevert(
+      poolDeposits.deposit(mintAmount2, { from: accounts[3] }),
+      'State of emergency declared'
+    );
+
+    await expectRevert(
+      poolDeposits.createProposal('some hash', { from: accounts[3] }),
+      'State of emergency declared'
+    );
+
+    await poolDeposits.emergencyWithdraw({ from: accounts[2] });
+    await poolDeposits.emergencyWithdraw({ from: accounts[1] });
+  });
+
   it('poolDeposits:emergency. Cannot declare emergency without majority', async () => {
     let mintAmount1 = '100000000000000000000000';
     let mintAmount2 = '100000000000000000000001';
@@ -193,7 +232,7 @@ contract('PoolDeposits', accounts => {
     await poolDeposits.voteEmergency({ from: accounts[1] });
   });
 
-  it('poolDeposits:emergency. EmergencyVotes tally correct', async () => {
+  it('poolDeposits:emergency. Cannot emergency vote twice', async () => {
     let mintAmount1 = '50000000000000000000000';
     let mintAmount2 = '50000000000000000000001';
     // deposit
