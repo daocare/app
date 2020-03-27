@@ -13,7 +13,7 @@ const AaveLendingPool = artifacts.require('AaveLendingPool');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('PoolDeposits', accounts => {
+contract('noLossDao', accounts => {
   let aaveLendingPool;
   let poolDeposits;
   let noLossDao;
@@ -50,7 +50,7 @@ contract('PoolDeposits', accounts => {
     });
   });
 
-  it('poolDeposits:userVote. User cannot vote immediately after joining.', async () => {
+  it('noLossDao:userVote. User cannot vote immediately after joining.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
@@ -87,7 +87,7 @@ contract('PoolDeposits', accounts => {
     assert.equal(mintAmount, deposit.toString());
   });
 
-  it('poolDeposits:userVote. User cannot vote if proposal does not exist', async () => {
+  it('noLossDao:userVote. User cannot vote if proposal does not exist', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
@@ -118,7 +118,7 @@ contract('PoolDeposits', accounts => {
     );
   });
 
-  it('poolDeposits:userVote. User cannot vote if they have not deposited', async () => {
+  it('noLossDao:userVote. User cannot vote if they have not deposited', async () => {
     let mintAmount = '60000000000';
     // deposit
 
@@ -139,7 +139,7 @@ contract('PoolDeposits', accounts => {
     );
   });
 
-  it('poolDeposits:userVote. User cannot vote twice in one iteration.', async () => {
+  it('noLossDao:userVote. User cannot vote twice in one iteration.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
@@ -179,7 +179,7 @@ contract('PoolDeposits', accounts => {
     await noLossDao.voteDirect(2, { from: accounts[1] }); // other is in cooldown
   });
 
-  it('poolDeposits:userVote. User cannot join, withdraw then vote.', async () => {
+  it('noLossDao:userVote. User cannot join, withdraw then vote.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
@@ -207,7 +207,7 @@ contract('PoolDeposits', accounts => {
     );
   });
 
-  it('poolDeposits:userVote. User cannot withdraw same iteration after voting', async () => {
+  it('noLossDao:userVote. User cannot withdraw same iteration after voting', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
