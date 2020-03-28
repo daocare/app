@@ -85,12 +85,16 @@ const Withdraw = () => {
   const onSubmit = async data => {
     let { amount } = data;
     setStatus(`WITHDRAWING`);
-    console.log(web3Connect.contracts.dao.methods.getTotalDepositedAmount());
-    console.log(
-      await web3Connect.contracts.dao.methods.getTotalDepositedAmount()
-    );
-    // await web3Connect.contracts.dao.methods.getDepositedAmount(amount);
-    // setStatus('DEPOSITED');
+    // console.log(web3Connect.contracts.dao.methods.getTotalDepositedAmount());
+    // console.log(
+    //   await web3Connect.contracts.dao.methods.getTotalDepositedAmount()
+    // );
+    await web3Connect.contracts.dao.methods.triggerWithdrawal();
+    setStatus('WITHDRAWN');
+  };
+
+  const testFunc = async () => {
+    await web3Connect.contracts.dao.methods.testing();
   };
 
   return (
@@ -114,21 +118,7 @@ const Withdraw = () => {
           <>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Box className={classes.fieldGroup}>
-                <TextField
-                  label="Amount"
-                  name="amount"
-                  variant="outlined"
-                  inputRef={register({ required: true })}
-                  className={classes.textField}
-                  required
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">DAI</InputAdornment>
-                    ),
-                  }}
-                  style={{ width: 300 }}
-                  helperText={`Current Balance: ${web3Connect.daiDeposit} DAI`}
-                />
+                <p>Current Available Deposit: ${web3Connect.daiDeposit} DAI</p>
                 {(web3Connect.daiAllowance === 0 ||
                   status === 'DAI_APPROVED' ||
                   status === 'APPROVING_DAI') && (
@@ -194,6 +184,14 @@ const Withdraw = () => {
                   }
                 >
                   Withdraw
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() => testFunc()}
+                >
+                  Test
                 </Button>
                 {/* {web3Connect.depositBalance < amount && (
                     <Typography

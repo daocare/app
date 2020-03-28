@@ -80,7 +80,8 @@ const Home = () => {
           </span>
         )}
         <br />
-        Every two weeks, the preferred project of the community will receive{' '}
+        Every two weeks, the preferred project of the community will receive the
+        interest of{' '}
         {interest > 0 && (
           <span className={classes.interestCountUp}>${interest}!</span>
         )}
