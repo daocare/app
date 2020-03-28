@@ -11,7 +11,7 @@ import { Page } from '../../components';
 import Header from '../../components/Header';
 import useRouter from '../../utils/useRouter';
 import useWeb3Connect from '../../utils/useWeb3Connect';
-import LoadingWeb3 from '../../components/LoadingWeb3';
+import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';
 const BN = require('bn.js');
 
 const useStyles = makeStyles(theme => ({

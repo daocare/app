@@ -179,10 +179,6 @@ function useWeb3Connect() {
 
     const daoContract = new web3Inited.eth.Contract(daoAbi.abi, WHOOP_ADDRESS);
     setDaoContract(daoContract);
-    console.log('daoContract');
-    console.log(daoContract);
-    console.log(daoContract.methods);
-
     setProvider(providerInited);
     setWeb3(web3Inited);
     setConnected(true);
@@ -192,7 +188,6 @@ function useWeb3Connect() {
     setNetwork(getNetworkByChainId(networkIdTemp));
     setLoaded(true);
     setLoadingWeb3(false);
-
     update3BoxDetails(addressTemp);
   };
 
@@ -478,14 +473,6 @@ function useWeb3Connect() {
     return tx;
   };
 
-  const testing = async () => {
-    console.log('Testing');
-    console.log('daoContract.methods.withdrawDeposit()');
-    console.log(daoContract.methods.withdrawDeposit());
-    console.log('daoContract.methods.deposit(10)');
-    console.log(daoContract.methods.deposit(10));
-  };
-
   const triggerDeposit = async value => {
     let amount = web3.utils.toWei(value, 'ether');
     console.log({ amount });
@@ -499,11 +486,9 @@ function useWeb3Connect() {
   };
 
   const triggerWithdrawal = async () => {
-    console.log('withdrawal');
-    let withdrawal = daoContract.methods.withdrawDeposit().call();
-    console.log(withdrawal);
-    // await updateBalance();
-    // await updateDeposit();
+    let withdrawal = daoContract.methods.withdrawDeposit().send({
+      from: address,
+    });
     return withdrawal;
   };
 
@@ -556,7 +541,6 @@ function useWeb3Connect() {
           enableTwitterVoting,
           getInterest,
           getTotalDepositedAmount,
-          testing,
         },
       },
     },

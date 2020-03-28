@@ -19,7 +19,6 @@ export default function LoadingWeb3(props) {
   return (
     <div>
       <Header />
-
       <div className={classes.root}>
         <Typography
           variant="body1"
