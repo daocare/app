@@ -8,6 +8,11 @@
     "name": "Barney Rubble",
     "url": "http://github.com/jasoons"
   },
+  "scripts": {
+    "re:build": "bsb -make-world",
+    "re:watch": "bsb -make-world -w",
+    "re:clean": "bsb -clean-world"
+  },
   "devDependencies": {
     "bs-let": "^0.1.16",
     "bs-platform": "^7.2.2",
@@ -15,8 +20,10 @@
   },
   "dependencies": {
     "3box": "^1.17.1",
+    "dotenv": "^8.2.0",
     "firebase-admin": "^8.10.0",
-    "twitter": "^1.7.1",
+    "reason-promise": "^1.0.2",
+    "twit": "^2.2.11",
     "web3": "^1.2.6"
   }
 }
