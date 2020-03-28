@@ -8,6 +8,7 @@ import './NoLossDao.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 
 
+/** @title Pooled Deposits Contract*/
 contract PoolDeposits {
   using SafeMath for uint256;
 
@@ -146,6 +147,8 @@ contract PoolDeposits {
     isEmergencyState = false;
   }
 
+  /// @dev Internal function completing the actual deposit to Aave and crediting users account
+  /// @param amount amount being deosited into pool
   function _depositFunds(uint256 amount) internal {
     // Get from aave lending pool the latest address....
     //LendingPoolAddressesProvider provider = LendingPoolAddressesProvider();
@@ -160,6 +163,7 @@ contract PoolDeposits {
     totalDepositedDai = totalDepositedDai.add(amount);
   }
 
+  /// @dev Internal function completing the actual redemption from Aave and sendinding funds back to user
   function _withdrawFunds() internal {
     uint256 amount = depositedDai[msg.sender];
     _removeEmergencyVote();
@@ -171,10 +175,8 @@ contract PoolDeposits {
     daiContract.transfer(msg.sender, amount);
   }
 
-  /**
-   * @dev Lets a user join DAOcare through depositing
-   * @param amount the user wants to deposit into the DAOcare pool
-   */
+  /// @dev Lets a user join DAOcare through depositing
+  /// @param amount the user wants to deposit into the DAOcare pool
   function deposit(uint256 amount)
     external
     blankUser
@@ -187,20 +189,17 @@ contract PoolDeposits {
     emit DepositAdded(msg.sender, amount);
   }
 
-  /**
-   * @dev Lets a user withdraw their original amount sent to DAOcare
-   * Calls the NoLossDao conrrtact to determine eligibility to withdraw
-   * Withdraws the proposalAmount (50DAI) if succesful
-   */
+  /// @dev Lets a user withdraw their original amount sent to DAOcare
+  /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
+  /// Withdraws the proposalAmount (50DAI) if succesful
   function withdrawDeposit() external userStaked {
     _withdrawFunds();
     noLossDaoContract.noLossWithdraw(msg.sender);
     emit DepositWithdrawn(msg.sender);
   }
 
-  /**
-   * @dev Lets user create proposal
-   */
+  /// @dev Lets user create proposal
+  /// @param proposalHash hash of the users new proposal
   function createProposal(string calldata proposalHash)
     external
     blankUser
@@ -218,18 +217,15 @@ contract PoolDeposits {
     return proposalId;
   }
 
-  /**
-   * @dev Lets user withdraw proposal
-   */
+  /// @dev Lets user withdraw proposal
   function withdrawProposal() external {
     _withdrawFunds();
     noLossDaoContract.noLossWithdrawProposal(msg.sender);
     emit ProposalWithdrawn(msg.sender);
   }
 
-  /**
-   * @dev Sets the interest to acrue to winner
-   */
+  /// @dev Sets the interest to acrue to winner of the iteration
+  /// @param _winner The address of the proposal winning the iteration
   function redirectInterestStreamToWinner(address _winner)
     external
     noLossDaoContractOnly
@@ -240,6 +236,8 @@ contract PoolDeposits {
   //////////////////////////////////////////////////
   //////// EMERGENCY MODULE FUNCTIONS  //////////////
   ///////////////////////////////////////////////////
+
+  /// @dev Declares a state of emergency and enables emergency withdrawls that are not dependant on any external smart contracts
   function declareStateOfEmergency() external emergencyEnacted {
     isEmergencyState = true;
     emit EmergencyStateReached(
@@ -250,12 +248,14 @@ contract PoolDeposits {
     );
   }
 
+  /// @dev Immediately lets yoou withdraw your funds in an state of emergency
   function emergencyWithdraw() external userStaked emergencyState {
     _withdrawFunds();
     emit EmergencyWithdrawl(msg.sender);
   }
 
-  // Require time lock here to defeat flash loan punks
+  /// @dev lets users vote that the a state of emergency should be decalred
+  /// Requires time lock here to defeat flash loan punks
   function voteEmergency()
     external
     userStaked
@@ -267,6 +267,7 @@ contract PoolDeposits {
     emit EmergencyVote(msg.sender, depositedDai[msg.sender]);
   }
 
+  /// @dev Internal function removing a users emergency vote if they leave the pool
   function _removeEmergencyVote() internal {
     bool status = emergencyVoted[msg.sender];
     emergencyVoted[msg.sender] = false;

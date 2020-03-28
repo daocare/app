@@ -7,6 +7,7 @@ import './interfaces/IPoolDeposits.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 
 
+/** @title No Loss Dao Contract. */
 contract NoLossDao is Initializable {
   using SafeMath for uint256;
 
@@ -37,6 +38,8 @@ contract NoLossDao is Initializable {
 
   ///////// DEFI Contrcats ///////////
   IPoolDeposits public depositContract;
+
+  // Crrate blank 256 arrays of fixed length for upgradability.
 
   ///////// Events ///////////
   event VoteDelegated(address indexed user, address delegatedTo);
@@ -165,13 +168,15 @@ contract NoLossDao is Initializable {
     depositContract = IPoolDeposits(depositContractAddress);
     admin = msg.sender;
     votingInterval = _votingInterval;
-
     proposalDeadline = now.add(_votingInterval);
   }
 
   ///////////////////////////////////
   /////// Config functions //////////
   ///////////////////////////////////
+
+  /// @dev Changes the time iteration  between intervals
+  /// @param newInterval new time interval between interations
   function changeVotingInterval(uint256 newInterval) public onlyAdmin {
     votingInterval = newInterval;
   }
@@ -183,12 +188,9 @@ contract NoLossDao is Initializable {
   ////////and proposal holders (benefactors) /////////////
   ////////////////////////////////////////////////////////
 
-  /**
-   * @dev Checks whether user is eligible deposit
-   * Sets the proposal iteration joined, to the current iteration
-   * @param userAddress address of the user wanting to deposit
-   * @return boolean whether the above executes successfully
-   */
+  /// @dev Checks whether user is eligible deposit and sets the proposal iteration joined, to the current iteration
+  /// @param userAddress address of the user wanting to deposit
+  /// @return boolean whether the above executes successfully
   function noLossDeposit(address userAddress)
     external
     depositContractOnly
@@ -199,12 +201,9 @@ contract NoLossDao is Initializable {
     return true;
   }
 
-  /**
-   * @dev Checks whether user is eligible to withdraw their deposit
-   * Sets the proposal iteration joined to zero
-   * @param userAddress address of the user wanting to withdraw
-   * @return boolean whether the above executes successfully
-   */
+  /// @dev Checks whether user is eligible to withdraw their deposit and sets the proposal iteration joined to zero
+  /// @param userAddress address of the user wanting to withdraw
+  /// @return boolean whether the above executes successfully
   function noLossWithdraw(address userAddress)
     external
     depositContractOnly
@@ -216,13 +215,10 @@ contract NoLossDao is Initializable {
     return true;
   }
 
-  /**
-   * @dev Checks whether user is eligible to create a proposal then creates it.
-   * Executes a range of logic to add the new propsal (increments proposal ID, sets proposal owner, sets iteration joined, etc...)
-   * @param proposalHash Hash of the proposal text
-   * @param benefactorAddress address of benefactor creating proposal
-   * @return boolean whether the above executes successfully
-   */
+  /// @dev Checks whether user is eligible to create a proposal then creates it. Executes a range of logic to add the new propsal (increments proposal ID, sets proposal owner, sets iteration joined, etc...)
+  /// @param proposalHash Hash of the proposal text
+  /// @param benefactorAddress address of benefactor creating proposal
+  /// @return boolean whether the above executes successfully
   function noLossCreateProposal(
     string calldata proposalHash,
     address benefactorAddress
@@ -237,13 +233,11 @@ contract NoLossDao is Initializable {
     return proposalId;
   }
 
-  /**
-   * @dev Checks whether user is eligible to withdraw their proposal
-   * Sets the state of the users proposal to withdrawn
-   * resets the iteration of user joined back to 0
-   * @param benefactorAddress address of benefactor withdrawing proposal
-   * @return boolean whether the above is possible
-   */
+  /// @dev Checks whether user is eligible to withdraw their proposal
+  /// Sets the state of the users proposal to withdrawn
+  /// resets the iteration of user joined back to 0
+  /// @param benefactorAddress address of benefactor withdrawing proposal
+  /// @return boolean whether the above is possible
   function noLossWithdrawProposal(address benefactorAddress)
     external
     depositContractOnly
@@ -262,9 +256,8 @@ contract NoLossDao is Initializable {
   /////// DAO voting functionality  //////////////////////
   ////////////////////////////////////////////////////////
 
-  /**
-   * @dev Allows user to delegate their full voting power to another user
-   */
+  /// @dev Allows user to delegate their full voting power to another user
+  /// @param delegatedAddress the address to which you are delegating your voting rights
   function delegateVoting(address delegatedAddress)
     external
     userStaked(msg.sender)
@@ -275,7 +268,8 @@ contract NoLossDao is Initializable {
     emit VoteDelegated(msg.sender, delegatedAddress);
   }
 
-  // Write a modifier not allowing proposals in cooldown to be voted for...
+  /// @dev Allows user to vote for an active proposal. Once voted they cannot withdraw till next iteration.
+  /// @param proposalIdToVoteFor Id of the proposal they are voting for
   function voteDirect(
     uint256 proposalIdToVoteFor // breaking change -> function name change from vote to voteDirect
   )
@@ -283,13 +277,16 @@ contract NoLossDao is Initializable {
     proposalActive(proposalIdToVoteFor)
     noVoteYet(msg.sender)
     userStaked(msg.sender)
-    userHasNoActiveProposal(msg.sender) // Or no cooldown proposal?
+    userHasNoActiveProposal(msg.sender)
     joinedInTime(msg.sender)
   {
     _vote(proposalIdToVoteFor, msg.sender);
     emit VotedDirect(msg.sender, proposalIteration, proposalIdToVoteFor);
   }
 
+  /// @dev Allows user proxy to vote on behalf of a user.
+  /// @param proposalIdToVoteFor Id of the proposal they are voting for
+  /// @param delegatedFrom user they are voting on behalf of
   function voteProxy(uint256 proposalIdToVoteFor, address delegatedFrom)
     external
     proposalActive(proposalIdToVoteFor)
@@ -308,6 +305,9 @@ contract NoLossDao is Initializable {
     );
   }
 
+  /// @dev Internal function casting the actual vote from the requested address
+  /// @param proposalIdToVoteFor Id of the proposal they are voting for
+  /// @param voteAddress address the vote is stemming from
   function _vote(uint256 proposalIdToVoteFor, address voteAddress) internal {
     usersNominatedProject[proposalIteration][voteAddress] = proposalIdToVoteFor;
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
@@ -331,7 +331,7 @@ contract NoLossDao is Initializable {
   /////// Iteration changer / mining function  //////////////////////
   ///////////////////////////////////////////////////////////////////
 
-  // Should make it so smart contracts cannot call this function to allow a more fair way of winning
+  /// @dev Anyone can call this every 2 weeks (more specifically every *iteration interval*) to receive a reward, and increment onto the next iteration of voting
   function distributeFunds() external iterationElapsed {
     // On a *whatever we decide basis* the funds are distributed to the winning project
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
@@ -341,8 +341,10 @@ contract NoLossDao is Initializable {
       // Do some asserts here for safety...
 
       // Only if last winner is not withdrawn (i.e. still in cooldown) make it active again
-      if (state[topProject[proposalIteration - 1]] == ProposalState.Cooldown) {
-        state[topProject[proposalIteration - 1]] = ProposalState.Active;
+      if (
+        state[topProject[proposalIteration.sub(1)]] == ProposalState.Cooldown
+      ) {
+        state[topProject[proposalIteration.sub(1)]] = ProposalState.Active;
       }
       // Only if they haven't withdrawn, put them in cooldown
       if (state[topProject[proposalIteration]] != ProposalState.Withdrawn) {
