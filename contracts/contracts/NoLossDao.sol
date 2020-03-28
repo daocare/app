@@ -6,6 +6,7 @@ import './interfaces/IADai.sol';
 import './interfaces/IPoolDeposits.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 
+
 contract NoLossDao is Initializable {
   using SafeMath for uint256;
 
@@ -17,10 +18,9 @@ contract NoLossDao is Initializable {
   uint256 public proposalIteration;
 
   ///////// Proposal specific ///////////
-  //uint256 public proposalAmount; // Add mapping of the proposal amount per iteration...
   uint256 public proposalId;
   uint256 public proposalDeadline; // keeping track of time
-  mapping(uint256 => string) public proposalDetails;
+  mapping(uint256 => string) public proposalDetails; // IPFS hash of proposal
   mapping(address => uint256) public benefactorsProposal; // benefactor -> proposal id
   mapping(uint256 => address) public proposalOwner; // proposal id -> benefactor (1:1 mapping)
   enum ProposalState {DoesNotExist, Withdrawn, Active, Cooldown} // Add Cooldown state and pending state
@@ -33,10 +33,30 @@ contract NoLossDao is Initializable {
   //////// DAO / VOTE specific //////////
   mapping(uint256 => mapping(uint256 => uint256)) public proposalVotes; /// iteration -> proposalId -> num votes
   mapping(uint256 => uint256) public topProject;
-  mapping(address => address) public voteDelegations;
+  mapping(address => address) public voteDelegations; // For vote proxy
 
   ///////// DEFI Contrcats ///////////
   IPoolDeposits public depositContract;
+
+  ///////// Events ///////////
+  event VoteDelegated(address indexed user, address delegatedTo);
+  event VotedDirect(
+    address indexed user,
+    uint256 indexed iteration,
+    uint256 indexed proposalId
+  );
+  event VotedViaProxy(
+    address indexed proxy,
+    address user,
+    uint256 indexed iteration,
+    uint256 indexed proposalId
+  );
+  event IterationChanged(uint256 timeStamp, address miner);
+  event IterationWinner(
+    uint256 indexed propsalIteration,
+    address indexed winner,
+    uint256 indexed projectId
+  );
 
   ////////////////////////////////////
   //////// Modifiers /////////////////
@@ -78,7 +98,6 @@ contract NoLossDao is Initializable {
     _;
   }
 
-  // Work on this modifier to be more accurate
   modifier userHasNoActiveProposal(address givenAddress) {
     require(
       state[benefactorsProposal[givenAddress]] != ProposalState.Active,
@@ -160,17 +179,16 @@ contract NoLossDao is Initializable {
   // change miner reward here
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
   /////// Deposit & withdraw function for users //////////
   ////////and proposal holders (benefactors) /////////////
   ////////////////////////////////////////////////////////
 
   /**
-     * @dev Checks whether user is eligible deposit
-      * Sets the proposal iteration joined, to the current iteration
-     * @param userAddress address of the user wanting to deposit
-     * @return boolean whether the above executes successfully
-     */
+   * @dev Checks whether user is eligible deposit
+   * Sets the proposal iteration joined, to the current iteration
+   * @param userAddress address of the user wanting to deposit
+   * @return boolean whether the above executes successfully
+   */
   function noLossDeposit(address userAddress)
     external
     depositContractOnly
@@ -182,11 +200,11 @@ contract NoLossDao is Initializable {
   }
 
   /**
-     * @dev Checks whether user is eligible to withdraw their deposit
-     * Sets the proposal iteration joined to zero
-     * @param userAddress address of the user wanting to withdraw 
-     * @return boolean whether the above executes successfully
-     */
+   * @dev Checks whether user is eligible to withdraw their deposit
+   * Sets the proposal iteration joined to zero
+   * @param userAddress address of the user wanting to withdraw
+   * @return boolean whether the above executes successfully
+   */
   function noLossWithdraw(address userAddress)
     external
     depositContractOnly
@@ -199,12 +217,12 @@ contract NoLossDao is Initializable {
   }
 
   /**
-     * @dev Checks whether user is eligible to create a proposal then creates it.
-     * Executes a range of logic to add the new propsal (increments proposal ID, sets proposal owner, sets iteration joined, etc...)
-     * @param proposalHash Hash of the proposal text
-     * @param benefactorAddress address of benefactor creating proposal
-     * @return boolean whether the above executes successfully
-     */
+   * @dev Checks whether user is eligible to create a proposal then creates it.
+   * Executes a range of logic to add the new propsal (increments proposal ID, sets proposal owner, sets iteration joined, etc...)
+   * @param proposalHash Hash of the proposal text
+   * @param benefactorAddress address of benefactor creating proposal
+   * @return boolean whether the above executes successfully
+   */
   function noLossCreateProposal(
     string calldata proposalHash,
     address benefactorAddress
@@ -220,12 +238,12 @@ contract NoLossDao is Initializable {
   }
 
   /**
-     * @dev Checks whether user is eligible to withdraw their proposal
-     * Sets the state of the users proposal to withdrawn
-     * resets the iteration of user joined back to 0
-      * @param benefactorAddress address of benefactor withdrawing proposal
-     * @return boolean whether the above is possible
-     */
+   * @dev Checks whether user is eligible to withdraw their proposal
+   * Sets the state of the users proposal to withdrawn
+   * resets the iteration of user joined back to 0
+   * @param benefactorAddress address of benefactor withdrawing proposal
+   * @return boolean whether the above is possible
+   */
   function noLossWithdrawProposal(address benefactorAddress)
     external
     depositContractOnly
@@ -237,16 +255,16 @@ contract NoLossDao is Initializable {
     state[benefactorsProposal[benefactorAddress]] = ProposalState.Withdrawn;
     return true;
   }
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
   /////// DAO voting functionality  //////////////////////
   ////////////////////////////////////////////////////////
 
   /**
-     * @dev Allows user to delegate their full voting power to another user
-     */
+   * @dev Allows user to delegate their full voting power to another user
+   */
   function delegateVoting(address delegatedAddress)
     external
     userStaked(msg.sender)
@@ -254,6 +272,7 @@ contract NoLossDao is Initializable {
     userHasNoActiveProposal(delegatedAddress)
   {
     voteDelegations[msg.sender] = delegatedAddress;
+    emit VoteDelegated(msg.sender, delegatedAddress);
   }
 
   // Write a modifier not allowing proposals in cooldown to be voted for...
@@ -268,6 +287,7 @@ contract NoLossDao is Initializable {
     joinedInTime(msg.sender)
   {
     _vote(proposalIdToVoteFor, msg.sender);
+    emit VotedDirect(msg.sender, proposalIteration, proposalIdToVoteFor);
   }
 
   function voteProxy(uint256 proposalIdToVoteFor, address delegatedFrom)
@@ -280,6 +300,12 @@ contract NoLossDao is Initializable {
     joinedInTime(delegatedFrom)
   {
     _vote(proposalIdToVoteFor, delegatedFrom);
+    emit VotedViaProxy(
+      msg.sender,
+      delegatedFrom,
+      proposalIteration,
+      proposalIdToVoteFor
+    );
   }
 
   function _vote(uint256 proposalIdToVoteFor, address voteAddress) internal {
@@ -287,7 +313,9 @@ contract NoLossDao is Initializable {
     proposalVotes[proposalIteration][proposalIdToVoteFor] = proposalVotes[proposalIteration][proposalIdToVoteFor]
       .add(depositContract.depositedDai(voteAddress));
 
-    uint256 topProjectVotes = proposalVotes[proposalIteration][topProject[proposalIteration]];
+
+      uint256 topProjectVotes
+     = proposalVotes[proposalIteration][topProject[proposalIteration]];
 
     // Currently, proposal getting to top vote first will win [this is fine]
     if (
@@ -300,7 +328,6 @@ contract NoLossDao is Initializable {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////
   /////// Iteration changer / mining function  //////////////////////
   ///////////////////////////////////////////////////////////////////
 
@@ -321,19 +348,19 @@ contract NoLossDao is Initializable {
       if (state[topProject[proposalIteration]] != ProposalState.Withdrawn) {
         state[topProject[proposalIteration]] = ProposalState.Cooldown;
       }
-
       address winner = proposalOwner[topProject[proposalIteration]]; // error if no-one voted for in this iteration
-
       depositContract.redirectInterestStreamToWinner(winner);
-
+      emit IterationWinner(
+        proposalIteration,
+        winner,
+        topProject[proposalIteration]
+      );
     }
-    //
-    proposalDeadline = proposalDeadline.add(votingInterval);
 
+    proposalDeadline = proposalDeadline.add(votingInterval);
     proposalIteration = proposalIteration.add(1);
 
     // send winning miner a little surprise [NFT]
-
+    emit IterationChanged(now, msg.sender);
   }
-
 }

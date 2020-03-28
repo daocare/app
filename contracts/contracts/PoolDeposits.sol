@@ -7,6 +7,7 @@ import './interfaces/INoLossDao.sol';
 import './NoLossDao.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 
+
 contract PoolDeposits {
   using SafeMath for uint256;
 
@@ -14,7 +15,7 @@ contract PoolDeposits {
   uint256 public totalDepositedDai;
   mapping(address => uint256) public depositedDai;
 
-  uint256 public proposalAmount; // Add mapping of the proposal amount per iteration...
+  uint256 public proposalAmount; // Stake required to submit a proposal
 
   ///////// DEFI Contrcats ///////////
   IERC20 public daiContract;
@@ -23,12 +24,36 @@ contract PoolDeposits {
   INoLossDao public noLossDaoContract;
   address public aaveLendingContractCore;
 
-  // EMERGENCY MODULES
+  //////// EMERGENCY MODULE ONLY ///////
   uint256 public emergencyVoteAmount;
   mapping(address => bool) public emergencyVoted;
   mapping(address => uint256) public timeJoined;
   bool public isEmergencyState;
 
+  ///////// Events ///////////
+  event DepositAdded(address indexed user, uint256 amount);
+  event ProposalAdded(
+    address indexed benefactor,
+    uint256 indexed proposalId,
+    string indexed proposalHash
+  );
+  event DepositWithdrawn(address indexed user);
+  event ProposalWithdrawn(address indexed benefactor);
+
+  ///////// Emergency Events ///////////
+  event EmergencyStateReached(
+    address indexed user,
+    uint256 timeStamp,
+    uint256 totalDaiInContract,
+    uint256 totalEmergencyVotes
+  );
+  event EmergencyVote(address indexed user, uint256 emergencyVoteAmount);
+  event RemoveEmergencyVote(address indexed user, uint256 emergencyVoteAmount);
+  event EmergencyWithdrawl(address indexed user);
+
+  ///////////////////////////////////////////////////////////////////
+  //////// EMERGENCY MODIFIERS //////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
   modifier emergencyEnacted() {
     require(
       totalDepositedDai < emergencyVoteAmount.mul(2), //safe 50%
@@ -40,22 +65,18 @@ contract PoolDeposits {
     );
     _;
   }
-
   modifier noEmergencyVoteYet() {
     require(emergencyVoted[msg.sender] == false, 'Already voted for emergency');
     _;
   }
-
   modifier stableState() {
     require(isEmergencyState == false, 'State of emergency declared');
     _;
   }
-
   modifier emergencyState() {
     require(isEmergencyState == true, 'State of emergency not declared');
     _;
   }
-
   // Required to be part of the pool for 100 days. Make it costly to borrow and put into state of emergency.
   modifier eligibleToEmergencyVote() {
     require(
@@ -64,8 +85,11 @@ contract PoolDeposits {
     );
     _;
   }
+  ////////////////////////////////////////////////////////////////////////
 
-  // Mods
+  ////////////////////////////////////
+  //////// Modifiers /////////////////
+  ////////////////////////////////////
   modifier noLossDaoContractOnly() {
     require(
       address(noLossDaoContract) == msg.sender, // Is this a valid way of getting the address?
@@ -100,6 +124,9 @@ contract PoolDeposits {
     _;
   }
 
+  /***************
+    Contract set-up: Not Upgradaable
+    ***************/
   constructor(
     address daiAddress,
     address aDaiAddress,
@@ -145,9 +172,9 @@ contract PoolDeposits {
   }
 
   /**
-    * @dev Lets a user join DAOcare through depositing
-    * @param amount the user wants to deposit into the DAOcare pool
-    */
+   * @dev Lets a user join DAOcare through depositing
+   * @param amount the user wants to deposit into the DAOcare pool
+   */
   function deposit(uint256 amount)
     external
     blankUser
@@ -157,21 +184,23 @@ contract PoolDeposits {
   {
     _depositFunds(amount);
     noLossDaoContract.noLossDeposit(msg.sender);
+    emit DepositAdded(msg.sender, amount);
   }
 
   /**
-     * @dev Lets a user withdraw their original amount sent to DAOcare
-     * Calls the NoLossDao conrrtact to determine eligibility to withdraw
-     * Withdraws the proposalAmount (50DAI) if succesful
-     */
+   * @dev Lets a user withdraw their original amount sent to DAOcare
+   * Calls the NoLossDao conrrtact to determine eligibility to withdraw
+   * Withdraws the proposalAmount (50DAI) if succesful
+   */
   function withdrawDeposit() external userStaked {
     _withdrawFunds();
     noLossDaoContract.noLossWithdraw(msg.sender);
+    emit DepositWithdrawn(msg.sender);
   }
 
   /**
-     * @dev Lets user create proposal
-     */
+   * @dev Lets user create proposal
+   */
   function createProposal(string calldata proposalHash)
     external
     blankUser
@@ -185,20 +214,22 @@ contract PoolDeposits {
       proposalHash,
       msg.sender
     );
+    emit ProposalAdded(msg.sender, proposalId, proposalHash);
     return proposalId;
   }
 
   /**
-     * @dev Lets user withdraw proposal
-     */
+   * @dev Lets user withdraw proposal
+   */
   function withdrawProposal() external {
     _withdrawFunds();
     noLossDaoContract.noLossWithdrawProposal(msg.sender);
+    emit ProposalWithdrawn(msg.sender);
   }
 
   /**
-     * @dev Sets the interest to acrue to winner
-     */
+   * @dev Sets the interest to acrue to winner
+   */
   function redirectInterestStreamToWinner(address _winner)
     external
     noLossDaoContractOnly
@@ -206,15 +237,22 @@ contract PoolDeposits {
     adaiContract.redirectInterestStream(_winner);
   }
 
-  ///////////////////
-  // EMERGENCY MODULE
-  ///////////////////
+  //////////////////////////////////////////////////
+  //////// EMERGENCY MODULE FUNCTIONS  //////////////
+  ///////////////////////////////////////////////////
   function declareStateOfEmergency() external emergencyEnacted {
     isEmergencyState = true;
+    emit EmergencyStateReached(
+      msg.sender,
+      now,
+      totalDepositedDai,
+      emergencyVoteAmount
+    );
   }
 
   function emergencyWithdraw() external userStaked emergencyState {
     _withdrawFunds();
+    emit EmergencyWithdrawl(msg.sender);
   }
 
   // Require time lock here to defeat flash loan punks
@@ -226,6 +264,7 @@ contract PoolDeposits {
   {
     emergencyVoted[msg.sender] = true;
     emergencyVoteAmount = emergencyVoteAmount.add(depositedDai[msg.sender]);
+    emit EmergencyVote(msg.sender, depositedDai[msg.sender]);
   }
 
   function _removeEmergencyVote() internal {
@@ -233,7 +272,7 @@ contract PoolDeposits {
     emergencyVoted[msg.sender] = false;
     if (status == true) {
       emergencyVoteAmount = emergencyVoteAmount.sub(depositedDai[msg.sender]);
+      emit RemoveEmergencyVote(msg.sender, depositedDai[msg.sender]);
     }
   }
-
 }
