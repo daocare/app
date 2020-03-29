@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import useRouter from '../../utils/useRouter';
 import { pinHash } from '../../modules/pinata';
 import { Page } from '../../components';
-import Header from '../../components/Header';
+import Header from '../../components/Header/Header';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';

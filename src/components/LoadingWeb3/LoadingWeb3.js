@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Header from '../Header';
+import Header from '../Header/Header';
 
 const useStyles = makeStyles({
   root: {
