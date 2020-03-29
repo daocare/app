@@ -7,13 +7,15 @@ const {
   time,
 } = require('@openzeppelin/test-helpers');
 
+const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('NoLossDao', accounts => {
+contract('noLossDao', accounts => {
   let aaveLendingPool;
+  let poolDeposits;
   let noLossDao;
   let dai;
   let aDai;
@@ -32,59 +34,62 @@ contract('NoLossDao', accounts => {
     });
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
-    await noLossDao.initialize(
+
+    poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
       aaveLendingPool.address,
       aaveLendingPool.address,
+      noLossDao.address,
       applicationAmount,
-      '1800',
-      {
-        from: accounts[0],
-      }
+      { from: accounts[0] }
     );
+
+    await noLossDao.initialize(poolDeposits.address, '1800', {
+      from: accounts[0],
+    });
   });
 
-  it('NoLossDao:voteTally. Votes tally gets correctly registered.', async () => {
+  it('noLossDao:voteTally. Votes tally gets correctly registered.', async () => {
     let mintAmount1 = '60000000000';
     let mintAmount2 = '70000000000';
     //////////// ITERATION 0 /////////////////
     // Creater voters account 1 (vote power =6) and 2 (vote power=7)
     await dai.mint(accounts[1], mintAmount1);
-    await dai.approve(noLossDao.address, mintAmount1, {
+    await dai.approve(poolDeposits.address, mintAmount1, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount1, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount1, { from: accounts[1] });
     await dai.mint(accounts[2], mintAmount2);
-    await dai.approve(noLossDao.address, mintAmount2, {
+    await dai.approve(poolDeposits.address, mintAmount2, {
       from: accounts[2],
     });
-    await noLossDao.deposit(mintAmount2, { from: accounts[2] });
+    await poolDeposits.deposit(mintAmount2, { from: accounts[2] });
 
     // Creat proposals ID 1 and 2 (from accounts 3 and 4)
     await dai.mint(accounts[3], mintAmount1);
-    await dai.approve(noLossDao.address, mintAmount1, {
+    await dai.approve(poolDeposits.address, mintAmount1, {
       from: accounts[3],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[3],
     });
     let proposalID1 = 1;
 
     await dai.mint(accounts[4], mintAmount1);
-    await dai.approve(noLossDao.address, mintAmount1, {
+    await dai.approve(poolDeposits.address, mintAmount1, {
       from: accounts[4],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[4],
     });
     let proposalID2 = 2;
 
     await dai.mint(accounts[9], mintAmount1);
-    await dai.approve(noLossDao.address, mintAmount1, {
+    await dai.approve(poolDeposits.address, mintAmount1, {
       from: accounts[9],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[9],
     });
     let proposalID3 = 3;
@@ -109,10 +114,10 @@ contract('NoLossDao', accounts => {
 
     // Create 3rd voting user (account 5) vote power = 6
     await dai.mint(accounts[5], mintAmount1);
-    await dai.approve(noLossDao.address, mintAmount1, {
+    await dai.approve(poolDeposits.address, mintAmount1, {
       from: accounts[5],
     });
-    await noLossDao.deposit(mintAmount1, { from: accounts[5] });
+    await poolDeposits.deposit(mintAmount1, { from: accounts[5] });
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds(); //check who winner was

@@ -7,13 +7,15 @@ const {
   time,
 } = require('@openzeppelin/test-helpers');
 
+const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('NoLossDao', accounts => {
+contract('noLossDao', accounts => {
   let aaveLendingPool;
+  let poolDeposits;
   let noLossDao;
   let dai;
   let aDai;
@@ -32,34 +34,37 @@ contract('NoLossDao', accounts => {
     });
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
-    await noLossDao.initialize(
+
+    poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
       aaveLendingPool.address,
       aaveLendingPool.address,
+      noLossDao.address,
       applicationAmount,
-      '1800',
-      {
-        from: accounts[0],
-      }
+      { from: accounts[0] }
     );
+
+    await noLossDao.initialize(poolDeposits.address, '1800', {
+      from: accounts[0],
+    });
   });
 
-  it('NoLossDao:userVote. User cannot vote immediately after joining.', async () => {
+  it('noLossDao:userVote. User cannot vote immediately after joining.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
@@ -73,7 +78,7 @@ contract('NoLossDao', accounts => {
 
     await noLossDao.voteDirect(1, { from: accounts[1] });
 
-    let deposit = await noLossDao.depositedDai.call(accounts[1]);
+    let deposit = await poolDeposits.depositedDai.call(accounts[1]);
     let iteration = await noLossDao.proposalIteration.call();
     let votesForProposal = await noLossDao.proposalVotes.call(iteration, 1); // calling with two parameters? Check its this way arounf
 
@@ -82,21 +87,21 @@ contract('NoLossDao', accounts => {
     assert.equal(mintAmount, deposit.toString());
   });
 
-  it('NoLossDao:userVote. User cannot vote if proposal does not exist', async () => {
+  it('noLossDao:userVote. User cannot vote if proposal does not exist', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
@@ -113,16 +118,16 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  it('NoLossDao:userVote. User cannot vote if they have not deposited', async () => {
+  it('noLossDao:userVote. User cannot vote if they have not deposited', async () => {
     let mintAmount = '60000000000';
     // deposit
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
@@ -134,29 +139,29 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  it('NoLossDao:userVote. User cannot vote twice in one iteration.', async () => {
+  it('noLossDao:userVote. User cannot vote twice in one iteration.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
     await dai.mint(accounts[3], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[3],
     });
-    await noLossDao.createProposal('Some IPFS hash string2', {
+    await poolDeposits.createProposal('Some IPFS hash string2', {
       from: accounts[3],
     });
 
@@ -174,49 +179,49 @@ contract('NoLossDao', accounts => {
     await noLossDao.voteDirect(2, { from: accounts[1] }); // other is in cooldown
   });
 
-  it('NoLossDao:userVote. User cannot join, withdraw then vote.', async () => {
+  it('noLossDao:userVote. User cannot join, withdraw then vote.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
-    await noLossDao.withdrawDeposit({ from: accounts[1] });
+    await poolDeposits.withdrawDeposit({ from: accounts[1] });
     await expectRevert(
       noLossDao.voteDirect(1, { from: accounts[1] }),
       'User has no stake'
     );
   });
 
-  it('NoLossDao:userVote. User cannot withdraw same iteration after voting', async () => {
+  it('noLossDao:userVote. User cannot withdraw same iteration after voting', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
@@ -226,17 +231,17 @@ contract('NoLossDao', accounts => {
     await noLossDao.voteDirect(1, { from: accounts[1] });
 
     await expectRevert(
-      noLossDao.withdrawDeposit({ from: accounts[1] }),
+      poolDeposits.withdrawDeposit({ from: accounts[1] }),
       'User already voted this iteration'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await expectRevert(
-      noLossDao.withdrawDeposit({ from: accounts[1] }),
+      poolDeposits.withdrawDeposit({ from: accounts[1] }),
       'User already voted this iteration'
     );
     await noLossDao.distributeFunds();
 
-    await noLossDao.withdrawDeposit({ from: accounts[1] });
+    await poolDeposits.withdrawDeposit({ from: accounts[1] });
   });
 });
