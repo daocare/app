@@ -150,7 +150,7 @@ contract('PoolDeposits', accounts => {
     assert.equal('0', depositedDaiUser2.toString());
   });
 
-  // This one is also weird and failling sometimes...
+  // This one is also weird and failling sometimes... Think it was cause some awaits missing.
   it('poolDeposits:benefactorLeave. Benefactor create withdraw, create withdraw... ', async () => {
     let mintAmount = '60000000000';
 
@@ -171,7 +171,7 @@ contract('PoolDeposits', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
-    poolDeposits.withdrawProposal({
+    await poolDeposits.withdrawProposal({
       from: accounts[2],
     });
 
@@ -196,7 +196,7 @@ contract('PoolDeposits', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
-    poolDeposits.withdrawProposal({
+    await poolDeposits.withdrawProposal({
       from: accounts[2],
     });
   });

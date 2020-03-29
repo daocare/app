@@ -376,7 +376,7 @@ contract NoLossDao is Initializable {
       );
     }
 
-    proposalDeadline = proposalDeadline.add(votingInterval);
+    proposalDeadline = now.add(votingInterval);
     proposalIteration = proposalIteration.add(1);
 
     // send winning miner a little surprise [NFT]
