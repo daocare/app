@@ -7,6 +7,7 @@ import useRouter from '../../utils/useRouter';
 
 const useStyles = makeStyles(theme => ({
   headerContainer: {
+    cursor: 'pointer',
     [theme.breakpoints.up('sm')]: {
       margin: '30px 0px 16px 0px',
     },
@@ -20,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
   headerText: {
     marginTop: '76px',
-    cursor: 'pointer',
+
     fontFamily: 'nunito',
     fontWeight: 700,
     display: 'inline',
@@ -35,20 +36,18 @@ const Header = props => {
   const router = useRouter();
   return (
     <React.Fragment>
-      <div className={classes.headerContainer}>
+      <div
+        className={classes.headerContainer}
+        onClick={() => {
+          router.history.push('/');
+        }}
+      >
         <img
           src="/assets/logo.svg"
           className={classes.headerLogo}
           alt="dao.care logo"
         />
-        <Typography
-          gutterBottom
-          variant="h1"
-          className={classes.headerText}
-          onClick={() => {
-            router.history.push('/');
-          }}
-        >
+        <Typography gutterBottom variant="h1" className={classes.headerText}>
           dao.care
         </Typography>
       </div>

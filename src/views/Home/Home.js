@@ -8,6 +8,7 @@ import useRouter from '../../utils/useRouter';
 import useInterval from '../../utils/useInterval';
 
 import DonateIcon from '@material-ui/icons/AllInclusive';
+import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 import Header from '../../components/Header';
 import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
 
@@ -39,6 +40,8 @@ const Home = () => {
   const router = useRouter();
   const [interest, setInterest] = useState(0);
   const [totalFundAmount, setTotalFundAmount] = useState(0);
+
+  let hasFundsDeposited = web3Connect.daiDeposit > 0;
 
   useInterval(async () => {
     if (web3Connect) {
@@ -98,26 +101,49 @@ const Home = () => {
         >
           Submit Proposal
         </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="large"
-          className={classes.button}
-          startIcon={<DonateIcon />}
-          onClick={() => {
-            if (connected) {
-              router.history.push('/deposit');
-            } else {
-              const connect = async () => {
-                await web3Connect.triggerConnect();
+        {!hasFundsDeposited ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            className={classes.button}
+            startIcon={<DonateIcon />}
+            onClick={() => {
+              if (connected) {
                 router.history.push('/deposit');
-              };
-              connect();
-            }
-          }}
-        >
-          Join Pool
-        </Button>
+              } else {
+                const connect = async () => {
+                  await web3Connect.triggerConnect();
+                  router.history.push('/deposit');
+                };
+                connect();
+              }
+            }}
+          >
+            Join Pool
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            className={classes.button}
+            startIcon={<WithdrawIcon />}
+            onClick={() => {
+              if (connected) {
+                router.history.push('/withdraw');
+              } else {
+                const connect = async () => {
+                  await web3Connect.triggerConnect();
+                  router.history.push('/withdraw');
+                };
+                connect();
+              }
+            }}
+          >
+            Withdraw Funds
+          </Button>
+        )}
       </div>
       <div className={classes.buttonContainer}>
         <Button
