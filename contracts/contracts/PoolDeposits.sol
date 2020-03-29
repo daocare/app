@@ -22,7 +22,7 @@ contract PoolDeposits {
   IERC20 public daiContract;
   IAaveLendingPool public aaveLendingContract;
   IADai public adaiContract;
-  INoLossDao public noLossDaoContract;
+  INoLossDao public noLossDaoContract; // should we be able to change this as admin.
   address public aaveLendingContractCore;
 
   //////// EMERGENCY MODULE ONLY ///////

@@ -150,6 +150,23 @@ contract NoLossDao is Initializable {
     _;
   }
 
+  // These are both indentical
+
+  // modifier iterationMostlyElapsed() {
+  //   require(
+  //     proposalDeadline.mul(7) < votingInterval.add(now.mul(7)),
+  //     'Not yet eligible to redirect interest stream'
+  //   );
+  //   _;
+  // }
+  modifier iterationMostlyElapsed() {
+    require(
+      proposalDeadline.sub(votingInterval.div(7)) < now,
+      'Not yet eligible to redirect interest stream'
+    );
+    _;
+  }
+
   modifier depositContractOnly() {
     require(
       address(depositContract) == msg.sender, // Is this a valid way of getting the address?
@@ -364,5 +381,14 @@ contract NoLossDao is Initializable {
 
     // send winning miner a little surprise [NFT]
     emit IterationChanged(now, msg.sender);
+  }
+
+  // Allows admin to redirect interest stream to themselves for (1/7 of the total time = 15%) fee to continue funding developement
+  function daoCareFunding(address redirectTo)
+    external
+    onlyAdmin
+    iterationMostlyElapsed
+  {
+    depositContract.redirectInterestStreamToWinner(redirectTo);
   }
 }
