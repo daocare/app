@@ -8,7 +8,9 @@ import useRouter from '../../utils/useRouter';
 import useInterval from '../../utils/useInterval';
 
 import DonateIcon from '@material-ui/icons/AllInclusive';
-import Header from '../../components/Header';
+import WithdrawIcon from '@material-ui/icons/RemoveCircle';
+import Header from '../../components/Header/Header';
+import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -37,11 +39,16 @@ const Home = () => {
   let connected = web3Connect.connected;
   const router = useRouter();
   const [interest, setInterest] = useState(0);
+  const [totalFundAmount, setTotalFundAmount] = useState(0);
+
+  let hasFundsDeposited = web3Connect.daiDeposit > 0;
 
   useInterval(async () => {
     if (web3Connect) {
       let interest = await web3Connect.contracts.dao.methods.getInterest();
       setInterest(interest);
+      let totalFundAmount = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
+      setTotalFundAmount(totalFundAmount);
     }
   }, 2000);
 
@@ -55,11 +62,22 @@ const Home = () => {
         weeks if selected by the DAO. Withdraw your original DAI at anytime.
       </Typography>
       <Typography variant="body1" className={classes.interestBlurb}>
-        Every two weeks, the preferred project of the community will receive{' '}
+        The dao.care fund is currently{' '}
+        {totalFundAmount === 0 ? (
+          <span>{<EllipsisLoader />}</span>
+        ) : (
+          <span className={classes.interestCountUp}>
+            {' '}
+            {totalFundAmount} DAI!
+          </span>
+        )}
+        <br />
+        Every two weeks, the preferred project of the community will receive the
+        interest of{' '}
         {interest > 0 && (
           <span className={classes.interestCountUp}>${interest}!</span>
         )}
-        {interest === 0 && <span>...</span>}
+        {interest === 0 && <span>{<EllipsisLoader />}</span>}
       </Typography>
 
       <div className={classes.buttonContainer}>
@@ -83,26 +101,49 @@ const Home = () => {
         >
           Submit Proposal
         </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="large"
-          className={classes.button}
-          startIcon={<DonateIcon />}
-          onClick={() => {
-            if (connected) {
-              router.history.push('/deposit');
-            } else {
-              const connect = async () => {
-                await web3Connect.triggerConnect();
+        {!hasFundsDeposited ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            className={classes.button}
+            startIcon={<DonateIcon />}
+            onClick={() => {
+              if (connected) {
                 router.history.push('/deposit');
-              };
-              connect();
-            }
-          }}
-        >
-          Join Pool
-        </Button>
+              } else {
+                const connect = async () => {
+                  await web3Connect.triggerConnect();
+                  router.history.push('/deposit');
+                };
+                connect();
+              }
+            }}
+          >
+            Join Pool
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            className={classes.button}
+            startIcon={<WithdrawIcon />}
+            onClick={() => {
+              if (connected) {
+                router.history.push('/withdraw');
+              } else {
+                const connect = async () => {
+                  await web3Connect.triggerConnect();
+                  router.history.push('/withdraw');
+                };
+                connect();
+              }
+            }}
+          >
+            Withdraw Funds
+          </Button>
+        )}
       </div>
       <div className={classes.buttonContainer}>
         <Button

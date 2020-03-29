@@ -38,7 +38,7 @@ const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 const NOT_SUPPORTED_URL = '/network-not-supported';
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
-const FETCH_UPDATE_INTERVAL = 10000;
+let FETCH_UPDATE_INTERVAL = 1000;
 const providerOptions = {
   // portis: {
   //   package: Portis, // required
@@ -170,9 +170,15 @@ function useWeb3Connect() {
     const daiContract = new web3Inited.eth.Contract(daiAbi.abi, DAI_ADDRESS);
     setDaiContract(daiContract);
 
+    // console.log('daiContract');
+    // console.log(
+    //   daiContract.methods
+    //   // .balanceOf('0x9241DcC41515150E8363BEf238f92B15167791d7')
+    //   // .call()
+    // );
+
     const daoContract = new web3Inited.eth.Contract(daoAbi.abi, WHOOP_ADDRESS);
     setDaoContract(daoContract);
-
     setProvider(providerInited);
     setWeb3(web3Inited);
     setConnected(true);
@@ -182,12 +188,12 @@ function useWeb3Connect() {
     setNetwork(getNetworkByChainId(networkIdTemp));
     setLoaded(true);
     setLoadingWeb3(false);
-
     update3BoxDetails(addressTemp);
   };
 
   // eslint-disable-next-line
   useEffect(() => {
+    // updateUserData();
     if (!loaded && !loadingWeb3) {
       let web3Infura = new Web3(INFURA_ENDPOINT);
       setWeb3ReadOnly(web3Infura);
@@ -220,6 +226,11 @@ function useWeb3Connect() {
   });
 
   useInterval(async () => {
+    console.log('///////////');
+    console.log('UPDATED');
+    console.log('///////////');
+    //so hacky
+    FETCH_UPDATE_INTERVAL = 5000;
     if (daoContractReadOnly) {
       fetchProposals();
     }
@@ -374,6 +385,18 @@ function useWeb3Connect() {
     return Number(web3ReadOnly.utils.fromWei('' + interest, 'ether'));
   };
 
+  const getTotalDepositedAmount = async () => {
+    if (!adaiContractReadOnly) {
+      return 0;
+    }
+
+    let depositedAmount = Number(
+      await daoContractReadOnly.methods.totalDepositedDai().call()
+    );
+
+    return Number(web3ReadOnly.utils.fromWei('' + depositedAmount, 'ether'));
+  };
+
   const fetchProposals = async (daoContract = daoContractReadOnly) => {
     // let contract = daoContract ? daoContract
     if (
@@ -468,6 +491,13 @@ function useWeb3Connect() {
     return tx;
   };
 
+  const triggerWithdrawal = async () => {
+    let withdrawal = daoContract.methods.withdrawDeposit().send({
+      from: address,
+    });
+    return withdrawal;
+  };
+
   const vote = async id => {
     let tx = await daoContract.methods.voteDirect(id).send({
       from: address,
@@ -512,9 +542,11 @@ function useWeb3Connect() {
         methods: {
           triggerSubmitProposal,
           triggerDeposit,
+          triggerWithdrawal,
           vote,
           enableTwitterVoting,
           getInterest,
+          getTotalDepositedAmount,
         },
       },
     },

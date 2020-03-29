@@ -8,10 +8,10 @@ import { useForm } from 'react-hook-form';
 import useRouter from '../../utils/useRouter';
 import { pinHash } from '../../modules/pinata';
 import { Page } from '../../components';
-import Header from '../../components/Header';
+import Header from '../../components/Header/Header';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
-import LoadingWeb3 from '../../components/LoadingWeb3';
+import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -210,9 +210,8 @@ const SubmitProposal = props => {
   };
 
   const onSubmit = async data => {
-    if (Object.keys(validationErrors()).length !== 0
-    ) {
-      console.log("Not all fields are filled-in...");
+    if (Object.keys(validationErrors()).length !== 0) {
+      console.log('Not all fields are filled-in...');
       return;
     }
     setStatus('STORING_PROPOSAL');
@@ -633,10 +632,10 @@ const SubmitProposal = props => {
                   <Tooltip
                     title={`This operation will ${
                       web3Connect.daiAllowance === null ||
-                        web3Connect.daiAllowance < STAKING_AMOUNT
+                      web3Connect.daiAllowance < STAKING_AMOUNT
                         ? `first allow dao.care to extract ${STAKING_AMOUNT} DAI from your wallet and then `
                         : ''
-                      }transfer ${STAKING_AMOUNT} DAI to the pool in order to submit your proposal`}
+                    }transfer ${STAKING_AMOUNT} DAI to the pool in order to submit your proposal`}
                     placement="top"
                   >
                     <Button
