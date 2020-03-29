@@ -9,7 +9,7 @@ module Firestore = {
 
     type result = {
       exists: bool,
-      data: unit => someData,
+      data: (. unit) => someData,
     };
 
     [@bs.send] external update: (t, 'a) => Js.Promise.t(unit) = "update";
@@ -38,4 +38,7 @@ type firebaseOptions = {
 };
 
 [@bs.module "firebase-admin"]
-external initializeApp: firebaseOptions => App.t = "initializeApp" /* })*/;
+external initializeApp: firebaseOptions => App.t = "initializeApp";
+
+[@bs.module "firebase-admin"] [@bs.scope "credential"]
+external credentialCert: string => credential = "cert";
