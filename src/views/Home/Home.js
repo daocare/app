@@ -9,6 +9,7 @@ import useInterval from '../../utils/useInterval';
 
 import DonateIcon from '@material-ui/icons/AllInclusive';
 import Header from '../../components/Header';
+import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -38,7 +39,6 @@ const Home = () => {
   const router = useRouter();
   const [interest, setInterest] = useState(0);
   const [totalFundAmount, setTotalFundAmount] = useState(0);
-  const [inlineLoader, setInlineLoader] = useState('.  ');
 
   useInterval(async () => {
     if (web3Connect) {
@@ -48,17 +48,6 @@ const Home = () => {
       setTotalFundAmount(totalFundAmount);
     }
   }, 2000);
-
-  useInterval(async () => {
-    // inline loading animation
-    if (inlineLoader == '.  ') {
-      setInlineLoader('.. ');
-    } else if (inlineLoader == '.. ') {
-      setInlineLoader('...');
-    } else if (inlineLoader == '...') {
-      setInlineLoader('.  ');
-    }
-  }, 300);
 
   return (
     <>
@@ -72,7 +61,7 @@ const Home = () => {
       <Typography variant="body1" className={classes.interestBlurb}>
         The dao.care fund is currently{' '}
         {totalFundAmount === 0 ? (
-          <span>{inlineLoader}</span>
+          <span>{<EllipsisLoader />}</span>
         ) : (
           <span className={classes.interestCountUp}>
             {' '}
@@ -85,7 +74,7 @@ const Home = () => {
         {interest > 0 && (
           <span className={classes.interestCountUp}>${interest}!</span>
         )}
-        {interest === 0 && <span>{inlineLoader}</span>}
+        {interest === 0 && <span>{<EllipsisLoader />}</span>}
       </Typography>
 
       <div className={classes.buttonContainer}>

@@ -38,7 +38,7 @@ const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 const NOT_SUPPORTED_URL = '/network-not-supported';
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
-const FETCH_UPDATE_INTERVAL = 10000;
+let FETCH_UPDATE_INTERVAL = 1000;
 const providerOptions = {
   // portis: {
   //   package: Portis, // required
@@ -193,6 +193,7 @@ function useWeb3Connect() {
 
   // eslint-disable-next-line
   useEffect(() => {
+    // updateUserData();
     if (!loaded && !loadingWeb3) {
       let web3Infura = new Web3(INFURA_ENDPOINT);
       setWeb3ReadOnly(web3Infura);
@@ -225,6 +226,11 @@ function useWeb3Connect() {
   });
 
   useInterval(async () => {
+    console.log('///////////');
+    console.log('UPDATED');
+    console.log('///////////');
+    //so hacky
+    FETCH_UPDATE_INTERVAL = 5000;
     if (daoContractReadOnly) {
       fetchProposals();
     }
