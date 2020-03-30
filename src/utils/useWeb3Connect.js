@@ -38,7 +38,7 @@ const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 const NOT_SUPPORTED_URL = '/network-not-supported';
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
-let FETCH_UPDATE_INTERVAL = 1000;
+let FETCH_UPDATE_INTERVAL = 7000;
 const providerOptions = {
   // portis: {
   //   package: Portis, // required
@@ -129,7 +129,11 @@ function useWeb3Connect() {
       : null;
   };
 
-  const onConnect = async () => {
+  const onConnect = async (
+    daiContractRead = daiContractReadOnly,
+    daoContractRead = daoContractReadOnly,
+    web3Read = web3ReadOnly
+  ) => {
     const providerInited = await web3Connect.connect();
 
     await subscribeProvider(providerInited);
@@ -189,6 +193,13 @@ function useWeb3Connect() {
     setLoaded(true);
     setLoadingWeb3(false);
     update3BoxDetails(addressTemp);
+
+    // Update state
+    updateAllowance(addressTemp, daiContractRead);
+    updateBalance(addressTemp, daiContractRead, web3Read);
+    updateDeposit(addressTemp, daoContractRead, web3Read);
+    updateDelegation(addressTemp, daoContractRead);
+    fetchProposals(addressTemp, daoContractRead);
   };
 
   // eslint-disable-next-line
@@ -218,7 +229,7 @@ function useWeb3Connect() {
 
       if (web3Connect.cachedProvider && !connected) {
         setLoadingWeb3(true);
-        onConnect();
+        onConnect(daiContractReadOnly, daoContractReadOnly, web3Infura);
       } else {
         setLoaded(true);
       }
@@ -226,11 +237,6 @@ function useWeb3Connect() {
   });
 
   useInterval(async () => {
-    console.log('///////////');
-    console.log('UPDATED');
-    console.log('///////////');
-    //so hacky
-    FETCH_UPDATE_INTERVAL = 5000;
     if (daoContractReadOnly) {
       fetchProposals();
     }
@@ -269,7 +275,7 @@ function useWeb3Connect() {
 
     provider.on('accountsChanged', async accounts => {
       setAddress(accounts[0]);
-      fetchProposals();
+      fetchProposals(accounts[0]);
       update3BoxDetails(accounts[0]);
     });
 
@@ -337,23 +343,29 @@ function useWeb3Connect() {
   };
   const updateBalance = async (
     addr = address,
-    daiContract = daiContractReadOnly
+    daiContract = daiContractReadOnly,
+    web3Read = web3ReadOnly
   ) => {
     if (addr) {
-      let balance = await daiContract.methods.balanceOf(addr).call();
+      let balance = new web3Read.utils.BN(
+        await daiContract.methods.balanceOf(addr).call()
+      );
       console.log({ balance });
-      setDaiBalance(Number(web3ReadOnly.utils.fromWei('' + balance, 'ether')));
+      setDaiBalance(Number(web3Read.utils.fromWei('' + balance, 'ether')));
     }
   };
 
   const updateDeposit = async (
     addr = address,
-    daoContract = daoContractReadOnly
+    daoContract = daoContractReadOnly,
+    web3Read = web3ReadOnly
   ) => {
     if (addr) {
-      let deposit = await daoContract.methods.depositedDai(addr).call();
+      let deposit = new web3Read.utils.BN(
+        await daoContract.methods.depositedDai(addr).call()
+      );
       // console.log({ balance });
-      setDaiDeposit(Number(web3ReadOnly.utils.fromWei('' + deposit, 'ether')));
+      setDaiDeposit(Number(web3Read.utils.fromWei('' + deposit, 'ether')));
     }
   };
 
@@ -372,10 +384,10 @@ function useWeb3Connect() {
     if (!adaiContractReadOnly) {
       return 0;
     }
-    let balance = Number(
+    let balance = new web3ReadOnly.utils.BN(
       await adaiContractReadOnly.methods.balanceOf(WHOOP_ADDRESS).call()
     );
-    let depositedAmount = Number(
+    let depositedAmount = new web3ReadOnly.utils.BN(
       await daoContractReadOnly.methods.totalDepositedDai().call()
     );
     // console.log({ balance });
@@ -390,14 +402,16 @@ function useWeb3Connect() {
       return 0;
     }
 
-    let depositedAmount = Number(
+    let depositedAmount = new web3ReadOnly.utils.BN(
       await daoContractReadOnly.methods.totalDepositedDai().call()
     );
-
     return Number(web3ReadOnly.utils.fromWei('' + depositedAmount, 'ether'));
   };
 
-  const fetchProposals = async (daoContract = daoContractReadOnly) => {
+  const fetchProposals = async (
+    addr = address,
+    daoContract = daoContractReadOnly
+  ) => {
     // let contract = daoContract ? daoContract
     if (
       lastFetchTimestamp + FETCH_UPDATE_INTERVAL < Date.now() &&
@@ -410,10 +424,10 @@ function useWeb3Connect() {
       );
       // console.log({ iteration, address });
       let tempCurrentVote = 0;
-      if (connected && address) {
+      if (connected && addr) {
         tempCurrentVote = Number(
           await daoContract.methods
-            .usersNominatedProject(iteration, address)
+            .usersNominatedProject(iteration, addr)
             .call()
         );
         console.log({ tempCurrentVote });
@@ -439,7 +453,7 @@ function useWeb3Connect() {
 
         let owner = await daoContract.methods.proposalOwner(i).call();
         proposal.owner = owner;
-        if (owner === address) {
+        if (owner === addr) {
           foundOwner = true;
         }
       }
