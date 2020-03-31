@@ -102,14 +102,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/INoLossDao.sol",
     "exportedSymbols": {
       "INoLossDao": [
-        1538
+        1537
       ]
     },
-    "id": 1539,
+    "id": 1538,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1507,
+        "id": 1506,
         "literals": [
           "solidity",
           "^",
@@ -125,9 +125,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1538,
+        "id": 1537,
         "linearizedBaseContracts": [
-          1538
+          1537
         ],
         "name": "INoLossDao",
         "nodeType": "ContractDefinition",
@@ -135,22 +135,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1514,
+            "id": 1513,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "noLossDeposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1510,
+              "id": 1509,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1509,
+                  "id": 1508,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1514,
+                  "scope": 1513,
                   "src": "72:19:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -159,7 +159,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1508,
+                    "id": 1507,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "72:7:6",
@@ -176,15 +176,15 @@
               "src": "71:21:6"
             },
             "returnParameters": {
-              "id": 1513,
+              "id": 1512,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1512,
+                  "id": 1511,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1514,
+                  "scope": 1513,
                   "src": "111:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -193,7 +193,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1511,
+                    "id": 1510,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "111:4:6",
@@ -208,7 +208,7 @@
               ],
               "src": "110:6:6"
             },
-            "scope": 1538,
+            "scope": 1537,
             "src": "49:68:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -217,22 +217,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1521,
+            "id": 1520,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "noLossWithdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1517,
+              "id": 1516,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1516,
+                  "id": 1515,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1521,
+                  "scope": 1520,
                   "src": "144:19:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -241,7 +241,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1515,
+                    "id": 1514,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "144:7:6",
@@ -258,15 +258,15 @@
               "src": "143:21:6"
             },
             "returnParameters": {
-              "id": 1520,
+              "id": 1519,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1519,
+                  "id": 1518,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1521,
+                  "scope": 1520,
                   "src": "183:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -275,7 +275,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1518,
+                    "id": 1517,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "183:4:6",
@@ -290,7 +290,7 @@
               ],
               "src": "182:6:6"
             },
-            "scope": 1538,
+            "scope": 1537,
             "src": "120:69:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -299,22 +299,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1530,
+            "id": 1529,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "noLossCreateProposal",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1526,
+              "id": 1525,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1523,
+                  "id": 1522,
                   "name": "proposalHash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1530,
+                  "scope": 1529,
                   "src": "228:28:6",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -323,7 +323,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1522,
+                    "id": 1521,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "228:6:6",
@@ -337,10 +337,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1525,
+                  "id": 1524,
                   "name": "benefactorAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1530,
+                  "scope": 1529,
                   "src": "262:25:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -349,7 +349,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1524,
+                    "id": 1523,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "262:7:6",
@@ -366,15 +366,15 @@
               "src": "222:69:6"
             },
             "returnParameters": {
-              "id": 1529,
+              "id": 1528,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1528,
+                  "id": 1527,
                   "name": "newProposalId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1530,
+                  "scope": 1529,
                   "src": "310:21:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -383,7 +383,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1527,
+                    "id": 1526,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "310:7:6",
@@ -398,7 +398,7 @@
               ],
               "src": "309:23:6"
             },
-            "scope": 1538,
+            "scope": 1537,
             "src": "193:140:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -407,22 +407,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1537,
+            "id": 1536,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "noLossWithdrawProposal",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1533,
+              "id": 1532,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1532,
+                  "id": 1531,
                   "name": "benefactorAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1537,
+                  "scope": 1536,
                   "src": "369:25:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -431,7 +431,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1531,
+                    "id": 1530,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "369:7:6",
@@ -448,15 +448,15 @@
               "src": "368:27:6"
             },
             "returnParameters": {
-              "id": 1536,
+              "id": 1535,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1535,
+                  "id": 1534,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1537,
+                  "scope": 1536,
                   "src": "422:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -465,7 +465,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1534,
+                    "id": 1533,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "422:4:6",
@@ -480,14 +480,14 @@
               ],
               "src": "421:6:6"
             },
-            "scope": 1538,
+            "scope": 1537,
             "src": "337:91:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1539,
+        "scope": 1538,
         "src": "25:406:6"
       }
     ],
@@ -497,14 +497,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/INoLossDao.sol",
     "exportedSymbols": {
       "INoLossDao": [
-        1538
+        1537
       ]
     },
-    "id": 1539,
+    "id": 1538,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1507,
+        "id": 1506,
         "literals": [
           "solidity",
           "^",
@@ -520,9 +520,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1538,
+        "id": 1537,
         "linearizedBaseContracts": [
-          1538
+          1537
         ],
         "name": "INoLossDao",
         "nodeType": "ContractDefinition",
@@ -530,22 +530,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1514,
+            "id": 1513,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "noLossDeposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1510,
+              "id": 1509,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1509,
+                  "id": 1508,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1514,
+                  "scope": 1513,
                   "src": "72:19:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -554,7 +554,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1508,
+                    "id": 1507,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "72:7:6",
@@ -571,15 +571,15 @@
               "src": "71:21:6"
             },
             "returnParameters": {
-              "id": 1513,
+              "id": 1512,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1512,
+                  "id": 1511,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1514,
+                  "scope": 1513,
                   "src": "111:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -588,7 +588,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1511,
+                    "id": 1510,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "111:4:6",
@@ -603,7 +603,7 @@
               ],
               "src": "110:6:6"
             },
-            "scope": 1538,
+            "scope": 1537,
             "src": "49:68:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -612,22 +612,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1521,
+            "id": 1520,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "noLossWithdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1517,
+              "id": 1516,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1516,
+                  "id": 1515,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1521,
+                  "scope": 1520,
                   "src": "144:19:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -636,7 +636,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1515,
+                    "id": 1514,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "144:7:6",
@@ -653,15 +653,15 @@
               "src": "143:21:6"
             },
             "returnParameters": {
-              "id": 1520,
+              "id": 1519,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1519,
+                  "id": 1518,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1521,
+                  "scope": 1520,
                   "src": "183:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -670,7 +670,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1518,
+                    "id": 1517,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "183:4:6",
@@ -685,7 +685,7 @@
               ],
               "src": "182:6:6"
             },
-            "scope": 1538,
+            "scope": 1537,
             "src": "120:69:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -694,22 +694,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1530,
+            "id": 1529,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "noLossCreateProposal",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1526,
+              "id": 1525,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1523,
+                  "id": 1522,
                   "name": "proposalHash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1530,
+                  "scope": 1529,
                   "src": "228:28:6",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -718,7 +718,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1522,
+                    "id": 1521,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "228:6:6",
@@ -732,10 +732,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1525,
+                  "id": 1524,
                   "name": "benefactorAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1530,
+                  "scope": 1529,
                   "src": "262:25:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -744,7 +744,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1524,
+                    "id": 1523,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "262:7:6",
@@ -761,15 +761,15 @@
               "src": "222:69:6"
             },
             "returnParameters": {
-              "id": 1529,
+              "id": 1528,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1528,
+                  "id": 1527,
                   "name": "newProposalId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1530,
+                  "scope": 1529,
                   "src": "310:21:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -778,7 +778,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1527,
+                    "id": 1526,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "310:7:6",
@@ -793,7 +793,7 @@
               ],
               "src": "309:23:6"
             },
-            "scope": 1538,
+            "scope": 1537,
             "src": "193:140:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -802,22 +802,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1537,
+            "id": 1536,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "noLossWithdrawProposal",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1533,
+              "id": 1532,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1532,
+                  "id": 1531,
                   "name": "benefactorAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1537,
+                  "scope": 1536,
                   "src": "369:25:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -826,7 +826,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1531,
+                    "id": 1530,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "369:7:6",
@@ -843,15 +843,15 @@
               "src": "368:27:6"
             },
             "returnParameters": {
-              "id": 1536,
+              "id": 1535,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1535,
+                  "id": 1534,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1537,
+                  "scope": 1536,
                   "src": "422:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -860,7 +860,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1534,
+                    "id": 1533,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "422:4:6",
@@ -875,14 +875,14 @@
               ],
               "src": "421:6:6"
             },
-            "scope": 1538,
+            "scope": 1537,
             "src": "337:91:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1539,
+        "scope": 1538,
         "src": "25:406:6"
       }
     ],
@@ -894,7 +894,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-31T18:23:04.151Z",
+  "updatedAt": "2020-03-31T21:09:44.208Z",
   "devdoc": {
     "methods": {}
   },

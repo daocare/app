@@ -238,14 +238,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IADai.sol",
     "exportedSymbols": {
       "IADai": [
-        1490
+        1489
       ]
     },
-    "id": 1491,
+    "id": 1490,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1476,
+        "id": 1475,
         "literals": [
           "solidity",
           "^",
@@ -258,10 +258,10 @@
       {
         "absolutePath": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
-        "id": 1477,
+        "id": 1476,
         "nodeType": "ImportDirective",
-        "scope": 1491,
-        "sourceUnit": 2512,
+        "scope": 1490,
+        "sourceUnit": 2511,
         "src": "25:82:3",
         "symbolAliases": [],
         "unitAlias": ""
@@ -272,31 +272,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1478,
+              "id": 1477,
               "name": "IERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2737,
+              "referencedDeclaration": 2736,
               "src": "127:6:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC20_$2737",
+                "typeIdentifier": "t_contract$_IERC20_$2736",
                 "typeString": "contract IERC20"
               }
             },
-            "id": 1479,
+            "id": 1478,
             "nodeType": "InheritanceSpecifier",
             "src": "127:6:3"
           }
         ],
         "contractDependencies": [
-          2737
+          2736
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1490,
+        "id": 1489,
         "linearizedBaseContracts": [
-          1490,
-          2737
+          1489,
+          2736
         ],
         "name": "IADai",
         "nodeType": "ContractDefinition",
@@ -304,22 +304,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1484,
+            "id": 1483,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1482,
+              "id": 1481,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1481,
+                  "id": 1480,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1484,
+                  "scope": 1483,
                   "src": "154:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -328,7 +328,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1480,
+                    "id": 1479,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "154:7:3",
@@ -344,12 +344,12 @@
               "src": "153:17:3"
             },
             "returnParameters": {
-              "id": 1483,
+              "id": 1482,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "177:0:3"
             },
-            "scope": 1490,
+            "scope": 1489,
             "src": "138:40:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -358,22 +358,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1489,
+            "id": 1488,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redirectInterestStream",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1487,
+              "id": 1486,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1486,
+                  "id": 1485,
                   "name": "_to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1489,
+                  "scope": 1488,
                   "src": "213:11:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -382,7 +382,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1485,
+                    "id": 1484,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "213:7:3",
@@ -399,19 +399,19 @@
               "src": "212:13:3"
             },
             "returnParameters": {
-              "id": 1488,
+              "id": 1487,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "232:0:3"
             },
-            "scope": 1490,
+            "scope": 1489,
             "src": "181:52:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1491,
+        "scope": 1490,
         "src": "109:126:3"
       }
     ],
@@ -421,14 +421,14 @@
     "absolutePath": "/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IADai.sol",
     "exportedSymbols": {
       "IADai": [
-        1490
+        1489
       ]
     },
-    "id": 1491,
+    "id": 1490,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1476,
+        "id": 1475,
         "literals": [
           "solidity",
           "^",
@@ -441,10 +441,10 @@
       {
         "absolutePath": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
-        "id": 1477,
+        "id": 1476,
         "nodeType": "ImportDirective",
-        "scope": 1491,
-        "sourceUnit": 2512,
+        "scope": 1490,
+        "sourceUnit": 2511,
         "src": "25:82:3",
         "symbolAliases": [],
         "unitAlias": ""
@@ -455,31 +455,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1478,
+              "id": 1477,
               "name": "IERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2737,
+              "referencedDeclaration": 2736,
               "src": "127:6:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC20_$2737",
+                "typeIdentifier": "t_contract$_IERC20_$2736",
                 "typeString": "contract IERC20"
               }
             },
-            "id": 1479,
+            "id": 1478,
             "nodeType": "InheritanceSpecifier",
             "src": "127:6:3"
           }
         ],
         "contractDependencies": [
-          2737
+          2736
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1490,
+        "id": 1489,
         "linearizedBaseContracts": [
-          1490,
-          2737
+          1489,
+          2736
         ],
         "name": "IADai",
         "nodeType": "ContractDefinition",
@@ -487,22 +487,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1484,
+            "id": 1483,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1482,
+              "id": 1481,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1481,
+                  "id": 1480,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1484,
+                  "scope": 1483,
                   "src": "154:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -511,7 +511,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1480,
+                    "id": 1479,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "154:7:3",
@@ -527,12 +527,12 @@
               "src": "153:17:3"
             },
             "returnParameters": {
-              "id": 1483,
+              "id": 1482,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "177:0:3"
             },
-            "scope": 1490,
+            "scope": 1489,
             "src": "138:40:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -541,22 +541,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1489,
+            "id": 1488,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "redirectInterestStream",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1487,
+              "id": 1486,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1486,
+                  "id": 1485,
                   "name": "_to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1489,
+                  "scope": 1488,
                   "src": "213:11:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -565,7 +565,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1485,
+                    "id": 1484,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "213:7:3",
@@ -582,19 +582,19 @@
               "src": "212:13:3"
             },
             "returnParameters": {
-              "id": 1488,
+              "id": 1487,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "232:0:3"
             },
-            "scope": 1490,
+            "scope": 1489,
             "src": "181:52:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1491,
+        "scope": 1490,
         "src": "109:126:3"
       }
     ],
@@ -606,7 +606,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-31T18:23:04.150Z",
+  "updatedAt": "2020-03-31T21:09:44.207Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {
