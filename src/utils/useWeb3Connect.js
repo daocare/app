@@ -38,7 +38,7 @@ const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 const NOT_SUPPORTED_URL = '/network-not-supported';
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
-const FETCH_UPDATE_INTERVAL = 10000;
+let FETCH_UPDATE_INTERVAL = 7000;
 const providerOptions = {
   // portis: {
   //   package: Portis, // required
@@ -129,7 +129,11 @@ function useWeb3Connect() {
       : null;
   };
 
-  const onConnect = async () => {
+  const onConnect = async (
+    daiContractRead = daiContractReadOnly,
+    daoContractRead = daoContractReadOnly,
+    web3Read = web3ReadOnly
+  ) => {
     const providerInited = await web3Connect.connect();
 
     await subscribeProvider(providerInited);
@@ -170,9 +174,15 @@ function useWeb3Connect() {
     const daiContract = new web3Inited.eth.Contract(daiAbi.abi, DAI_ADDRESS);
     setDaiContract(daiContract);
 
+    // console.log('daiContract');
+    // console.log(
+    //   daiContract.methods
+    //   // .balanceOf('0x9241DcC41515150E8363BEf238f92B15167791d7')
+    //   // .call()
+    // );
+
     const daoContract = new web3Inited.eth.Contract(daoAbi.abi, WHOOP_ADDRESS);
     setDaoContract(daoContract);
-
     setProvider(providerInited);
     setWeb3(web3Inited);
     setConnected(true);
@@ -182,12 +192,19 @@ function useWeb3Connect() {
     setNetwork(getNetworkByChainId(networkIdTemp));
     setLoaded(true);
     setLoadingWeb3(false);
-
     update3BoxDetails(addressTemp);
+
+    // Update state
+    updateAllowance(addressTemp, daiContractRead);
+    updateBalance(addressTemp, daiContractRead, web3Read);
+    updateDeposit(addressTemp, daoContractRead, web3Read);
+    updateDelegation(addressTemp, daoContractRead);
+    fetchProposals(addressTemp, daoContractRead);
   };
 
   // eslint-disable-next-line
   useEffect(() => {
+    // updateUserData();
     if (!loaded && !loadingWeb3) {
       let web3Infura = new Web3(INFURA_ENDPOINT);
       setWeb3ReadOnly(web3Infura);
@@ -212,7 +229,7 @@ function useWeb3Connect() {
 
       if (web3Connect.cachedProvider && !connected) {
         setLoadingWeb3(true);
-        onConnect();
+        onConnect(daiContractReadOnly, daoContractReadOnly, web3Infura);
       } else {
         setLoaded(true);
       }
@@ -258,7 +275,7 @@ function useWeb3Connect() {
 
     provider.on('accountsChanged', async accounts => {
       setAddress(accounts[0]);
-      fetchProposals();
+      fetchProposals(accounts[0]);
       update3BoxDetails(accounts[0]);
     });
 
@@ -326,23 +343,29 @@ function useWeb3Connect() {
   };
   const updateBalance = async (
     addr = address,
-    daiContract = daiContractReadOnly
+    daiContract = daiContractReadOnly,
+    web3Read = web3ReadOnly
   ) => {
     if (addr) {
-      let balance = await daiContract.methods.balanceOf(addr).call();
+      let balance = new web3Read.utils.BN(
+        await daiContract.methods.balanceOf(addr).call()
+      );
       console.log({ balance });
-      setDaiBalance(Number(web3ReadOnly.utils.fromWei('' + balance, 'ether')));
+      setDaiBalance(Number(web3Read.utils.fromWei('' + balance, 'ether')));
     }
   };
 
   const updateDeposit = async (
     addr = address,
-    daoContract = daoContractReadOnly
+    daoContract = daoContractReadOnly,
+    web3Read = web3ReadOnly
   ) => {
     if (addr) {
-      let deposit = await daoContract.methods.depositedDai(addr).call();
+      let deposit = new web3Read.utils.BN(
+        await daoContract.methods.depositedDai(addr).call()
+      );
       // console.log({ balance });
-      setDaiDeposit(Number(web3ReadOnly.utils.fromWei('' + deposit, 'ether')));
+      setDaiDeposit(Number(web3Read.utils.fromWei('' + deposit, 'ether')));
     }
   };
 
@@ -361,10 +384,10 @@ function useWeb3Connect() {
     if (!adaiContractReadOnly) {
       return 0;
     }
-    let balance = Number(
+    let balance = new web3ReadOnly.utils.BN(
       await adaiContractReadOnly.methods.balanceOf(WHOOP_ADDRESS).call()
     );
-    let depositedAmount = Number(
+    let depositedAmount = new web3ReadOnly.utils.BN(
       await daoContractReadOnly.methods.totalDepositedDai().call()
     );
     // console.log({ balance });
@@ -374,7 +397,21 @@ function useWeb3Connect() {
     return Number(web3ReadOnly.utils.fromWei('' + interest, 'ether'));
   };
 
-  const fetchProposals = async (daoContract = daoContractReadOnly) => {
+  const getTotalDepositedAmount = async () => {
+    if (!adaiContractReadOnly) {
+      return 0;
+    }
+
+    let depositedAmount = new web3ReadOnly.utils.BN(
+      await daoContractReadOnly.methods.totalDepositedDai().call()
+    );
+    return Number(web3ReadOnly.utils.fromWei('' + depositedAmount, 'ether'));
+  };
+
+  const fetchProposals = async (
+    addr = address,
+    daoContract = daoContractReadOnly
+  ) => {
     // let contract = daoContract ? daoContract
     if (
       lastFetchTimestamp + FETCH_UPDATE_INTERVAL < Date.now() &&
@@ -387,10 +424,10 @@ function useWeb3Connect() {
       );
       // console.log({ iteration, address });
       let tempCurrentVote = 0;
-      if (connected && address) {
+      if (connected && addr) {
         tempCurrentVote = Number(
           await daoContract.methods
-            .usersNominatedProject(iteration, address)
+            .usersNominatedProject(iteration, addr)
             .call()
         );
         console.log({ tempCurrentVote });
@@ -416,7 +453,7 @@ function useWeb3Connect() {
 
         let owner = await daoContract.methods.proposalOwner(i).call();
         proposal.owner = owner;
-        if (owner === address) {
+        if (owner === addr) {
           foundOwner = true;
         }
       }
@@ -468,6 +505,13 @@ function useWeb3Connect() {
     return tx;
   };
 
+  const triggerWithdrawal = async () => {
+    let withdrawal = daoContract.methods.withdrawDeposit().send({
+      from: address,
+    });
+    return withdrawal;
+  };
+
   const vote = async id => {
     let tx = await daoContract.methods.voteDirect(id).send({
       from: address,
@@ -512,9 +556,11 @@ function useWeb3Connect() {
         methods: {
           triggerSubmitProposal,
           triggerDeposit,
+          triggerWithdrawal,
           vote,
           enableTwitterVoting,
           getInterest,
+          getTotalDepositedAmount,
         },
       },
     },

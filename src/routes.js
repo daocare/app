@@ -26,6 +26,11 @@ const routes = [
         component: lazy(() => import('./views/Deposit/Deposit')),
       },
       {
+        path: '/withdraw',
+        exact: true,
+        component: lazy(() => import('./views/Withdraw/Withdraw')),
+      },
+      {
         path: '/proposals',
         exact: true,
         component: lazy(() => import('./views/Proposals')),

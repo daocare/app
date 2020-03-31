@@ -9,7 +9,7 @@ import { Typography, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import useRouter from '../../utils/useRouter';
 import { Page } from '../../components';
-import Header from '../../components/Header';
+import Header from '../../components/Header/Header';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import ProposalCard from '../../components/ProposalCard';
 import { FIREBASE_FUNCTIONS_ENDPOINT } from '../../config/firebase';

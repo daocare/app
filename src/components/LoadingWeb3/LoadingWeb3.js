@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Header from '../Header';
+import Header from '../Header/Header';
 
 const useStyles = makeStyles({
   root: {
@@ -19,7 +19,6 @@ export default function LoadingWeb3(props) {
   return (
     <div>
       <Header />
-
       <div className={classes.root}>
         <Typography
           variant="body1"
