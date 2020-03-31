@@ -100,6 +100,9 @@ type tweetError = {
 type tweetResult =
   | TweetError(tweetError)
   | TweetSuccess(tweetData);
+type tweetGetResult =
+  | TweetGetError(tweetError)
+  | TweetGetSuccess(array(tweetData));
 
 [@bs.deriving {abstract: light}]
 type t = {
@@ -114,7 +117,7 @@ type t = {
     (
       . string,
       TwitPostArgs.t,
-      (. option(tweetError), tweetData, string) => unit
+      (. option(tweetError), array(tweetData), string) => unit
     ) =>
     unit,
 };
@@ -149,8 +152,8 @@ let postWithResult = (twit, method, tweetArguments) => {
     tweetArguments,
     (. err, data, _response) => {
       switch (err) {
-      | Some(error) => resolve(TweetError(error))
-      | None => resolve(TweetSuccess(data))
+      | Some(error) => resolve(TweetGetError(error))
+      | None => resolve(TweetGetSuccess(data))
       };
       ();
     },

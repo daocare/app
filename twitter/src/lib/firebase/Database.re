@@ -21,18 +21,34 @@ let getLatestTweetProcessed: unit => Js.Promise.t(option(string)) =
       ->collection(tweetRepliesDb)
       ->CollectionReference.doc(tweetRepliesCollection);
     let%Async docSnapshot = docRef->DocumentReference.get;
-    Js.log2("snapshot", docSnapshot);
     (
       if (docSnapshot.exists) {
-        Js.log("It doesn't exist");
         let dangerouslyConvertLatestTweet:
           DocumentReference.someData => latestTweet = Obj.magic;
 
         Some(docSnapshot.data(.)->dangerouslyConvertLatestTweet.latest);
       } else {
-        Js.log("It DOES exist");
         None;
       }
     )
     ->async;
+  };
+
+let setLatestTweetReply: string => Js.Promise.t(unit) =
+  latest => {
+    open Firestore;
+    let docRef =
+      db
+      ->collection(tweetRepliesDb)
+      ->CollectionReference.doc(tweetRepliesCollection);
+    let%Async _docSnapshot =
+      docRef->DocumentReference.update({latest: latest});
+    // if (docSnapshot.exists) {
+    //   let dangerouslyConvertLatestTweet:
+    //     DocumentReference.someData => latestTweet = Obj.magic;
+    //   Some(docSnapshot.data(.)->dangerouslyConvertLatestTweet.latest);
+    // } else {
+    //   None;
+    // }
+    ()->async;
   };
