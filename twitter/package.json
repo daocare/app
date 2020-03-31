@@ -11,7 +11,8 @@
   "scripts": {
     "re:build": "bsb -make-world",
     "re:watch": "bsb -make-world -w",
-    "re:clean": "bsb -clean-world"
+    "re:clean": "bsb -clean-world",
+    "start": "node ./src/Index.bs.js"
   },
   "devDependencies": {
     "bs-let": "^0.1.16",
