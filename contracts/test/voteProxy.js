@@ -7,13 +7,15 @@ const {
   time,
 } = require('@openzeppelin/test-helpers');
 
+const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('NoLossDao', accounts => {
+contract('noLossDao', accounts => {
   let aaveLendingPool;
+  let poolDeposits;
   let noLossDao;
   let dai;
   let aDai;
@@ -32,43 +34,46 @@ contract('NoLossDao', accounts => {
     });
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
-    await noLossDao.initialize(
+
+    poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
       aaveLendingPool.address,
       aaveLendingPool.address,
+      noLossDao.address,
       applicationAmount,
-      '1800',
-      {
-        from: accounts[0],
-      }
+      { from: accounts[0] }
     );
+
+    await noLossDao.initialize(poolDeposits.address, '1800', {
+      from: accounts[0],
+    });
   });
 
-  it('NoLossDao:voteProxy. User can delegate vote and proxy can vote on behalf.', async () => {
+  it('noLossDao:voteProxy. User can delegate vote and proxy can vote on behalf.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
     // Proposal ID will be 2
     await dai.mint(accounts[9], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[9],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[9],
     });
 
@@ -96,21 +101,21 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  it('NoLossDao:voteProxy. Random can not proxy vote on anothers behalf.', async () => {
+  it('noLossDao:voteProxy. Random can not proxy vote on anothers behalf.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
@@ -124,33 +129,33 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  //   Weird behaviour. This sometimes fails. Its not deterministic...
-  //   setting proxy back to yourself -> await noLossDao.delegateVoting(accounts[1], { from: accounts[1] });
-
-  it('NoLossDao:voteProxy. Proxy vote can be set back to only user.', async () => {
+  //   //   Weird behaviour. This sometimes fails. Its not deterministic...
+  //   //   setting proxy back to yourself -> await noLossDao.delegateVoting(accounts[1], { from: accounts[1] });
+  // THink this was because I forgot an await infront of one function. Solved now hopefully
+  it('noLossDao:voteProxy. Proxy vote can be set back to only user.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
     // Proposal ID will be 2
     await dai.mint(accounts[9], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[9],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[9],
     });
 
@@ -158,7 +163,7 @@ contract('NoLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     await noLossDao.delegateVoting(accounts[3], { from: accounts[1] });
-    noLossDao.voteProxy(1, accounts[1], { from: accounts[3] });
+    await noLossDao.voteProxy(1, accounts[1], { from: accounts[3] });
 
     // proxy can no longer vote on your behalf
     await noLossDao.delegateVoting(accounts[1], { from: accounts[1] });
@@ -177,21 +182,21 @@ contract('NoLossDao', accounts => {
     );
   });
 
-  it('NoLossDao:voteProxy. User can Proxy multiple times.', async () => {
+  it('noLossDao:voteProxy. User can Proxy multiple times.', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
@@ -214,27 +219,27 @@ contract('NoLossDao', accounts => {
     noLossDao.voteProxy(1, accounts[1], { from: accounts[5] });
   });
 
-  it('NoLossDao:voteProxy. Users proxy each other', async () => {
+  it('noLossDao:voteProxy. Users proxy each other', async () => {
     let mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[2] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[2] });
 
     // Proposal ID will be 1
     await dai.mint(accounts[3], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[3],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[3],
     });
 

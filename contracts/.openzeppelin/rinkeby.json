@@ -1,0 +1,232 @@
+{
+  "contracts": {
+    "NoLossDao": {
+      "address": "0x19b7A5285C676f7Bd5A29B57Ad78908579E6a918",
+      "constructorCode": "608060405234801561001057600080fd5b50611be0806100206000396000f3fe",
+      "bodyBytecodeHash": "e7159a852a39226b77dc408bce4d0b4c9b5cb8a95d162e90fc654acbabc1f2c0",
+      "localBytecodeHash": "92d4057a9609a9ac98cbf93a794b6324f1e6f9a510fee2fa8eb8e9d9928fc87c",
+      "deployedBytecodeHash": "92d4057a9609a9ac98cbf93a794b6324f1e6f9a510fee2fa8eb8e9d9928fc87c",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_mapping<t_string>": {
+          "id": "t_mapping<t_string>",
+          "valueType": "t_string",
+          "label": "mapping(key => string)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_address>": {
+          "id": "t_mapping<t_address>",
+          "valueType": "t_address",
+          "label": "mapping(key => address)",
+          "kind": "mapping"
+        },
+        "t_enum<NoLossDao.ProposalState>": {
+          "id": "t_enum<NoLossDao.ProposalState>",
+          "kind": "enum",
+          "label": "NoLossDao.ProposalState",
+          "members": [
+            "DoesNotExist",
+            "Withdrawn",
+            "Active",
+            "Cooldown"
+          ]
+        },
+        "t_mapping<t_enum<NoLossDao.ProposalState>>": {
+          "id": "t_mapping<t_enum<NoLossDao.ProposalState>>",
+          "valueType": "t_enum<NoLossDao.ProposalState>",
+          "label": "mapping(key => NoLossDao.ProposalState)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2646,
+          "type": "t_bool",
+          "src": "757:24:20"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2648,
+          "type": "t_bool",
+          "src": "876:25:20"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2704,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:20"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "admin",
+          "astId": 69,
+          "type": "t_address",
+          "src": "405:20:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "votingInterval",
+          "astId": 71,
+          "type": "t_uint256",
+          "src": "471:29:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalIteration",
+          "astId": 73,
+          "type": "t_uint256",
+          "src": "504:32:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalId",
+          "astId": 75,
+          "type": "t_uint256",
+          "src": "583:25:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalDeadline",
+          "astId": 77,
+          "type": "t_uint256",
+          "src": "612:31:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalDetails",
+          "astId": 81,
+          "type": "t_mapping<t_string>",
+          "src": "672:49:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "benefactorsProposal",
+          "astId": 85,
+          "type": "t_mapping<t_uint256>",
+          "src": "750:54:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalOwner",
+          "astId": 89,
+          "type": "t_mapping<t_address>",
+          "src": "837:48:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "state",
+          "astId": 98,
+          "type": "t_mapping<t_enum<NoLossDao.ProposalState>>",
+          "src": "1037:46:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "iterationJoined",
+          "astId": 102,
+          "type": "t_mapping<t_uint256>",
+          "src": "1155:50:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "usersNominatedProject",
+          "astId": 108,
+          "type": "t_mapping<t_uint256>",
+          "src": "1246:76:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "proposalVotes",
+          "astId": 114,
+          "type": "t_mapping<t_uint256>",
+          "src": "1408:68:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "topProject",
+          "astId": 118,
+          "type": "t_mapping<t_uint256>",
+          "src": "1521:45:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "voteDelegations",
+          "astId": 122,
+          "type": "t_mapping<t_address>",
+          "src": "1570:50:1"
+        },
+        {
+          "contract": "NoLossDao",
+          "path": "contracts/NoLossDao.sol",
+          "label": "depositContract",
+          "astId": 124,
+          "type": "t_address",
+          "src": "1682:36:1"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    }
+  },
+  "solidityLibs": {},
+  "proxies": {},
+  "manifestVersion": "2.2",
+  "version": "2.5.3"
+}

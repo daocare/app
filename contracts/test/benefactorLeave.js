@@ -7,13 +7,15 @@ const {
   time,
 } = require('@openzeppelin/test-helpers');
 
+const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('NoLossDao', accounts => {
+contract('PoolDeposits', accounts => {
   let aaveLendingPool;
+  let poolDeposits;
   let noLossDao;
   let dai;
   let aDai;
@@ -32,26 +34,30 @@ contract('NoLossDao', accounts => {
     });
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
-    await noLossDao.initialize(
+
+    poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
       aaveLendingPool.address,
       aaveLendingPool.address,
+      noLossDao.address,
       applicationAmount,
-      '1800',
-      {
-        from: accounts[0],
-      }
+      { from: accounts[0] }
     );
+
+    await noLossDao.initialize(poolDeposits.address, '1800', {
+      from: accounts[0],
+    });
   });
-  it('NoLossDao:benefactorLeave. Cannot withdraw proposal as a user ', async () => {
+
+  it('poolDeposits:benefactorLeave. Cannot withdraw proposal as a user ', async () => {
     let mintAmount = '60000000000';
 
     await dai.mint(accounts[1], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    await noLossDao.deposit(mintAmount, { from: accounts[1] });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     await time.increase(time.duration.seconds(1801)); //1
     await noLossDao.distributeFunds();
@@ -63,14 +69,14 @@ contract('NoLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     await expectRevert(
-      noLossDao.withdrawProposal({
+      poolDeposits.withdrawProposal({
         from: accounts[1],
       }),
       'User proposal does not exist'
     );
   });
 
-  it('NoLossDao:benefactorLeave. Cannot withdraw proposal as nobody ', async () => {
+  it('poolDeposits:benefactorLeave. Cannot withdraw proposal as nobody ', async () => {
     await time.increase(time.duration.seconds(1801));
     await noLossDao.distributeFunds();
 
@@ -81,32 +87,32 @@ contract('NoLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     await expectRevert(
-      noLossDao.withdrawProposal({
+      poolDeposits.withdrawProposal({
         from: accounts[1],
       }),
       'User proposal does not exist'
     );
   });
 
-  it('NoLossDao:benefactorLeave. Benefactor can create a proposal and only withdraw after 3 iterations ', async () => {
+  it('poolDeposits:benefactorLeave. Benefactor can create a proposal and only withdraw after 3 iterations ', async () => {
     let mintAmount = '60000000000';
 
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
-    let depositedDaiUser = await noLossDao.depositedDai.call(accounts[2]);
-    let totalDai = await noLossDao.totalDepositedDai.call();
+    let depositedDaiUser = await poolDeposits.depositedDai.call(accounts[2]);
+    let totalDai = await poolDeposits.totalDepositedDai.call();
 
     assert.equal(applicationAmount, depositedDaiUser.toString());
     assert.equal(applicationAmount, totalDai);
 
     await expectRevert(
-      noLossDao.withdrawProposal({
+      poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
       'Benefactor only eligible to receive funds in later iteration'
@@ -116,7 +122,7 @@ contract('NoLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     await expectRevert(
-      noLossDao.withdrawProposal({
+      poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
       'Benefactor only eligible to receive funds in later iteration'
@@ -126,7 +132,7 @@ contract('NoLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     await expectRevert(
-      noLossDao.withdrawProposal({
+      poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
       'Benefactor only eligible to receive funds in later iteration'
@@ -135,24 +141,24 @@ contract('NoLossDao', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
-    noLossDao.withdrawProposal({
+    poolDeposits.withdrawProposal({
       from: accounts[2],
     });
 
     // Once withdrawn later
-    let depositedDaiUser2 = await noLossDao.depositedDai.call(accounts[2]);
+    let depositedDaiUser2 = await poolDeposits.depositedDai.call(accounts[2]);
     assert.equal('0', depositedDaiUser2.toString());
   });
 
-  // This one is also weird and failling sometimes...
-  it('NoLossDao:benefactorLeave. Benefactor create withdraw, create withdraw... ', async () => {
+  // This one is also weird and failling sometimes... Think it was cause some awaits missing.
+  it('poolDeposits:benefactorLeave. Benefactor create withdraw, create withdraw... ', async () => {
     let mintAmount = '60000000000';
 
     await dai.mint(accounts[2], mintAmount);
-    await dai.approve(noLossDao.address, mintAmount, {
+    await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await noLossDao.createProposal('Some IPFS hash string', {
+    await poolDeposits.createProposal('Some IPFS hash string', {
       from: accounts[2],
     });
 
@@ -165,12 +171,12 @@ contract('NoLossDao', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
-    noLossDao.withdrawProposal({
+    await poolDeposits.withdrawProposal({
       from: accounts[2],
     });
 
     // this is failing
-    await noLossDao.createProposal('Some IPFS hash string again', {
+    await poolDeposits.createProposal('Some IPFS hash string again', {
       from: accounts[2],
     });
 
@@ -181,7 +187,7 @@ contract('NoLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     await expectRevert(
-      noLossDao.withdrawProposal({
+      poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
       'Benefactor only eligible to receive funds in later iteration'
@@ -190,7 +196,7 @@ contract('NoLossDao', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
-    noLossDao.withdrawProposal({
+    await poolDeposits.withdrawProposal({
       from: accounts[2],
     });
   });

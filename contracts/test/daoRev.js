@@ -45,12 +45,12 @@ contract('noLossDao', accounts => {
       { from: accounts[0] }
     );
 
-    await noLossDao.initialize(poolDeposits.address, '1800', {
+    await noLossDao.initialize(poolDeposits.address, '604800', {
       from: accounts[0],
     });
   });
 
-  it('NoLossDao:miningActions. Can only mine next iteration.', async () => {
+  it('NoLossDao:daoRev. Can only redirect interest later.', async () => {
     let mintAmount = '60000000000';
 
     await expectRevert(
@@ -74,7 +74,8 @@ contract('noLossDao', accounts => {
       from: accounts[2],
     });
 
-    await time.increase(time.duration.seconds(1799)); // increment to iteration 1
+    // Note 604800 is 7 days exactly. The iteration length in this case
+    await time.increase(time.duration.seconds(604799)); // increment to iteration 1
     await expectRevert(
       noLossDao.distributeFunds(),
       'iteration interval not ended'
@@ -82,41 +83,45 @@ contract('noLossDao', accounts => {
     await time.increase(time.duration.seconds(2));
     await noLossDao.distributeFunds();
 
-    await expectRevert(
-      noLossDao.distributeFunds(),
-      'iteration interval not ended'
-    );
-
-    await time.increase(time.duration.seconds(500));
+    // This should fail
 
     await expectRevert(
-      noLossDao.distributeFunds(),
-      'iteration interval not ended'
+      noLossDao.daoCareFunding(accounts[9], { from: accounts[0] }),
+      'Not yet eligible to redirect interest stream'
     );
 
-    await time.increase(time.duration.seconds(1000));
+    // 518400 seconds is 6 days exactly. After 6 days we should be allowed to redirect interest
+    await time.increase(time.duration.seconds(518395));
 
     await expectRevert(
-      noLossDao.distributeFunds(),
-      'iteration interval not ended'
+      noLossDao.daoCareFunding(accounts[9], { from: accounts[1] }),
+      'Not admin'
     );
 
-    await time.increase(time.duration.seconds(2000));
+    await expectRevert(
+      noLossDao.daoCareFunding(accounts[9], { from: accounts[0] }),
+      'Not yet eligible to redirect interest stream'
+    );
+
+    await time.increase(time.duration.seconds(10));
+
+    // THese should all pass as we've reached 6/7 of the iteration and until the new iteration is called,
+    // We would be able to redirect the interest stream
+    await noLossDao.daoCareFunding(accounts[9], { from: accounts[0] });
+
+    await time.increase(time.duration.seconds(518402));
+    await noLossDao.daoCareFunding(accounts[9], { from: accounts[0] });
+
+    await time.increase(time.duration.seconds(518402));
+    await noLossDao.daoCareFunding(accounts[9], { from: accounts[0] });
+
     await noLossDao.distributeFunds();
 
+    // This should fail as iteration has just ended (line above), yet we can redirect it already
+    // This is where its expecting a revert but none received
     await expectRevert(
-      noLossDao.distributeFunds(),
-      'iteration interval not ended'
-    );
-
-    await time.increase(time.duration.seconds(1801));
-    await noLossDao.distributeFunds();
-
-    await time.increase(time.duration.seconds(1799));
-
-    await expectRevert(
-      noLossDao.distributeFunds(),
-      'iteration interval not ended'
+      noLossDao.daoCareFunding(accounts[9], { from: accounts[0] }),
+      'Not yet eligible to redirect interest stream'
     );
   });
 });
