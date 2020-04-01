@@ -114,6 +114,10 @@ function useWeb3Connect() {
   const [enabledTwitter, setEnabledTwitter] = useState(false);
 
   const [currentIteration, setCurrentIteration] = useState(0);
+  const [
+    topProposalInCurrentIterationId,
+    setTopProposalInCurrentIterationId,
+  ] = useState(0);
   const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
@@ -435,12 +439,7 @@ function useWeb3Connect() {
       let iteration = Number(
         await daoContract.methods.proposalIteration().call()
       );
-      console.log('THIS IS THE ITERATION', iteration);
-      console.log('THIS IS THE ITERATION', iteration);
-      console.log('THIS IS THE ITERATION', iteration);
-      console.log('THIS IS THE ITERATION', iteration);
-      console.log('THIS IS THE ITERATION', iteration);
-      console.log('THIS IS THE ITERATION', iteration);
+
       let tempCurrentVote = 0;
       if (connected && addr) {
         tempCurrentVote = Number(
@@ -486,6 +485,10 @@ function useWeb3Connect() {
       console.log(Date.now() / 1000 - lastFetchTimestamp / 1000);
       setLastFetchTimestamp(Date.now());
       isFetchingProposals = false;
+      const topProposalId = Number(
+        await daoContract.methods.topProject(iteration).call()
+      );
+      setTopProposalInCurrentIterationId(topProposalId);
     }
   };
 
@@ -544,6 +547,7 @@ function useWeb3Connect() {
     await fetchProposals();
     return tx;
   };
+
   const enableTwitterVoting = async () => {
     let tx = await daoContract.methods.delegateVoting(TWITTER_PROXY).send({
       from: address,
@@ -597,6 +601,7 @@ function useWeb3Connect() {
     daiAllowance,
     currentIteration,
     currentIterationDeadline,
+    topProposalInCurrentIterationId,
     daiBalance,
     daiDeposit,
     loaded,
