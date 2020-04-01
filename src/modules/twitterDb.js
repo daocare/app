@@ -6,3 +6,14 @@ export const emojiExists = async (emoji, networkSuffix = '') => {
   let docSnapshot = await docRef.get();
   return docSnapshot.exists;
 };
+
+export const twitterHandleAlreadyLinked = async (handle, address) => {
+  let docRef = firestore.collection('twitterHandlesAddresses').doc(handle);
+
+  let docSnapshot = await docRef.get();
+  if (docSnapshot.exists) {
+    return docSnapshot.address.toLowerCase() === address.toLowerCase();
+  } else {
+    return false;
+  }
+};

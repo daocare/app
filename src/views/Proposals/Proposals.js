@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DonateIcon from '@material-ui/icons/AllInclusive';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -13,7 +13,31 @@ import Header from '../../components/Header/Header';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import ProposalCard from '../../components/ProposalCard';
 import { FIREBASE_FUNCTIONS_ENDPOINT } from '../../config/firebase';
+import { twitterHandleAlreadyLinked } from '../../modules/twitterDb';
 
+const linkTwitterHandleToEthAddressInFirebase = async (
+  handle,
+  address,
+  txHash
+) => {
+  const response = await fetch(
+    FIREBASE_FUNCTIONS_ENDPOINT + '/registerTwitterHandle',
+    {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        handle,
+        address,
+        txHash,
+      }), // body data type must match "Content-Type" header
+    }
+  );
+  return await response.json();
+};
 const useStyles = makeStyles(theme => ({
   root: {
     // backgroundColor: theme.palette.white
@@ -87,12 +111,14 @@ const Proposals = () => {
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
-
+  const canVoteWithDelegate =
+    status === 'ENABLED' ||
+    (status !== '3BOX_VERIFIED' && web3Connect.enabledTwitter);
   const address = web3Connect.address;
 
   const enableTwitter = async () => {
     setStatus('3BOX_VERIFICATION');
-    const profile = await Box.getProfile(web3Connect.address);
+    const profile = await Box.getProfile(address);
     console.log(profile);
     const verified = await Box.getVerifiedAccounts(profile);
     console.log(verified);
@@ -104,23 +130,11 @@ const Proposals = () => {
       } else {
         let txHash = tx.transactionHash;
         try {
-          const response = await fetch(
-            FIREBASE_FUNCTIONS_ENDPOINT + 'registerTwitterHandle',
-            {
-              method: 'POST',
-              mode: 'cors',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-
-              body: JSON.stringify({
-                handle: verified.twitter.username,
-                address,
-                txHash,
-              }), // body data type must match "Content-Type" header
-            }
+          let result = await linkTwitterHandleToEthAddressInFirebase(
+            verified.twitter.username,
+            address,
+            txHash
           );
-          let result = await response.json();
           console.log({ result });
           setStatus('ENABLED');
         } catch (error) {
@@ -132,6 +146,34 @@ const Proposals = () => {
       setStatus('3BOX_FAILED');
     }
   };
+
+  // IF the user has delegated the voting && the firebase database dosen't have the correct value for their address/twitter handle. This code will fix it.
+  useEffect(() => {
+    if (canVoteWithDelegate) {
+      Box.getProfile(web3Connect.address).then(async profile => {
+        const verified = await Box.getVerifiedAccounts(profile);
+        const twitterIsVerified =
+          verified && verified.twitter && verified.twitter.username;
+
+        if (twitterIsVerified) {
+          const twitterUsername = verified.twitter.username;
+          const isTwitterHandleLinkedToAddressInFirebase = await twitterHandleAlreadyLinked(
+            twitterUsername,
+            address
+          );
+
+          if (!isTwitterHandleLinkedToAddressInFirebase) {
+            await linkTwitterHandleToEthAddressInFirebase(
+              twitterUsername,
+              address,
+              null /* The hxHash is null here, since the transaction happened in the past */
+            );
+          }
+        }
+      });
+    }
+  }, [canVoteWithDelegate]);
+
   let votingAllowed =
     web3Connect.currentVote === null &&
     web3Connect.daiDeposit > 0 &&
@@ -164,8 +206,7 @@ const Proposals = () => {
         {status === '3BOX_VERIFIED' && (
           <Typography variant="caption">Enabling twitter voting</Typography>
         )}
-        {(status === 'ENABLED' ||
-          (status !== '3BOX_VERIFIED' && web3Connect.enabledTwitter)) && (
+        {canVoteWithDelegate && (
           <Typography variant="caption">
             You can now vote with twitter
           </Typography>
