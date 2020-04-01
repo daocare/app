@@ -11,8 +11,10 @@ export const twitterHandleAlreadyLinked = async (handle, address) => {
   let docRef = firestore.collection('twitterHandlesAddresses').doc(handle);
 
   let docSnapshot = await docRef.get();
+  console.log(docSnapshot);
+  console.log('docSnapshot');
   if (docSnapshot.exists) {
-    return docSnapshot.address.toLowerCase() === address.toLowerCase();
+    return docSnapshot.data().address.toLowerCase() === address.toLowerCase();
   } else {
     return false;
   }

@@ -114,6 +114,7 @@ const Proposals = () => {
   const canVoteWithDelegate =
     status === 'ENABLED' ||
     (status !== '3BOX_VERIFIED' && web3Connect.enabledTwitter);
+  const [canVoteViaTwitter, setCanVoteViaTwitter] = useState(false);
   const address = web3Connect.address;
 
   const enableTwitter = async () => {
@@ -169,6 +170,8 @@ const Proposals = () => {
               null /* The hxHash is null here, since the transaction happened in the past */
             );
           }
+          // TODO: check that the firebase function was successful. Now just assuming it is ok. Should be ok if nothing changes.
+          setCanVoteViaTwitter(true);
         }
       });
     }
@@ -206,11 +209,16 @@ const Proposals = () => {
         {status === '3BOX_VERIFIED' && (
           <Typography variant="caption">Enabling twitter voting</Typography>
         )}
-        {canVoteWithDelegate && (
-          <Typography variant="caption">
-            You can now vote with twitter
-          </Typography>
-        )}
+        {canVoteWithDelegate &&
+          (canVoteViaTwitter ? (
+            <Typography variant="caption">
+              You can now vote with twitter
+            </Typography>
+          ) : (
+            <Typography variant="caption">
+              Voting on twitter enabled, validating on backend
+            </Typography>
+          ))}
         {status === '3BOX_FAILED' && (
           <Typography variant="caption" style={{ color: '#FF9494' }}>
             3Box twitter verification failed
