@@ -8,7 +8,7 @@ import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol
 
 
 /** @title No Loss Dao Contract. */
-contract NoLossDao is Initializable {
+contract NoLossDao_v0 is Initializable {
   using SafeMath for uint256;
 
   //////// MASTER //////////////

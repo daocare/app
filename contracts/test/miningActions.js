@@ -8,7 +8,7 @@ const {
 } = require('@openzeppelin/test-helpers');
 
 const PoolDeposits = artifacts.require('PoolDeposits');
-const NoLossDao = artifacts.require('NoLossDao');
+const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');

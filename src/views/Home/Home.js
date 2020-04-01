@@ -72,12 +72,15 @@ const Home = () => {
           </span>
         )}
         <br />
-        Every two weeks, the preferred project of the community will receive the
-        interest of{' '}
+        The previous winning project has earned{' '}
         {interest > 0 && (
-          <span className={classes.interestCountUp}>${interest}!</span>
+          <span className={classes.interestCountUp}>${interest} DAI!</span>
         )}
-        {interest === 0 && <span>{<EllipsisLoader />}</span>}
+        {interest === 0 && <span>{<EllipsisLoader />}</span>} so far this
+        period.
+        <br />
+        At this rate the project will earn <strong>...TODO...</strong> DAI by
+        the end of the period.
       </Typography>
 
       <div className={classes.buttonContainer}>

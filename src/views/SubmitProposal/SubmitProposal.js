@@ -156,7 +156,8 @@ const SubmitProposal = props => {
   const onEmojiClick = async (event, emojiObject) => {
     event.preventDefault();
     console.log(emojiObject);
-    if (await emojiExists(emojiObject.emoji)) {
+    let networkSuffix = web3Connect.chainId == 42 ? '-kovan' : '';
+    if (await emojiExists(emojiObject.emoji, networkSuffix)) {
       setChosenEmoji(emojiObject);
 
       setEmojiError('This emoji is already being used by another proposal');
