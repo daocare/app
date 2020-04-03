@@ -126,7 +126,10 @@ contract('PoolDeposits', accounts => {
     await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // withdraw their funds
-    await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    const { logs } = await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    expectEvent.inLogs(logs, 'DepositWithdrawn', {
+      user: accounts[1],
+    });
 
     await expectRevert(
       poolDeposits.withdrawDeposit({ from: accounts[1] }),

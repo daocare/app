@@ -141,8 +141,11 @@ contract('PoolDeposits', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
-    poolDeposits.withdrawProposal({
+    const { logs } = await poolDeposits.withdrawProposal({
       from: accounts[2],
+    });
+    expectEvent.inLogs(logs, 'ProposalWithdrawn', {
+      benefactor: accounts[2],
     });
 
     // Once withdrawn later
