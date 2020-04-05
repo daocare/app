@@ -57,8 +57,19 @@ contract('PoolDeposits', accounts => {
     await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[2],
     });
-    await poolDeposits.createProposal('Some IPFS hash string', {
-      from: accounts[2],
+    const { logs } = await poolDeposits.createProposal(
+      'Some IPFS hash string',
+      {
+        from: accounts[2],
+      }
+    );
+
+    let propId = await noLossDao.benefactorsProposal.call(accounts[2]);
+    let proposalHashString = await noLossDao.proposalDetails.call(propId);
+    expectEvent.inLogs(logs, 'ProposalAdded', {
+      benefactor: accounts[2],
+      proposalId: propId,
+      proposalHash: proposalHashString,
     });
 
     let depositedDaiUser = await poolDeposits.depositedDai.call(accounts[2]);

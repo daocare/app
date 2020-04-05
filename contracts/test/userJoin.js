@@ -59,7 +59,14 @@ contract('PoolDeposits', accounts => {
     });
     let allowance = await dai.allowance.call(accounts[1], poolDeposits.address);
 
-    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
+    const { logs } = await poolDeposits.deposit(mintAmount, {
+      from: accounts[1],
+    });
+    expectEvent.inLogs(logs, 'DepositAdded', {
+      user: accounts[1],
+      amount: mintAmount,
+    });
+
     let deposit = await poolDeposits.depositedDai.call(accounts[1]);
 
     // // User has joined the pool

@@ -86,7 +86,22 @@ contract('PoolDeposits', accounts => {
     await time.increase(time.duration.days(2));
 
     await poolDeposits.voteEmergency({ from: accounts[2] });
-    await poolDeposits.declareStateOfEmergency({ from: accounts[2] });
+
+    let created_at = Math.floor(Date.now() / 1000);
+    const { logs } = await poolDeposits.declareStateOfEmergency({
+      from: accounts[2],
+    });
+
+    let emergencyVoteTotal1 = await poolDeposits.emergencyVoteAmount.call();
+    let totalDeposit = await poolDeposits.totalDepositedDai.call();
+
+    expectEvent.inLogs(logs, 'EmergencyStateReached', {
+      user: accounts[2],
+      timeStamp: created_at.toString(),
+      totalDaiInContract: totalDeposit,
+      totalEmergencyVotes: emergencyVoteTotal1,
+    });
+
     await poolDeposits.emergencyWithdraw({ from: accounts[2] });
     await poolDeposits.emergencyWithdraw({ from: accounts[1] });
   });
@@ -109,7 +124,12 @@ contract('PoolDeposits', accounts => {
 
     await time.increase(time.duration.days(101));
 
-    await poolDeposits.voteEmergency({ from: accounts[2] });
+    const { logs } = await poolDeposits.voteEmergency({ from: accounts[2] });
+    expectEvent.inLogs(logs, 'EmergencyVote', {
+      user: accounts[2],
+      emergencyVoteAmount: mintAmount2,
+    });
+
     await poolDeposits.declareStateOfEmergency({ from: accounts[5] });
 
     await dai.mint(accounts[3], mintAmount2);
@@ -158,6 +178,17 @@ contract('PoolDeposits', accounts => {
       poolDeposits.emergencyWithdraw({ from: accounts[1] }),
       'State of emergency not declared'
     );
+
+    await poolDeposits.voteEmergency({ from: accounts[2] });
+    await poolDeposits.declareStateOfEmergency({
+      from: accounts[2],
+    });
+    const { logs } = await poolDeposits.emergencyWithdraw({
+      from: accounts[2],
+    });
+    expectEvent.inLogs(logs, 'EmergencyWithdrawl', {
+      user: accounts[2],
+    });
   });
 
   it('poolDeposits:emergency. Cannot declare emergency without 200 000DAI pool', async () => {
@@ -216,7 +247,12 @@ contract('PoolDeposits', accounts => {
       (parseInt(mintAmount1) + parseInt(mintAmount2)).toString()
     );
 
-    await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    const { logs } = await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    expectEvent.inLogs(logs, 'RemoveEmergencyVote', {
+      user: accounts[1],
+      emergencyVoteAmount: mintAmount1,
+    });
+
     let emergencyVoteTotal3 = await poolDeposits.emergencyVoteAmount.call();
     assert(emergencyVoteTotal3.toString(), mintAmount2);
 

@@ -156,7 +156,7 @@ contract PoolDeposits {
     // IAaveLendingPool lendingPool = IAaveLendingPool(provider.getLendingPool());
     daiContract.transferFrom(msg.sender, address(this), amount);
     daiContract.approve(address(aaveLendingContractCore), amount);
-    aaveLendingContract.deposit(address(daiContract), amount, 0);
+    aaveLendingContract.deposit(address(daiContract), amount, 30);
 
     timeJoined[msg.sender] = now;
     depositedDai[msg.sender] = amount;
