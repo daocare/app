@@ -87,6 +87,20 @@ contract('noLossDao', accounts => {
     assert.equal(mintAmount, deposit.toString());
   });
 
+  it('noLossDao:userVote. Only deposit contract can call functions certain functions in NoLossDao.', async () => {
+  
+    await expectRevert(
+      noLossDao.noLossDeposit(accounts[1], { from: accounts[1] }),
+      'function can only be called by deposit contract'
+    );
+
+    await expectRevert(
+      noLossDao.noLossWithdraw(accounts[1], { from: accounts[1] }),
+      'function can only be called by deposit contract'
+    );
+
+  });
+
   it('noLossDao:userVote. User cannot vote if proposal does not exist', async () => {
     let mintAmount = '60000000000';
     // deposit

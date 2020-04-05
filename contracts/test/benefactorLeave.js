@@ -142,10 +142,10 @@ contract('PoolDeposits', accounts => {
     await noLossDao.distributeFunds();
 
 
-    const { logs } = await poolDeposits.withdrawProposal({
+    const logs  = await poolDeposits.withdrawProposal({
       from: accounts[2],
     });
-    expectEvent.inLogs(logs, 'ProposalWithdrawn', {
+    expectEvent(logs, 'ProposalWithdrawn', {
       benefactor: accounts[2],
     });
 

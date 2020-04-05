@@ -78,13 +78,6 @@ contract NoLossDao_v0 is Initializable {
     _;
   }
 
-  modifier noProposal(address givenAddress) {
-    require(
-      benefactorsProposal[givenAddress] == 0,
-      'User already has a proposal'
-    );
-    _;
-  }
 
   modifier noVoteYet(address givenAddress) {
     require(
@@ -151,15 +144,7 @@ contract NoLossDao_v0 is Initializable {
     _;
   }
 
-  // These are both indentical
 
-  // modifier iterationMostlyElapsed() {
-  //   require(
-  //     proposalDeadline.mul(7) < votingInterval.add(now.mul(7)),
-  //     'Not yet eligible to redirect interest stream'
-  //   );
-  //   _;
-  // }
   modifier iterationMostlyElapsed() {
     require(
       proposalDeadline.sub(votingInterval.div(7)) < now,
@@ -212,7 +197,7 @@ contract NoLossDao_v0 is Initializable {
   function noLossDeposit(address userAddress)
     external
     depositContractOnly
-    noProposal(userAddress) // Checks they are not a benefactor
+    userHasNoProposal(userAddress) // Checks they are not a benefactor
     returns (bool)
   {
     iterationJoined[userAddress] = proposalIteration;
@@ -355,12 +340,12 @@ contract NoLossDao_v0 is Initializable {
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
     // figure our what happens with the interest from the first proposal iteration
     // Possibly make first iteration an extended one for our launch (for marketing)
-    console.log(
-      'Iteration no: ',
-      proposalIteration,
-      'Time that this iteration has ended incremented ',
-      proposalDeadline
-    );
+    // console.log(
+    //   'Iteration no: ',
+    //   proposalIteration,
+    //   'Time that this iteration has ended incremented ',
+    //   proposalDeadline
+    // );
     if (topProject[proposalIteration] != 0) {
       // Do some asserts here for safety...
 
@@ -385,12 +370,12 @@ contract NoLossDao_v0 is Initializable {
 
     proposalDeadline = now.add(votingInterval);
     proposalIteration = proposalIteration.add(1);
-    console.log(
-      'Iteration no: ',
-      proposalIteration,
-      ' Will start now and end earliest at',
-      proposalDeadline
-    );
+    // console.log(
+    //   'Iteration no: ',
+    //   proposalIteration,
+    //   ' Will start now and end earliest at',
+    //   proposalDeadline
+    // );
 
     // send winning miner a little surprise [NFT]
     emit IterationChanged(now, msg.sender);

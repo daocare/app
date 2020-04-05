@@ -50,7 +50,7 @@ contract('noLossDao', accounts => {
     });
   });
 
-  it('NoLossDao:daoRev. Can only redirect interest later.', async () => {
+  it('NoLossDao:daoRev. Can only redirect interest later. Randoms cannot redirect interest', async () => {
     let mintAmount = '60000000000';
 
     await expectRevert(
@@ -84,6 +84,10 @@ contract('noLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     // This should fail
+    await expectRevert(
+      poolDeposits.redirectInterestStreamToWinner(accounts[9], { from: accounts[9] }),
+      'function can only be called by no Loss Dao contract'
+    );
 
     await expectRevert(
       noLossDao.daoCareFunding(accounts[9], { from: accounts[0] }),
