@@ -74,12 +74,12 @@ contract('noLossDao', accounts => {
       from: accounts[2],
     });
 
-    await time.increase(time.duration.seconds(1799)); // increment to iteration 1
+    await time.increase(time.duration.seconds(1790)); // increment to iteration 1
     await expectRevert(
       noLossDao.distributeFunds(),
       'iteration interval not ended'
     );
-    await time.increase(time.duration.seconds(2));
+    await time.increase(time.duration.seconds(12));
     await noLossDao.distributeFunds();
 
     await expectRevert(
@@ -144,12 +144,12 @@ contract('noLossDao', accounts => {
       from: accounts[2],
     });
 
-    await time.increase(time.duration.seconds(1795)); // increment to iteration 1
+    await time.increase(time.duration.seconds(1780)); // increment to iteration 1
     await expectRevert(
       noLossDao.distributeFunds(),
       'iteration interval not ended'
     );
-    await time.increase(time.duration.seconds(10));
+    await time.increase(time.duration.seconds(30));
     await noLossDao.distributeFunds();
 
     await expectRevert(noLossDao.changeVotingInterval(900, { from: accounts[1] }),"Not admin");

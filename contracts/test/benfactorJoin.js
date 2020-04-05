@@ -66,11 +66,11 @@ contract('PoolDeposits', accounts => {
 
     let propId = await noLossDao.benefactorsProposal.call(accounts[2]);
     let proposalHashString = await noLossDao.proposalDetails.call(propId);
-    // expectEvent(logs, 'ProposalAdded', {
-    //   benefactor: accounts[2],
-    //   proposalId: propId,
-    //   proposalHash: proposalHashString,
-    // });
+    expectEvent(logs, 'ProposalAdded', {
+      benefactor: accounts[2],
+      proposalId: propId,
+      proposalHash: proposalHashString,
+    });
 
     let depositedDaiUser = await poolDeposits.depositedDai.call(accounts[2]);
     let totalDai = await poolDeposits.totalDepositedDai.call();

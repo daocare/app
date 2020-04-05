@@ -81,10 +81,23 @@ contract('noLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     // Can delegate vote
-    await noLossDao.delegateVoting(accounts[3], { from: accounts[1] });
+    const delegate = await noLossDao.delegateVoting(accounts[3], { from: accounts[1] });
 
+     expectEvent(delegate, 'VoteDelegated', {
+      user: accounts[1],
+      delegatedTo: accounts[3],
+    });
+    let currentIteration = await noLossDao.proposalIteration.call();
     // Proxy can vote then user cannot
-    await noLossDao.voteProxy(1, accounts[1], { from: accounts[3] });
+    const voted = await noLossDao.voteProxy(1, accounts[1], { from: accounts[3] });
+     expectEvent(voted, 'VotedViaProxy', {
+      proxy: accounts[3],
+      user: accounts[1],
+      iteration: currentIteration,
+      proposalId: '1',
+    });
+
+
     await expectRevert(
       noLossDao.voteDirect(1, { from: accounts[1] }),
       'User already voted this iteration'
@@ -175,7 +188,14 @@ contract('noLossDao', accounts => {
       noLossDao.voteProxy(2, accounts[1], { from: accounts[3] }),
       'User does not have proxy right'
     );
-    await noLossDao.voteDirect(2, { from: accounts[1] });
+    const voteDirectEvent= await noLossDao.voteDirect(2, { from: accounts[1] });
+    let currentIteration = await noLossDao.proposalIteration.call();
+     expectEvent(voteDirectEvent, 'VotedDirect', {
+      user: accounts[1],
+      iteration: currentIteration,
+      proposalId: '2',
+    });
+
     await expectRevert(
       noLossDao.voteProxy(2, accounts[1], { from: accounts[1] }),
       'User already voted this iteration'

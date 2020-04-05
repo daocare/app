@@ -75,12 +75,12 @@ contract('noLossDao', accounts => {
     });
 
     // Note 604800 is 7 days exactly. The iteration length in this case
-    await time.increase(time.duration.seconds(604799)); // increment to iteration 1
+    await time.increase(time.duration.seconds(604790)); // increment to iteration 1
     await expectRevert(
       noLossDao.distributeFunds(),
       'iteration interval not ended'
     );
-    await time.increase(time.duration.seconds(2));
+    await time.increase(time.duration.seconds(12));
     await noLossDao.distributeFunds();
 
     // This should fail

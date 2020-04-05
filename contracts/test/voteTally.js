@@ -120,7 +120,19 @@ contract('noLossDao', accounts => {
     await poolDeposits.deposit(mintAmount1, { from: accounts[5] });
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
-    await noLossDao.distributeFunds(); //check who winner was
+    let currentIteration = await noLossDao.proposalIteration.call();
+    const iterationLogs = await noLossDao.distributeFunds( { from: accounts[5] }); //check who winner was
+    let created_at = await time.latest();
+    expectEvent(iterationLogs, 'IterationChanged', {
+      timeStamp: created_at,
+      miner: accounts[5],
+    });
+    expectEvent(iterationLogs, 'IterationWinner', {
+      propsalIteration: currentIteration,
+      winner: accounts[4],
+      projectId: '2',
+    });
+
     //////////// ITERATION 2 /////////////////
 
     let winner = await noLossDao.topProject.call('1'); // winner of first iteration

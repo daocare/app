@@ -36,7 +36,7 @@ contract PoolDeposits {
   event ProposalAdded(
     address indexed benefactor,
     uint256 indexed proposalId,
-    string indexed proposalHash
+    string proposalHash
   );
   event DepositWithdrawn(address indexed user);
   event ProposalWithdrawn(address indexed benefactor);
