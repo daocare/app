@@ -141,6 +141,7 @@ contract('PoolDeposits', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
+
     const { logs } = await poolDeposits.withdrawProposal({
       from: accounts[2],
     });

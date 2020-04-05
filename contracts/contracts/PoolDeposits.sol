@@ -1,10 +1,11 @@
-pragma solidity 0.5.16;
+pragma solidity 0.5.15;
 
 //import './interfaces/IERC20.sol';
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/INoLossDao.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
+import '@nomiclabs/buidler/console.sol';
 
 
 /** @title Pooled Deposits Contract*/

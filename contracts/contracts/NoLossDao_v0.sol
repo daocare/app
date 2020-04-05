@@ -1,10 +1,11 @@
-pragma solidity 0.5.16;
+pragma solidity 0.5.15;
 
 // import "./interfaces/IERC20.sol";
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/IPoolDeposits.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
+import '@nomiclabs/buidler/console.sol';
 
 
 /** @title No Loss Dao Contract. */
@@ -354,6 +355,12 @@ contract NoLossDao_v0 is Initializable {
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
     // figure our what happens with the interest from the first proposal iteration
     // Possibly make first iteration an extended one for our launch (for marketing)
+    console.log(
+      'Iteration no: ',
+      proposalIteration,
+      'Time that this iteration has ended incremented ',
+      proposalDeadline
+    );
     if (topProject[proposalIteration] != 0) {
       // Do some asserts here for safety...
 
@@ -378,6 +385,12 @@ contract NoLossDao_v0 is Initializable {
 
     proposalDeadline = now.add(votingInterval);
     proposalIteration = proposalIteration.add(1);
+    console.log(
+      'Iteration no: ',
+      proposalIteration,
+      ' Will start now and end earliest at',
+      proposalDeadline
+    );
 
     // send winning miner a little surprise [NFT]
     emit IterationChanged(now, msg.sender);
