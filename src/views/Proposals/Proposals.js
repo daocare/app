@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import DonateIcon from '@material-ui/icons/AllInclusive';
-import TwitterIcon from '@material-ui/icons/Twitter';
 import Box from '3box';
 
-import { makeStyles } from '@material-ui/styles';
-import { Typography, Button } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import useWeb3Connect from '../../utils/useWeb3Connect';
 import useRouter from '../../utils/useRouter';
+
+import DepositIcon from '@material-ui/icons/AllInclusive';
+import TwitterIcon from '@material-ui/icons/Twitter';
+
+import { makeStyles } from '@material-ui/styles';
+import { Typography, Button, Grid } from '@material-ui/core';
+
 import { Page } from '../../components';
 import Header from '../../components/Header/Header';
-import useWeb3Connect from '../../utils/useWeb3Connect';
 import ProposalCard from '../../components/ProposalCard';
+
 import { FIREBASE_FUNCTIONS_ENDPOINT } from '../../config/firebase';
 import { twitterHandleAlreadyLinked } from '../../modules/twitterDb';
 
@@ -38,62 +41,14 @@ const linkTwitterHandleToEthAddressInFirebase = async (
   );
   return await response.json();
 };
-const useStyles = makeStyles(theme => ({
+
+const useStyles = makeStyles((theme) => ({
   root: {
-    // backgroundColor: theme.palette.white
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
-  paper: {
-    [theme.breakpoints.up('md')]: {
-      maxWidth: '75%',
-      minWidth: 180,
-    },
-    width: '100%',
-    padding: theme.spacing(3),
-  },
-  title: {
-    // marginBottom: theme.spacing(2),
-  },
-  textField: {
-    margin: theme.spacing(1, 0),
-    [theme.breakpoints.up('sm')]: {
-      marginRight: theme.spacing(2),
-    },
-
-    // fontWeight: "0.8em"
-    // minWidth: 150
-  },
-  subscribeButton: {
-    // padding: theme.spacing(0, 1)
-  },
-  fieldGroup: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'flex',
-      marginTop: theme.spacing(1),
-    },
-
-    alignItems: 'center',
-  },
   flexGrow: {
     flexGrow: 1,
-  },
-  wrapper: {
-    position: 'relative',
-    [theme.breakpoints.down('xs')]: {
-      textAlign: 'center',
-      marginTop: theme.spacing(2),
-    },
-    marginTop: theme.spacing(2),
-  },
-  hiddenImage: {
-    display: 'none',
-  },
-  image: {
-    display: 'block',
-  },
-  statusMsg: {
-    marginLeft: 16,
   },
   button: {
     width: 190,
@@ -151,7 +106,7 @@ const Proposals = () => {
   // IF the user has delegated the voting && the firebase database dosen't have the correct value for their address/twitter handle. This code will fix it.
   useEffect(() => {
     if (canVoteWithDelegate) {
-      Box.getProfile(web3Connect.address).then(async profile => {
+      Box.getProfile(web3Connect.address).then(async (profile) => {
         const verified = await Box.getVerifiedAccounts(profile);
         const twitterIsVerified =
           verified && verified.twitter && verified.twitter.username;
@@ -244,7 +199,7 @@ const Proposals = () => {
               color="secondary"
               size="large"
               className={classes.button}
-              startIcon={<DonateIcon />}
+              startIcon={<DepositIcon />}
               onClick={() => {
                 router.history.push('/deposit');
               }}
@@ -286,7 +241,7 @@ const Proposals = () => {
         {fetched && proposals.length > 0 && (
           <>
             <Grid container justify="space-evenly" spacing={4}>
-              {proposals.map(proposal => (
+              {proposals.map((proposal) => (
                 <Grid key={proposal.id} item>
                   <div className={classes.card}>
                     <ProposalCard

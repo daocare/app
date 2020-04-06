@@ -68,7 +68,10 @@ const Withdraw = () => {
   let hasNoDaiInFund = web3Connect.daiDeposit <= 0;
   let hasNotApprovedDai = web3Connect.daiAllowance === 0;
   let withdrawingDisabled =
-    hasAnActiveProposal || hasNoDaiInFund || hasNotApprovedDai;
+    hasAnActiveProposal ||
+    hasNoDaiInFund ||
+    hasNotApprovedDai ||
+    !web3Connect.fetched;
 
   const onSubmitFunds = async () => {
     setStatus(`WITHDRAWING`);
@@ -144,7 +147,11 @@ const Withdraw = () => {
                   )}
                 </Button>
               ) : (
-                <Typography variant="body2" component="span">
+                <Typography
+                  variant="body2"
+                  component="span"
+                  style={{ color: 'red' }}
+                >
                   It looks like you have an active proposal, in order to
                   withdraw your funds you need to first withdraw your proposal
                 </Typography>
