@@ -96,7 +96,10 @@ const Withdraw = () => {
             deposit in full.
           </Typography>
           <Typography variant="h5">Withdraw your DAI from the pool</Typography>
-          <p> Deposited funds: {depositedFunds}</p>
+          <Typography variant="body2">
+            Deposited funds: {depositedFunds}
+          </Typography>
+
           <div className={classes.wrapper}>
             <div>
               {status === 'WITHDRAWN' ? (

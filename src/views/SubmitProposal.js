@@ -732,12 +732,14 @@ const SubmitProposal = (props) => {
 
           {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && <></>}
           {web3Connect.daiDeposit > 0 && (
-            <p>
+            <Typography variant="body2">
               You have already deposited and you can't add a proposal with the
               same account, please create a new one.
-            </p>
+            </Typography>
           )}
-          {web3Connect.hasProposal && <p>You already have a proposal</p>}
+          {web3Connect.hasProposal && (
+            <Typography variant="body2">You already have a proposal</Typography>
+          )}
         </>
       )}
     </Page>
