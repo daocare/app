@@ -128,10 +128,10 @@ function useWeb3Connect() {
   const [userProfile, setUserProfile] = useState(null);
   const [userVerifiedAccounts, setUserVerifiedAccounts] = useState(null);
 
-  const getNetworkByChainId = chainIdTemp => {
+  const getNetworkByChainId = (chainIdTemp) => {
     // console.log(supportedChains);
     let networkTemp = supportedChains.filter(
-      chain => chain.chain_id === chainIdTemp
+      (chain) => chain.chain_id === chainIdTemp
     );
     return networkTemp && networkTemp.length > 0
       ? networkTemp[0].network
@@ -289,23 +289,23 @@ function useWeb3Connect() {
     await setDaiContract(null);
   };
 
-  const subscribeProvider = async provider => {
+  const subscribeProvider = async (provider) => {
     provider.on('close', () => resetApp());
 
-    provider.on('accountsChanged', async accounts => {
+    provider.on('accountsChanged', async (accounts) => {
       setAddress(accounts[0]);
       fetchProposals(accounts[0]);
       update3BoxDetails(accounts[0]);
     });
 
-    provider.on('chainChanged', async chainId => {
+    provider.on('chainChanged', async (chainId) => {
       const networkId = await web3.eth.net.getId();
       setChainId(networkId);
       setNetwork(getNetworkByChainId(networkId));
       fetchProposals();
     });
 
-    provider.on('networkChanged', async networkId => {
+    provider.on('networkChanged', async (networkId) => {
       const chainId = await web3.eth.chainId();
       setChainId(chainId);
       setNetworkId(networkId);
@@ -492,7 +492,7 @@ function useWeb3Connect() {
     }
   };
 
-  const triggerDaiApprove = async value => {
+  const triggerDaiApprove = async (value) => {
     let amount = web3.utils.toWei(value, 'ether');
     console.log({ amount });
     let tx = await daiContract.methods.approve(DEPOSIT_ADDRESS, amount).send({
@@ -503,7 +503,7 @@ function useWeb3Connect() {
     return tx;
   };
 
-  const triggerSubmitProposal = async hash => {
+  const triggerSubmitProposal = async (hash) => {
     let tx = await depositContract.methods.createProposal(hash).send({
       from: address,
     });
@@ -513,7 +513,7 @@ function useWeb3Connect() {
     return tx;
   };
 
-  const triggerDeposit = async value => {
+  const triggerDeposit = async (value) => {
     let amount = web3.utils.toWei(value, 'ether');
     console.log({ amount });
     let tx = await depositContract.methods.deposit(amount).send({
@@ -526,7 +526,7 @@ function useWeb3Connect() {
   };
 
   const triggerWithdrawal = async () => {
-    let withdrawal = daoContract.methods.withdrawDeposit().send({
+    let withdrawal = depositContract.methods.withdrawDeposit().send({
       from: address,
     });
     return withdrawal;
@@ -539,7 +539,7 @@ function useWeb3Connect() {
     return distributeFundsTx;
   };
 
-  const vote = async id => {
+  const vote = async (id) => {
     let tx = await daoContract.methods.voteDirect(id).send({
       from: address,
     });
