@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import UpdateIcon from '@material-ui/icons/Update';
 import { useForm } from 'react-hook-form';
-import { Page } from '../components';
+import Page from '../components/Page';
 import Header from '../components/Header';
 import useRouter from '../utils/useRouter';
 import useWeb3Connect from '../utils/useWeb3Connect';

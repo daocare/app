@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { Page } from '../components';
+import Page from '../components/Page';
 import Header from '../components/Header';
 import useRouter from '../utils/useRouter';
 import useWeb3Connect from '../utils/useWeb3Connect';

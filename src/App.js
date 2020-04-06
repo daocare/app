@@ -7,7 +7,7 @@ import './App.css';
 
 import theme from './theme';
 import routes from './routes';
-import { ScrollReset } from './components';
+import ScrollReset from './components/ScrollReset';
 
 const history = createBrowserHistory();
 

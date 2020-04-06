@@ -6,7 +6,8 @@ import { LinearProgress, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import BetaFlag from '../../components/BetaFlag';
-import { Page, WalletProfile } from '../../components';
+import Page from '../../components/Page';
+import WalletProfile from '../../components/WalletProfile';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import useRouter from '../utils/useRouter';
 import { pinHash } from '../modules/pinata';
-import { Page } from '../components';
+import Page from '../components/Page';
 import Header from '../components/Header';
 import useWeb3Connect from '../utils/useWeb3Connect';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';

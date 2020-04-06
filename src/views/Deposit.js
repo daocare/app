@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
-import { Page } from '../components';
+import Page from '../components/Page';
 import Header from '../components/Header';
 import LoadingWeb3 from '../components/LoadingWeb3';
 import EllipsisLoader from '../components/EllipsisLoader';

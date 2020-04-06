@@ -11,7 +11,7 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button, Grid } from '@material-ui/core';
 
-import { Page } from '../components';
+import Page from '../components/Page';
 import Header from '../components/Header';
 import ProposalCard from '../components/ProposalCard';
 import EllipsisLoader from '../components/EllipsisLoader';
