@@ -249,42 +249,42 @@ const Deposit = () => {
                         <EllipsisLoader />
                       </Typography>
                     )}
-                    {status === 'DEPOSITED' && (
-                      <>
-                        <Typography
-                          variant="body2"
-                          component="span"
-                          className={classes.statusMsg}
-                        >
-                          Your funds have been deposited, thank you!
-                        </Typography>
-                        <div
-                          className={classes.divContainer}
-                          style={{
-                            marginTop: 24,
-                            marginBottom: 24,
-                            textAlign: 'center',
-                          }}
-                        >
-                          <Button
-                            // variant="contained"
-                            color="primary"
-                            size="large"
-                            className={classes.button}
-                            startIcon={<HowToVoteIcon />}
-                            onClick={() => {
-                              router.history.push('/proposals');
-                            }}
-                          >
-                            Vote
-                          </Button>
-                        </div>
-                      </>
-                    )}
                   </div>
                 </form>
               </>
             )
+          )}
+          {status === 'DEPOSITED' && (
+            <>
+              <Typography
+                variant="body2"
+                component="span"
+                className={classes.statusMsg}
+              >
+                Your funds have been deposited, thank you!
+              </Typography>
+              <div
+                className={classes.divContainer}
+                style={{
+                  marginTop: 24,
+                  marginBottom: 24,
+                  textAlign: 'center',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  startIcon={<HowToVoteIcon />}
+                  onClick={() => {
+                    router.history.push('/proposals');
+                  }}
+                >
+                  Vote
+                </Button>
+              </div>
+            </>
           )}
         </>
       )}

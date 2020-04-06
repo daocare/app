@@ -85,6 +85,7 @@ const Withdraw = () => {
       ) : (
         <>
           <Header />
+          <EllipsisLoader />
           <Typography variant="body1" className={classes.decriptionBlurb}>
             Thank you for being such an awesome supporter of the community 💜.
             Please note that if you withdraw your funds you won't be able to
@@ -109,6 +110,7 @@ const Withdraw = () => {
                     withdrawn.
                   </Typography>
                   <Button
+                    variant="contained"
                     color="primary"
                     size="large"
                     className={classes.button}
