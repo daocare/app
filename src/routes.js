@@ -13,7 +13,7 @@ const routes = [
       {
         path: '/',
         exact: true,
-        component: lazy(() => import('./views/Home/Home')),
+        component: lazy(() => import('./views/Home')),
       },
       {
         path: '/submit-proposal',
@@ -23,31 +23,27 @@ const routes = [
       {
         path: '/deposit',
         exact: true,
-        component: lazy(() => import('./views/Deposit/Deposit')),
+        component: lazy(() => import('./views/Deposit')),
       },
       {
         path: '/withdraw',
         exact: true,
-        component: lazy(() => import('./views/Withdraw/Withdraw')),
+        component: lazy(() => import('./views/Withdraw')),
       },
       {
         path: '/proposals',
         exact: true,
-        component: lazy(() => import('./views/Proposals/Proposals')),
+        component: lazy(() => import('./views/Proposals')),
       },
       {
         path: '/network-not-supported',
         exact: true,
-        component: lazy(() =>
-          import('./views/NetworkNotSupported/NetworkNotSupported')
-        ),
+        component: lazy(() => import('./views/NetworkNotSupported')),
       },
       {
         path: '/manually-increase-iteration',
         exact: true,
-        component: lazy(() =>
-          import('./views/IncreaseIteration/IncreaseIteration')
-        ),
+        component: lazy(() => import('./views/IncreaseIteration')),
       },
     ],
   },

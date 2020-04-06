@@ -4,12 +4,12 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import UpdateIcon from '@material-ui/icons/Update';
 import { useForm } from 'react-hook-form';
-import { Page } from '../../components';
-import Header from '../../components/Header/Header';
-import useRouter from '../../utils/useRouter';
-import useWeb3Connect from '../../utils/useWeb3Connect';
-import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';
-import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
+import { Page } from '../components';
+import Header from '../components/Header/Header';
+import useRouter from '../utils/useRouter';
+import useWeb3Connect from '../utils/useWeb3Connect';
+import LoadingWeb3 from '../components/LoadingWeb3/LoadingWeb3';
+import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 const BN = require('bn.js');
 
 const useStyles = makeStyles((theme) => ({

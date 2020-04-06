@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { Page } from '../../components';
-import Header from '../../components/Header/Header';
-import useRouter from '../../utils/useRouter';
-import useWeb3Connect from '../../utils/useWeb3Connect';
-import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';
+import { Page } from '../components';
+import Header from '../components/Header/Header';
+import useRouter from '../utils/useRouter';
+import useWeb3Connect from '../utils/useWeb3Connect';
+import LoadingWeb3 from '../components/LoadingWeb3/LoadingWeb3';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
-import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
+import EllipsisLoader from '../components/EllipsisLoader/EllipsisLoader';
+import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 
 const BN = require('bn.js');
 

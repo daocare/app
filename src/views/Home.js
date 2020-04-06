@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { Typography, Button } from '@material-ui/core';
-import useWeb3Connect from '../../utils/useWeb3Connect';
-import useRouter from '../../utils/useRouter';
-import useInterval from '../../utils/useInterval';
+import useWeb3Connect from '../utils/useWeb3Connect';
+import useRouter from '../utils/useRouter';
+import useInterval from '../utils/useInterval';
 
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import DepositIcon from '@material-ui/icons/AllInclusive';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
-import Header from '../../components/Header/Header';
-import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
+import Header from '../components/Header/Header';
+import EllipsisLoader from '../components/EllipsisLoader/EllipsisLoader';
 
 const useStyles = makeStyles((theme) => ({
   button: {

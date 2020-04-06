@@ -5,18 +5,18 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
-import useRouter from '../../utils/useRouter';
-import { pinHash } from '../../modules/pinata';
-import { Page } from '../../components';
-import Header from '../../components/Header/Header';
-import useWeb3Connect from '../../utils/useWeb3Connect';
+import useRouter from '../utils/useRouter';
+import { pinHash } from '../modules/pinata';
+import { Page } from '../components';
+import Header from '../components/Header/Header';
+import useWeb3Connect from '../utils/useWeb3Connect';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
-import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';
+import LoadingWeb3 from '../components/LoadingWeb3/LoadingWeb3';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
-import useInterval from '../../utils/useInterval';
+import useInterval from '../utils/useInterval';
 import {
   open3Box,
   isLoggedIn,
@@ -24,7 +24,7 @@ import {
   // getBox,
   getSpace,
   getBox,
-} from '../../utils/3BoxManager';
+} from '../utils/3BoxManager';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
@@ -35,17 +35,17 @@ import ReactMde from 'react-mde';
 // import ReactDOM from 'react-dom';
 import * as Showdown from 'showdown';
 import 'react-mde/lib/styles/css/react-mde-all.css';
-import { emojiExists } from '../../modules/twitterDb';
-import IpfsUpload from '../../components/IpfsUpload';
+import { emojiExists } from '../modules/twitterDb';
+import IpfsUpload from '../components/IpfsUpload';
 // import Box from '3box';
-import ProposalCard from '../../components/ProposalCard/ProposalCard';
-import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
+import ProposalCard from '../components/ProposalCard/ProposalCard';
+import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 
 const BN = require('bn.js');
 
 const STAKING_AMOUNT = 50;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     // backgroundColor: theme.palette.white
     marginTop: theme.spacing(2),
@@ -121,7 +121,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SubmitProposal = props => {
+const SubmitProposal = (props) => {
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
   const router = useRouter();
@@ -196,18 +196,18 @@ const SubmitProposal = props => {
 
   const { register, handleSubmit, watch, errors } = useForm();
 
-  const addTeamMember = handle => {
+  const addTeamMember = (handle) => {
     let newTeam = team;
     newTeam.push(handle);
     setTeam(newTeam);
   };
 
-  const removeTeamMember = handle => () => {
-    let newTeam = team.filter(member => handle !== member);
+  const removeTeamMember = (handle) => () => {
+    let newTeam = team.filter((member) => handle !== member);
     setTeam(newTeam);
   };
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     if (Object.keys(validationErrors()).length !== 0) {
       console.log('Not all fields are filled-in...');
       return;
@@ -255,7 +255,7 @@ const SubmitProposal = props => {
   const validationErrors = () => {
     let result = { ...errors };
 
-    const isEmpty = str => !str || str.trim() === '';
+    const isEmpty = (str) => !str || str.trim() === '';
 
     let values = watch();
 
@@ -462,7 +462,7 @@ const SubmitProposal = props => {
                       onChange={setDescriptionValue}
                       selectedTab={selectedTab}
                       onTabChange={setSelectedTab}
-                      generateMarkdownPreview={markdown =>
+                      generateMarkdownPreview={(markdown) =>
                         Promise.resolve(converter.makeHtml(markdown))
                       }
                     />
@@ -484,7 +484,7 @@ const SubmitProposal = props => {
                       Team *
                     </Typography>
                     <div>
-                      {team.map(member => (
+                      {team.map((member) => (
                         <Chip
                           key={member}
                           avatar={
@@ -506,8 +506,8 @@ const SubmitProposal = props => {
                         className={clsx(classes.flexGrow, classes.textField)}
                         style={{ width: 200 }}
                         value={currentTeamMember}
-                        onChange={e => setCurrentTeamMember(e.target.value)}
-                        onKeyPress={ev => {
+                        onChange={(e) => setCurrentTeamMember(e.target.value)}
+                        onKeyPress={(ev) => {
                           if (ev.key === 'Enter') {
                             addTeamMember(currentTeamMember);
                             setCurrentTeamMember('');
@@ -520,7 +520,7 @@ const SubmitProposal = props => {
                           color="secondary"
                           aria-label="add"
                           style={{ marginTop: 4, marginLeft: -8 }}
-                          onClick={e => {
+                          onClick={(e) => {
                             addTeamMember(currentTeamMember);
                             setCurrentTeamMember('');
                           }}

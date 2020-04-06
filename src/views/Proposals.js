@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box from '3box';
 
-import useWeb3Connect from '../../utils/useWeb3Connect';
-import useRouter from '../../utils/useRouter';
+import useWeb3Connect from '../utils/useWeb3Connect';
+import useRouter from '../utils/useRouter';
 
 import DepositIcon from '@material-ui/icons/AllInclusive';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -11,13 +11,13 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button, Grid } from '@material-ui/core';
 
-import { Page } from '../../components';
-import Header from '../../components/Header/Header';
-import ProposalCard from '../../components/ProposalCard/ProposalCard';
-import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
+import { Page } from '../components';
+import Header from '../components/Header/Header';
+import ProposalCard from '../components/ProposalCard/ProposalCard';
+import EllipsisLoader from '../components/EllipsisLoader/EllipsisLoader';
 
-import { FIREBASE_FUNCTIONS_ENDPOINT } from '../../config/firebase';
-import { twitterHandleAlreadyLinked } from '../../modules/twitterDb';
+import { FIREBASE_FUNCTIONS_ENDPOINT } from '../config/firebase';
+import { twitterHandleAlreadyLinked } from '../modules/twitterDb';
 
 const linkTwitterHandleToEthAddressInFirebase = async (
   handle,

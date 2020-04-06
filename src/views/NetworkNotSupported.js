@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import useRouter from '../../utils/useRouter';
-import useWeb3Connect from '../../utils/useWeb3Connect';
+import useRouter from '../utils/useRouter';
+import useWeb3Connect from '../utils/useWeb3Connect';
 import { Typography } from '@material-ui/core';
-import { Page } from '../../components';
+import { Page } from '../components';
 
 const NetworkNotSupported = () => {
   const web3Connect = useWeb3Connect();
