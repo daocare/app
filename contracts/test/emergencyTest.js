@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
+const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
 contract('PoolDeposits', accounts => {
   let aaveLendingPool;
+  let lendingPoolAddressProvider;
   let poolDeposits;
   let noLossDao;
   let dai;
@@ -32,14 +34,17 @@ contract('PoolDeposits', accounts => {
     aaveLendingPool = await AaveLendingPool.new(aDai.address, {
       from: accounts[0],
     });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
+      from: accounts[0],
+    });
+
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
-      aaveLendingPool.address,
-      aaveLendingPool.address,
+      lendingPoolAddressProvider.address,
       noLossDao.address,
       applicationAmount,
       { from: accounts[0] }
@@ -86,7 +91,22 @@ contract('PoolDeposits', accounts => {
     await time.increase(time.duration.days(2));
 
     await poolDeposits.voteEmergency({ from: accounts[2] });
-    await poolDeposits.declareStateOfEmergency({ from: accounts[2] });
+
+    const  logs  = await poolDeposits.declareStateOfEmergency({
+      from: accounts[2],
+    });
+    
+    let created_at = await time.latest();
+    let emergencyVoteTotal1 = await poolDeposits.emergencyVoteAmount.call();
+    let totalDeposit = await poolDeposits.totalDepositedDai.call();
+
+    expectEvent(logs, 'EmergencyStateReached', {
+      user: accounts[2],
+      timeStamp: created_at.toString(),
+      totalDaiInContract: totalDeposit,
+      totalEmergencyVotes: emergencyVoteTotal1,
+    });
+
     await poolDeposits.emergencyWithdraw({ from: accounts[2] });
     await poolDeposits.emergencyWithdraw({ from: accounts[1] });
   });
@@ -109,7 +129,12 @@ contract('PoolDeposits', accounts => {
 
     await time.increase(time.duration.days(101));
 
-    await poolDeposits.voteEmergency({ from: accounts[2] });
+    const  logs  = await poolDeposits.voteEmergency({ from: accounts[2] });
+    expectEvent(logs, 'EmergencyVote', {
+      user: accounts[2],
+      emergencyVoteAmount: mintAmount2,
+    });
+
     await poolDeposits.declareStateOfEmergency({ from: accounts[5] });
 
     await dai.mint(accounts[3], mintAmount2);
@@ -158,6 +183,17 @@ contract('PoolDeposits', accounts => {
       poolDeposits.emergencyWithdraw({ from: accounts[1] }),
       'State of emergency not declared'
     );
+
+    await poolDeposits.voteEmergency({ from: accounts[2] });
+    await poolDeposits.declareStateOfEmergency({
+      from: accounts[2],
+    });
+    const logs = await poolDeposits.emergencyWithdraw({
+      from: accounts[2],
+    });
+    expectEvent(logs, 'EmergencyWithdrawl', {
+      user: accounts[2],
+    });
   });
 
   it('poolDeposits:emergency. Cannot declare emergency without 200 000DAI pool', async () => {
@@ -216,7 +252,12 @@ contract('PoolDeposits', accounts => {
       (parseInt(mintAmount1) + parseInt(mintAmount2)).toString()
     );
 
-    await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    const logs = await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    expectEvent(logs, 'RemoveEmergencyVote', {
+      user: accounts[1],
+      emergencyVoteAmount: mintAmount1,
+    });
+
     let emergencyVoteTotal3 = await poolDeposits.emergencyVoteAmount.call();
     assert(emergencyVoteTotal3.toString(), mintAmount2);
 

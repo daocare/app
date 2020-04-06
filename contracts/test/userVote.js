@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
+const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
 contract('noLossDao', accounts => {
   let aaveLendingPool;
+  let lendingPoolAddressProvider;
   let poolDeposits;
   let noLossDao;
   let dai;
@@ -32,14 +34,17 @@ contract('noLossDao', accounts => {
     aaveLendingPool = await AaveLendingPool.new(aDai.address, {
       from: accounts[0],
     });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
+      from: accounts[0],
+    });
+
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
-      aaveLendingPool.address,
-      aaveLendingPool.address,
+      lendingPoolAddressProvider.address,
       noLossDao.address,
       applicationAmount,
       { from: accounts[0] }
@@ -85,6 +90,20 @@ contract('noLossDao', accounts => {
     // User has joined the pool
     assert.equal(mintAmount, votesForProposal.toString());
     assert.equal(mintAmount, deposit.toString());
+  });
+
+  it('noLossDao:userVote. Only deposit contract can call functions certain functions in NoLossDao.', async () => {
+  
+    await expectRevert(
+      noLossDao.noLossDeposit(accounts[1], { from: accounts[1] }),
+      'function can only be called by deposit contract'
+    );
+
+    await expectRevert(
+      noLossDao.noLossWithdraw(accounts[1], { from: accounts[1] }),
+      'function can only be called by deposit contract'
+    );
+
   });
 
   it('noLossDao:userVote. User cannot vote if proposal does not exist', async () => {

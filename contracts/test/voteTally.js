@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
+const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
 contract('noLossDao', accounts => {
   let aaveLendingPool;
+  let lendingPoolAddressProvider;
   let poolDeposits;
   let noLossDao;
   let dai;
@@ -32,14 +34,17 @@ contract('noLossDao', accounts => {
     aaveLendingPool = await AaveLendingPool.new(aDai.address, {
       from: accounts[0],
     });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
+      from: accounts[0],
+    });
+
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
-      aaveLendingPool.address,
-      aaveLendingPool.address,
+      lendingPoolAddressProvider.address,
       noLossDao.address,
       applicationAmount,
       { from: accounts[0] }
@@ -120,7 +125,19 @@ contract('noLossDao', accounts => {
     await poolDeposits.deposit(mintAmount1, { from: accounts[5] });
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
-    await noLossDao.distributeFunds(); //check who winner was
+    let currentIteration = await noLossDao.proposalIteration.call();
+    const iterationLogs = await noLossDao.distributeFunds( { from: accounts[5] }); //check who winner was
+    let created_at = await time.latest();
+    expectEvent(iterationLogs, 'IterationChanged', {
+      timeStamp: created_at,
+      miner: accounts[5],
+    });
+    expectEvent(iterationLogs, 'IterationWinner', {
+      propsalIteration: currentIteration,
+      winner: accounts[4],
+      projectId: '2',
+    });
+
     //////////// ITERATION 2 /////////////////
 
     let winner = await noLossDao.topProject.call('1'); // winner of first iteration

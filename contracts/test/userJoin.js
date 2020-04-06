@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
+const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
 contract('PoolDeposits', accounts => {
   let aaveLendingPool;
+  let lendingPoolAddressProvider;
   let poolDeposits;
   let noLossDao;
   let dai;
@@ -32,14 +34,17 @@ contract('PoolDeposits', accounts => {
     aaveLendingPool = await AaveLendingPool.new(aDai.address, {
       from: accounts[0],
     });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
+      from: accounts[0],
+    });
+
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
-      aaveLendingPool.address,
-      aaveLendingPool.address,
+      lendingPoolAddressProvider.address,
       noLossDao.address,
       applicationAmount,
       { from: accounts[0] }
@@ -59,7 +64,14 @@ contract('PoolDeposits', accounts => {
     });
     let allowance = await dai.allowance.call(accounts[1], poolDeposits.address);
 
-    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
+    const  logs  = await poolDeposits.deposit(mintAmount, {
+      from: accounts[1],
+    });
+    expectEvent(logs, 'DepositAdded', {
+      user: accounts[1],
+      amount: mintAmount,
+    });
+
     let deposit = await poolDeposits.depositedDai.call(accounts[1]);
 
     // // User has joined the pool

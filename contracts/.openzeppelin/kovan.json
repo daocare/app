@@ -1,11 +1,11 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0x02d4ff4F4aed83d85914cA8A8eC988Bf7A520536",
-      "constructorCode": "608060405234801561001057600080fd5b50611d7b806100206000396000f3fe",
-      "bodyBytecodeHash": "da4a1a96913f423e8c115abbb1590247812eb67b3d891de32f30fbd992a064b7",
-      "localBytecodeHash": "8bdee91e6705d54bc5a823ba4ea049207c503cc6baa6b7449ee777033de69f9d",
-      "deployedBytecodeHash": "8bdee91e6705d54bc5a823ba4ea049207c503cc6baa6b7449ee777033de69f9d",
+      "address": "0xbAa43dA970987ad0499e325bD1dA230ef8AEe5CF",
+      "constructorCode": "608060405234801561001057600080fd5b50611cb8806100206000396000f3fe",
+      "bodyBytecodeHash": "7fd8bf26c235bfa1579917e2540e2ae63130a9006571aa80c8df690057a3e815",
+      "localBytecodeHash": "8ccdd120a6c5040f4f2325b484013be33dc3034305095f552dfedbed88eedfc9",
+      "deployedBytecodeHash": "8ccdd120a6c5040f4f2325b484013be33dc3034305095f552dfedbed88eedfc9",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -75,145 +75,145 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2740,
+          "astId": 12684,
           "type": "t_bool",
-          "src": "757:24:20"
+          "src": "757:24:22"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2742,
+          "astId": 12686,
           "type": "t_bool",
-          "src": "876:25:20"
+          "src": "876:25:22"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2804,
+          "astId": 12742,
           "type": "t_array:50<t_uint256>",
-          "src": "1982:29:20"
+          "src": "1951:29:22"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "admin",
-          "astId": 69,
+          "astId": 70,
           "type": "t_address",
-          "src": "408:20:1"
+          "src": "449:20:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "votingInterval",
-          "astId": 71,
+          "astId": 72,
           "type": "t_uint256",
-          "src": "474:29:1"
+          "src": "515:29:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalIteration",
-          "astId": 73,
+          "astId": 74,
           "type": "t_uint256",
-          "src": "507:32:1"
+          "src": "548:32:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalId",
-          "astId": 75,
+          "astId": 76,
           "type": "t_uint256",
-          "src": "586:25:1"
+          "src": "627:25:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalDeadline",
-          "astId": 77,
+          "astId": 78,
           "type": "t_uint256",
-          "src": "615:31:1"
+          "src": "656:31:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalDetails",
-          "astId": 81,
+          "astId": 82,
           "type": "t_mapping<t_string>",
-          "src": "675:49:1"
+          "src": "716:49:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "benefactorsProposal",
-          "astId": 85,
+          "astId": 86,
           "type": "t_mapping<t_uint256>",
-          "src": "753:54:1"
+          "src": "794:54:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalOwner",
-          "astId": 89,
+          "astId": 90,
           "type": "t_mapping<t_address>",
-          "src": "840:48:1"
+          "src": "881:48:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "state",
-          "astId": 98,
+          "astId": 99,
           "type": "t_mapping<t_enum<NoLossDao_v0.ProposalState>>",
-          "src": "1040:46:1"
+          "src": "1081:46:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "iterationJoined",
-          "astId": 102,
+          "astId": 103,
           "type": "t_mapping<t_uint256>",
-          "src": "1158:50:1"
+          "src": "1199:50:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "usersNominatedProject",
-          "astId": 108,
+          "astId": 109,
           "type": "t_mapping<t_uint256>",
-          "src": "1249:76:1"
+          "src": "1290:76:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalVotes",
-          "astId": 114,
+          "astId": 115,
           "type": "t_mapping<t_uint256>",
-          "src": "1411:68:1"
+          "src": "1452:68:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "topProject",
-          "astId": 118,
+          "astId": 119,
           "type": "t_mapping<t_uint256>",
-          "src": "1524:45:1"
+          "src": "1565:45:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "voteDelegations",
-          "astId": 122,
+          "astId": 123,
           "type": "t_mapping<t_address>",
-          "src": "1573:50:1"
+          "src": "1614:50:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "depositContract",
-          "astId": 124,
+          "astId": 125,
           "type": "t_address",
-          "src": "1685:36:1"
+          "src": "1726:36:1"
         }
       ],
       "warnings": {
@@ -221,7 +221,18 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": []
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [
+          {
+            "contract": "NoLossDao_v0",
+            "path": "contracts/NoLossDao_v0.sol",
+            "label": "state",
+            "astId": 99,
+            "type": "t_mapping<t_enum<NoLossDao_v0.ProposalState>>",
+            "src": "1081:46:1"
+          }
+        ],
+        "storageDiff": []
       }
     }
   },
@@ -232,6 +243,13 @@
         "address": "0x1Be540722F30fBb6A86f995F25A81f5BA5ac4327",
         "version": "2.5.3",
         "implementation": "0x02d4ff4F4aed83d85914cA8A8eC988Bf7A520536",
+        "admin": "0xbC3d397D8689B4A6B8047f813e1d40171A1B61b0",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0xb4fA1f818fa5B29F51Beb6FFA3941e0C5aCd6Ecd",
+        "version": "2.5.3",
+        "implementation": "0xbAa43dA970987ad0499e325bD1dA230ef8AEe5CF",
         "admin": "0xbC3d397D8689B4A6B8047f813e1d40171A1B61b0",
         "kind": "Upgradeable"
       }
