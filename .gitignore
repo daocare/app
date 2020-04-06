@@ -29,3 +29,5 @@ yarn-error.log*
 
 /contracts/build
 /contracts/coverage
+/contracts/artifacts
+/contracts/cache
