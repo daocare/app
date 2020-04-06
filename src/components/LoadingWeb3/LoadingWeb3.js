@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function LoadingWeb3(props) {
+const LoadingWeb3 = (props) => {
   const classes = useStyles();
   return (
     <div>
@@ -43,4 +43,6 @@ export default function LoadingWeb3(props) {
       </div>
     </div>
   );
-}
+};
+
+export default LoadingWeb3;
