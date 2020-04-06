@@ -12,8 +12,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
 import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
 
-import DepositIcon from '@material-ui/icons/AllInclusive';
-
 const BN = require('bn.js');
 
 const useStyles = makeStyles((theme) => ({
@@ -69,8 +67,8 @@ const Withdraw = () => {
     web3Connect.hasProposal === true && !proposalLoading;
   let hasNoDaiInFund = web3Connect.daiDeposit <= 0;
   let hasNotApprovedDai = web3Connect.daiAllowance === 0;
-  let withdrawingDisabled = hasAnActiveProposal;
-  //  || hasNoDaiInFund || hasNotApprovedDai;
+  let withdrawingDisabled =
+    hasAnActiveProposal || hasNoDaiInFund || hasNotApprovedDai;
 
   const onSubmitFunds = async () => {
     setStatus(`WITHDRAWING`);
@@ -85,7 +83,6 @@ const Withdraw = () => {
       ) : (
         <>
           <Header />
-          <EllipsisLoader />
           <Typography variant="body1" className={classes.decriptionBlurb}>
             Thank you for being such an awesome supporter of the community 💜.
             Please note that if you withdraw your funds you won't be able to
@@ -114,7 +111,6 @@ const Withdraw = () => {
                     color="primary"
                     size="large"
                     className={classes.button}
-                    startIcon={<DepositIcon />}
                     onClick={() => {
                       router.history.push('/deposit');
                     }}
@@ -156,7 +152,11 @@ const Withdraw = () => {
             </div>
           </div>
           {hasNoDaiInFund && (
-            <Typography variant="body2" component="span">
+            <Typography
+              variant="body2"
+              component="span"
+              style={{ color: 'red' }}
+            >
               It looks like you don't have any DAI deposited in the pool with
               this address
             </Typography>
