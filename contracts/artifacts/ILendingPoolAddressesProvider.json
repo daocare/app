@@ -1,8 +1,39 @@
 {
   "contractName": "ILendingPoolAddressesProvider",
-  "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603e80601d6000396000f3fe6080604052600080fdfea265627a7a723158201e2917d31a2c0890de88156ce4cb55f3d9f2b50029c6f986e3acd1a977f8c6a364736f6c634300050f0032",
-  "deployedBytecode": "0x6080604052600080fdfea265627a7a723158201e2917d31a2c0890de88156ce4cb55f3d9f2b50029c6f986e3acd1a977f8c6a364736f6c634300050f0032",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getLendingPool",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getLendingPoolCore",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
   "linkReferences": {},
   "deployedLinkReferences": {}
 }

@@ -4,6 +4,7 @@ pragma solidity 0.5.15;
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/INoLossDao.sol';
+import './interfaces/ILendingPoolAddressesProvider.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 import '@nomiclabs/buidler/console.sol';
 
@@ -23,6 +24,7 @@ contract PoolDeposits {
   IAaveLendingPool public aaveLendingContract;
   IADai public adaiContract;
   INoLossDao public noLossDaoContract; // should we be able to change this as admin.
+  ILendingPoolAddressesProvider public provider;
   address public aaveLendingContractCore;
 
   //////// EMERGENCY MODULE ONLY ///////
@@ -131,16 +133,16 @@ contract PoolDeposits {
   constructor(
     address daiAddress,
     address aDaiAddress,
-    address aavePoolAddress,
-    address aavePoolCoreAddress,
+    // lendingPoolAddressProvider should be one of below depending on deployment
+    // kovan 0x506B0B2CF20FAA8f38a4E2B524EE43e1f4458Cc5
+    // mainnet 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8
+    address lendingPoolAddressProvider,
     address noLossDaoAddress,
     uint256 _proposalAmount
   ) public {
     daiContract = IERC20(daiAddress);
-    //provider = LendingPoolAddressesProvider(/*contract_address*/);
-    aaveLendingContract = IAaveLendingPool(aavePoolAddress);
+    provider = ILendingPoolAddressesProvider(lendingPoolAddressProvider);
     adaiContract = IADai(aDaiAddress);
-    aaveLendingContractCore = aavePoolCoreAddress;
     noLossDaoContract = INoLossDao(noLossDaoAddress);
     admin = msg.sender;
     proposalAmount = _proposalAmount; // if we want this configurable put in other contract
@@ -150,12 +152,11 @@ contract PoolDeposits {
   /// @dev Internal function completing the actual deposit to Aave and crediting users account
   /// @param amount amount being deosited into pool
   function _depositFunds(uint256 amount) internal {
-    // Get from aave lending pool the latest address....
-    //LendingPoolAddressesProvider provider = LendingPoolAddressesProvider();
-    /*contract_address*/
-    // IAaveLendingPool lendingPool = IAaveLendingPool(provider.getLendingPool());
+    aaveLendingContract = IAaveLendingPool(provider.getLendingPool());
+    aaveLendingContractCore = provider.getLendingPoolCore();
+
     daiContract.transferFrom(msg.sender, address(this), amount);
-    daiContract.approve(address(aaveLendingContractCore), amount);
+    daiContract.approve(aaveLendingContractCore, amount);
     aaveLendingContract.deposit(address(daiContract), amount, 30);
 
     timeJoined[msg.sender] = now;
