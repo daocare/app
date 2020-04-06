@@ -348,26 +348,24 @@ contract NoLossDao_v0 is Initializable {
     //   'Time that this iteration has ended incremented ',
     //   proposalDeadline
     // );
-    if (topProject[proposalIteration] != 0) {
-      // Do some asserts here for safety...
-
+    if (proposalIteration > 0) {
       // Only if last winner is not withdrawn (i.e. still in cooldown) make it active again
       if (
         state[topProject[proposalIteration.sub(1)]] == ProposalState.Cooldown
       ) {
         state[topProject[proposalIteration.sub(1)]] = ProposalState.Active;
       }
-      // Only if they haven't withdrawn, put them in cooldown
-      if (state[topProject[proposalIteration]] != ProposalState.Withdrawn) {
-        state[topProject[proposalIteration]] = ProposalState.Cooldown;
+    }
+
+    uint256 iterationTopProject = topProject[proposalIteration];
+    if (iterationTopProject != 0) {
+      // TODO: Do some asserts here for safety...
+      if (state[iterationTopProject] != ProposalState.Withdrawn) {
+        state[iterationTopProject] = ProposalState.Cooldown;
       }
-      address winner = proposalOwner[topProject[proposalIteration]]; // error if no-one voted for in this iteration
+      address winner = proposalOwner[iterationTopProject]; // This cannot be null, since we chack that there was a winner above.
       depositContract.redirectInterestStreamToWinner(winner);
-      emit IterationWinner(
-        proposalIteration,
-        winner,
-        topProject[proposalIteration]
-      );
+      emit IterationWinner(proposalIteration, winner, iterationTopProject);
     }
 
     proposalDeadline = now.add(votingInterval);
