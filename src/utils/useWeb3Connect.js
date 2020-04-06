@@ -105,7 +105,7 @@ function useWeb3Connect() {
   const [daiAllowance, setDaiAllowance] = useState(null);
   const [daiBalance, setDaiBalance] = useState(null);
   const [daiDeposit, setDaiDeposit] = useState(null);
-  const [hasProposal, setHasProposal] = useState(false);
+  const [hasProposal, setHasProposal] = useState(null);
   const [enabledTwitter, setEnabledTwitter] = useState(false);
 
   // const [currentIteration, setCurrentIteration] = useState(0);

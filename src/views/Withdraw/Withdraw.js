@@ -65,11 +65,13 @@ const Withdraw = () => {
   let balance = Number(web3Connect.daiBalance);
   let depositedFunds = Number(web3Connect.daiDeposit);
 
-  let hasAnActiveProposal = web3Connect.hasProposal;
+  let proposalLoading = web3Connect.hasProposal === null;
+  let hasAnActiveProposal =
+    web3Connect.hasProposal === true && !proposalLoading;
   let hasNoDaiInFund = web3Connect.daiDeposit <= 0;
   let hasNotApprovedDai = web3Connect.daiAllowance === 0;
-  let withdrawingDisabled =
-    hasAnActiveProposal || hasNoDaiInFund || hasNotApprovedDai;
+  let withdrawingDisabled = hasAnActiveProposal;
+  //  || hasNoDaiInFund || hasNotApprovedDai;
 
   const onSubmitFunds = async () => {
     setStatus(`WITHDRAWING`);
@@ -97,34 +99,7 @@ const Withdraw = () => {
           <p> Deposited funds: {depositedFunds}</p>
           <div className={classes.wrapper}>
             <div>
-              {status !== 'WITHDRAWN' && !hasAnActiveProposal && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={!withdrawingDisabled && (() => onSubmitFunds())}
-                  disabled={withdrawingDisabled}
-                >
-                  Withdraw
-                  {(withdrawingDisabled || status === 'WITHDRAWING') && (
-                    <CircularProgress
-                      className={classes.circularProgress}
-                      size={14}
-                    />
-                  )}
-                </Button>
-              )}
-              {status === 'WITHDRAWING' && (
-                <Typography
-                  variant="body2"
-                  component="span"
-                  className={classes.statusMsg}
-                >
-                  Withdrawing {depositedFunds} DAI
-                  <EllipsisLoader />
-                </Typography>
-              )}
-              {status === 'WITHDRAWN' && (
+              {status === 'WITHDRAWN' ? (
                 <Typography
                   variant="body2"
                   component="span"
@@ -133,19 +108,43 @@ const Withdraw = () => {
                   Thank you for making an impact! Your funds have been
                   withdrawn.
                 </Typography>
+              ) : status === 'WITHDRAWING' ? (
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.statusMsg}
+                >
+                  Withdrawing {depositedFunds} DAI
+                  <EllipsisLoader />
+                </Typography>
+              ) : !hasAnActiveProposal ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={!withdrawingDisabled && (() => onSubmitFunds())}
+                  disabled={withdrawingDisabled}
+                >
+                  Withdraw
+                  {withdrawingDisabled && (
+                    <CircularProgress
+                      className={classes.circularProgress}
+                      size={14}
+                    />
+                  )}
+                </Button>
+              ) : (
+                <Typography variant="body2" component="span">
+                  It looks like you have an active proposal, in order to
+                  withdraw your funds you need to first withdraw your proposal
+                </Typography>
               )}
             </div>
           </div>
-          {hasNoDaiInFund && !withdrawingDisabled && (
+          {hasNoDaiInFund && (
             <Typography variant="body2" component="span">
               It looks like you don't have any DAI deposited in the pool with
               this address
-            </Typography>
-          )}
-          {hasAnActiveProposal && (
-            <Typography variant="body2" component="span">
-              It looks like you have an active proposal, in order to withdraw
-              your funds you need to first withdraw your proposal
             </Typography>
           )}
         </>
