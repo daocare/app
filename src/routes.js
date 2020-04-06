@@ -2,12 +2,12 @@
 /* eslint-disable react/display-name */
 import { lazy } from 'react';
 
-import MainLayout from './layouts/Main';
+import Layout from './layouts/Layout';
 
 const routes = [
   {
     path: '/',
-    component: MainLayout,
+    component: Layout,
     routes: [
       {
         path: '/',
