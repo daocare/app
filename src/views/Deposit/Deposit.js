@@ -158,7 +158,7 @@ const Deposit = () => {
                           <InputAdornment position="end">DAI</InputAdornment>
                         ),
                       }}
-                      onBlur={() => twitterMinimumWarning()}
+                      onChange={() => twitterMinimumWarning()}
                       style={{ width: 300 }}
                       helperText={`Balance: ${web3Connect.daiBalance} DAI | Deposit: ${web3Connect.daiDeposit} DAI`}
                     />
@@ -202,6 +202,17 @@ const Deposit = () => {
                       </>
                     )}
                   </Box>
+                  {twitterWarning && (
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      style={{ color: 'orange' }}
+                    >
+                      Please note that in order to vote through twitter we
+                      require that you set a minimum deposit of{' '}
+                      {TWITTER_VOTING_MINIMUM} DAI, this is to cover gas costs.
+                    </Typography>
+                  )}
                   <div className={classes.wrapper}>
                     <Button
                       variant="contained"
@@ -269,19 +280,6 @@ const Deposit = () => {
                           </Button>
                         </div>
                       </>
-                    )}
-                    {twitterWarning && (
-                      <Typography
-                        variant="body2"
-                        component="span"
-                        className={classes.statusMsg}
-                        style={{ color: 'red' }}
-                      >
-                        Please note that in order to vote through twitter we
-                        require that you set a minimum deposit of{' '}
-                        {TWITTER_VOTING_MINIMUM} DAI, this is to cover gas
-                        costs.
-                      </Typography>
                     )}
                   </div>
                 </form>
