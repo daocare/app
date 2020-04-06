@@ -8,7 +8,6 @@ const routes = [
   {
     path: '/',
     component: MainLayout,
-    // exact: true,
     routes: [
       {
         path: '/',
