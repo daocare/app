@@ -38,7 +38,9 @@ const routes = [
       {
         path: '/network-not-supported',
         exact: true,
-        component: lazy(() => import('./views/NetworkNotSupported')),
+        component: lazy(() =>
+          import('./views/NetworkNotSupported/NetworkNotSupported')
+        ),
       },
       {
         path: '/manually-increase-iteration',

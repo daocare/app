@@ -1,25 +1,21 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/styles';
+import React, { useEffect } from 'react';
+import useRouter from '../../utils/useRouter';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import { Typography } from '@material-ui/core';
 import { Page } from '../../components';
 
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: 32,
-    width: 220,
-  },
-}));
-
-const Home = () => {
-  const classes = useStyles();
+const NetworkNotSupported = () => {
   const web3Connect = useWeb3Connect();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (web3Connect.network == web3Connect.supportedNetwork) {
+      router.history.push('/');
+    }
+  }, [web3Connect.network]);
 
   return (
-    <Page
-      className={classes.root}
-      title={`dao.care | ${web3Connect.network} not supported`}
-    >
+    <Page title={`dao.care | ${web3Connect.network} not supported`}>
       <div style={{ marginBottom: 16 }}>
         <Typography
           variant="body1"
@@ -35,7 +31,6 @@ const Home = () => {
         </Typography>
       </div>
       <div
-        className={classes.divContainer}
         style={{
           marginTop: 32,
           marginBottom: 32,
@@ -48,85 +43,8 @@ const Home = () => {
           alt="Network not supported"
         />
       </div>
-      {/* <div
-        className={classes.divContainer}
-        style={{
-          marginTop: 32,
-          marginBottom: 32,
-          textAlign: 'center',
-        }}
-      >
-        <Button
-          // variant="contained"
-          color="primary"
-          size="large"
-          className={classes.button}
-          startIcon={<HowToVoteIcon />}
-          onClick={() => {
-            router.history.push('/proposals');
-          }}
-        >
-          All Proposals
-        </Button>
-      </div> */}
-      {/* )} */}
-      {/* {connected && (
-        <div
-          className={classes.divContainer}
-          style={{
-            marginTop: 32,
-            marginBottom: 32,
-            textAlign: 'center',
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            startIcon={<AddIcon />}
-            onClick={() => {
-              if (connected) {
-                router.history.push('/submit-proposal');
-              } else {
-                const connect = async () => {
-                  await web3Connect.triggerConnect();
-                  debugger;
-                  router.history.push('/submit-proposal');
-                };
-                connect();
-              }
-            }}
-          >
-            Submit Proposal
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            className={classes.button}
-            startIcon={<DonateIcon />}
-            onClick={() => {
-              if (connected) {
-                router.history.push('/deposit');
-              } else {
-                const connect = async () => {
-                  await web3Connect.triggerConnect();
-                  debugger;
-                  router.history.push('/deposit');
-                };
-                connect();
-              }
-            }}
-          >
-            Fund Projects
-          </Button>
-        </div>
-      )} */}
-      {/* <WalletProfile /> */}
-      {/* <SubmitProposal /> */}
     </Page>
   );
 };
 
-export default Home;
+export default NetworkNotSupported;
