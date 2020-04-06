@@ -5,3 +5,5 @@ Dockerfile
 secretsManager.js
 
 .openzeppelin/.session
+artifacts
+cache

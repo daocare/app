@@ -1,10 +1,11 @@
-pragma solidity 0.5.16;
+pragma solidity 0.5.15;
 
 // import "./interfaces/IERC20.sol";
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/IPoolDeposits.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
+import '@nomiclabs/buidler/console.sol';
 
 
 /** @title No Loss Dao Contract. */
@@ -54,7 +55,11 @@ contract NoLossDao_v0 is Initializable {
     uint256 indexed iteration,
     uint256 indexed proposalId
   );
-  event IterationChanged(uint256 timeStamp, address miner);
+  event IterationChanged(
+    uint256 indexed newIterationId,
+    address miner,
+    uint256 timeStamp
+  );
   event IterationWinner(
     uint256 indexed propsalIteration,
     address indexed winner,
@@ -73,14 +78,6 @@ contract NoLossDao_v0 is Initializable {
     require(
       depositContract.depositedDai(givenAddress) > 0,
       'User has no stake'
-    );
-    _;
-  }
-
-  modifier noProposal(address givenAddress) {
-    require(
-      benefactorsProposal[givenAddress] == 0,
-      'User already has a proposal'
     );
     _;
   }
@@ -150,15 +147,6 @@ contract NoLossDao_v0 is Initializable {
     _;
   }
 
-  // These are both indentical
-
-  // modifier iterationMostlyElapsed() {
-  //   require(
-  //     proposalDeadline.mul(7) < votingInterval.add(now.mul(7)),
-  //     'Not yet eligible to redirect interest stream'
-  //   );
-  //   _;
-  // }
   modifier iterationMostlyElapsed() {
     require(
       proposalDeadline.sub(votingInterval.div(7)) < now,
@@ -211,7 +199,7 @@ contract NoLossDao_v0 is Initializable {
   function noLossDeposit(address userAddress)
     external
     depositContractOnly
-    noProposal(userAddress) // Checks they are not a benefactor
+    userHasNoProposal(userAddress) // Checks they are not a benefactor
     returns (bool)
   {
     iterationJoined[userAddress] = proposalIteration;
@@ -354,6 +342,12 @@ contract NoLossDao_v0 is Initializable {
     // E.g. every 2 weeks, the project with the most votes gets the generated interest.
     // figure our what happens with the interest from the first proposal iteration
     // Possibly make first iteration an extended one for our launch (for marketing)
+    // console.log(
+    //   'Iteration no: ',
+    //   proposalIteration,
+    //   'Time that this iteration has ended incremented ',
+    //   proposalDeadline
+    // );
     if (topProject[proposalIteration] != 0) {
       // Do some asserts here for safety...
 
@@ -378,9 +372,15 @@ contract NoLossDao_v0 is Initializable {
 
     proposalDeadline = now.add(votingInterval);
     proposalIteration = proposalIteration.add(1);
+    // console.log(
+    //   'Iteration no: ',
+    //   proposalIteration,
+    //   ' Will start now and end earliest at',
+    //   proposalDeadline
+    // );
 
     // send winning miner a little surprise [NFT]
-    emit IterationChanged(now, msg.sender);
+    emit IterationChanged(proposalIteration, msg.sender, now);
   }
 
   // Allows admin to redirect interest stream to themselves for (1/7 of the total time = 15%) fee to continue funding developement

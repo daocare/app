@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
+const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
 contract('noLossDao', accounts => {
   let aaveLendingPool;
+  let lendingPoolAddressProvider;
   let poolDeposits;
   let noLossDao;
   let dai;
@@ -32,14 +34,17 @@ contract('noLossDao', accounts => {
     aaveLendingPool = await AaveLendingPool.new(aDai.address, {
       from: accounts[0],
     });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
+      from: accounts[0],
+    });
+
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
       aDai.address,
-      aaveLendingPool.address,
-      aaveLendingPool.address,
+      lendingPoolAddressProvider.address,
       noLossDao.address,
       applicationAmount,
       { from: accounts[0] }
@@ -50,7 +55,7 @@ contract('noLossDao', accounts => {
     });
   });
 
-  it('NoLossDao:daoRev. Can only redirect interest later.', async () => {
+  it('NoLossDao:daoRev. Can only redirect interest later. Randoms cannot redirect interest', async () => {
     let mintAmount = '60000000000';
 
     await expectRevert(
@@ -75,15 +80,19 @@ contract('noLossDao', accounts => {
     });
 
     // Note 604800 is 7 days exactly. The iteration length in this case
-    await time.increase(time.duration.seconds(604799)); // increment to iteration 1
+    await time.increase(time.duration.seconds(604790)); // increment to iteration 1
     await expectRevert(
       noLossDao.distributeFunds(),
       'iteration interval not ended'
     );
-    await time.increase(time.duration.seconds(2));
+    await time.increase(time.duration.seconds(12));
     await noLossDao.distributeFunds();
 
     // This should fail
+    await expectRevert(
+      poolDeposits.redirectInterestStreamToWinner(accounts[9], { from: accounts[9] }),
+      'function can only be called by no Loss Dao contract'
+    );
 
     await expectRevert(
       noLossDao.daoCareFunding(accounts[9], { from: accounts[0] }),
