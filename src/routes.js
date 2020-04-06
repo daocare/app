@@ -45,7 +45,9 @@ const routes = [
       {
         path: '/manually-increase-iteration',
         exact: true,
-        component: lazy(() => import('./views/IncreaseIteration')),
+        component: lazy(() =>
+          import('./views/IncreaseIteration/IncreaseIteration')
+        ),
       },
     ],
   },

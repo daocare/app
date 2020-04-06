@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Header from '../Header/Header';
-
+import EllipsisLoader from '../EllipsisLoader/EllipsisLoader';
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -29,7 +29,8 @@ const LoadingWeb3 = (props) => {
             fontWeight: 400,
           }}
         >
-          Waiting for your wallet...
+          Web3 Loading
+          <EllipsisLoader />
         </Typography>
         <img
           src="/waiting-web3.svg"

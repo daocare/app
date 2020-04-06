@@ -152,7 +152,6 @@ const Proposals = () => {
               variant="contained"
               color="secondary"
               size="small"
-              // className={classes.button}
               startIcon={<TwitterIcon />}
               onClick={enableTwitter}
             >
@@ -160,10 +159,16 @@ const Proposals = () => {
             </Button>
           )}
         {status === '3BOX_VERIFICATION' && (
-          <Typography variant="caption">Verifying 3Box twitter</Typography>
+          <Typography variant="caption">
+            Verifying 3Box twitter
+            <EllipsisLoader />
+          </Typography>
         )}
         {status === '3BOX_VERIFIED' && (
-          <Typography variant="caption">Enabling twitter voting</Typography>
+          <Typography variant="caption">
+            Enabling twitter voting
+            <EllipsisLoader />
+          </Typography>
         )}
         {canVoteWithDelegate &&
           (canVoteViaTwitter ? (
@@ -172,7 +177,8 @@ const Proposals = () => {
             </Typography>
           ) : (
             <Typography variant="caption">
-              Voting on twitter enabled, validating on backend
+              Voting on twitter has been enabled, validating on backend
+              <EllipsisLoader />
             </Typography>
           ))}
         {status === '3BOX_FAILED' && (

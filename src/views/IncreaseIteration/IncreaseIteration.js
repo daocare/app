@@ -12,59 +12,21 @@ import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';
 import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
 const BN = require('bn.js');
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
-  paper: {
-    [theme.breakpoints.up('md')]: {
-      maxWidth: '75%',
-      minWidth: 180,
-    },
-    width: '100%',
-    padding: theme.spacing(3),
-  },
   decriptionBlurb: { margin: '16px 0' },
-  textField: {
-    margin: theme.spacing(1, 0),
-    [theme.breakpoints.up('sm')]: {
-      marginRight: theme.spacing(2),
-    },
-  },
-  fieldGroup: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'flex',
-      marginTop: theme.spacing(1),
-    },
-    alignItems: 'center',
-  },
   flexGrow: {
     flexGrow: 1,
-  },
-  wrapper: {
-    position: 'relative',
-    [theme.breakpoints.down('xs')]: {
-      textAlign: 'center',
-      marginTop: theme.spacing(2),
-    },
-    marginTop: theme.spacing(2),
-  },
-  hiddenImage: {
-    display: 'none',
-  },
-  image: {
-    display: 'block',
-  },
-  statusMsg: {
-    marginLeft: 16,
   },
   button: {
     width: 190,
   },
 }));
 
-const Deposit = () => {
+const IncreaseIteration = () => {
   const classes = useStyles();
   const web3Connect = useWeb3Connect();
 
@@ -79,7 +41,7 @@ const Deposit = () => {
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
-      {web3Connect.loadingWeb3 ? (
+      {web3Connect.loadingWeb3 || web3Connect.fetched ? (
         <>
           <LoadingWeb3 />
         </>
@@ -116,7 +78,6 @@ const Deposit = () => {
             }}
           >
             <Button
-              // variant="contained"
               color="primary"
               size="large"
               className={classes.button}
@@ -132,8 +93,8 @@ const Deposit = () => {
   );
 };
 
-Deposit.propTypes = {
+IncreaseIteration.propTypes = {
   className: PropTypes.string,
 };
 
-export default Deposit;
+export default IncreaseIteration;
