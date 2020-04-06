@@ -12,9 +12,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
 import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
 
+import DepositIcon from '@material-ui/icons/AllInclusive';
+
 const BN = require('bn.js');
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   decriptionBlurb: { margin: '16px 0' },
   fieldGroup: {
     [theme.breakpoints.up('sm')]: {
@@ -54,6 +56,7 @@ const useStyles = makeStyles(theme => ({
 const Withdraw = () => {
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
+  const router = useRouter();
   const web3Connect = useWeb3Connect();
 
   useRedirectHomeIfNoEthAccount();
@@ -96,14 +99,27 @@ const Withdraw = () => {
           <div className={classes.wrapper}>
             <div>
               {status === 'WITHDRAWN' ? (
-                <Typography
-                  variant="body2"
-                  component="span"
-                  className={classes.statusMsg}
-                >
-                  Thank you for making an impact! Your funds have been
-                  withdrawn.
-                </Typography>
+                <>
+                  <Typography
+                    variant="body2"
+                    component="span"
+                    className={classes.statusMsg}
+                  >
+                    Thank you for making an impact! Your funds have been
+                    withdrawn.
+                  </Typography>
+                  <Button
+                    color="primary"
+                    size="large"
+                    className={classes.button}
+                    startIcon={<DepositIcon />}
+                    onClick={() => {
+                      router.history.push('/deposit');
+                    }}
+                  >
+                    Deposit
+                  </Button>
+                </>
               ) : status === 'WITHDRAWING' ? (
                 <Typography
                   variant="body2"

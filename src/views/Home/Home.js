@@ -7,7 +7,7 @@ import useRouter from '../../utils/useRouter';
 import useInterval from '../../utils/useInterval';
 
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
-import DonateIcon from '@material-ui/icons/AllInclusive';
+import DepositIcon from '@material-ui/icons/AllInclusive';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 import Header from '../../components/Header/Header';
 import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
@@ -110,7 +110,7 @@ const Home = () => {
             color="secondary"
             size="large"
             className={classes.button}
-            startIcon={<DonateIcon />}
+            startIcon={<DepositIcon />}
             onClick={() => {
               if (connected) {
                 router.history.push('/deposit');

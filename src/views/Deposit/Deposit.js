@@ -75,6 +75,23 @@ const Deposit = () => {
     setStatus('DEPOSITED');
   };
 
+  let approveDai = async () => {
+    setStatus('APPROVING_DAI');
+    await web3Connect.contracts.dai.methods.triggerDaiApprove(new BN(999999));
+    setStatus('DAI_APPROVED');
+  };
+
+  const [twitterWarning, setTwitterWarning] = useState(false);
+  const TWITTER_VOTING_MINIMUM = 5;
+
+  const twitterMinimumWarning = () => {
+    if (amount < TWITTER_VOTING_MINIMUM) {
+      setTwitterWarning(true);
+    } else {
+      setTwitterWarning(false);
+    }
+  };
+
   return (
     <Page className={classes.root} title="dao.care | Deposit">
       {web3Connect.loadingWeb3 ? (
@@ -129,9 +146,9 @@ const Deposit = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <Box className={classes.fieldGroup}>
                     <TextField
-                      // fullWidth
                       label="Amount"
                       name="amount"
+                      type="number"
                       variant="outlined"
                       inputRef={register({ required: true })}
                       className={classes.textField}
@@ -141,6 +158,7 @@ const Deposit = () => {
                           <InputAdornment position="end">DAI</InputAdornment>
                         ),
                       }}
+                      onBlur={() => twitterMinimumWarning()}
                       style={{ width: 300 }}
                       helperText={`Balance: ${web3Connect.daiBalance} DAI | Deposit: ${web3Connect.daiDeposit} DAI`}
                     />
@@ -151,22 +169,11 @@ const Deposit = () => {
                         <Button
                           variant="contained"
                           color="primary"
-                          // className={classes.button}
                           style={{ width: 190, marginBottom: 22 }}
-                          // type="submit"
                           disabled={
                             web3Connect.daiAllowance > 0 || status !== 'DRAFT'
-                          } // TODO: update to 50Dai
-                          onClick={async () => {
-                            let execute = async () => {
-                              setStatus('APPROVING_DAI');
-                              await web3Connect.contracts.dai.methods.triggerDaiApprove(
-                                new BN(999999)
-                              );
-                              setStatus('DAI_APPROVED');
-                            };
-                            execute();
-                          }}
+                          }
+                          onClick={async () => approveDai()}
                         >
                           Allow DAI deposit
                         </Button>
@@ -217,7 +224,8 @@ const Deposit = () => {
                         className={classes.statusMsg}
                         style={{ color: '#FF9494' }}
                       >
-                        You don't have enough DAI on your wallet
+                        You don't have enough DAI in your wallet to deposit{' '}
+                        {amount} DAI
                       </Typography>
                     )}
                     {status === 'DEPOSITING' && (
@@ -226,41 +234,56 @@ const Deposit = () => {
                         component="span"
                         className={classes.statusMsg}
                       >
-                        Depositing {amount} DAI...
+                        Depositing {amount} DAI
+                        <EllipsisLoader />
                       </Typography>
                     )}
                     {status === 'DEPOSITED' && (
+                      <>
+                        <Typography
+                          variant="body2"
+                          component="span"
+                          className={classes.statusMsg}
+                        >
+                          Your funds have been deposited, thank you!
+                        </Typography>
+                        <div
+                          className={classes.divContainer}
+                          style={{
+                            marginTop: 24,
+                            marginBottom: 24,
+                            textAlign: 'center',
+                          }}
+                        >
+                          <Button
+                            // variant="contained"
+                            color="primary"
+                            size="large"
+                            className={classes.button}
+                            startIcon={<HowToVoteIcon />}
+                            onClick={() => {
+                              router.history.push('/proposals');
+                            }}
+                          >
+                            Vote
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                    {twitterWarning && (
                       <Typography
                         variant="body2"
                         component="span"
                         className={classes.statusMsg}
+                        style={{ color: 'red' }}
                       >
-                        Your funds have been deposited, thank you!
+                        Please note that in order to vote through twitter we
+                        require that you set a minimum deposit of{' '}
+                        {TWITTER_VOTING_MINIMUM} DAI, this is to cover gas
+                        costs.
                       </Typography>
                     )}
                   </div>
-                  <div
-                    className={classes.divContainer}
-                    style={{
-                      marginTop: 24,
-                      marginBottom: 24,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <Button
-                      // variant="contained"
-                      color="primary"
-                      size="large"
-                      className={classes.button}
-                      startIcon={<HowToVoteIcon />}
-                      onClick={() => {
-                        router.history.push('/proposals');
-                      }}
-                    >
-                      Vote
-                    </Button>
-                  </div>
-                  {/* </Box> */}
                 </form>
               </>
             )
