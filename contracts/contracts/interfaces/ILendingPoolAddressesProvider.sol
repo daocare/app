@@ -1,6 +1,9 @@
 pragma solidity ^0.5.0;
 
-contract ILendingPoolAddressesProvider {}
+contract ILendingPoolAddressesProvider {
+    function getLendingPool() public view returns (address);
+    function getLendingPoolCore() public view returns (address);
+}
 
 // INSERT LATER INTO NOLOSSDAO
 // Therefore, whenever it's required to access the LendingPool contract
