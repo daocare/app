@@ -19,7 +19,7 @@ yarn run clean
 ```
 
 ```bash
-yarn run deploy
+yarn run deploy -- --network <network name you want to deploy to>
 ```
 
 If you want to save the deployment for the UI or the twitter bot:
