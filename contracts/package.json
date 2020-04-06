@@ -7,9 +7,9 @@
   "scripts": {
     "deploy": "truffle migrate",
     "compile": "truffle compile",
-    "clean": "rm -rf build artifacts cache",
+    "clean": "rm -rf build/contracts/* artifacts cache",
     "save-deployment": "/bin/bash -c 'mkdir -p ./deployed-builds/contracts; \\cp ./build/contracts/{ERC20,NoLossDao_v0,PoolDeposits}.json ./deployed-builds/contracts/'",
-    "prepair-upgrade": "npm run clean; cp -r ./deployed-builds/contracts/ ./build/contracts/",
+    "prepair-upgrade": "npm run clean; mkdir -p ./build/contracts; cp -r ./deployed-builds/contracts/ ./build/contracts/",
     "test": "buidler test"
   },
   "author": "daocare",

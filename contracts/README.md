@@ -12,7 +12,11 @@ yarn
 yarn run test
 ```
 
-### Deploy
+### Clean Deploy
+
+```bash
+yarn run clean
+```
 
 ```bash
 yarn run deploy
@@ -26,7 +30,7 @@ yarn run save-deployment
 
 ### Upgrade
 
-Prepair the upgrade by running:
+Prepair the upgrade by running instead of `yarn run clean`:
 
 ```bash
 yarn run prepair-upgrade
