@@ -118,6 +118,7 @@ function useWeb3Connect() {
     topProposalInCurrentIterationId,
     setTopProposalInCurrentIterationId,
   ] = useState(0);
+  const [previousWinnerId, setPreviousWinnerId] = useState(0);
   const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
@@ -429,7 +430,6 @@ function useWeb3Connect() {
     addr = address,
     daoContract = daoContractReadOnly
   ) => {
-    // let contract = daoContract ? daoContract
     if (
       lastFetchTimestamp + FETCH_UPDATE_INTERVAL < Date.now() &&
       daoContract &&
@@ -478,6 +478,10 @@ function useWeb3Connect() {
       let deadline = await daoContract.methods.proposalDeadline().call();
 
       setCurrentIteration(iteration);
+      console.log('iteration');
+      console.log(iteration);
+      console.log('previous iteration');
+      console.log(iteration - 1);
       setCurrentIterationDeadline(deadline);
       setHasProposal(foundOwner);
       setProposals(tempProposals);
@@ -489,6 +493,10 @@ function useWeb3Connect() {
         await daoContract.methods.topProject(iteration).call()
       );
       setTopProposalInCurrentIterationId(topProposalId);
+      const thePreviousWinnerId = Number(
+        await daoContract.methods.topProject(iteration - 1).call()
+      );
+      setPreviousWinnerId(thePreviousWinnerId);
     }
   };
 
@@ -602,6 +610,7 @@ function useWeb3Connect() {
     currentIteration,
     currentIterationDeadline,
     topProposalInCurrentIterationId,
+    previousWinnerId,
     daiBalance,
     daiDeposit,
     loaded,

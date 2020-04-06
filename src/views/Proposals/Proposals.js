@@ -13,7 +13,8 @@ import { Typography, Button, Grid } from '@material-ui/core';
 
 import { Page } from '../../components';
 import Header from '../../components/Header/Header';
-import ProposalCard from '../../components/ProposalCard';
+import ProposalCard from '../../components/ProposalCard/ProposalCard';
+import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
 
 import { FIREBASE_FUNCTIONS_ENDPOINT } from '../../config/firebase';
 import { twitterHandleAlreadyLinked } from '../../modules/twitterDb';
@@ -66,18 +67,19 @@ const Proposals = () => {
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
+
   const canVoteWithDelegate =
     status === 'ENABLED' ||
     (status !== '3BOX_VERIFIED' && web3Connect.enabledTwitter);
+
   const [canVoteViaTwitter, setCanVoteViaTwitter] = useState(false);
+
   const address = web3Connect.address;
 
   const enableTwitter = async () => {
     setStatus('3BOX_VERIFICATION');
     const profile = await Box.getProfile(address);
-    console.log(profile);
     const verified = await Box.getVerifiedAccounts(profile);
-    console.log(verified);
     if (verified && verified.twitter && verified.twitter.username) {
       setStatus('3BOX_VERIFIED');
       let tx = await web3Connect.contracts.dao.methods.enableTwitterVoting();
@@ -91,7 +93,6 @@ const Proposals = () => {
             address,
             txHash
           );
-          console.log({ result });
           setStatus('ENABLED');
         } catch (error) {
           console.error(error);
@@ -103,7 +104,7 @@ const Proposals = () => {
     }
   };
 
-  // IF the user has delegated the voting && the firebase database dosen't have the correct value for their address/twitter handle. This code will fix it.
+  // If the user has delegated the voting && the firebase database doesn't have the correct value for their address/twitter handle. This code will fix it.
   useEffect(() => {
     if (canVoteWithDelegate) {
       Box.getProfile(web3Connect.address).then(async (profile) => {
@@ -186,14 +187,13 @@ const Proposals = () => {
         )}
       </div>
       <Header />
-      <Typography variant="body1" className={classes.decriptionBlurb}>
-        Deposit your DAI. Let your idle interest support community projects. The
-        amount of DAI you stake in the fund determines the level of your voting
-        power.
-      </Typography>
       {web3Connect.daiDeposit === 0 && web3Connect.connected && (
         <>
-          <div style={{ margin: 16, textAlign: 'center' }}>
+          <Typography variant="body2" className={classes.decriptionBlurb}>
+            Deposit funds in the pool in order to vote on your favourite
+            proposal
+          </Typography>
+          <div style={{ margin: '16px 0px' }}>
             <Button
               variant="contained"
               color="secondary"
@@ -209,15 +209,7 @@ const Proposals = () => {
           </div>
         </>
       )}
-      {web3Connect.daiDeposit > 0 && !web3Connect.hasProposal && (
-        <>
-          <div style={{ margin: 16, textAlign: 'center' }}>
-            <Typography variant="body1">
-              You have a deposit of {web3Connect.daiDeposit} DAI
-            </Typography>
-          </div>
-        </>
-      )}
+
       {web3Connect.currentVote !== null && (
         <>
           <Typography variant="h5" className={classes.title}>
@@ -237,23 +229,30 @@ const Proposals = () => {
       <Typography variant="h5" className={classes.title}>
         All Proposals
       </Typography>
+
       <div style={{ marginTop: 16 }}>
         {fetched && proposals.length > 0 && (
           <>
             <Grid container justify="space-evenly" spacing={4}>
-              {proposals.map((proposal) => (
-                <Grid key={proposal.id} item>
-                  <div className={classes.card}>
-                    <ProposalCard
-                      proposal={proposal}
-                      votingAllowed={votingAllowed}
-                      twitterAllowed={!web3Connect.connected || votingAllowed}
-                      vote={web3Connect.contracts.dao.methods.vote}
-                      address={address}
-                    />
-                  </div>
-                </Grid>
-              ))}
+              {proposals.map((proposal) => {
+                console.log(proposal);
+                return (
+                  <Grid key={proposal.id} item>
+                    <div className={classes.card}>
+                      <ProposalCard
+                        proposal={proposal}
+                        votingAllowed={votingAllowed}
+                        twitterAllowed={!web3Connect.connected || votingAllowed}
+                        vote={web3Connect.contracts.dao.methods.vote}
+                        isPreviousWinner={
+                          proposal.id == web3Connect.previousWinnerId
+                        }
+                        address={address}
+                      />
+                    </div>
+                  </Grid>
+                );
+              })}
             </Grid>
           </>
         )}
@@ -264,7 +263,8 @@ const Proposals = () => {
         )}
         {!fetched && (
           <Typography variant="caption" align="center">
-            Loading proposals....
+            Loading proposals
+            <EllipsisLoader />
           </Typography>
         )}
       </div>

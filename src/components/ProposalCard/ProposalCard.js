@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -11,10 +12,12 @@ import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import InsertLinkIcon from '@material-ui/icons/InsertLink';
+
 import { getUrlByHash } from '../../modules/pinata';
 
 const useStyles = makeStyles({
   root: {
+    position: 'relative',
     width: 210,
     height: 370,
     marginRight: 16,
@@ -24,24 +27,48 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ProposalCard(props) {
-  const { title, shortDescription, website, image, id } = props.proposal;
+const ProposalCard = (props) => {
+  const { title, shortDescription, website, image, id, emoji } = props.proposal;
   let imageUrl = getUrlByHash(image);
-  const { votingAllowed, twitterAllowed, vote, ...rest } = props;
+  const {
+    isPreviousWinner,
+    votingAllowed,
+    twitterAllowed,
+    vote,
+    ...rest
+  } = props;
   const classes = useStyles();
+  console.log('id');
+  console.log(id);
   const voteTwitter = () => {
     let url =
       'https://twitter.com/intent/tweet?text=' +
-      encodeURI(`I am voting for proposal ~${id} on `) +
+      encodeURI(`I am voting for proposal ~${emoji} on `) +
       '%23' +
       encodeURI(`DAOcare - A no loss funding DAO @dao_care`);
-    console.log(url);
     var win = window.open(url, '_blank');
     win.focus();
   };
   return (
     <Card className={classes.root} {...rest}>
       <CardActionArea>
+        {isPreviousWinner && (
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '1rem',
+              color: 'white',
+              backgroundColor: '#6850A8',
+              padding: '0.1rem 2rem',
+              fontFamily: 'nunito',
+              fontWeight: 700,
+              transform: 'rotate(-45deg) translate(-34px, -20px)',
+            }}
+          >
+            <p>PREVIOUS WINNER</p>
+          </div>
+        )}
         {imageUrl && (
           <CardMedia className={classes.media} image={imageUrl} title={title} />
         )}
@@ -65,7 +92,7 @@ export default function ProposalCard(props) {
             <InsertLinkIcon />
           </IconButton>
         </Tooltip>
-        {votingAllowed && (
+        {votingAllowed && !isPreviousWinner && (
           <Tooltip title="Vote using your wallet">
             <IconButton
               color="primary"
@@ -76,7 +103,7 @@ export default function ProposalCard(props) {
             </IconButton>
           </Tooltip>
         )}
-        {twitterAllowed && (
+        {twitterAllowed && !isPreviousWinner && (
           <Tooltip title="Vote via Twitter">
             <IconButton
               color="secondary"
@@ -90,4 +117,6 @@ export default function ProposalCard(props) {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default ProposalCard;
