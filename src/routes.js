@@ -40,6 +40,11 @@ const routes = [
         exact: true,
         component: lazy(() => import('./views/NetworkNotSupported')),
       },
+      {
+        path: '/manually-increase-iteration',
+        exact: true,
+        component: lazy(() => import('./views/IncreaseIteration')),
+      },
     ],
   },
 ];

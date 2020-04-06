@@ -113,8 +113,12 @@ function useWeb3Connect() {
   const [hasProposal, setHasProposal] = useState(false);
   const [enabledTwitter, setEnabledTwitter] = useState(false);
 
-  // const [currentIteration, setCurrentIteration] = useState(0);
-  // const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
+  const [currentIteration, setCurrentIteration] = useState(0);
+  const [
+    topProposalInCurrentIterationId,
+    setTopProposalInCurrentIterationId,
+  ] = useState(0);
+  const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
   const [fetched, setFetched] = useState(false);
@@ -435,7 +439,7 @@ function useWeb3Connect() {
       let iteration = Number(
         await daoContract.methods.proposalIteration().call()
       );
-      // console.log({ iteration, address });
+
       let tempCurrentVote = 0;
       if (connected && addr) {
         tempCurrentVote = Number(
@@ -471,17 +475,20 @@ function useWeb3Connect() {
         tempProposals.push(proposal);
       }
 
-      // let deadline = await daoContract.methods.proposalDeadline().call();
-      // console.log({ deadline });
+      let deadline = await daoContract.methods.proposalDeadline().call();
 
-      // setCurrentIteration(iteration);
-      // setCurrentIterationDeadline(deadline);
+      setCurrentIteration(iteration);
+      setCurrentIterationDeadline(deadline);
       setHasProposal(foundOwner);
       setProposals(tempProposals);
       setFetched(true);
       console.log(Date.now() / 1000 - lastFetchTimestamp / 1000);
       setLastFetchTimestamp(Date.now());
       isFetchingProposals = false;
+      const topProposalId = Number(
+        await daoContract.methods.topProject(iteration).call()
+      );
+      setTopProposalInCurrentIterationId(topProposalId);
     }
   };
 
@@ -525,6 +532,13 @@ function useWeb3Connect() {
     return withdrawal;
   };
 
+  const distributeFunds = async () => {
+    let distributeFundsTx = daoContract.methods.distributeFunds().send({
+      from: address,
+    });
+    return distributeFundsTx;
+  };
+
   const vote = async id => {
     let tx = await daoContract.methods.voteDirect(id).send({
       from: address,
@@ -533,6 +547,7 @@ function useWeb3Connect() {
     await fetchProposals();
     return tx;
   };
+
   const enableTwitterVoting = async () => {
     let tx = await daoContract.methods.delegateVoting(TWITTER_PROXY).send({
       from: address,
@@ -567,6 +582,7 @@ function useWeb3Connect() {
       dao: {
         contract: daoContract,
         methods: {
+          // TODO: some of these methods need to move to the deposit contract
           triggerSubmitProposal,
           triggerDeposit,
           triggerWithdrawal,
@@ -574,10 +590,18 @@ function useWeb3Connect() {
           enableTwitterVoting,
           getInterest,
           getTotalDepositedAmount,
+          distributeFunds,
         },
+      },
+      deposit: {
+        contract: depositContract,
+        methods: {},
       },
     },
     daiAllowance,
+    currentIteration,
+    currentIterationDeadline,
+    topProposalInCurrentIterationId,
     daiBalance,
     daiDeposit,
     loaded,

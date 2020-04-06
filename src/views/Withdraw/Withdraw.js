@@ -10,6 +10,7 @@ import useWeb3Connect from '../../utils/useWeb3Connect';
 import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EllipsisLoader from '../../components/EllipsisLoader/EllipsisLoader';
+import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
 
 const BN = require('bn.js');
 
@@ -53,14 +54,9 @@ const useStyles = makeStyles(theme => ({
 const Withdraw = () => {
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
-  const router = useRouter();
   const web3Connect = useWeb3Connect();
 
-  useEffect(() => {
-    if (web3Connect.loaded && !web3Connect.connected) {
-      router.history.push('/');
-    }
-  }, [web3Connect, router.history]);
+  useRedirectHomeIfNoEthAccount();
 
   let balance = Number(web3Connect.daiBalance);
   let depositedFunds = Number(web3Connect.daiDeposit);
