@@ -1,7 +1,7 @@
 {
   "manifestVersion": "2.2",
   "contracts": {
-    "NoLossDao": "NoLossDao"
+    "NoLossDao": "NoLossDao_v0"
   },
   "dependencies": {},
   "name": "example-truffle-migrate",

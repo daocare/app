@@ -12,6 +12,8 @@ import Header from '../../components/Header/Header';
 import useRouter from '../../utils/useRouter';
 import useWeb3Connect from '../../utils/useWeb3Connect';
 import LoadingWeb3 from '../../components/LoadingWeb3/LoadingWeb3';
+import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
+
 const BN = require('bn.js');
 
 const useStyles = makeStyles(theme => ({
@@ -72,11 +74,7 @@ const Deposit = () => {
   const router = useRouter();
   const web3Connect = useWeb3Connect();
 
-  useEffect(() => {
-    if (web3Connect.loaded && !web3Connect.connected) {
-      router.history.push('/');
-    }
-  }, [web3Connect, router.history]);
+  useRedirectHomeIfNoEthAccount();
 
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
   let amount = watch('amount') ? watch('amount') : 0;

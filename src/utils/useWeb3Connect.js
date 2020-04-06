@@ -24,14 +24,17 @@ import {
 } from './3BoxManager';
 
 const daiAbi = require('../abis/ERC20.json');
-const daoAbi = require('../abis/NoLossDao.json');
+const daoAbi = require('../abis/NoLossDao_v0.json');
+const depositAbi = require('../abis/PoolDeposits.json');
 
 const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
 const SUPPORTED_NETWORK = 'kovan';
 
+const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
 const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
 const ADAI_ADDRESS = '0x58ad4cb396411b691a9aab6f74545b2c5217fe6a'; //kovan
-const WHOOP_ADDRESS = process.env.REACT_APP_DAO_ADDRESS; //daoAbi.networks[CHAIN_ID].address;
+const DAO_ADDRESS = daoAbi.networks[CHAIN_ID].address;
+const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
 const INFURA_KEY = 'fd2fcca3c26e41cf88b907df3596b14e';
 const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 
@@ -101,15 +104,21 @@ function useWeb3Connect() {
   // const [adaiContract, setAdaiContract] = useState(null);
   const [adaiContractReadOnly, setAdaiContractReadOnly] = useState(null);
   const [daoContract, setDaoContract] = useState(null);
+  const [depositContract, setDepositContract] = useState(null);
   const [daoContractReadOnly, setDaoContractReadOnly] = useState(null);
+  const [depositContractReadOnly, setDepositContractReadOnly] = useState(null);
   const [daiAllowance, setDaiAllowance] = useState(null);
   const [daiBalance, setDaiBalance] = useState(null);
   const [daiDeposit, setDaiDeposit] = useState(null);
   const [hasProposal, setHasProposal] = useState(null);
   const [enabledTwitter, setEnabledTwitter] = useState(false);
 
-  // const [currentIteration, setCurrentIteration] = useState(0);
-  // const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
+  const [currentIteration, setCurrentIteration] = useState(0);
+  const [
+    topProposalInCurrentIterationId,
+    setTopProposalInCurrentIterationId,
+  ] = useState(0);
+  const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
   const [fetched, setFetched] = useState(false);
@@ -132,6 +141,7 @@ function useWeb3Connect() {
   const onConnect = async (
     daiContractRead = daiContractReadOnly,
     daoContractRead = daoContractReadOnly,
+    depositContractRead = depositContractReadOnly,
     web3Read = web3ReadOnly
   ) => {
     const providerInited = await web3Connect.connect();
@@ -174,15 +184,13 @@ function useWeb3Connect() {
     const daiContract = new web3Inited.eth.Contract(daiAbi.abi, DAI_ADDRESS);
     setDaiContract(daiContract);
 
-    // console.log('daiContract');
-    // console.log(
-    //   daiContract.methods
-    //   // .balanceOf('0x9241DcC41515150E8363BEf238f92B15167791d7')
-    //   // .call()
-    // );
-
-    const daoContract = new web3Inited.eth.Contract(daoAbi.abi, WHOOP_ADDRESS);
+    const daoContract = new web3Inited.eth.Contract(daoAbi.abi, DAO_ADDRESS);
     setDaoContract(daoContract);
+    const depositContract = new web3Inited.eth.Contract(
+      depositAbi.abi,
+      DEPOSIT_ADDRESS
+    );
+    setDepositContract(depositContract);
     setProvider(providerInited);
     setWeb3(web3Inited);
     setConnected(true);
@@ -197,7 +205,7 @@ function useWeb3Connect() {
     // Update state
     updateAllowance(addressTemp, daiContractRead);
     updateBalance(addressTemp, daiContractRead, web3Read);
-    updateDeposit(addressTemp, daoContractRead, web3Read);
+    updateDeposit(addressTemp, depositContractRead, web3Read);
     updateDelegation(addressTemp, daoContractRead);
     fetchProposals(addressTemp, daoContractRead);
   };
@@ -223,13 +231,24 @@ function useWeb3Connect() {
 
       const daoContractReadOnly = new web3Infura.eth.Contract(
         daoAbi.abi,
-        WHOOP_ADDRESS
+        DAO_ADDRESS
       );
       setDaoContractReadOnly(daoContractReadOnly);
 
+      const depositContractReadOnly = new web3Infura.eth.Contract(
+        depositAbi.abi,
+        DEPOSIT_ADDRESS
+      );
+      setDepositContractReadOnly(depositContractReadOnly);
+
       if (web3Connect.cachedProvider && !connected) {
         setLoadingWeb3(true);
-        onConnect(daiContractReadOnly, daoContractReadOnly, web3Infura);
+        onConnect(
+          daiContractReadOnly,
+          daoContractReadOnly,
+          depositContractReadOnly,
+          web3Infura
+        );
       } else {
         setLoaded(true);
       }
@@ -335,7 +354,7 @@ function useWeb3Connect() {
   ) => {
     if (addr) {
       let allowance = await daiContract.methods
-        .allowance(addr, WHOOP_ADDRESS)
+        .allowance(addr, DEPOSIT_ADDRESS)
         .call();
       // console.log({ allowance });
       setDaiAllowance(Number(allowance));
@@ -357,12 +376,12 @@ function useWeb3Connect() {
 
   const updateDeposit = async (
     addr = address,
-    daoContract = daoContractReadOnly,
+    depositContract = depositContractReadOnly,
     web3Read = web3ReadOnly
   ) => {
     if (addr) {
       let deposit = new web3Read.utils.BN(
-        await daoContract.methods.depositedDai(addr).call()
+        await depositContract.methods.depositedDai(addr).call()
       );
       // console.log({ balance });
       setDaiDeposit(Number(web3Read.utils.fromWei('' + deposit, 'ether')));
@@ -385,16 +404,14 @@ function useWeb3Connect() {
       return 0;
     }
     let balance = new web3ReadOnly.utils.BN(
-      await adaiContractReadOnly.methods.balanceOf(WHOOP_ADDRESS).call()
+      await adaiContractReadOnly.methods.balanceOf(DEPOSIT_ADDRESS).call()
     );
     let depositedAmount = new web3ReadOnly.utils.BN(
-      await daoContractReadOnly.methods.totalDepositedDai().call()
+      await depositContractReadOnly.methods.totalDepositedDai().call()
     );
-    // console.log({ balance });
-    let interest = balance - depositedAmount;
+    let interest = balance.sub(depositedAmount);
 
-    // let interestBn = new BN(interest);
-    return Number(web3ReadOnly.utils.fromWei('' + interest, 'ether'));
+    return Number(web3ReadOnly.utils.fromWei(interest, 'ether'));
   };
 
   const getTotalDepositedAmount = async () => {
@@ -403,7 +420,7 @@ function useWeb3Connect() {
     }
 
     let depositedAmount = new web3ReadOnly.utils.BN(
-      await daoContractReadOnly.methods.totalDepositedDai().call()
+      await depositContractReadOnly.methods.totalDepositedDai().call()
     );
     return Number(web3ReadOnly.utils.fromWei('' + depositedAmount, 'ether'));
   };
@@ -422,7 +439,7 @@ function useWeb3Connect() {
       let iteration = Number(
         await daoContract.methods.proposalIteration().call()
       );
-      // console.log({ iteration, address });
+
       let tempCurrentVote = 0;
       if (connected && addr) {
         tempCurrentVote = Number(
@@ -443,10 +460,9 @@ function useWeb3Connect() {
           continue;
         }
         console.log({ hash });
-        let proposal = await getThreadFirstPost(hash);
+        let proposal = (await getThreadFirstPost(hash)).message;
         proposal.id = i;
-        console.log({ proposal });
-        tempProposals.push(proposal.message);
+
         if (i === tempCurrentVote) {
           setCurrentVote(proposal);
         }
@@ -456,26 +472,30 @@ function useWeb3Connect() {
         if (owner === addr) {
           foundOwner = true;
         }
+        tempProposals.push(proposal);
       }
 
-      // let deadline = await daoContract.methods.proposalDeadline().call();
-      // console.log({ deadline });
+      let deadline = await daoContract.methods.proposalDeadline().call();
 
-      // setCurrentIteration(iteration);
-      // setCurrentIterationDeadline(deadline);
+      setCurrentIteration(iteration);
+      setCurrentIterationDeadline(deadline);
       setHasProposal(foundOwner);
       setProposals(tempProposals);
       setFetched(true);
       console.log(Date.now() / 1000 - lastFetchTimestamp / 1000);
       setLastFetchTimestamp(Date.now());
       isFetchingProposals = false;
+      const topProposalId = Number(
+        await daoContract.methods.topProject(iteration).call()
+      );
+      setTopProposalInCurrentIterationId(topProposalId);
     }
   };
 
   const triggerDaiApprove = async value => {
     let amount = web3.utils.toWei(value, 'ether');
     console.log({ amount });
-    let tx = await daiContract.methods.approve(WHOOP_ADDRESS, amount).send({
+    let tx = await daiContract.methods.approve(DEPOSIT_ADDRESS, amount).send({
       from: address,
     });
     console.log(tx);
@@ -484,7 +504,7 @@ function useWeb3Connect() {
   };
 
   const triggerSubmitProposal = async hash => {
-    let tx = await daoContract.methods.createProposal(hash).send({
+    let tx = await depositContract.methods.createProposal(hash).send({
       from: address,
     });
     console.log(tx);
@@ -496,7 +516,7 @@ function useWeb3Connect() {
   const triggerDeposit = async value => {
     let amount = web3.utils.toWei(value, 'ether');
     console.log({ amount });
-    let tx = await daoContract.methods.deposit(amount).send({
+    let tx = await depositContract.methods.deposit(amount).send({
       from: address,
     });
     console.log(tx);
@@ -512,6 +532,13 @@ function useWeb3Connect() {
     return withdrawal;
   };
 
+  const distributeFunds = async () => {
+    let distributeFundsTx = daoContract.methods.distributeFunds().send({
+      from: address,
+    });
+    return distributeFundsTx;
+  };
+
   const vote = async id => {
     let tx = await daoContract.methods.voteDirect(id).send({
       from: address,
@@ -520,6 +547,7 @@ function useWeb3Connect() {
     await fetchProposals();
     return tx;
   };
+
   const enableTwitterVoting = async () => {
     let tx = await daoContract.methods.delegateVoting(TWITTER_PROXY).send({
       from: address,
@@ -554,6 +582,7 @@ function useWeb3Connect() {
       dao: {
         contract: daoContract,
         methods: {
+          // TODO: some of these methods need to move to the deposit contract
           triggerSubmitProposal,
           triggerDeposit,
           triggerWithdrawal,
@@ -561,10 +590,18 @@ function useWeb3Connect() {
           enableTwitterVoting,
           getInterest,
           getTotalDepositedAmount,
+          distributeFunds,
         },
+      },
+      deposit: {
+        contract: depositContract,
+        methods: {},
       },
     },
     daiAllowance,
+    currentIteration,
+    currentIterationDeadline,
+    topProposalInCurrentIterationId,
     daiBalance,
     daiDeposit,
     loaded,

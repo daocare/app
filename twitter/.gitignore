@@ -1,0 +1,13 @@
+node_modules
+config.js
+firebase_service_key.json
+.DS_Store
+.merlin
+.bsb.lock
+npm-debug.log
+/lib/bs/
+/node_modules/
+/lib
+/dist
+/.graphql_ppx_cache
+*.bs.js

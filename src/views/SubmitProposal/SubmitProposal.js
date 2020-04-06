@@ -39,6 +39,7 @@ import { emojiExists } from '../../modules/twitterDb';
 import IpfsUpload from '../../components/IpfsUpload';
 // import Box from '3box';
 import ProposalCard from '../../components/ProposalCard/ProposalCard';
+import { useRedirectHomeIfNoEthAccount } from '../../utils/useCommonUtils';
 
 const BN = require('bn.js');
 
@@ -156,7 +157,8 @@ const SubmitProposal = props => {
   const onEmojiClick = async (event, emojiObject) => {
     event.preventDefault();
     console.log(emojiObject);
-    if (await emojiExists(emojiObject.emoji)) {
+    let networkSuffix = web3Connect.chainId == 42 ? '-kovan' : '';
+    if (await emojiExists(emojiObject.emoji, networkSuffix)) {
       setChosenEmoji(emojiObject);
 
       setEmojiError('This emoji is already being used by another proposal');
@@ -190,11 +192,7 @@ const SubmitProposal = props => {
     }
   }, 3000);
 
-  useEffect(() => {
-    if (web3Connect.loaded && !web3Connect.connected) {
-      router.history.push('/');
-    }
-  }, [web3Connect, router.history]);
+  useRedirectHomeIfNoEthAccount();
 
   const { register, handleSubmit, watch, errors } = useForm();
 
