@@ -55,7 +55,11 @@ contract NoLossDao_v0 is Initializable {
     uint256 indexed iteration,
     uint256 indexed proposalId
   );
-  event IterationChanged(uint256 timeStamp, address miner);
+  event IterationChanged(
+    uint256 indexed newIterationId,
+    address miner,
+    uint256 timeStamp
+  );
   event IterationWinner(
     uint256 indexed propsalIteration,
     address indexed winner,
@@ -77,7 +81,6 @@ contract NoLossDao_v0 is Initializable {
     );
     _;
   }
-
 
   modifier noVoteYet(address givenAddress) {
     require(
@@ -143,7 +146,6 @@ contract NoLossDao_v0 is Initializable {
     require(proposalDeadline < now, 'iteration interval not ended');
     _;
   }
-
 
   modifier iterationMostlyElapsed() {
     require(
@@ -378,7 +380,7 @@ contract NoLossDao_v0 is Initializable {
     // );
 
     // send winning miner a little surprise [NFT]
-    emit IterationChanged(now, msg.sender);
+    emit IterationChanged(proposalIteration, msg.sender, now);
   }
 
   // Allows admin to redirect interest stream to themselves for (1/7 of the total time = 15%) fee to continue funding developement
