@@ -8,14 +8,12 @@ import { CircularProgress, Grid, Typography } from '@material-ui/core';
 
 const styles = (theme) => ({
   button: {
-    // margin: theme.spacing.unit,
     width: 200,
   },
   input: {
     display: 'none',
   },
   wrapper: {
-    // margin: theme.spacing.unit,
     position: 'relative',
     width: 200,
   },
@@ -29,6 +27,7 @@ const styles = (theme) => ({
 });
 
 class IpfsUpload extends Component {
+  //TODO: refactor to functional component
   constructor(props) {
     super(props);
 
