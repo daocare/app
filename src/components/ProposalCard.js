@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import InsertLinkIcon from '@material-ui/icons/InsertLink';
 
-import { getUrlByHash } from '../../modules/pinata';
+import { getUrlByHash } from '../modules/pinata';
 
 const useStyles = makeStyles({
   root: {

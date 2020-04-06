@@ -5,10 +5,10 @@ import { makeStyles } from '@material-ui/styles';
 import { LinearProgress, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-import BetaFlag from '../../components/BetaFlag/BetaFlag';
+import BetaFlag from '../../components/BetaFlag';
 import { Page, WalletProfile } from '../../components';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     width: '100%',
@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Dashboard = props => {
+const Dashboard = (props) => {
   const { route } = props;
 
   const classes = useStyles();

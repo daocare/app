@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
-import useRouter from '../../utils/useRouter';
+import useRouter from '../utils/useRouter';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   headerContainer: {
     cursor: 'pointer',
     [theme.breakpoints.up('sm')]: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Header = props => {
+const Header = (props) => {
   const classes = useStyles();
   const router = useRouter();
   return (

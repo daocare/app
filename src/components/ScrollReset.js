@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import useRouter from '../../utils/useRouter';
+import useRouter from '../utils/useRouter';
 
 const ScrollReset = () => {
   const router = useRouter();

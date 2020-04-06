@@ -5,10 +5,10 @@ import { Typography, Button } from '@material-ui/core';
 import UpdateIcon from '@material-ui/icons/Update';
 import { useForm } from 'react-hook-form';
 import { Page } from '../components';
-import Header from '../components/Header/Header';
+import Header from '../components/Header';
 import useRouter from '../utils/useRouter';
 import useWeb3Connect from '../utils/useWeb3Connect';
-import LoadingWeb3 from '../components/LoadingWeb3/LoadingWeb3';
+import LoadingWeb3 from '../components/LoadingWeb3';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 const BN = require('bn.js');
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import { getIpfsUrl, getIpfs } from '../../modules/ipfs';
+import { getIpfsUrl, getIpfs } from '../modules/ipfs';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { CircularProgress, Grid, Typography } from '@material-ui/core';
 
-const styles = theme => ({
+const styles = (theme) => ({
   button: {
     // margin: theme.spacing.unit,
     width: 200,
@@ -61,7 +61,7 @@ class IpfsUpload extends Component {
     };
   }
 
-  convertToBuffer = async reader => {
+  convertToBuffer = async (reader) => {
     console.log('on convertToBuffer');
     //file is converted to a buffer to prepare for uploading to IPFS
     const buffer = await Buffer.from(reader.result);

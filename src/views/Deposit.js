@@ -11,9 +11,9 @@ import {
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 import { Page } from '../components';
-import Header from '../components/Header/Header';
-import LoadingWeb3 from '../components/LoadingWeb3/LoadingWeb3';
-import EllipsisLoader from '../components/EllipsisLoader/EllipsisLoader';
+import Header from '../components/Header';
+import LoadingWeb3 from '../components/LoadingWeb3';
+import EllipsisLoader from '../components/EllipsisLoader';
 import useRouter from '../utils/useRouter';
 import useWeb3Connect from '../utils/useWeb3Connect';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';

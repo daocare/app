@@ -12,9 +12,9 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Button, Grid } from '@material-ui/core';
 
 import { Page } from '../components';
-import Header from '../components/Header/Header';
-import ProposalCard from '../components/ProposalCard/ProposalCard';
-import EllipsisLoader from '../components/EllipsisLoader/EllipsisLoader';
+import Header from '../components/Header';
+import ProposalCard from '../components/ProposalCard';
+import EllipsisLoader from '../components/EllipsisLoader';
 
 import { FIREBASE_FUNCTIONS_ENDPOINT } from '../config/firebase';
 import { twitterHandleAlreadyLinked } from '../modules/twitterDb';

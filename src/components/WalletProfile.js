@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import useWeb3Connect from '../../utils/useWeb3Connect';
+import useWeb3Connect from '../utils/useWeb3Connect';
+import useRouter from '../utils/useRouter';
 import Button from '@material-ui/core/Button';
 import ProfileHover from 'profile-hover';
 import Container from '@material-ui/core/Container';
@@ -8,10 +9,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import purple from '@material-ui/core/colors/purple';
-import useRouter from '../../utils/useRouter';
 
 // import useRouter from 'utils/useRouter';
-const WalletProfile = props => {
+const WalletProfile = (props) => {
   const web3Connect = useWeb3Connect();
   const router = useRouter();
 

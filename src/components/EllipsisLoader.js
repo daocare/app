@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useInterval from '../../utils/useInterval';
+import useInterval from '../utils/useInterval';
 
 const EllipsisLoader = (props) => {
   const [inlineLoaderState, setInlineLoaderState] = useState(0);

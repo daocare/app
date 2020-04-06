@@ -9,8 +9,8 @@ import useInterval from '../utils/useInterval';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import DepositIcon from '@material-ui/icons/AllInclusive';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
-import Header from '../components/Header/Header';
-import EllipsisLoader from '../components/EllipsisLoader/EllipsisLoader';
+import Header from '../components/Header';
+import EllipsisLoader from '../components/EllipsisLoader';
 
 const useStyles = makeStyles((theme) => ({
   button: {
