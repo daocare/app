@@ -186,6 +186,13 @@ contract NoLossDao_v0 is Initializable {
     votingInterval = newInterval;
   }
 
+ /// @dev Changes the amount required to stake for new proposal
+  /// @param amount how much new amount is.
+  function changeProposalStakingAmount(uint256 amount) public onlyAdmin {
+    depositContract.changeProposalAmount(amount);
+  }
+
+
   // change miner reward here
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

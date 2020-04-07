@@ -172,13 +172,13 @@ contract('PoolDeposits', accounts => {
 
     // Try change from 50 dai to 90 dai
     await expectRevert(
-      poolDeposits.changeProposalAmount( 9000000, {
+      noLossDao.changeProposalStakingAmount( 9000000, {
         from: accounts[2],
       }),
-      'function can only be called by no Loss Dao contract'
+      'Not admin'
     );
 
-    await poolDeposits.changeProposalAmount(9000000, {
+    await noLossDao.changeProposalStakingAmount(9000000, {
       from: accounts[0],
     });
 
