@@ -1,45 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Typography, Button } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import { useForm } from 'react-hook-form';
-import useRouter from '../utils/useRouter';
-import { pinHash } from '../modules/pinata';
+import {
+  Typography,
+  Button,
+  TextField,
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
+  Avatar,
+  Chip,
+  IconButton,
+  Tooltip,
+} from '@material-ui/core';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import AddIcon from '@material-ui/icons/PersonAdd';
+
 import Page from '../components/Page';
 import Header from '../components/Header';
-import useWeb3Connect from '../utils/useWeb3Connect';
-import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import LoadingWeb3 from '../components/LoadingWeb3';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
+import IpfsUpload from '../components/IpfsUpload';
+import ProposalCard from '../components/ProposalCard';
+
+import useWeb3Connect from '../utils/useWeb3Connect';
+import useRouter from '../utils/useRouter';
 import useInterval from '../utils/useInterval';
+import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 import {
   open3Box,
   isLoggedIn,
   isFetching,
-  // getBox,
   getSpace,
   getBox,
 } from '../utils/3BoxManager';
-import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
-import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
-import AddIcon from '@material-ui/icons/PersonAdd';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import ReactMde from 'react-mde';
-// import ReactDOM from 'react-dom';
-import * as Showdown from 'showdown';
-import 'react-mde/lib/styles/css/react-mde-all.css';
 import { emojiExists } from '../modules/twitterDb';
-import IpfsUpload from '../components/IpfsUpload';
-// import Box from '3box';
-import ProposalCard from '../components/ProposalCard';
-import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
+import { pinHash } from '../modules/pinata';
+
+import { useForm } from 'react-hook-form';
+import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+import * as Showdown from 'showdown';
+import ReactMde from 'react-mde';
+import 'react-mde/lib/styles/css/react-mde-all.css';
 
 const BN = require('bn.js');
 
@@ -47,40 +50,14 @@ const STAKING_AMOUNT = 50;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // backgroundColor: theme.palette.white
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
-  },
-  paper: {
-    [theme.breakpoints.up('md')]: {
-      maxWidth: '75%',
-      minWidth: 180,
-    },
-    width: '100%',
-    padding: theme.spacing(3),
-  },
-  title: {
-    // marginBottom: theme.spacing(2),
   },
   textField: {
     margin: theme.spacing(1, 0),
     [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing(2),
     },
-
-    // fontWeight: "0.8em"
-    // minWidth: 150
-  },
-  subscribeButton: {
-    // padding: theme.spacing(0, 1)
-  },
-  fieldGroup: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'flex',
-      marginTop: theme.spacing(1),
-    },
-
-    alignItems: 'center',
   },
   flexGrow: {
     flexGrow: 1,
@@ -93,15 +70,6 @@ const useStyles = makeStyles((theme) => ({
     },
     marginTop: theme.spacing(2),
   },
-  hiddenImage: {
-    display: 'none',
-  },
-  image: {
-    display: 'block',
-  },
-  statusMsg: {
-    marginLeft: 16,
-  },
   button: {
     width: 190,
   },
@@ -110,14 +78,6 @@ const useStyles = makeStyles((theme) => ({
   },
   step3Box: {
     textAlign: 'center',
-  },
-  teamChips: {
-    display: 'flex',
-    justifyContent: 'left',
-    flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(0.5),
-    },
   },
 }));
 
