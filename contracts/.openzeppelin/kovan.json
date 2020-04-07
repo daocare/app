@@ -1,11 +1,11 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0xbAa43dA970987ad0499e325bD1dA230ef8AEe5CF",
-      "constructorCode": "608060405234801561001057600080fd5b50611cb8806100206000396000f3fe",
-      "bodyBytecodeHash": "7fd8bf26c235bfa1579917e2540e2ae63130a9006571aa80c8df690057a3e815",
-      "localBytecodeHash": "8ccdd120a6c5040f4f2325b484013be33dc3034305095f552dfedbed88eedfc9",
-      "deployedBytecodeHash": "8ccdd120a6c5040f4f2325b484013be33dc3034305095f552dfedbed88eedfc9",
+      "address": "0x4Bd114e3519600A684412e5A1DDa299FDB62D6f0",
+      "constructorCode": "608060405234801561001057600080fd5b50611c87806100206000396000f3fe",
+      "bodyBytecodeHash": "ed2b87c719906422dcab39176c78045fd9b03f433b241a2d81c6aa4bd21bd314",
+      "localBytecodeHash": "c1098b48ea62460a81b6d1e2683d9a705f1eb6e36cc175dfc6655bb7785577bb",
+      "deployedBytecodeHash": "c1098b48ea62460a81b6d1e2683d9a705f1eb6e36cc175dfc6655bb7785577bb",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -75,7 +75,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 12684,
+          "astId": 12688,
           "type": "t_bool",
           "src": "757:24:22"
         },
@@ -83,7 +83,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 12686,
+          "astId": 12690,
           "type": "t_bool",
           "src": "876:25:22"
         },
@@ -91,7 +91,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 12742,
+          "astId": 12746,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:22"
         },
@@ -221,18 +221,7 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": [],
-        "storageUncheckedVars": [
-          {
-            "contract": "NoLossDao_v0",
-            "path": "contracts/NoLossDao_v0.sol",
-            "label": "state",
-            "astId": 99,
-            "type": "t_mapping<t_enum<NoLossDao_v0.ProposalState>>",
-            "src": "1081:46:1"
-          }
-        ],
-        "storageDiff": []
+        "uninitializedBaseContracts": []
       }
     }
   },
@@ -240,17 +229,10 @@
   "proxies": {
     "example-truffle-migrate/NoLossDao": [
       {
-        "address": "0x1Be540722F30fBb6A86f995F25A81f5BA5ac4327",
+        "address": "0xe9373890d88528f3f46eE9fcFb1B04Eecf8E6585",
         "version": "2.5.3",
-        "implementation": "0x02d4ff4F4aed83d85914cA8A8eC988Bf7A520536",
-        "admin": "0xbC3d397D8689B4A6B8047f813e1d40171A1B61b0",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xb4fA1f818fa5B29F51Beb6FFA3941e0C5aCd6Ecd",
-        "version": "2.5.3",
-        "implementation": "0xbAa43dA970987ad0499e325bD1dA230ef8AEe5CF",
-        "admin": "0xbC3d397D8689B4A6B8047f813e1d40171A1B61b0",
+        "implementation": "0x4Bd114e3519600A684412e5A1DDa299FDB62D6f0",
+        "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
         "kind": "Upgradeable"
       }
     ]
@@ -258,6 +240,6 @@
   "manifestVersion": "2.2",
   "version": "2.5.3",
   "proxyAdmin": {
-    "address": "0xbC3d397D8689B4A6B8047f813e1d40171A1B61b0"
+    "address": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0"
   }
 }
