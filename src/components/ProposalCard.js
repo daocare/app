@@ -38,8 +38,6 @@ const ProposalCard = (props) => {
     ...rest
   } = props;
   const classes = useStyles();
-  console.log('id');
-  console.log(id);
   const voteTwitter = () => {
     let url =
       'https://twitter.com/intent/tweet?text=' +

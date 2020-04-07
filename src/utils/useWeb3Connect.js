@@ -478,15 +478,10 @@ function useWeb3Connect() {
       let deadline = await daoContract.methods.proposalDeadline().call();
 
       setCurrentIteration(iteration);
-      console.log('iteration');
-      console.log(iteration);
-      console.log('previous iteration');
-      console.log(iteration - 1);
       setCurrentIterationDeadline(deadline);
       setHasProposal(foundOwner);
       setProposals(tempProposals);
       setFetched(true);
-      console.log(Date.now() / 1000 - lastFetchTimestamp / 1000);
       setLastFetchTimestamp(Date.now());
       isFetchingProposals = false;
       const topProposalId = Number(
@@ -502,11 +497,9 @@ function useWeb3Connect() {
 
   const triggerDaiApprove = async (value) => {
     let amount = web3.utils.toWei(value, 'ether');
-    console.log({ amount });
     let tx = await daiContract.methods.approve(DEPOSIT_ADDRESS, amount).send({
       from: address,
     });
-    console.log(tx);
     await updateAllowance();
     return tx;
   };
