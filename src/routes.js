@@ -2,18 +2,17 @@
 /* eslint-disable react/display-name */
 import { lazy } from 'react';
 
-import MainLayout from './layouts/Main';
+import Layout from './layouts/Layout';
 
 const routes = [
   {
     path: '/',
-    component: MainLayout,
-    // exact: true,
+    component: Layout,
     routes: [
       {
         path: '/',
         exact: true,
-        component: lazy(() => import('./views/Home/Home')),
+        component: lazy(() => import('./views/Home')),
       },
       {
         path: '/submit-proposal',
@@ -23,12 +22,12 @@ const routes = [
       {
         path: '/deposit',
         exact: true,
-        component: lazy(() => import('./views/Deposit/Deposit')),
+        component: lazy(() => import('./views/Deposit')),
       },
       {
         path: '/withdraw',
         exact: true,
-        component: lazy(() => import('./views/Withdraw/Withdraw')),
+        component: lazy(() => import('./views/Withdraw')),
       },
       {
         path: '/proposals',

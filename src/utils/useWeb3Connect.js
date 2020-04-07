@@ -110,7 +110,7 @@ function useWeb3Connect() {
   const [daiAllowance, setDaiAllowance] = useState(null);
   const [daiBalance, setDaiBalance] = useState(null);
   const [daiDeposit, setDaiDeposit] = useState(null);
-  const [hasProposal, setHasProposal] = useState(false);
+  const [hasProposal, setHasProposal] = useState(null);
   const [enabledTwitter, setEnabledTwitter] = useState(false);
 
   const [currentIteration, setCurrentIteration] = useState(0);
@@ -118,6 +118,7 @@ function useWeb3Connect() {
     topProposalInCurrentIterationId,
     setTopProposalInCurrentIterationId,
   ] = useState(0);
+  const [previousWinnerId, setPreviousWinnerId] = useState(0);
   const [currentIterationDeadline, setCurrentIterationDeadline] = useState(0);
   const [proposals, setProposals] = useState([]);
   const [currentVote, setCurrentVote] = useState(null);
@@ -429,7 +430,6 @@ function useWeb3Connect() {
     addr = address,
     daoContract = daoContractReadOnly
   ) => {
-    // let contract = daoContract ? daoContract
     if (
       lastFetchTimestamp + FETCH_UPDATE_INTERVAL < Date.now() &&
       daoContract &&
@@ -482,23 +482,24 @@ function useWeb3Connect() {
       setHasProposal(foundOwner);
       setProposals(tempProposals);
       setFetched(true);
-      console.log(Date.now() / 1000 - lastFetchTimestamp / 1000);
       setLastFetchTimestamp(Date.now());
       isFetchingProposals = false;
       const topProposalId = Number(
         await daoContract.methods.topProject(iteration).call()
       );
       setTopProposalInCurrentIterationId(topProposalId);
+      const thePreviousWinnerId = Number(
+        await daoContract.methods.topProject(iteration - 1).call()
+      );
+      setPreviousWinnerId(thePreviousWinnerId);
     }
   };
 
   const triggerDaiApprove = async (value) => {
     let amount = web3.utils.toWei(value, 'ether');
-    console.log({ amount });
     let tx = await daiContract.methods.approve(DEPOSIT_ADDRESS, amount).send({
       from: address,
     });
-    console.log(tx);
     await updateAllowance();
     return tx;
   };
@@ -602,6 +603,7 @@ function useWeb3Connect() {
     currentIteration,
     currentIterationDeadline,
     topProposalInCurrentIterationId,
+    previousWinnerId,
     daiBalance,
     daiDeposit,
     loaded,
