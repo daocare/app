@@ -149,6 +149,12 @@ contract PoolDeposits {
     isEmergencyState = false;
   }
 
+  /// @dev allows the proposalAmount (amount proposal has to stake to enter the pool) to be configurable
+  /// @param amount new proposalAmount
+  function changeProposalAmount(uint256 amount) external noLossDaoContractOnly{
+    proposalAmount = amount;
+  }
+
   /// @dev Internal function completing the actual deposit to Aave and crediting users account
   /// @param amount amount being deosited into pool
   function _depositFunds(uint256 amount) internal {
