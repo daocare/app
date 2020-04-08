@@ -4,8 +4,9 @@ pragma solidity 0.5.15;
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/IPoolDeposits.sol';
-import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 import '@nomiclabs/buidler/console.sol';
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
 
 
 /** @title No Loss Dao Contract. */
@@ -200,9 +201,10 @@ contract NoLossDao_v0 is Initializable {
   
  /// @dev Changes the amount required to stake for new proposal
 
-  function addInterestReceiver(address[] memory _interestReceivers, uint256[] memory _percentages) public onlyAdmin {
+  function setInterestReceiver(address[] memory _interestReceivers, uint256[] memory _percentages) public onlyAdmin {
     interestReceivers = _interestReceivers;
     percentages = _percentages;
+    // emit event
   }
 
 
@@ -358,16 +360,7 @@ contract NoLossDao_v0 is Initializable {
 
   /// @dev Anyone can call this every 2 weeks (more specifically every *iteration interval*) to receive a reward, and increment onto the next iteration of voting
   function distributeFunds() external iterationElapsed {
-    // On a *whatever we decide basis* the funds are distributed to the winning project
-    // E.g. every 2 weeks, the project with the most votes gets the generated interest.
-    // figure our what happens with the interest from the first proposal iteration
-    // Possibly make first iteration an extended one for our launch (for marketing)
-    // console.log(
-    //   'Iteration no: ',
-    //   proposalIteration,
-    //   'Time that this iteration has ended incremented ',
-    //   proposalDeadline
-    // );
+
     if (proposalIteration > 0) {
       // Only if last winner is not withdrawn (i.e. still in cooldown) make it active again
       if (
