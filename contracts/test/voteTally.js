@@ -25,13 +25,15 @@ contract('noLossDao', accounts => {
   const applicationAmount = '5000000';
 
   beforeEach(async () => {
-    dai = await ERC20token.new('AveTest', 'AT', 18, accounts[0], {
+    dai = await ERC20token.new('DaiTest', 'DT', 18, accounts[0], {
       from: accounts[0],
     });
+
     aDai = await ADai.new(dai.address, {
       from: accounts[0],
     });
-    aaveLendingPool = await AaveLendingPool.new(aDai.address, {
+
+    aaveLendingPool = await AaveLendingPool.new(aDai.address, dai.address, {
       from: accounts[0],
     });
     lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
@@ -39,21 +41,49 @@ contract('noLossDao', accounts => {
     });
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    await dai.addMinter(aDai.address, { from: accounts[0] });
+    //await dai.addMinter(aDai.address, { from: accounts[0] });
+    //await aDai.addMinter(aaveLendingPool.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
-      aDai.address,
+      aDai.address,  
       lendingPoolAddressProvider.address,
       noLossDao.address,
       applicationAmount,
       { from: accounts[0] }
     );
-
     await noLossDao.initialize(poolDeposits.address, '1800', {
       from: accounts[0],
     });
   });
+   it('noLossDao:voteTally. Votes tally gets correctly registered.', async () => {
+
+    let mintAmount1 = '60000000000';
+    //////////// ITERATION 0 /////////////////
+    // Creater voters account 1 (vote power =6) and 2 (vote power=7)
+    await dai.mint(accounts[1], mintAmount1);
+    await dai.approve(poolDeposits.address, mintAmount1, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount1, { from: accounts[1] });
+    
+    let temp = await dai.balanceOf(accounts[1]);
+    console.log(temp.toString());
+
+    let temp2 = await dai.balanceOf(poolDeposits.address);
+    console.log(temp2.toString());
+
+    let temp3 = await aDai.balanceOf(poolDeposits.address);
+    console.log(temp3.toString());
+
+     await poolDeposits.withdrawDeposit({from: accounts[1]});
+
+
+    await time.increase(time.duration.seconds(1805)); // increment to iteration 1
+    await noLossDao.distributeFunds();
+
+
+   });
 
   it('noLossDao:voteTally. Votes tally gets correctly registered.', async () => {
     let mintAmount1 = '60000000000';
