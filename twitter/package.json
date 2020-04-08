@@ -10,7 +10,7 @@
   },
   "scripts": {
     "re:build": "bsb -make-world",
-    "re:watch": "bsb -make-world -w",
+    "re:watch": "bsb -clean-world -make-world -w",
     "re:clean": "bsb -clean-world",
     "watch": "nodemon ./src/Index.bs.js",
     "start": "node ./src/Index.bs.js"

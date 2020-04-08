@@ -160,3 +160,9 @@ let postWithResult = (twit, method, tweetArguments) => {
   );
   p->Promise.Js.toBsPromise;
 };
+
+let something = "other";
+
+[@bs.module "./postTweetInReply"]
+external postTweetInReply: (. t, string, string, string) => Js.Promise.t(unit) =
+  "postTweetInReply";

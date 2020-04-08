@@ -1,6 +1,13 @@
+open Globals;
+
 type txOptions = {from: string};
 type txResult;
-type txActions = {send: txOptions => Js.Promise.t(Result(txResult))};
+type resultListeners = {on: (. string, string => unit) => resultListeners};
+type txActions = {
+  // send: txOptions => Js.Promise.t(Result.t(txResult, Js.Promise.error)),
+  send: txOptions => resultListeners,
+};
+// type txActions = {send: txOptions => Js.Promise.t(Result(txResult))};
 type noLossDaoMethods = {
   voteProxy: (. ~proposalId: string, ~usersAddress: string) => txActions,
 };
@@ -36,11 +43,8 @@ let setupWeb3:
         ],
       });
       const accounts = await web3Inited.eth.getAccounts();
-      console.log({accounts})
       const mainAddress = accounts[0];
-      console.log({mainAddress})
 
-      console.log({ address: daoAddress });
       return (
         {
         noLossDao: (new web3Inited.eth.Contract(
