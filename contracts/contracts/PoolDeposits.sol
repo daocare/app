@@ -1,6 +1,5 @@
 pragma solidity 0.5.15;
 
-//import './interfaces/IERC20.sol';
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/INoLossDao.sol';
@@ -42,6 +41,7 @@ contract PoolDeposits {
   );
   event DepositWithdrawn(address indexed user);
   event ProposalWithdrawn(address indexed benefactor);
+  event InterestSent(address indexed user, uint256 amount, uint256 iteration);
 
   ///////// Emergency Events ///////////
   event EmergencyStateReached(
@@ -151,7 +151,7 @@ contract PoolDeposits {
 
   /// @dev allows the proposalAmount (amount proposal has to stake to enter the pool) to be configurable
   /// @param amount new proposalAmount
-  function changeProposalAmount(uint256 amount) external noLossDaoContractOnly{
+  function changeProposalAmount(uint256 amount) external noLossDaoContractOnly {
     proposalAmount = amount;
   }
 
@@ -238,6 +238,41 @@ contract PoolDeposits {
     noLossDaoContractOnly
   {
     adaiContract.redirectInterestStream(_winner);
+  }
+
+  /// @dev Splits the accrued interest between winners.
+  /// @param receivers An array of the addresses to split between
+  /// @param percentages the respective percentage to split
+  function distributeInterest(
+    address[] calldata receivers,
+    uint256[] calldata percentages,
+    address winner,
+    uint256 iteration
+  ) external noLossDaoContractOnly {
+    require(
+      receivers.length == percentages.length,
+      'Input of argument lengths not equal'
+    );
+    require(adaiContract.balanceOf(address(this)) > totalDepositedDai);
+
+    uint256 amountToRedeem = adaiContract.balanceOf(address(this)).sub(
+      totalDepositedDai
+    );
+    adaiContract.redeem(amountToRedeem);
+
+    uint256 percentageWinner = 1000;
+    for (uint8 i = 0; i < receivers.length; i++) {
+      percentageWinner = percentageWinner.sub(percentages[i]); //SafeMath prevents this going below 0
+      uint256 amountToSend = amountToRedeem.mul(percentages[i]).div(1000);
+      daiContract.transfer(receivers[i], amountToSend);
+      emit InterestSent(receivers[i], amountToSend, iteration);
+    }
+
+    uint256 amountToSendToWinner = amountToRedeem.mul(percentageWinner).div(
+      1000
+    );
+    daiContract.transfer(winner, amountToSendToWinner);
+    emit InterestSent(winner, amountToSendToWinner, iteration);
   }
 
   //////////////////////////////////////////////////
