@@ -21,17 +21,21 @@ const WalletProfile = (props) => {
     await web3Connect.resetApp();
     router.history.push('/');
   };
-  if (web3Connect.connected && web3Connect.address) {
-    return (
-      <Container maxWidth="md">
-        <div
-          style={{
-            float: 'right',
-            marginTop: 16,
-            marginBottom: 16,
-            color: 'white !important',
-          }}
-        >
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContent: 'flex-end',
+        marginTop: 16,
+        marginBottom: 16,
+        color: 'white !important',
+        maxHeight: '20vh',
+      }}
+    >
+      {web3Connect.connected && web3Connect.address ? (
+        <>
           <ProfileHover
             address={web3Connect.address}
             showName={true}
@@ -47,13 +51,8 @@ const WalletProfile = (props) => {
               <ExitToAppIcon />
             </IconButton>
           </Tooltip>
-        </div>
-      </Container>
-    );
-  }
-  return (
-    <Container maxWidth="md">
-      <div style={{ float: 'right', marginTop: 16, marginBottom: 16 }}>
+        </>
+      ) : (
         <Button
           variant="contained"
           color="secondary"
@@ -62,8 +61,8 @@ const WalletProfile = (props) => {
         >
           Connect
         </Button>
-      </div>
-    </Container>
+      )}
+    </div>
   );
 };
 
