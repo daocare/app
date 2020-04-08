@@ -37,6 +37,10 @@ contract NoLossDao_v0 is Initializable {
   mapping(uint256 => uint256) public topProject;
   mapping(address => address) public voteDelegations; // For vote proxy
 
+  //////// Necessary to fund dev and miners //////////
+  address[]  interestReceivers;
+  uint256[]  percentages;
+
   ///////// DEFI Contrcats ///////////
   IPoolDeposits public depositContract;
 
@@ -174,6 +178,8 @@ contract NoLossDao_v0 is Initializable {
     admin = msg.sender;
     votingInterval = _votingInterval;
     proposalDeadline = now.add(_votingInterval);
+    interestReceivers.push(admin);
+    percentages.push(135); // 1000 being 100%
   }
 
   ///////////////////////////////////
@@ -190,6 +196,13 @@ contract NoLossDao_v0 is Initializable {
   /// @param amount how much new amount is.
   function changeProposalStakingAmount(uint256 amount) public onlyAdmin {
     depositContract.changeProposalAmount(amount);
+  }
+  
+ /// @dev Changes the amount required to stake for new proposal
+
+  function addInterestReceiver(address[] memory _interestReceivers, uint256[] memory _percentages) public onlyAdmin {
+    interestReceivers = _interestReceivers;
+    percentages = _percentages;
   }
 
 
@@ -370,19 +383,15 @@ contract NoLossDao_v0 is Initializable {
       if (state[iterationTopProject] != ProposalState.Withdrawn) {
         state[iterationTopProject] = ProposalState.Cooldown;
       }
-      address winner = proposalOwner[iterationTopProject]; // This cannot be null, since we chack that there was a winner above.
-      depositContract.redirectInterestStreamToWinner(winner);
+      address winner = proposalOwner[iterationTopProject]; // This cannot be null, since we check that there was a winner above.
+
+      depositContract.distributeInterest(interestReceivers, percentages, winner, proposalIteration);
+      // depositContract.redirectInterestStreamToWinner(winner);
       emit IterationWinner(proposalIteration, winner, iterationTopProject);
     }
 
     proposalDeadline = now.add(votingInterval);
     proposalIteration = proposalIteration.add(1);
-    // console.log(
-    //   'Iteration no: ',
-    //   proposalIteration,
-    //   ' Will start now and end earliest at',
-    //   proposalDeadline
-    // );
 
     // send winning miner a little surprise [NFT]
     emit IterationChanged(proposalIteration, msg.sender, now);

@@ -253,7 +253,7 @@ contract PoolDeposits {
       receivers.length == percentages.length,
       'Input of argument lengths not equal'
     );
-    require(adaiContract.balanceOf(address(this)) > totalDepositedDai);
+    //require(adaiContract.balanceOf(address(this)) > totalDepositedDai, 'No interest generated to receive');
 
     uint256 amountToRedeem = adaiContract.balanceOf(address(this)).sub(
       totalDepositedDai
