@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
-const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
+const LendingPoolAddressProvider = artifacts.require(
+  'LendingPoolAddressesProvider'
+);
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('PoolDeposits', accounts => {
+contract('PoolDeposits', (accounts) => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -31,15 +33,18 @@ contract('PoolDeposits', accounts => {
     aDai = await ADai.new(dai.address, {
       from: accounts[0],
     });
-    aaveLendingPool = await AaveLendingPool.new(aDai.address, {
+    aaveLendingPool = await AaveLendingPool.new(aDai.address, dai.address, {
       from: accounts[0],
     });
-    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
-      from: accounts[0],
-    });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(
+      aaveLendingPool.address,
+      {
+        from: accounts[0],
+      }
+    );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    await dai.addMinter(aDai.address, { from: accounts[0] });
+    //await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -92,10 +97,10 @@ contract('PoolDeposits', accounts => {
 
     await poolDeposits.voteEmergency({ from: accounts[2] });
 
-    const  logs  = await poolDeposits.declareStateOfEmergency({
+    const logs = await poolDeposits.declareStateOfEmergency({
       from: accounts[2],
     });
-    
+
     let created_at = await time.latest();
     let emergencyVoteTotal1 = await poolDeposits.emergencyVoteAmount.call();
     let totalDeposit = await poolDeposits.totalDepositedDai.call();
@@ -129,7 +134,7 @@ contract('PoolDeposits', accounts => {
 
     await time.increase(time.duration.days(101));
 
-    const  logs  = await poolDeposits.voteEmergency({ from: accounts[2] });
+    const logs = await poolDeposits.voteEmergency({ from: accounts[2] });
     expectEvent(logs, 'EmergencyVote', {
       user: accounts[2],
       emergencyVoteAmount: mintAmount2,

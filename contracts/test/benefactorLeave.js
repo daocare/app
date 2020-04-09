@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
-const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
+const LendingPoolAddressProvider = artifacts.require(
+  'LendingPoolAddressesProvider'
+);
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('PoolDeposits', accounts => {
+contract('PoolDeposits', (accounts) => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -31,15 +33,18 @@ contract('PoolDeposits', accounts => {
     aDai = await ADai.new(dai.address, {
       from: accounts[0],
     });
-    aaveLendingPool = await AaveLendingPool.new(aDai.address, {
+    aaveLendingPool = await AaveLendingPool.new(aDai.address, dai.address, {
       from: accounts[0],
     });
-    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
-      from: accounts[0],
-    });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(
+      aaveLendingPool.address,
+      {
+        from: accounts[0],
+      }
+    );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    await dai.addMinter(aDai.address, { from: accounts[0] });
+    //await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -146,8 +151,7 @@ contract('PoolDeposits', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
-
-    const logs  = await poolDeposits.withdrawProposal({
+    const logs = await poolDeposits.withdrawProposal({
       from: accounts[2],
     });
     expectEvent(logs, 'ProposalWithdrawn', {
@@ -172,7 +176,7 @@ contract('PoolDeposits', accounts => {
 
     // Try change from 50 dai to 90 dai
     await expectRevert(
-      noLossDao.changeProposalStakingAmount( 9000000, {
+      noLossDao.changeProposalStakingAmount(9000000, {
         from: accounts[2],
       }),
       'Not admin'
@@ -196,20 +200,16 @@ contract('PoolDeposits', accounts => {
     assert.equal('9000000', depositedDaiUser.toString());
     assert.equal('14000000', totalDai);
 
-
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
-
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
- 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
-
-    const logs  = await poolDeposits.withdrawProposal({
+    const logs = await poolDeposits.withdrawProposal({
       from: accounts[2],
     });
     expectEvent(logs, 'ProposalWithdrawn', {
@@ -270,7 +270,6 @@ contract('PoolDeposits', accounts => {
       from: accounts[2],
     });
   });
-
 
   // Tests about the benefactor leaving... THESE ARE NB SECURITY
 });

@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
-const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
+const LendingPoolAddressProvider = artifacts.require(
+  'LendingPoolAddressesProvider'
+);
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('noLossDao', accounts => {
+contract('noLossDao', (accounts) => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -31,15 +33,18 @@ contract('noLossDao', accounts => {
     aDai = await ADai.new(dai.address, {
       from: accounts[0],
     });
-    aaveLendingPool = await AaveLendingPool.new(aDai.address, {
+    aaveLendingPool = await AaveLendingPool.new(aDai.address, dai.address, {
       from: accounts[0],
     });
-    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
-      from: accounts[0],
-    });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(
+      aaveLendingPool.address,
+      {
+        from: accounts[0],
+      }
+    );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    await dai.addMinter(aDai.address, { from: accounts[0] });
+    //await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -206,14 +211,12 @@ contract('noLossDao', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds(); //check who winner was
 
-
     await dai.approve(poolDeposits.address, mintAmount1, {
       from: accounts[4],
     });
     await poolDeposits.createProposal('Some IPFS hash string1', {
       from: accounts[4],
     });
-
   });
 
   it('NoLossDao:coolDown. Cooldown of previous project is reset even if there is no winner in the current iteration.', async () => {
@@ -252,7 +255,7 @@ contract('noLossDao', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
-    let proposalStateIteration2 = await noLossDao.state(proposalID1)
+    let proposalStateIteration2 = await noLossDao.state(proposalID1);
     // No one votes in this iteration (so there is no top project).
 
     //////////// ITERATION 3 /////////////////
@@ -260,10 +263,10 @@ contract('noLossDao', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
-    let proposalStateIteration3 = await noLossDao.state(proposalID1)
+    let proposalStateIteration3 = await noLossDao.state(proposalID1);
 
     // The proposal states "active" and "cooldown" are id 2 and 3 respectively.
-    assert.equal(proposalStateIteration2.toString(), "3")
-    assert.equal(proposalStateIteration3.toString(), "2")
+    assert.equal(proposalStateIteration2.toString(), '3');
+    assert.equal(proposalStateIteration3.toString(), '2');
   });
 });
