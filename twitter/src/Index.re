@@ -12,12 +12,29 @@ let etherHandler = ref(()->Obj.magic);
 let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
   let%Async currentIteration = proposalManager.getIteration(.);
   if (currentIteration != currentIterationId^) {
-    currentIterationId := currentIteration;
-    let%Async _ = proposalManager.getCurrentProposals(.);
+    if (currentIteration == currentIterationId^ + 1) {
+      currentIterationId := currentIteration;
+      let%Async _ = proposalManager.getCurrentProposals(.);
 
-    // TODO: tweet new proposals for iteration + update the currentIterationTweetId!
-
-    ()->async;
+      let%Async tweetUpdateResult =
+        Twit.postWithResult(
+          twitInstance,
+          "statuses/mentions_timeline",
+          TwitPostArgs.makeStatusArgs({
+            status:
+              "We have a new iteration. Please vote on one of the following projects\n\n"
+              ++ proposalManager.getProjectsTweetString(.),
+            in_reply_to_status_id: None,
+          }),
+        );
+      switch (tweetUpdateResult) {
+      | TweetSuccess(tweetData) => currentIterationTweetId := tweetData.id_str
+      | TweetError(error) => Js.log(error)
+      };
+      ()->async;
+    } else {
+      ()->async;
+    };
   } else {
     let%Async tweetResult =
       Twit.getWithResult(
@@ -107,7 +124,6 @@ let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
                   on(.
                    "receipt", _receipt => {
                   // Js.log2("receipt", receipt);
-                  // TODO: check the transaction didn't revert
                   Twit.postTweetInReply(.
                     twitInstance,
                     "@"
@@ -135,7 +151,6 @@ let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
                   ->ignore
                 })
                 ->ignore;
-                // ->catchAsync(err => Js.Promise.resolve(Result.Error(err)));
                 %raw
                 {|console.timeEnd('someFunction'+randomString)|};
                 ();
@@ -203,6 +218,8 @@ let start = () => {
   let proposalManager = ProposalManager.setupProposalManager(.);
 
   let%Async _result = proposalManager.getCurrentProposals(.);
+  let%Async currentIteration = proposalManager.getIteration(.);
+  currentIterationId := currentIteration;
 
   loopFunction(proposalManager);
 

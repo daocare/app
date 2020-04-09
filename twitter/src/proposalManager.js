@@ -21,8 +21,13 @@ const setupProposalManager = () => {
 
   let currentProposals = [];
   let proposalEmojiLookup = {};
+  let emojiList = [];
 
   let getCurrentProposals = async () => {
+    let newCurrentProposals = [];
+    let newProposalEmojiLookup = {};
+    let newEmojiList = [];
+
     let numProposals = await daoContract.methods.proposalId().call();
     let currentProposals = [];
     for (let i = 1; i <= numProposals; i++) {
@@ -36,11 +41,13 @@ const setupProposalManager = () => {
 
       let owner = await daoContract.methods.proposalOwner(i).call();
       proposal.owner = owner;
-      currentProposals.push({ ...proposal });
-      proposalEmojiLookup[proposal.emoji] = { ...proposal };
+      newCurrentProposals.push({ ...proposal });
+      newProposalEmojiLookup[proposal.emoji] = { ...proposal };
+      newEmojiList.push(proposal.emoji);
     }
-
-    console.log('current proposals', currentProposals);
+    currentProposals = newCurrentProposals;
+    proposalEmojiLookup = newProposalEmojiLookup;
+    emojiList = newEmojiList;
   };
   let getIteration = async () => {
     let proposalIteration = await daoContract.methods
@@ -51,12 +58,13 @@ const setupProposalManager = () => {
     return parseInt(proposalIteration.toString());
   };
 
-  let getProjects = async () => {
-    let proposalIteration = await daoContract.methods
-      .proposalIteration()
-      .call();
+  let getProjectsTweetString = async () => {
+    let projectTweetString = '';
+    for (let i = 0; i <= emojiList.length; i++) {
+      projectTweetString +=
+        emojiList[i] + ' ' + proposalEmojiLookup[emojiList[i]].team[0] + '\n';
+    }
 
-    console.log(proposalIteration);
     return parseInt(proposalIteration.toString());
   };
 
@@ -75,6 +83,7 @@ const setupProposalManager = () => {
     getCurrentProposals,
     getProjectIdFromEmoji,
     getIteration,
+    getProjectsTweetString,
   };
 };
 
