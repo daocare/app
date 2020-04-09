@@ -260,7 +260,7 @@ contract PoolDeposits {
     adaiContract.redeem(amountToRedeem);
 
     uint256 percentageWinner = 1000;
-    for (uint8 i = 0; i < receivers.length; i++) {
+    for (uint256 i = 0; i < receivers.length; i++) {
       percentageWinner = percentageWinner.sub(percentages[i]); //SafeMath prevents this going below 0
       uint256 amountToSend = amountToRedeem.mul(percentages[i]).div(1000);
       daiContract.transfer(receivers[i], amountToSend);

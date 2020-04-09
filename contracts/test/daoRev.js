@@ -60,7 +60,7 @@ contract('noLossDao', (accounts) => {
     });
   });
 
-  it('NoLossDao:daoRev. Can only redirect interest later. Randoms cannot redirect interest', async () => {
+  it('NoLossDao:daoRev. interest earned is split correctly', async () => {
     let mintAmount = '60000000000';
 
     // Note currently we have hardcoded that the 'interest will be the same as the amount deposited'
@@ -78,8 +78,7 @@ contract('noLossDao', (accounts) => {
     });
     await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
- 
-    await time.increase(time.duration.seconds(1810)); 
+    await time.increase(time.duration.seconds(1810));
     await noLossDao.distributeFunds(); // iteration 0 ends
 
     await dai.mint(accounts[2], applicationAmount);
@@ -93,11 +92,15 @@ contract('noLossDao', (accounts) => {
 
     await noLossDao.voteDirect(proposalID1, { from: accounts[1] });
 
-    await time.increase(time.duration.seconds(1810)); 
-    await noLossDao.distributeFunds({ from: accounts[3] }); // iteration 1 ends
-    // accounts 3 should get 1% of the interest
+    await time.increase(time.duration.seconds(1810));
+    await noLossDao.distributeFunds(); // iteration 1 ends
+
+    await time.increase(time.duration.seconds(1810)); //iteration 2 ends
+    await noLossDao.distributeFunds({ from: accounts[3] });
+
+    // accounts 3 should get 1.5% of the interest
     // accounts 0 (admin) should get 13.5% interest
-    // winner should get the rest 85.5% interest. 
+    // winner should get the rest 85% interest.
 
     let minerBalance = await dai.balanceOf(accounts[3]);
     let adminBalance = await dai.balanceOf(accounts[0]);
@@ -106,8 +109,113 @@ contract('noLossDao', (accounts) => {
     // 5000000 + 60000000000 should be interest to be split....
     let interestToDistribute = 5000000 + 60000000000;
 
-    assert.equal((interestToDistribute/100).toString(), minerBalance);
-    assert.equal((interestToDistribute*135/1000).toString(), adminBalance);
-    assert.equal((interestToDistribute*855/1000).toString(), benefactorBalance);
+    assert.equal(
+      ((interestToDistribute * 15) / 1000).toString(),
+      minerBalance.toString()
+    );
+    assert.equal(
+      ((interestToDistribute * 135) / 1000).toString(),
+      adminBalance.toString()
+    );
+    assert.equal(
+      ((interestToDistribute * 850) / 1000).toString(),
+      benefactorBalance.toString()
+    );
+  });
+
+  it('NoLossDao:daoRev. Can set interest recievers', async () => {
+    let mintAmount = '60000000000';
+
+    // Note currently we have hardcoded that the 'interest will be the same as the amount deposited'
+    // Therefore a deposit of 60000000000 should yield 60000000000 in interest....
+    let addresses = [accounts[7], accounts[8], accounts[9]];
+    let percentages = [50, 200, 300];
+    let percentagesError = [12, 10];
+    let percentagesError2 = [12, 10, 980];
+
+    await expectRevert(
+      noLossDao.setInterestReceivers(addresses, percentages, {
+        from: accounts[1],
+      }),
+      'Not admin'
+    );
+    await expectRevert(
+      noLossDao.setInterestReceivers(addresses, percentagesError, {
+        from: accounts[0],
+      }),
+      'Arrays should be equal length'
+    );
+    await expectRevert(
+      noLossDao.setInterestReceivers(addresses, percentagesError2, {
+        from: accounts[0],
+      }),
+      'Percentages total too high'
+    );
+
+    const logs = await noLossDao.setInterestReceivers(addresses, percentages, {
+      from: accounts[0],
+    });
+
+    expectEvent(logs, 'InterestConfigChanged', {
+      addresses: addresses,
+      percentages: percentages,
+      iteration: 0,
+    });
+
+    // deposit
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
+
+    await time.increase(time.duration.seconds(1810));
+    await noLossDao.distributeFunds(); // iteration 0 ends
+
+    await dai.mint(accounts[2], applicationAmount);
+    await dai.approve(poolDeposits.address, applicationAmount, {
+      from: accounts[2],
+    });
+    await poolDeposits.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+    let proposalID1 = 1;
+
+    await noLossDao.voteDirect(proposalID1, { from: accounts[1] });
+
+    await time.increase(time.duration.seconds(1810));
+    await noLossDao.distributeFunds(); // iteration 1 ends
+
+    await time.increase(time.duration.seconds(1810)); //iteration 2 ends
+    await noLossDao.distributeFunds({ from: accounts[3] });
+
+    // accounts 3 should get 1.5% of the interest
+    // accounts 0 (admin) should get 13.5% interest
+    // winner should get the rest 85% interest.
+
+    let minerBalance = await dai.balanceOf(accounts[3]);
+    let accounts8 = await dai.balanceOf(accounts[8]);
+    let accounts9 = await dai.balanceOf(accounts[9]);
+    let benefactorBalance = await dai.balanceOf(accounts[2]);
+
+    // 5000000 + 60000000000 should be interest to be split....
+    let interestToDistribute = 5000000 + 60000000000;
+
+    assert.equal(
+      ((interestToDistribute * 50) / 1000).toString(),
+      minerBalance.toString()
+    );
+    assert.equal(
+      ((interestToDistribute * 200) / 1000).toString(),
+      accounts8.toString()
+    );
+    assert.equal(
+      ((interestToDistribute * 300) / 1000).toString(),
+      accounts9.toString()
+    );
+    assert.equal(
+      ((interestToDistribute * 450) / 1000).toString(),
+      benefactorBalance.toString()
+    );
   });
 });

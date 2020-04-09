@@ -6,7 +6,7 @@ import './interfaces/IADai.sol';
 import './interfaces/IPoolDeposits.sol';
 import '@nomiclabs/buidler/console.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
-import "@openzeppelin/upgrades/contracts/Initializable.sol";
+import '@openzeppelin/upgrades/contracts/Initializable.sol';
 
 
 /** @title No Loss Dao Contract. */
@@ -39,8 +39,8 @@ contract NoLossDao_v0 is Initializable {
   mapping(address => address) public voteDelegations; // For vote proxy
 
   //////// Necessary to fund dev and miners //////////
-  address[]  interestReceivers;
-  uint256[]  percentages;
+  address[] interestReceivers;
+  uint256[] percentages;
 
   ///////// DEFI Contrcats ///////////
   IPoolDeposits public depositContract;
@@ -70,6 +70,18 @@ contract NoLossDao_v0 is Initializable {
     address indexed winner,
     uint256 indexed projectId
   );
+  event InterestConfigChanged(
+    address[] addresses,
+    uint256[] percentages,
+    uint256 iteration
+  );
+  event ProposalActive(
+    uint256 indexed proposalId,
+    address benefactor,
+    uint256 iteration
+  );
+  event ProposalCooldown(uint256 indexed proposalId, uint256 iteration);
+  event ProposalWithdrawn(uint256 indexed proposalId, uint256 iteration);
 
   ////////////////////////////////////
   //////// Modifiers /////////////////
@@ -171,10 +183,10 @@ contract NoLossDao_v0 is Initializable {
     admin = msg.sender;
     votingInterval = _votingInterval;
     proposalDeadline = now.add(_votingInterval);
-    interestReceivers.push(admin); // This will change when iterationchanges
-    percentages.push(10); // 1% for miner 
+    interestReceivers.push(admin); // This will change to miner when iterationchanges
+    percentages.push(15); // 1.5% for miner
     interestReceivers.push(admin);
-    percentages.push(135); // 13.5% for devopers
+    percentages.push(135); // 13.5% for devlopers
   }
 
   ///////////////////////////////////
@@ -192,16 +204,30 @@ contract NoLossDao_v0 is Initializable {
   function changeProposalStakingAmount(uint256 amount) public onlyAdmin {
     depositContract.changeProposalAmount(amount);
   }
-  
- /// @dev Changes the amount required to stake for new proposal
-  function setInterestReceivers(address[] memory _interestReceivers, uint256[] memory _percentages) public onlyAdmin {
-    require(_interestReceivers.length == _percentages.length);
+
+  /// @dev Changes the amount required to stake for new proposal
+  function setInterestReceivers(
+    address[] memory _interestReceivers,
+    uint256[] memory _percentages
+  ) public onlyAdmin {
+    require(
+      _interestReceivers.length == _percentages.length,
+      'Arrays should be equal length'
+    );
+    uint256 percentagesSum = 0;
+    for (uint256 i = 0; i < _percentages.length; i++) {
+      percentagesSum = percentagesSum.add(_percentages[i]);
+    }
+    require(percentagesSum < 1000, 'Percentages total too high');
+
     interestReceivers = _interestReceivers;
     percentages = _percentages;
-    // emit event
+    emit InterestConfigChanged(
+      _interestReceivers,
+      _percentages,
+      proposalIteration
+    );
   }
-
-  // change miner reward here
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////// Deposit & withdraw function for users //////////
@@ -250,6 +276,7 @@ contract NoLossDao_v0 is Initializable {
     benefactorsProposal[benefactorAddress] = proposalId;
     state[proposalId] = ProposalState.Active;
     iterationJoined[benefactorAddress] = proposalIteration;
+    emit ProposalActive(proposalId, benefactorAddress, proposalIteration);
     return proposalId;
   }
 
@@ -265,8 +292,10 @@ contract NoLossDao_v0 is Initializable {
     lockInFulfilled(benefactorAddress)
     returns (bool)
   {
+    uint256 benefactorsProposalId = benefactorsProposal[benefactorAddress];
     iterationJoined[benefactorAddress] = 0;
-    state[benefactorsProposal[benefactorAddress]] = ProposalState.Withdrawn;
+    state[benefactorsProposalId] = ProposalState.Withdrawn;
+    emit ProposalWithdrawn(benefactorsProposalId);
     return true;
   }
 
@@ -353,23 +382,27 @@ contract NoLossDao_v0 is Initializable {
 
   /// @dev Anyone can call this every 2 weeks (more specifically every *iteration interval*) to receive a reward, and increment onto the next iteration of voting
   function distributeFunds() external iterationElapsed {
-
     interestReceivers[0] = msg.sender; // Set the miners address to receive a small reward
 
     if (proposalIteration > 0) {
-
       // distribute interest from previous week.
-      uint256 previousIterationTopProject = topProject[proposalIteration.sub(1)];
-      if (previousIterationTopProject != 0) { 
-        // Only if last winner is not withdrawn (i.e. still in cooldown) make it active again
-        if (
-          state[previousIterationTopProject] == ProposalState.Cooldown
-        ) {
+      uint256 previousIterationTopProject = topProject[proposalIteration.sub(
+        1
+      )];
+      if (previousIterationTopProject != 0) {
+        // Only if last winner is not withdrawn (i.e. st ill in cooldown) make it active again
+        if (state[previousIterationTopProject] == ProposalState.Cooldown) {
           state[previousIterationTopProject] = ProposalState.Active;
+          emit ProposalActive(previousIterationTopProject, proposalIteration);
         }
 
         address previousWinner = proposalOwner[previousIterationTopProject]; // This cannot be null, since we check that there was a winner above.
-        depositContract.distributeInterest(interestReceivers, percentages, previousWinner, proposalIteration);
+        depositContract.distributeInterest(
+          interestReceivers,
+          percentages,
+          previousWinner,
+          proposalIteration
+        );
       }
 
       uint256 iterationTopProject = topProject[proposalIteration];
@@ -377,6 +410,7 @@ contract NoLossDao_v0 is Initializable {
         // TODO: Do some asserts here for safety...
         if (state[iterationTopProject] != ProposalState.Withdrawn) {
           state[iterationTopProject] = ProposalState.Cooldown;
+          emit ProposalCooldown(iterationTopProject, proposalIteration);
         }
         address winner = proposalOwner[iterationTopProject]; // This cannot be null, since we check that there was a winner above.
         emit IterationWinner(proposalIteration, winner, iterationTopProject);
@@ -389,6 +423,4 @@ contract NoLossDao_v0 is Initializable {
     // send winning miner a little surprise [NFT]
     emit IterationChanged(proposalIteration, msg.sender, now);
   }
-
-
 }
