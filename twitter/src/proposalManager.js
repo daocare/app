@@ -3,11 +3,12 @@ const Box = require('3box');
 const Web3 = require('web3');
 const noLossDao = require('../../src/abis/NoLossDao_v0.json');
 
-const INFURA_ENDPOINT = "https://kovan.infura.io/v3/e811479f4c414e219e7673b6671c2aba";
-const DAO_ADDRESS = require("./lib/Constants.bs").getDaoAddress();
+const INFURA_ENDPOINT =
+  'https://kovan.infura.io/v3/e811479f4c414e219e7673b6671c2aba';
+const DAO_ADDRESS = require('./lib/Constants.bs').getDaoAddress();
 const web3Infura = new Web3(INFURA_ENDPOINT);
 
-const getThreadFirstPost = async threadAddress => {
+const getThreadFirstPost = async (threadAddress) => {
   let posts = await Box.getThreadByAddress(threadAddress);
   if (posts && posts.length > 0) {
     return posts[0];
@@ -16,11 +17,7 @@ const getThreadFirstPost = async threadAddress => {
 };
 
 const setupProposalManager = () => {
-
-  const daoContract = new web3Infura.eth.Contract(
-    noLossDao.abi,
-    DAO_ADDRESS
-  );
+  const daoContract = new web3Infura.eth.Contract(noLossDao.abi, DAO_ADDRESS);
 
   let currentProposals = [];
   let proposalEmojiLookup = {};
@@ -42,12 +39,25 @@ const setupProposalManager = () => {
       currentProposals.push({ ...proposal });
       proposalEmojiLookup[proposal.emoji] = { ...proposal };
     }
+
+    console.log('current proposals', currentProposals);
   };
   let getIteration = async () => {
-    let proposalIteration = await daoContract.methods.proposalIteration().call();
+    let proposalIteration = await daoContract.methods
+      .proposalIteration()
+      .call();
 
     console.log(proposalIteration);
-    return parseInt(proposalIteration.toString())
+    return parseInt(proposalIteration.toString());
+  };
+
+  let getProjects = async () => {
+    let proposalIteration = await daoContract.methods
+      .proposalIteration()
+      .call();
+
+    console.log(proposalIteration);
+    return parseInt(proposalIteration.toString());
   };
 
   const getProjectIdFromEmoji = (emoji) => {
@@ -57,11 +67,17 @@ const setupProposalManager = () => {
     } else {
       return undefined;
     }
-  }
+  };
 
-  return ({ currentProposals, proposalEmojiLookup, getCurrentProposals, getProjectIdFromEmoji, getIteration })
+  return {
+    currentProposals,
+    proposalEmojiLookup,
+    getCurrentProposals,
+    getProjectIdFromEmoji,
+    getIteration,
+  };
 };
 
 module.exports = {
-  setupProposalManager
-} 
+  setupProposalManager,
+};
