@@ -43,6 +43,12 @@ const setupProposalManager = () => {
       proposalEmojiLookup[proposal.emoji] = { ...proposal };
     }
   };
+  let getIteration = async () => {
+    let proposalIteration = await daoContract.methods.proposalIteration().call();
+
+    console.log(proposalIteration);
+    return parseInt(proposalIteration.toString())
+  };
 
   const getProjectIdFromEmoji = (emoji) => {
     const project = getProjectIdFromEmoji[emoji];
@@ -53,7 +59,7 @@ const setupProposalManager = () => {
     }
   }
 
-  return ({ currentProposals, proposalEmojiLookup, getCurrentProposals, getProjectIdFromEmoji })
+  return ({ currentProposals, proposalEmojiLookup, getCurrentProposals, getProjectIdFromEmoji, getIteration })
 };
 
 module.exports = {
