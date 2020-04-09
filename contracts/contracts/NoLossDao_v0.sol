@@ -295,7 +295,7 @@ contract NoLossDao_v0 is Initializable {
     uint256 benefactorsProposalId = benefactorsProposal[benefactorAddress];
     iterationJoined[benefactorAddress] = 0;
     state[benefactorsProposalId] = ProposalState.Withdrawn;
-    emit ProposalWithdrawn(benefactorsProposalId);
+    emit ProposalWithdrawn(benefactorsProposalId, proposalIteration);
     return true;
   }
 
@@ -393,7 +393,11 @@ contract NoLossDao_v0 is Initializable {
         // Only if last winner is not withdrawn (i.e. st ill in cooldown) make it active again
         if (state[previousIterationTopProject] == ProposalState.Cooldown) {
           state[previousIterationTopProject] = ProposalState.Active;
-          emit ProposalActive(previousIterationTopProject, proposalIteration);
+          emit ProposalActive(
+            previousIterationTopProject,
+            proposalOwner[previousIterationTopProject],
+            proposalIteration
+          );
         }
 
         address previousWinner = proposalOwner[previousIterationTopProject]; // This cannot be null, since we check that there was a winner above.
