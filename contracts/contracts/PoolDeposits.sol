@@ -4,7 +4,7 @@ import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/INoLossDao.sol';
 import './interfaces/ILendingPoolAddressesProvider.sol';
-import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 import '@nomiclabs/buidler/console.sol';
 
 
@@ -233,12 +233,12 @@ contract PoolDeposits {
 
   /// @dev Sets the interest to acrue to winner of the iteration
   /// @param _winner The address of the proposal winning the iteration
-  function redirectInterestStreamToWinner(address _winner)
-    external
-    noLossDaoContractOnly
-  {
-    adaiContract.redirectInterestStream(_winner);
-  }
+  // function redirectInterestStreamToWinner(address _winner)
+  //   external
+  //   noLossDaoContractOnly
+  // {
+  //   adaiContract.redirectInterestStream(_winner);
+  // }
 
   /// @dev Splits the accrued interest between winners.
   /// @param receivers An array of the addresses to split between
