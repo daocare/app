@@ -46,8 +46,6 @@ contract('noLossDao', (accounts) => {
     );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    //await dai.addMinter(aDai.address, { from: accounts[0] });
-    //await aDai.addMinter(aaveLendingPool.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -60,30 +58,6 @@ contract('noLossDao', (accounts) => {
     await noLossDao.initialize(poolDeposits.address, '1800', {
       from: accounts[0],
     });
-  });
-  it('noLossDao:voteTally. Votes tally gets correctly registered.', async () => {
-    let mintAmount1 = '60000000000';
-    //////////// ITERATION 0 /////////////////
-    // Creater voters account 1 (vote power =6) and 2 (vote power=7)
-    await dai.mint(accounts[1], mintAmount1);
-    await dai.approve(poolDeposits.address, mintAmount1, {
-      from: accounts[1],
-    });
-    await poolDeposits.deposit(mintAmount1, { from: accounts[1] });
-
-    let temp = await dai.balanceOf(accounts[1]);
-    console.log(temp.toString());
-
-    let temp2 = await dai.balanceOf(poolDeposits.address);
-    console.log(temp2.toString());
-
-    let temp3 = await aDai.balanceOf(poolDeposits.address);
-    console.log(temp3.toString());
-
-    await poolDeposits.withdrawDeposit({ from: accounts[1] });
-
-    await time.increase(time.duration.seconds(1805)); // increment to iteration 1
-    await noLossDao.distributeFunds();
   });
 
   it('noLossDao:voteTally. Votes tally gets correctly registered.', async () => {

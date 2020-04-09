@@ -152,14 +152,6 @@ contract NoLossDao_v0 is Initializable {
     _;
   }
 
-  modifier iterationMostlyElapsed() {
-    require(
-      proposalDeadline.sub(votingInterval.div(7)) < now,
-      'Not yet eligible to redirect interest stream'
-    );
-    _;
-  }
-
   modifier depositContractOnly() {
     require(
       address(depositContract) == msg.sender, // Is this a valid way of getting the address?
@@ -179,8 +171,10 @@ contract NoLossDao_v0 is Initializable {
     admin = msg.sender;
     votingInterval = _votingInterval;
     proposalDeadline = now.add(_votingInterval);
+    interestReceivers.push(admin); // This will change when iterationchanges
+    percentages.push(10); // 1% for miner 
     interestReceivers.push(admin);
-    percentages.push(135); // 1000 being 100%
+    percentages.push(135); // 13.5% for devopers
   }
 
   ///////////////////////////////////
@@ -193,20 +187,19 @@ contract NoLossDao_v0 is Initializable {
     votingInterval = newInterval;
   }
 
- /// @dev Changes the amount required to stake for new proposal
+  /// @dev Changes the amount required to stake for new proposal
   /// @param amount how much new amount is.
   function changeProposalStakingAmount(uint256 amount) public onlyAdmin {
     depositContract.changeProposalAmount(amount);
   }
   
  /// @dev Changes the amount required to stake for new proposal
-
-  function setInterestReceiver(address[] memory _interestReceivers, uint256[] memory _percentages) public onlyAdmin {
+  function setInterestReceivers(address[] memory _interestReceivers, uint256[] memory _percentages) public onlyAdmin {
+    require(_interestReceivers.length == _percentages.length);
     interestReceivers = _interestReceivers;
     percentages = _percentages;
     // emit event
   }
-
 
   // change miner reward here
 
@@ -361,26 +354,33 @@ contract NoLossDao_v0 is Initializable {
   /// @dev Anyone can call this every 2 weeks (more specifically every *iteration interval*) to receive a reward, and increment onto the next iteration of voting
   function distributeFunds() external iterationElapsed {
 
+    interestReceivers[0] = msg.sender; // Set the miners address to receive a small reward
+
     if (proposalIteration > 0) {
-      // Only if last winner is not withdrawn (i.e. still in cooldown) make it active again
-      if (
-        state[topProject[proposalIteration.sub(1)]] == ProposalState.Cooldown
-      ) {
-        state[topProject[proposalIteration.sub(1)]] = ProposalState.Active;
-      }
-    }
 
-    uint256 iterationTopProject = topProject[proposalIteration];
-    if (iterationTopProject != 0) {
-      // TODO: Do some asserts here for safety...
-      if (state[iterationTopProject] != ProposalState.Withdrawn) {
-        state[iterationTopProject] = ProposalState.Cooldown;
-      }
-      address winner = proposalOwner[iterationTopProject]; // This cannot be null, since we check that there was a winner above.
+      // distribute interest from previous week.
+      uint256 previousIterationTopProject = topProject[proposalIteration.sub(1)];
+      if (previousIterationTopProject != 0) { 
+        // Only if last winner is not withdrawn (i.e. still in cooldown) make it active again
+        if (
+          state[previousIterationTopProject] == ProposalState.Cooldown
+        ) {
+          state[previousIterationTopProject] = ProposalState.Active;
+        }
 
-      depositContract.distributeInterest(interestReceivers, percentages, winner, proposalIteration);
-      // depositContract.redirectInterestStreamToWinner(winner);
-      emit IterationWinner(proposalIteration, winner, iterationTopProject);
+        address previousWinner = proposalOwner[previousIterationTopProject]; // This cannot be null, since we check that there was a winner above.
+        depositContract.distributeInterest(interestReceivers, percentages, previousWinner, proposalIteration);
+      }
+
+      uint256 iterationTopProject = topProject[proposalIteration];
+      if (iterationTopProject != 0) {
+        // TODO: Do some asserts here for safety...
+        if (state[iterationTopProject] != ProposalState.Withdrawn) {
+          state[iterationTopProject] = ProposalState.Cooldown;
+        }
+        address winner = proposalOwner[iterationTopProject]; // This cannot be null, since we check that there was a winner above.
+        emit IterationWinner(proposalIteration, winner, iterationTopProject);
+      }
     }
 
     proposalDeadline = now.add(votingInterval);
@@ -390,12 +390,5 @@ contract NoLossDao_v0 is Initializable {
     emit IterationChanged(proposalIteration, msg.sender, now);
   }
 
-  // Allows admin to redirect interest stream to themselves for (1/7 of the total time = 15%) fee to continue funding developement
-  function daoCareFunding(address redirectTo)
-    external
-    onlyAdmin
-    iterationMostlyElapsed
-  {
-    depositContract.redirectInterestStreamToWinner(redirectTo);
-  }
+
 }

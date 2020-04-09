@@ -55,89 +55,59 @@ contract('noLossDao', (accounts) => {
       { from: accounts[0] }
     );
 
-    await noLossDao.initialize(poolDeposits.address, '604800', {
+    await noLossDao.initialize(poolDeposits.address, '1800', {
       from: accounts[0],
     });
   });
 
-  // it('NoLossDao:daoRev. Can only redirect interest later. Randoms cannot redirect interest', async () => {
-  //   let mintAmount = '60000000000';
+  it('NoLossDao:daoRev. Can only redirect interest later. Randoms cannot redirect interest', async () => {
+    let mintAmount = '60000000000';
 
-  //   await expectRevert(
-  //     noLossDao.distributeFunds(),
-  //     'iteration interval not ended'
-  //   );
+    // Note currently we have hardcoded that the 'interest will be the same as the amount deposited'
+    // Therefore a deposit of 60000000000 should yield 60000000000 in interest....
 
-  //   // deposit
-  //   await dai.mint(accounts[1], mintAmount);
-  //   await dai.approve(poolDeposits.address, mintAmount, {
-  //     from: accounts[1],
-  //   });
-  //   await poolDeposits.deposit(mintAmount, { from: accounts[1] });
+    await expectRevert(
+      noLossDao.distributeFunds(),
+      'iteration interval not ended'
+    );
 
-  //   // Proposal ID will be 1
-  //   await dai.mint(accounts[2], mintAmount);
-  //   await dai.approve(poolDeposits.address, mintAmount, {
-  //     from: accounts[2],
-  //   });
-  //   await poolDeposits.createProposal('Some IPFS hash string', {
-  //     from: accounts[2],
-  //   });
+    // deposit
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
-  //   // Note 604800 is 7 days exactly. The iteration length in this case
-  //   await time.increase(time.duration.seconds(604790)); // increment to iteration 1
-  //   await expectRevert(
-  //     noLossDao.distributeFunds(),
-  //     'iteration interval not ended'
-  //   );
-  //   await time.increase(time.duration.seconds(12));
-  //   await noLossDao.distributeFunds();
+ 
+    await time.increase(time.duration.seconds(1810)); 
+    await noLossDao.distributeFunds(); // iteration 0 ends
 
-  //   // This should fail
-  //   await expectRevert(
-  //     poolDeposits.redirectInterestStreamToWinner(accounts[9], {
-  //       from: accounts[9],
-  //     }),
-  //     'function can only be called by no Loss Dao contract'
-  //   );
+    await dai.mint(accounts[2], applicationAmount);
+    await dai.approve(poolDeposits.address, applicationAmount, {
+      from: accounts[2],
+    });
+    await poolDeposits.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+    let proposalID1 = 1;
 
-  //   await expectRevert(
-  //     noLossDao.daoCareFunding(accounts[9], { from: accounts[0] }),
-  //     'Not yet eligible to redirect interest stream'
-  //   );
+    await noLossDao.voteDirect(proposalID1, { from: accounts[1] });
 
-  //   // 518400 seconds is 6 days exactly. After 6 days we should be allowed to redirect interest
-  //   await time.increase(time.duration.seconds(518395));
+    await time.increase(time.duration.seconds(1810)); 
+    await noLossDao.distributeFunds({ from: accounts[3] }); // iteration 1 ends
+    // accounts 3 should get 1% of the interest
+    // accounts 0 (admin) should get 13.5% interest
+    // winner should get the rest 85.5% interest. 
 
-  //   await expectRevert(
-  //     noLossDao.daoCareFunding(accounts[9], { from: accounts[1] }),
-  //     'Not admin'
-  //   );
+    let minerBalance = await dai.balanceOf(accounts[3]);
+    let adminBalance = await dai.balanceOf(accounts[0]);
+    let benefactorBalance = await dai.balanceOf(accounts[2]);
 
-  //   await expectRevert(
-  //     noLossDao.daoCareFunding(accounts[9], { from: accounts[0] }),
-  //     'Not yet eligible to redirect interest stream'
-  //   );
+    // 5000000 + 60000000000 should be interest to be split....
+    let interestToDistribute = 5000000 + 60000000000;
 
-  //   await time.increase(time.duration.seconds(10));
-
-  //   // THese should all pass as we've reached 6/7 of the iteration and until the new iteration is called,
-  //   // We would be able to redirect the interest stream
-  //   await noLossDao.daoCareFunding(accounts[9], { from: accounts[0] });
-
-  //   await time.increase(time.duration.seconds(518402));
-  //   await noLossDao.daoCareFunding(accounts[9], { from: accounts[0] });
-
-  //   await time.increase(time.duration.seconds(518402));
-  //   await noLossDao.daoCareFunding(accounts[9], { from: accounts[0] });
-
-  //   await noLossDao.distributeFunds();
-
-  //   // This should fail as iteration has just ended (line above), yet we can redirect it already
-  //   // This is where its expecting a revert but none received
-  //   await expectRevert(
-  //     noLossDao.daoCareFunding(accounts[9], { from: accounts[0] }),
-  //     'Not yet eligible to redirect interest stream'
-  //   );
-  // });
+    assert.equal((interestToDistribute/100).toString(), minerBalance);
+    assert.equal((interestToDistribute*135/1000).toString(), adminBalance);
+    assert.equal((interestToDistribute*855/1000).toString(), benefactorBalance);
+  });
 });

@@ -15,10 +15,11 @@ contract ADai is IADai, MockERC20 {
     dai = daiAddress;
   }
   function redeem(uint256 _amount) public {
-    console.log("aDai being  redeemed");
+    console.log(" **** aDai being redeemed by *****", msg.sender);
     console.log("Burning this amount of aDai: ", _amount);
     this.burnFrom(msg.sender, _amount);
-    console.log("Sending this amount of dai back to user: ", _amount);
+    console.log("Sending this amount of dai: ", _amount);
     dai.mint(msg.sender, _amount);
+    console.log(" **** aDai redemtpion successful *****");
   }
 }
