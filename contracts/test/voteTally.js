@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
-const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
+const LendingPoolAddressProvider = artifacts.require(
+  'LendingPoolAddressesProvider'
+);
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('noLossDao', accounts => {
+contract('noLossDao', (accounts) => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -36,9 +38,12 @@ contract('noLossDao', accounts => {
     aaveLendingPool = await AaveLendingPool.new(aDai.address, dai.address, {
       from: accounts[0],
     });
-    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
-      from: accounts[0],
-    });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(
+      aaveLendingPool.address,
+      {
+        from: accounts[0],
+      }
+    );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
     //await dai.addMinter(aDai.address, { from: accounts[0] });
@@ -46,7 +51,7 @@ contract('noLossDao', accounts => {
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
-      aDai.address,  
+      aDai.address,
       lendingPoolAddressProvider.address,
       noLossDao.address,
       applicationAmount,
@@ -56,8 +61,7 @@ contract('noLossDao', accounts => {
       from: accounts[0],
     });
   });
-   it('noLossDao:voteTally. Votes tally gets correctly registered.', async () => {
-
+  it('noLossDao:voteTally. Votes tally gets correctly registered.', async () => {
     let mintAmount1 = '60000000000';
     //////////// ITERATION 0 /////////////////
     // Creater voters account 1 (vote power =6) and 2 (vote power=7)
@@ -66,7 +70,7 @@ contract('noLossDao', accounts => {
       from: accounts[1],
     });
     await poolDeposits.deposit(mintAmount1, { from: accounts[1] });
-    
+
     let temp = await dai.balanceOf(accounts[1]);
     console.log(temp.toString());
 
@@ -76,14 +80,11 @@ contract('noLossDao', accounts => {
     let temp3 = await aDai.balanceOf(poolDeposits.address);
     console.log(temp3.toString());
 
-     await poolDeposits.withdrawDeposit({from: accounts[1]});
-
+    await poolDeposits.withdrawDeposit({ from: accounts[1] });
 
     await time.increase(time.duration.seconds(1805)); // increment to iteration 1
     await noLossDao.distributeFunds();
-
-
-   });
+  });
 
   it('noLossDao:voteTally. Votes tally gets correctly registered.', async () => {
     let mintAmount1 = '60000000000';
@@ -156,7 +157,9 @@ contract('noLossDao', accounts => {
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     let currentIteration = await noLossDao.proposalIteration.call();
-    const iterationLogs = await noLossDao.distributeFunds( { from: accounts[5] }); //check who winner was
+    const iterationLogs = await noLossDao.distributeFunds({
+      from: accounts[5],
+    }); //check who winner was
     let created_at = await time.latest();
     expectEvent(iterationLogs, 'IterationChanged', {
       timeStamp: created_at,
