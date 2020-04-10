@@ -75,6 +75,7 @@ contract NoLossDao_v0 is Initializable {
     uint256[] percentages,
     uint256 iteration
   );
+  // Test these events
   event ProposalActive(
     uint256 indexed proposalId,
     address benefactor,

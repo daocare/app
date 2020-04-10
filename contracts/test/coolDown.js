@@ -142,6 +142,7 @@ contract('noLossDao', (accounts) => {
       'Proposal is not active'
     );
   });
+
   it('NoLossDao:coolDown. Votes tally gets correctly registered.', async () => {
     let mintAmount1 = '60000000000';
     let mintAmount2 = '70000000000';
@@ -217,6 +218,10 @@ contract('noLossDao', (accounts) => {
     await poolDeposits.createProposal('Some IPFS hash string1', {
       from: accounts[4],
     });
+
+    // Essential to test withdrawn not set back into active
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
+    await noLossDao.distributeFunds(); //check who winner was
   });
 
   it('NoLossDao:coolDown. Cooldown of previous project is reset even if there is no winner in the current iteration.', async () => {

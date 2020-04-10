@@ -127,6 +127,14 @@ contract PoolDeposits {
     _;
   }
 
+  modifier validInterestSplitInput(
+    address[] memory addresses,
+    uint256[] memory percentages
+  ) {
+    require(addresses.length == percentages.length, 'Input length not equal');
+    _;
+  }
+
   /***************
     Contract set-up: Not Upgradaable
     ***************/
@@ -231,15 +239,6 @@ contract PoolDeposits {
     emit ProposalWithdrawn(msg.sender);
   }
 
-  /// @dev Sets the interest to acrue to winner of the iteration
-  /// @param _winner The address of the proposal winning the iteration
-  // function redirectInterestStreamToWinner(address _winner)
-  //   external
-  //   noLossDaoContractOnly
-  // {
-  //   adaiContract.redirectInterestStream(_winner);
-  // }
-
   /// @dev Splits the accrued interest between winners.
   /// @param receivers An array of the addresses to split between
   /// @param percentages the respective percentage to split
@@ -248,12 +247,11 @@ contract PoolDeposits {
     uint256[] calldata percentages,
     address winner,
     uint256 iteration
-  ) external noLossDaoContractOnly {
-    require(
-      receivers.length == percentages.length,
-      'Input of argument lengths not equal'
-    );
-
+  )
+    external
+    validInterestSplitInput(receivers, percentages)
+    noLossDaoContractOnly
+  {
     uint256 amountToRedeem = adaiContract.balanceOf(address(this)).sub(
       totalDepositedDai
     );
