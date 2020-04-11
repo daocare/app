@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box from '3box';
 
+import { useSelector } from 'react-redux';
+import { fetchProposals } from '../redux/actions';
+
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useRouter from '../utils/useRouter';
 
@@ -65,10 +68,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Proposals = () => {
   const web3Connect = useWeb3Connect();
-  const { proposals, fetched } = web3Connect;
+  const { fetched } = web3Connect;
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
+
+  const proposals = useSelector((state) => state.proposals.proposals);
 
   const canVoteWithDelegate =
     status === 'ENABLED' ||
@@ -142,6 +147,10 @@ const Proposals = () => {
 
   return (
     <Page className={classes.root} title="dao.care | All Proposals">
+      {/* <button onClick={() => dispatch(fetchProposals(['this', 'test']))}>
+        {' '}
+        Test
+      </button> */}
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
         {status === 'DRAFT' &&
           !web3Connect.enabledTwitter &&

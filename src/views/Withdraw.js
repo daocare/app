@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
@@ -67,6 +68,8 @@ const Withdraw = () => {
   const classes = useStyles();
   const router = useRouter();
   const web3Connect = useWeb3Connect();
+
+  // const { address, daiBalance } = useSelector((state) => state.user.user);
 
   useRedirectHomeIfNoEthAccount();
 

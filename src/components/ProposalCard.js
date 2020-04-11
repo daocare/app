@@ -101,7 +101,7 @@ const ProposalCard = (props) => {
             <IconButton
               color="primary"
               aria-label="vote"
-              onClick={() => vote(id)}
+              onClick={() => vote(id)} //TODO : Possible bug - need to look if its (id - 1)
             >
               <HowToVoteIcon />
             </IconButton>

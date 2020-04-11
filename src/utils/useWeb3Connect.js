@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import Web3Connect from 'web3connect';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProposals as fetchProposalsRedux } from '../redux/actions';
+
 import WalletConnectProvider from '@walletconnect/web3-provider';
 // import Portis from "@portis/web3";
 // import Fortmatic from "fortmatic";
@@ -76,7 +79,8 @@ const web3Connect = new Web3Connect.Core({
   providerOptions, // required
 });
 
-function useWeb3Connect() {
+const useWeb3Connect = () => {
+  const dispatch = useDispatch();
   const [provider, setProvider] = useState(null);
   const [web3, setWeb3] = useState(null);
   const [web3ReadOnly, setWeb3ReadOnly] = useState(null);
@@ -469,6 +473,7 @@ function useWeb3Connect() {
         await daoContract.methods.topProject(iteration - 1).call()
       );
       setPreviousWinnerId(thePreviousWinnerId);
+      dispatch(fetchProposalsRedux(tempProposals));
     }
   };
 
@@ -588,6 +593,6 @@ function useWeb3Connect() {
     update3BoxDetails,
     triggerOpen3Box,
   };
-}
+};
 
 export default useWeb3Connect;
