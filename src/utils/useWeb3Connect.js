@@ -434,19 +434,22 @@ function useWeb3Connect() {
           console.log(`Skipping ${hash} as it is not stored on a thread...`);
           continue;
         }
-        let proposal = (await getThreadFirstPost(hash)).message;
-        proposal.id = i;
+        let proposalThreadFirstPost = await getThreadFirstPost(hash);
+        if (proposalThreadFirstPost) {
+          let proposal = proposalThreadFirstPost['message'];
+          proposal.id = i;
 
-        if (i === tempCurrentVote) {
-          setCurrentVote(proposal);
-        }
+          if (i === tempCurrentVote) {
+            setCurrentVote(proposal);
+          }
 
-        let owner = await daoContract.methods.proposalOwner(i).call();
-        proposal.owner = owner;
-        if (owner === addr) {
-          foundOwner = true;
+          let owner = await daoContract.methods.proposalOwner(i).call();
+          proposal.owner = owner;
+          if (owner === addr) {
+            foundOwner = true;
+          }
+          tempProposals.push(proposal);
         }
-        tempProposals.push(proposal);
       }
 
       let deadline = await daoContract.methods.proposalDeadline().call();

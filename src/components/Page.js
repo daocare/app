@@ -2,12 +2,24 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
 
 import useRouter from '../utils/useRouter';
 
+const useStyles = makeStyles((theme) => ({
+  pageInner: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    alignItems: 'flex-start',
+    // justifyContent: 'flex-start',
+    height: '100%',
+    width: '100%',
+  },
+}));
+
 const Page = (props) => {
   const { title, children, ...rest } = props;
-
+  const classes = useStyles();
   const router = useRouter();
 
   useEffect(() => {
@@ -51,7 +63,7 @@ const Page = (props) => {
           <meta property="og:site_name" content={title} />
           <meta name="twitter:image:alt" content={title} />
         </Helmet>
-        {children}
+        <div className={classes.pageInner}>{children}</div>
       </div>
     </React.Fragment>
   );

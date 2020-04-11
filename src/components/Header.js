@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   headerLogo: {
     height: '90px',
     display: 'inline',
+    textAlign: 'left',
     [theme.breakpoints.down('xs')]: {
       height: '60px',
     },
