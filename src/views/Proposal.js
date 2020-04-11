@@ -71,20 +71,20 @@ const Proposal = ({ match }) => {
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
 
-  proposals[proposal_id] = {
-    team: ['@wildcards_world'],
-    emoji: '🦍',
-    image: 'QmYt5pQuJzjAA6wbZKZk4PRze6eCphGDsSfEvBVHgzDi9j',
-    title: 'Wildcards',
-    website: 'https://wildcards.world',
-    description:
-      'We use radical economics to raise money through having always for sale tokens. Check it out!!',
-    ownerTwitter: 'jonjonclark',
-    shortDescription:
-      'conservation tokens raising money for endangered animals',
-    id: 2,
-    owner: '0x2999Fe533BC08A03304C96E8668BfA17D9D0D35b',
-  };
+  // proposals[proposal_id] = {
+  //   team: ['@wildcards_world'],
+  //   emoji: '🦍',
+  //   image: 'QmYt5pQuJzjAA6wbZKZk4PRze6eCphGDsSfEvBVHgzDi9j',
+  //   title: 'Wildcards',
+  //   website: 'https://wildcards.world',
+  //   description:
+  //     'We use radical economics to raise money through having always for sale tokens. Check it out!!',
+  //   ownerTwitter: 'jonjonclark',
+  //   shortDescription:
+  //     'conservation tokens raising money for endangered animals',
+  //   id: 2,
+  //   owner: '0x2999Fe533BC08A03304C96E8668BfA17D9D0D35b',
+  // };
 
   const canVoteWithDelegate =
     status === 'ENABLED' ||
@@ -248,22 +248,22 @@ const Proposal = ({ match }) => {
         </>
       )} */}
       <div style={{ marginTop: 16 }}>
-        {/* {fetched &&
-        proposals[proposal_id] != undefined && ( // for testing */}
-        <Grid container justify="space-between" spacing={2}>
-          <Grid item xs={12} md={6}>
-            {/* const { title, shortDescription, website, image, id, emoji } = props.proposal; */}
+        {fetched &&
+        proposals[proposal_id] != undefined && ( // for testing
+            <Grid container justify="space-between" spacing={2}>
+              <Grid item xs={12} md={6}>
+                {/* const { title, shortDescription, website, image, id, emoji } = props.proposal; */}
 
-            <img
-              src={getUrlByHash(proposals[proposal_id].image)}
-              alt="proposal image"
-              className={classes.image}
-            />
-            <Typography variant="caption" align="center">
-              {proposals[proposal_id].shortDescription}
-            </Typography>
+                <img
+                  src={getUrlByHash(proposals[proposal_id].image)}
+                  alt="proposal image"
+                  className={classes.image}
+                />
+                <Typography variant="caption" align="center">
+                  {proposals[proposal_id].shortDescription}
+                </Typography>
 
-            {/* <ProposalCard
+                {/* <ProposalCard
                     proposal={proposal}
                     votingAllowed={votingAllowed}
                     twitterAllowed={!web3Connect.connected || votingAllowed}
@@ -273,63 +273,67 @@ const Proposal = ({ match }) => {
                     }
                     address={address}
                   /> */}
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h3" className={classes.title}>
-              {proposals[proposal_id].emoji +
-                ' ' +
-                proposals[proposal_id].title}
-            </Typography>
-            <Typography variant="caption" align="center">
-              <Link href={proposals[proposal_id].website} target="_blank">
-                {proposals[proposal_id].website}
-              </Link>
-            </Typography>
-            <br />
-            <br />
-            <Typography variant="body1" align="left">
-              {proposals[proposal_id].description}
-            </Typography>
-            <br />
-            <Typography variant="caption" align="center">
-              Proposer:{' '}
-              <Link
-                href={
-                  'https://twitter.com/' + proposals[proposal_id].ownerTwitter
-                }
-                target="_blank"
-              >
-                @{proposals[proposal_id].ownerTwitter}
-              </Link>
-            </Typography>
-            {votingAllowed && !(proposal_id == web3Connect.previousWinnerId) && (
-              <Tooltip title="Vote using your wallet">
-                <IconButton
-                  color="primary"
-                  aria-label="vote"
-                  onClick={() =>
-                    web3Connect.contracts.dao.methods.vote(proposal_id)
-                  }
-                >
-                  <HowToVoteIcon />
-                </IconButton>
-              </Tooltip>
-            )}
-            {(!web3Connect.connected || votingAllowed) &&
-              !(proposal_id == web3Connect.previousWinnerId) && (
-                <Tooltip title="Vote via Twitter">
-                  <IconButton
-                    color="secondary"
-                    aria-label="vote via twitter"
-                    onClick={() => voteTwitter(proposals[proposal_id].emoji)}
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="h3" className={classes.title}>
+                  {proposals[proposal_id].emoji +
+                    ' ' +
+                    proposals[proposal_id].title}
+                </Typography>
+                <Typography variant="caption" align="center">
+                  <Link href={proposals[proposal_id].website} target="_blank">
+                    {proposals[proposal_id].website}
+                  </Link>
+                </Typography>
+                <br />
+                <br />
+                <Typography variant="body1" align="left">
+                  {proposals[proposal_id].description}
+                </Typography>
+                <br />
+                <Typography variant="caption" align="center">
+                  Proposer:{' '}
+                  <Link
+                    href={
+                      'https://twitter.com/' +
+                      proposals[proposal_id].ownerTwitter
+                    }
+                    target="_blank"
                   >
-                    <TwitterIcon />
-                  </IconButton>
-                </Tooltip>
-              )}
-          </Grid>
-        </Grid>
-        {/* )} */}
+                    @{proposals[proposal_id].ownerTwitter}
+                  </Link>
+                </Typography>
+                {votingAllowed &&
+                  !(proposal_id == web3Connect.previousWinnerId) && (
+                    <Tooltip title="Vote using your wallet">
+                      <IconButton
+                        color="primary"
+                        aria-label="vote"
+                        onClick={() =>
+                          web3Connect.contracts.dao.methods.vote(proposal_id)
+                        }
+                      >
+                        <HowToVoteIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                {(!web3Connect.connected || votingAllowed) &&
+                  !(proposal_id == web3Connect.previousWinnerId) && (
+                    <Tooltip title="Vote via Twitter">
+                      <IconButton
+                        color="secondary"
+                        aria-label="vote via twitter"
+                        onClick={() =>
+                          voteTwitter(proposals[proposal_id].emoji)
+                        }
+                      >
+                        <TwitterIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+              </Grid>
+            </Grid>
+          )}
         {!fetched && (
           <Typography variant="caption" align="center">
             Loading proposal
