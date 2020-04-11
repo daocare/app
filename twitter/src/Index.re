@@ -2,7 +2,7 @@ open Globals;
 
 let since_id = ref("");
 let currentIterationId = ref(0);
-let currentIterationTweetId = ref("1243491650883780608");
+let currentIterationTweetId = ref("1248192552701919233");
 let thisUserTwitterId = "1190359489603616773";
 
 let twitInstance = Twit.makeTwitterHandler(.);
@@ -10,182 +10,234 @@ let twitInstance = Twit.makeTwitterHandler(.);
 let etherHandler = ref(()->Obj.magic);
 
 let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
-  let%Async currentIteration = proposalManager.getIteration(.);
-  if (currentIteration != currentIterationId^) {
-    if (currentIteration == currentIterationId^ + 1) {
-      currentIterationId := currentIteration;
-      let%Async _ = proposalManager.getCurrentProposals(.);
+  // let%Async currentIteration = proposalManager.getIteration(.);
+  // if (currentIteration != currentIterationId^) {
+  //   if (currentIteration == currentIterationId^ + 1) {
+  //     currentIterationId := currentIteration;
+  //     let%Async _ = proposalManager.getCurrentProposals(.);
+  //     let%Async tweetUpdateResult =
+  //       Twit.postWithResult(
+  //         twitInstance,
+  //         "statuses/mentions_timeline",
+  //         TwitPostArgs.makeStatusArgs({
+  //           status:
+  //             "We have a new iteration. Please vote on one of the following projects\n\n"
+  //             ++ proposalManager.getProjectsTweetString(.),
+  //           in_reply_to_status_id: None,
+  //         }),
+  //       );
+  //     switch (tweetUpdateResult) {
+  //     | TweetSuccess(tweetData) => currentIterationTweetId := tweetData.id_str
+  //     | TweetError(error) => Js.log(error)
+  //     };
+  //     ()->async;
+  //   } else {
+  //     ()->async;
+  //   };
+  // } else {
+  let%Async tweetResult =
+    Twit.getWithResult(
+      twitInstance,
+      "statuses/mentions_timeline",
+      TwitPostArgs.makeMentionsArgs({since_id: since_id^}),
+    );
 
-      let%Async tweetUpdateResult =
-        Twit.postWithResult(
-          twitInstance,
-          "statuses/mentions_timeline",
-          TwitPostArgs.makeStatusArgs({
-            status:
-              "We have a new iteration. Please vote on one of the following projects\n\n"
-              ++ proposalManager.getProjectsTweetString(.),
-            in_reply_to_status_id: None,
-          }),
-        );
-      switch (tweetUpdateResult) {
-      | TweetSuccess(tweetData) => currentIterationTweetId := tweetData.id_str
-      | TweetError(error) => Js.log(error)
-      };
-      ()->async;
-    } else {
-      ()->async;
-    };
-  } else {
-    let%Async tweetResult =
-      Twit.getWithResult(
-        twitInstance,
-        "statuses/mentions_timeline",
-        TwitPostArgs.makeMentionsArgs({since_id: since_id^}),
-      );
+  switch (tweetResult) {
+  | TweetGetError(err) => Js.log2("Error processing tweet", err)
+  | TweetGetSuccess(tweets) =>
+    tweets[0]
+    ->Option.map(tweet => {
+        Database.setLatestTweetReply(tweet.id_str)->ignore;
+        since_id := tweet.id_str;
+      })
+    ->ignore;
+    Js.log("before forEach");
+    let randomString = " " ++ (Random.int(5) mod 100)->string_of_int;
 
-    switch (tweetResult) {
-    | TweetGetError(err) => Js.log2("Error processing tweet", err)
-    | TweetGetSuccess(tweets) =>
-      tweets[0]
-      ->Option.map(tweet => {
-          Database.setLatestTweetReply(tweet.id_str)->ignore;
-          since_id := tweet.id_str;
-        })
-      ->ignore;
-      Js.log("before forEach");
-      let randomString = " " ++ (Random.int(5) mod 100)->string_of_int;
+    tweets->Array.forEach(tweet => {
+      switch (tweet.in_reply_to_status_id_str) {
+      | Some(in_reply_to_status_id_str) =>
+        if (in_reply_to_status_id_str != currentIterationTweetId^) {
+          Twit.postTweetInReply(.
+            twitInstance,
+            "@"
+            ++ tweet.user.screen_name
+            ++ " Hi there, this post is no longer active. Please vote on this tweet: https://twitter.com/ParisMain1/status/"
+            ++ currentIterationTweetId^
+            ++ randomString,
+            tweet.id_str,
+            "@" ++ tweet.user.screen_name,
+          )
+          ->ignore;
+          ();
+        } else if (tweet.user.id_str === thisUserTwitterId) {
+          // Do nothing.
+          Js.log("Tweet from self - ignore");
+        } else if (true) {
+          let getResults = (_emojiRegex, _string) => [%raw
+            {| _string.match(_emojiRegex) || [] |}
+          ];
+          let results = getResults(emojiRegex, tweet.text);
 
-      tweets->Array.forEach(tweet => {
-        switch (tweet.in_reply_to_status_id_str) {
-        | Some(in_reply_to_status_id_str) =>
-          if (in_reply_to_status_id_str != currentIterationTweetId^) {
+          switch (results->Array.length) {
+          | 0 =>
             Twit.postTweetInReply(.
               twitInstance,
               "@"
               ++ tweet.user.screen_name
-              ++ " Hi there, this post is no longer active. Please vote on this tweet: https://twitter.com/ParisMain1/status/"
-              ++ currentIterationTweetId^
-              ++ randomString,
-              tweet.id_str,
+              ++ " Hi there, please select an emoji from above, to make your vote. Please don't hesitate to ask if you need help getting setup!",
+              tweet.id_str ++ randomString,
               "@" ++ tweet.user.screen_name,
             )
-            ->ignore;
-            ();
-          } else if (tweet.user.id_str === thisUserTwitterId) {
-            // Do nothing.
-            Js.log("Tweet from self - ignore");
-          } else if (true) {
-            let getResults = (_emojiRegex, _string) => [%raw
-              {| _string.match(_emojiRegex) || [] |}
-            ];
-            let results = getResults(emojiRegex, tweet.text);
-
-            switch (results->Array.length) {
-            | 0 =>
-              Twit.postTweetInReply(.
-                twitInstance,
-                "@"
-                ++ tweet.user.screen_name
-                ++ " Hi there, please select an emoji from above, to make your vote. Please don't hesitate to ask if you need help getting setup!",
-                tweet.id_str ++ randomString,
-                "@" ++ tweet.user.screen_name,
-              )
-              ->ignore
-            | 1 =>
-              let proposalId = proposalManager.getProjectIdFromEmoji(.);
-
-              switch (proposalId) {
-              | Some(id) =>
-                %raw
-                {|console.time('someFunction'+randomString)|};
-                let ethHandler: Ethereum.ethereumObject = etherHandler^;
-                ethHandler.noLossDao.methods.voteProxy(.
-                  ~proposalId=id->string_of_int,
-                  ~usersAddress=ethHandler.mainAddress,
-                ).
-                  send({
-                  from: ethHandler.mainAddress,
-                }).
-                  on(.
-                   "transactionHash", hash => {
-                  Twit.postTweetInReply(.
-                    twitInstance,
-                    "@"
-                    ++ tweet.user.screen_name
-                    ++ " Your vote has been submitted. Thank you for voting @"
-                    ++ tweet.user.screen_name
-                    ++ " . https://kovan.etherscan.io/tx/"
-                    ++ hash,
-                    tweet.id_str,
-                    "@" ++ tweet.user.screen_name,
-                  )
-                  ->ignore
-                }).
-                  on(.
-                   "receipt", _receipt => {
-                  // Js.log2("receipt", receipt);
-                  Twit.postTweetInReply(.
-                    twitInstance,
-                    "@"
-                    ++ tweet.user.screen_name
-                    ++ " Your vote has been counted. Thank you for supporting great projects!",
-                    tweet.id_str,
-                    "@" ++ tweet.user.screen_name,
-                  )
-                  ->ignore
-                }).
-                  //   on(.
-                  //    "confirmation", confirmationNumber => {
-                  //   Js.log2("confirmationNumber", confirmationNumber)
-                  // }).
-                  on(.
-                   "error", _error => {
-                  Twit.postTweetInReply(.
-                    twitInstance,
-                    "@"
-                    ++ tweet.user.screen_name
-                    ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP.",
-                    tweet.id_str,
-                    "@" ++ tweet.user.screen_name,
-                  )
-                  ->ignore
-                })
-                ->ignore;
-                %raw
-                {|console.timeEnd('someFunction'+randomString)|};
-                ();
-              | None =>
+            ->ignore
+          | 1 =>
+            let proposalId = proposalManager.getProjectIdFromEmoji(.);
+            Js.log2("THE PROPOSAL ID", proposalId);
+            switch (proposalId) {
+            | Some(id) =>
+              %raw
+              {|console.time('someFunction'+randomString)|};
+              let ethHandler: Ethereum.ethereumObject = etherHandler^;
+              ethHandler.noLossDao.methods.voteProxy(.
+                ~proposalId=id->string_of_int,
+                ~usersAddress=ethHandler.mainAddress,
+              ).
+                send({
+                from: ethHandler.mainAddress,
+              }).
+                on(.
+                 "transactionHash", hash => {
                 Twit.postTweetInReply(.
                   twitInstance,
                   "@"
                   ++ tweet.user.screen_name
-                  ++ " Unfortunately we don't recognise that project ID. Please select an emoji of a listed project."
-                  ++ randomString,
+                  ++ " Your vote has been submitted. Thank you for voting @"
+                  ++ tweet.user.screen_name
+                  ++ " . https://kovan.etherscan.io/tx/"
+                  ++ hash,
                   tweet.id_str,
                   "@" ++ tweet.user.screen_name,
                 )
                 ->ignore
-              };
-            | _ =>
-              Twit.postTweetInReply(.
-                twitInstance,
-                "@"
-                ++ tweet.user.screen_name
-                ++ " Please only include 1 emoji on your tweet if you want to vote.",
-                tweet.id_str,
-                "@" ++ tweet.user.screen_name,
-              )
-              ->ignore
+              }).
+                on(.
+                 "receipt", _receipt => {
+                // Js.log2("receipt", receipt);
+                Twit.postTweetInReply(.
+                  twitInstance,
+                  "@"
+                  ++ tweet.user.screen_name
+                  ++ " Your vote has been counted. Thank you for supporting great projects!",
+                  tweet.id_str,
+                  "@" ++ tweet.user.screen_name,
+                )
+                ->ignore
+              }).
+                //   on(.
+                //    "confirmation", confirmationNumber => {
+                //   Js.log2("confirmationNumber", confirmationNumber)
+                // }).
+                on(.
+                 "error", _error => {
+                Twit.postTweetInReply(.
+                  twitInstance,
+                  "@"
+                  ++ tweet.user.screen_name
+                  ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP.",
+                  tweet.id_str,
+                  "@" ++ tweet.user.screen_name,
+                )
+                ->ignore
+              })
+              ->ignore;
+              %raw
+              {|console.timeEnd('someFunction'+randomString)|};
+              ();
+            | None =>
+              let ethHandler: Ethereum.ethereumObject = etherHandler^;
+              ethHandler.noLossDao.methods.voteProxy(.
+                ~proposalId="1",
+                ~usersAddress=ethHandler.mainAddress,
+              ).
+                send({
+                from: ethHandler.mainAddress,
+              }).
+                on(.
+                 "transactionHash", hash => {
+                Twit.postTweetInReply(.
+                  twitInstance,
+                  "@"
+                  ++ tweet.user.screen_name
+                  ++ " Your vote has been submitted. Thank you for voting @"
+                  ++ tweet.user.screen_name
+                  ++ " . https://kovan.etherscan.io/tx/"
+                  ++ hash,
+                  tweet.id_str,
+                  "@" ++ tweet.user.screen_name,
+                )
+                ->ignore
+              }).
+                on(.
+                 "receipt", _receipt => {
+                // Js.log2("receipt", receipt);
+                Twit.postTweetInReply(.
+                  twitInstance,
+                  "@"
+                  ++ tweet.user.screen_name
+                  ++ " Your vote has been counted. Thank you for supporting great projects!",
+                  tweet.id_str,
+                  "@" ++ tweet.user.screen_name,
+                )
+                ->ignore
+              }).
+                //   on(.
+                //    "confirmation", confirmationNumber => {
+                //   Js.log2("confirmationNumber", confirmationNumber)
+                // }).
+                on(.
+                 "error", _error => {
+                Twit.postTweetInReply(.
+                  twitInstance,
+                  "@"
+                  ++ tweet.user.screen_name
+                  ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP.",
+                  tweet.id_str,
+                  "@" ++ tweet.user.screen_name,
+                )
+                ->ignore
+              })
+              ->ignore;
+            // Twit.postTweetInReply(.
+            //   twitInstance,
+            //   "@"
+            //   ++ tweet.user.screen_name
+            //   ++ " Unfortunately we don't recognise that project ID. Please select an emoji of a listed project."
+            //   ++ randomString,
+            //   tweet.id_str,
+            //   "@" ++ tweet.user.screen_name,
+            // )
+            // ->ignore;
             };
-          }
-        | None => Js.log("tweet isn't a response")
+          | _ =>
+            Twit.postTweetInReply(.
+              twitInstance,
+              "@"
+              ++ tweet.user.screen_name
+              ++ " Please only include 1 emoji on your tweet if you want to vote.",
+              tweet.id_str,
+              "@" ++ tweet.user.screen_name,
+            )
+            ->ignore
+          };
         }
-      });
-    //   // console.log(i, status);
-    //   const regexMatch = text.match(emojiRegex) || [];
-    };
-    ()->async;
+      | None => Js.log("tweet isn't a response")
+      }
+    });
+  //   // console.log(i, status);
+  //   const regexMatch = text.match(emojiRegex) || [];
   };
+  ()->async;
+  // };
 };
 let loopFunction = proposalManager => {
   loopFunctionAsync(proposalManager)->ignore;
@@ -218,8 +270,8 @@ let start = () => {
   let proposalManager = ProposalManager.setupProposalManager(.);
 
   let%Async _result = proposalManager.getCurrentProposals(.);
-  let%Async currentIteration = proposalManager.getIteration(.);
-  currentIterationId := currentIteration;
+  // let%Async currentIteration = proposalManager.getIteration(.);
+  // currentIterationId := currentIteration;
 
   loopFunction(proposalManager);
 

@@ -434,7 +434,16 @@ function useWeb3Connect() {
           console.log(`Skipping ${hash} as it is not stored on a thread...`);
           continue;
         }
-        let proposal = (await getThreadFirstPost(hash)).message;
+        console.log({ hash }, "HASH");
+        const proposalRaw = (await getThreadFirstPost(hash));
+        console.log("the raw proposal", proposalRaw, !proposalRaw)
+        if (!proposalRaw) {
+          // If the proposal is null just continue!
+          console.log("it should continue")
+          continue
+        }
+        const proposal = proposalRaw.message;
+        // let proposal = (await getThreadFirstPost(hash)).message;
         proposal.id = i;
 
         if (i === tempCurrentVote) {
