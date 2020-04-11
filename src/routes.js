@@ -35,6 +35,10 @@ const routes = [
         component: lazy(() => import('./views/Proposals')),
       },
       {
+        path: '/proposals/:proposal_id',
+        component: lazy(() => import('./views/Proposal')),
+      },
+      {
         path: '/network-not-supported',
         exact: true,
         component: lazy(() => import('./views/NetworkNotSupported')),
