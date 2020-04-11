@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, Grid } from '@material-ui/core';
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useRouter from '../utils/useRouter';
 import useInterval from '../utils/useInterval';
@@ -18,13 +18,20 @@ const useStyles = makeStyles((theme) => ({
     width: 220,
   },
   decriptionBlurb: { margin: '16px 0' },
+  gridItem: {
+    textAlign: 'center',
+  },
   interestBlurb: {
     fontSize: 24,
   },
-  interestCountUp: {
+  numberHighlight: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#A362A5',
+  },
+  currencyHighlight: {
+    display: 'inline',
+    color: '#aaa',
   },
   buttonContainer: {
     marginTop: 20,
@@ -61,27 +68,70 @@ const Home = () => {
         Interest from the pool is sent to the chosen community project for 2
         weeks if selected by the DAO. Withdraw your original DAI at anytime.
       </Typography>
-      <Typography variant="body1" className={classes.interestBlurb}>
-        The dao.care fund is currently{' '}
-        {totalFundAmount === 0 ? (
-          <span>{<EllipsisLoader />}</span>
-        ) : (
-          <span className={classes.interestCountUp}>
-            {' '}
-            {totalFundAmount} DAI!
-          </span>
-        )}
-        <br />
-        The previous winning project has earned{' '}
-        {interest > 0 && (
-          <span className={classes.interestCountUp}>${interest} DAI!</span>
-        )}
-        {interest === 0 && <span>{<EllipsisLoader />}</span>} so far this
-        period.
-        <br />
-        At this rate the project will earn <strong>...TODO...</strong> DAI by
-        the end of the period.
-      </Typography>
+
+      <Grid container justify="space-between" spacing={2}>
+        <Grid item xs={12} md={4} className={classes.gridItem}>
+          <Typography variant="body1" className={classes.numberHighlight}>
+            {totalFundAmount > 0 ? (
+              <>
+                {totalFundAmount}
+                <Typography
+                  variant="body1"
+                  className={classes.currencyHighlight}
+                >
+                  {' '}
+                  DAI
+                </Typography>
+              </>
+            ) : (
+              <EllipsisLoader />
+            )}
+          </Typography>
+          <Typography variant="body1">Fund size</Typography>
+        </Grid>
+        <Grid item xs={12} md={4} className={classes.gridItem}>
+          <Typography variant="body1" className={classes.numberHighlight}>
+            {interest > 0 ? (
+              <>
+                {interest.toFixed(5)}
+                <Typography
+                  variant="body1"
+                  className={classes.currencyHighlight}
+                >
+                  {' '}
+                  DAI
+                </Typography>
+              </>
+            ) : (
+              <EllipsisLoader />
+            )}
+          </Typography>
+          <Typography variant="body1">
+            Previous winner <br /> interest rewarded
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} className={classes.gridItem}>
+          <Typography variant="body1" className={classes.numberHighlight}>
+            {interest > 0 ? (
+              <>
+                {interest.toFixed(5)}
+                <Typography
+                  variant="body1"
+                  className={classes.currencyHighlight}
+                >
+                  {' '}
+                  DAI
+                </Typography>
+              </>
+            ) : (
+              <EllipsisLoader />
+            )}
+          </Typography>
+          <Typography variant="body1">
+            Next winner <br /> interest reward
+          </Typography>
+        </Grid>
+      </Grid>
 
       <div className={classes.buttonContainer}>
         <Button
@@ -147,8 +197,6 @@ const Home = () => {
             Withdraw Funds
           </Button>
         )}
-      </div>
-      <div className={classes.buttonContainer}>
         <Button
           variant="outlined"
           color="primary"
