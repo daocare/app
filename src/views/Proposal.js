@@ -11,8 +11,7 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button, Grid } from '@material-ui/core';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import { IconButton, Tooltip, Link } from '@material-ui/core';
 
 import Page from '../components/Page';
 import Header from '../components/Header';
@@ -59,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     display: 'block',
-    height: '300px',
+    maxHeight: '300px',
     maxWidth: '100%',
   },
 }));
@@ -248,13 +247,6 @@ const Proposal = ({ match }) => {
           </div>
         </>
       )} */}
-      <Typography variant="h5" className={classes.title}>
-        {proposals[proposal_id] != undefined ? (
-          proposals[proposal_id].title
-        ) : (
-          <EllipsisLoader />
-        )}
-      </Typography>
       <div style={{ marginTop: 16 }}>
         {/* {fetched &&
         proposals[proposal_id] != undefined && ( // for testing */}
@@ -267,6 +259,9 @@ const Proposal = ({ match }) => {
               alt="proposal image"
               className={classes.image}
             />
+            <Typography variant="caption" align="center">
+              {proposals[proposal_id].shortDescription}
+            </Typography>
 
             {/* <ProposalCard
                     proposal={proposal}
@@ -278,6 +273,35 @@ const Proposal = ({ match }) => {
                     }
                     address={address}
                   /> */}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h3" className={classes.title}>
+              {proposals[proposal_id].emoji +
+                ' ' +
+                proposals[proposal_id].title}
+            </Typography>
+            <Typography variant="caption" align="center">
+              <Link href={proposals[proposal_id].website} target="_blank">
+                {proposals[proposal_id].website}
+              </Link>
+            </Typography>
+            <br />
+            <br />
+            <Typography variant="body1" align="left">
+              {proposals[proposal_id].description}
+            </Typography>
+            <br />
+            <Typography variant="caption" align="center">
+              Proposer:{' '}
+              <Link
+                href={
+                  'https://twitter.com/' + proposals[proposal_id].ownerTwitter
+                }
+                target="_blank"
+              >
+                @{proposals[proposal_id].ownerTwitter}
+              </Link>
+            </Typography>
             {votingAllowed && !(proposal_id == web3Connect.previousWinnerId) && (
               <Tooltip title="Vote using your wallet">
                 <IconButton
@@ -303,17 +327,6 @@ const Proposal = ({ match }) => {
                   </IconButton>
                 </Tooltip>
               )}
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h2" align="center">
-              {proposals[proposal_id].emoji}
-            </Typography>
-            <Typography variant="caption" align="center">
-              {proposals[proposal_id].shortDescription}
-            </Typography>
-            <Typography variant="caption" align="center">
-              {proposals[proposal_id].website}
-            </Typography>
           </Grid>
         </Grid>
         {/* )} */}
