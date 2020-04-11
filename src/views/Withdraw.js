@@ -15,6 +15,10 @@ import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 const BN = require('bn.js');
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    height: '100%',
+  },
   decriptionBlurb: { margin: '16px 0' },
   fieldGroup: {
     [theme.breakpoints.up('sm')]: {
@@ -25,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   wrapper: {
     display: 'flex',
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -48,6 +53,12 @@ const useStyles = makeStyles((theme) => ({
   },
   circularProgress: {
     marginLeft: theme.spacing.unit,
+  },
+  buttonContainer: {
+    display: 'block',
+    marginTop: 20,
+    marginBottom: 20,
+    textAlign: 'center',
   },
 }));
 
@@ -134,21 +145,23 @@ const Withdraw = () => {
                   <EllipsisLoader />
                 </Typography>
               ) : !hasAnActiveProposal ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={!withdrawingDisabled && (() => onSubmitFunds())}
-                  disabled={withdrawingDisabled}
-                >
-                  Withdraw
-                  {withdrawingDisabled && (
-                    <CircularProgress
-                      className={classes.circularProgress}
-                      size={14}
-                    />
-                  )}
-                </Button>
+                <div className={classes.buttonContainer}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={!withdrawingDisabled && (() => onSubmitFunds())}
+                    disabled={withdrawingDisabled}
+                  >
+                    Withdraw
+                    {withdrawingDisabled && (
+                      <CircularProgress
+                        className={classes.circularProgress}
+                        size={14}
+                      />
+                    )}
+                  </Button>
+                </div>
               ) : (
                 <Typography
                   variant="body2"
