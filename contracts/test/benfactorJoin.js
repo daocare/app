@@ -16,7 +16,7 @@ const LendingPoolAddressProvider = artifacts.require(
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('PoolDeposits', (accounts) => {
+contract('PoolDeposits', accounts => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -44,7 +44,6 @@ contract('PoolDeposits', (accounts) => {
     );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    //await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -72,11 +71,11 @@ contract('PoolDeposits', (accounts) => {
     });
 
     let propId = await noLossDao.benefactorsProposal.call(accounts[2]);
-    let proposalHashString = await noLossDao.proposalDetails.call(propId);
+    let proposalIdentifierString = await noLossDao.proposalDetails.call(propId);
     expectEvent(logs, 'ProposalAdded', {
       benefactor: accounts[2],
       proposalId: propId,
-      proposalHash: proposalHashString,
+      proposalIdentifier: proposalIdentifierString,
     });
 
     let depositedDaiUser = await poolDeposits.depositedDai.call(accounts[2]);

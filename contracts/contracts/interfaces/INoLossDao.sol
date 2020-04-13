@@ -1,7 +1,9 @@
 pragma solidity ^0.5.0;
 
+
 contract INoLossDao {
   function noLossDeposit(address userAddress) external returns (bool);
+
   function noLossWithdraw(address userAddress) external returns (bool);
 
   function noLossCreateProposal(
@@ -12,5 +14,4 @@ contract INoLossDao {
   function noLossWithdrawProposal(address benefactorAddress)
     external
     returns (bool);
-
 }

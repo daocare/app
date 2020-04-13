@@ -16,7 +16,7 @@ const LendingPoolAddressProvider = artifacts.require(
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('noLossDao', (accounts) => {
+contract('noLossDao', accounts => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -44,7 +44,6 @@ contract('noLossDao', (accounts) => {
     );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    //await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -60,7 +59,7 @@ contract('noLossDao', (accounts) => {
     });
   });
 
-  it('NoLossDao:miningActions. Can only mine next iteration.', async () => {
+  it('NoLossDao:distributeFunds. Can only mine next iteration.', async () => {
     let mintAmount = '60000000000';
 
     await expectRevert(
@@ -130,7 +129,7 @@ contract('noLossDao', (accounts) => {
     );
   });
 
-  it('NoLossDao:miningActions. Can change interval time.', async () => {
+  it('NoLossDao:distributeFunds. Can change interval time.', async () => {
     let mintAmount = '60000000000';
 
     await expectRevert(

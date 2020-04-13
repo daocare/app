@@ -37,7 +37,7 @@ contract PoolDeposits {
   event ProposalAdded(
     address indexed benefactor,
     uint256 indexed proposalId,
-    string proposalHash
+    string proposalIdentifier
   );
   event DepositWithdrawn(address indexed user);
   event ProposalWithdrawn(address indexed benefactor);
@@ -214,8 +214,8 @@ contract PoolDeposits {
   }
 
   /// @dev Lets user create proposal
-  /// @param proposalHash hash of the users new proposal
-  function createProposal(string calldata proposalHash)
+  /// @param proposalIdentifier hash of the users new proposal
+  function createProposal(string calldata proposalIdentifier)
     external
     blankUser
     allowanceAvailable(proposalAmount)
@@ -225,10 +225,10 @@ contract PoolDeposits {
   {
     _depositFunds(proposalAmount);
     uint256 proposalId = noLossDaoContract.noLossCreateProposal(
-      proposalHash,
+      proposalIdentifier,
       msg.sender
     );
-    emit ProposalAdded(msg.sender, proposalId, proposalHash);
+    emit ProposalAdded(msg.sender, proposalId, proposalIdentifier);
     return proposalId;
   }
 
