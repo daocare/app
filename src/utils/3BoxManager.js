@@ -31,7 +31,6 @@ export const open3Box = async (address, provider, setStatus = console.log) => {
           setStatus('Synchronizing with your 3Box space');
         },
       });
-      // console.log({ space });
       setStatus('Finalizing synchronization with your 3Box space');
       await space.syncDone;
       setStatus('3Box space opened');
@@ -46,7 +45,7 @@ export const open3Box = async (address, provider, setStatus = console.log) => {
   }
 };
 
-export const get3BoxProfile = async address => {
+export const get3BoxProfile = async (address) => {
   const profile = await Box.getProfile(address);
   const verifiedAccounts = await Box.getVerifiedAccounts(profile);
 
@@ -57,7 +56,7 @@ export const get3BoxProfile = async address => {
         : profile,
     verifiedAccounts:
       Object.entries(verifiedAccounts).length === 0 &&
-      verifiedAccounts.constructor === Object
+        verifiedAccounts.constructor === Object
         ? null
         : verifiedAccounts,
   };
@@ -71,7 +70,7 @@ export const logout3Box = async () => {
   space = null;
 };
 
-export const isLoggedIn = async address => {
+export const isLoggedIn = async (address) => {
   if (address) {
     return Box.isLoggedIn(address);
   }
@@ -82,8 +81,9 @@ export const getBox = () => box;
 export const getSpace = () => space;
 export const isFetching = () => fetching;
 
-export const getThreadFirstPost = async threadAddress => {
+export const getThreadFirstPost = async (threadAddress) => {
   let posts = await Box.getThreadByAddress(threadAddress);
+  console.log(posts, "Here we are...")
   if (posts && posts.length > 0) {
     return posts[0];
   }

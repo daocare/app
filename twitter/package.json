@@ -10,13 +10,15 @@
   },
   "scripts": {
     "re:build": "bsb -make-world",
-    "re:watch": "bsb -make-world -w",
+    "re:watch": "bsb -clean-world -make-world -w",
     "re:clean": "bsb -clean-world",
+    "watch": "nodemon ./src/Index.bs.js",
     "start": "node ./src/Index.bs.js"
   },
   "devDependencies": {
     "bs-let": "^0.1.16",
-    "bs-platform": "^7.2.2",
+    "bs-platform": "7.3.0-dev.1",
+    "nodemon": "^2.0.2",
     "decco": "^1.2.0"
   },
   "dependencies": {

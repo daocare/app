@@ -46,11 +46,9 @@ class IpfsUpload extends Component {
   }
 
   captureFile(event) {
-    console.log('on captureFile');
     event.stopPropagation();
     event.preventDefault();
     const file = event.target.files[0];
-    console.log(file);
     let reader = new window.FileReader();
     this.setState({ fileName: file.name });
     reader.readAsArrayBuffer(file);
@@ -61,25 +59,18 @@ class IpfsUpload extends Component {
   }
 
   convertToBuffer = async (reader) => {
-    console.log('on convertToBuffer');
     //file is converted to a buffer to prepare for uploading to IPFS
     const buffer = await Buffer.from(reader.result);
-    console.log(buffer);
     //set this buffer -using es6 syntax
     await this.setState({ buffer: buffer });
-    console.log('finished convertToBuffer');
   };
 
   uploadFile() {
     // event.preventDefault();
-    console.log('on uploadFile');
     let ipfs = getIpfs();
-    console.log(ipfs);
-    console.log(this.state);
     this.setState({ status: 'UPLOADING' });
     //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add
     ipfs.add(this.state.buffer, (err, ipfsHash) => {
-      console.log(err, ipfsHash);
       //setState by setting ipfsHash to ipfsHash[0].hash
       let hash = ipfsHash[0].hash;
       let url = getIpfsUrl(hash);

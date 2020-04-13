@@ -147,7 +147,8 @@ const Proposals = () => {
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
         {status === 'DRAFT' &&
           !web3Connect.enabledTwitter &&
-          web3Connect.connected && (
+          web3Connect.connected &&
+          web3Connect.daiDeposit > 0 && (
             <Button
               variant="contained"
               color="secondary"

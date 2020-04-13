@@ -2,10 +2,11 @@ import React, { Suspense } from 'react';
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { LinearProgress, Typography } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import BetaFlag from '../components/BetaFlag';
+import FooterInfo from '../components/FooterInfo';
 import Page from '../components/Page';
 import WalletProfile from '../components/WalletProfile';
 
@@ -17,13 +18,15 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     overflow: 'hidden',
   },
-  pageContainer: {
-    margin: theme.spacing(10, 2, 2, 2),
-    [theme.breakpoints.up('sm')]: {
-      margin: theme.spacing(10),
-    },
-    position: 'relative',
+  pageOuterContainer: {
     padding: theme.spacing(2),
+    position: 'relative',
+    height: '80vh',
+  },
+  pageInnerContainer: {
+    margin: theme.spacing(0, 2),
+    overflow: 'auto',
+    height: '99%',
   },
   container: {
     display: 'flex',
@@ -38,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     left: 0,
     right: 0,
+    flexDirection: 'column',
     background:
       '-webkit-radial-gradient(#B1A4D4 5%, #9E8DC9 30%, #6850A8 60%);' /* Chrome 10-25, Safari 5.1-6 */,
     // eslint-disable-next-line
@@ -56,30 +60,15 @@ const Layout = (props) => {
       <div className={classes.container}>
         <main className={classes.content}>
           <BetaFlag />
-          <WalletProfile />
           <Container maxWidth="md">
-            <Paper elevation={0}>
-              <Suspense fallback={<LinearProgress />}>
-                <Page className={classes.pageContainer} title="dao.care">
+            <WalletProfile />
+            <Paper elevation={0} className={classes.pageOuterContainer}>
+              <Page title="dao.care" className={classes.pageInnerContainer}>
+                <Suspense fallback={<LinearProgress />}>
                   {renderRoutes(route.routes)}
-                  <Typography
-                    variant="caption"
-                    color="secondary"
-                    style={{ textAlign: 'center' }}
-                  >
-                    We are currently running on Kovan network. Please get DAI
-                    from Aave{' '}
-                    <a
-                      href="https://testnet.aave.com/faucet/DAI"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      test app
-                    </a>
-                    .
-                  </Typography>
-                </Page>
-              </Suspense>
+                </Suspense>
+              </Page>
+              <FooterInfo />
             </Paper>
           </Container>
         </main>

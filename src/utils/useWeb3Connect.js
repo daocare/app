@@ -14,8 +14,6 @@ import useRouter from './useRouter';
 
 import {
   open3Box,
-  // logout3Box,
-  // isLoggedIn,
   get3BoxProfile,
   isFetching,
   logout3Box,
@@ -43,12 +41,6 @@ const NOT_SUPPORTED_URL = '/network-not-supported';
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
 let FETCH_UPDATE_INTERVAL = 7000;
 const providerOptions = {
-  // portis: {
-  //   package: Portis, // required
-  //   options: {
-  //     id: "PORTIS_ID" // required
-  //   }
-  // },
   walletconnect: {
     package: WalletConnectProvider,
     options: {
@@ -130,7 +122,6 @@ function useWeb3Connect() {
   const [userVerifiedAccounts, setUserVerifiedAccounts] = useState(null);
 
   const getNetworkByChainId = (chainIdTemp) => {
-    // console.log(supportedChains);
     let networkTemp = supportedChains.filter(
       (chain) => chain.chain_id === chainIdTemp
     );
@@ -213,7 +204,6 @@ function useWeb3Connect() {
 
   // eslint-disable-next-line
   useEffect(() => {
-    // updateUserData();
     if (!loaded && !loadingWeb3) {
       let web3Infura = new Web3(INFURA_ENDPOINT);
       setWeb3ReadOnly(web3Infura);
@@ -280,7 +270,6 @@ function useWeb3Connect() {
     }
     await web3Connect.clearCachedProvider();
     await logout3Box();
-
     await setProvider(null);
     await setWeb3(null);
     await setConnected(false);
@@ -319,9 +308,6 @@ function useWeb3Connect() {
   const update3BoxDetails = async (addr = address, prov = provider) => {
     if (addr) {
       const loggedIn = await isLoggedIn(addr);
-      // const config = await Box.getConfig(addr);
-      // console.log({ config });
-      // console.log({ loggedIn });
       setIs3BoxLoggedIn(loggedIn);
 
       let { profile, verifiedAccounts } = await get3BoxProfile(addr);
@@ -329,12 +315,7 @@ function useWeb3Connect() {
       setUserVerifiedAccounts(verifiedAccounts);
 
       // check if user has this space, if so we can open the box in the bg
-      if (
-        loggedIn &&
-        !isFetching
-        // config.spaces &&
-        // config.spaces[BOX_SPACE]
-      ) {
+      if (loggedIn && !isFetching) {
         await open3Box(addr, prov);
       }
 
@@ -357,7 +338,6 @@ function useWeb3Connect() {
       let allowance = await daiContract.methods
         .allowance(addr, DEPOSIT_ADDRESS)
         .call();
-      // console.log({ allowance });
       setDaiAllowance(Number(allowance));
     }
   };
@@ -370,7 +350,6 @@ function useWeb3Connect() {
       let balance = new web3Read.utils.BN(
         await daiContract.methods.balanceOf(addr).call()
       );
-      console.log({ balance });
       setDaiBalance(Number(web3Read.utils.fromWei('' + balance, 'ether')));
     }
   };
@@ -384,7 +363,6 @@ function useWeb3Connect() {
       let deposit = new web3Read.utils.BN(
         await depositContract.methods.depositedDai(addr).call()
       );
-      // console.log({ balance });
       setDaiDeposit(Number(web3Read.utils.fromWei('' + deposit, 'ether')));
     }
   };
@@ -395,7 +373,6 @@ function useWeb3Connect() {
   ) => {
     if (addr) {
       let delegation = await daoContract.methods.voteDelegations(addr).call();
-      // console.log({ balance });
       setEnabledTwitter(delegation === TWITTER_PROXY);
     }
   };
@@ -447,10 +424,8 @@ function useWeb3Connect() {
             .usersNominatedProject(iteration, addr)
             .call()
         );
-        console.log({ tempCurrentVote });
       }
       let numProposals = await daoContract.methods.proposalId().call();
-      console.log({ numProposals });
       let tempProposals = [];
       let foundOwner = false;
       for (let i = 1; i <= numProposals; i++) {
@@ -459,8 +434,16 @@ function useWeb3Connect() {
           console.log(`Skipping ${hash} as it is not stored on a thread...`);
           continue;
         }
-        console.log({ hash });
-        let proposal = (await getThreadFirstPost(hash)).message;
+        console.log({ hash }, "HASH");
+        const proposalRaw = (await getThreadFirstPost(hash));
+        console.log("the raw proposal", proposalRaw, !proposalRaw)
+        if (!proposalRaw) {
+          // If the proposal is null just continue!
+          console.log("it should continue")
+          continue
+        }
+        const proposal = proposalRaw.message;
+        // let proposal = (await getThreadFirstPost(hash)).message;
         proposal.id = i;
 
         if (i === tempCurrentVote) {
@@ -508,7 +491,6 @@ function useWeb3Connect() {
     let tx = await depositContract.methods.createProposal(hash).send({
       from: address,
     });
-    console.log(tx);
     await updateAllowance();
     await fetchProposals();
     return tx;
@@ -516,11 +498,9 @@ function useWeb3Connect() {
 
   const triggerDeposit = async (value) => {
     let amount = web3.utils.toWei(value, 'ether');
-    console.log({ amount });
     let tx = await depositContract.methods.deposit(amount).send({
       from: address,
     });
-    console.log(tx);
     await updateBalance();
     await updateDeposit();
     return tx;
@@ -544,7 +524,6 @@ function useWeb3Connect() {
     let tx = await daoContract.methods.voteDirect(id).send({
       from: address,
     });
-    console.log(tx);
     await fetchProposals();
     return tx;
   };
@@ -553,12 +532,9 @@ function useWeb3Connect() {
     let tx = await daoContract.methods.delegateVoting(TWITTER_PROXY).send({
       from: address,
     });
-    console.log(tx);
     updateDelegation();
     return tx;
   };
-
-  // const triggerOpenSpace
 
   return {
     connected,
@@ -567,7 +543,6 @@ function useWeb3Connect() {
     networkId,
     network,
     supportedNetwork: SUPPORTED_NETWORK,
-
     triggerConnect: onConnect,
     web3,
     web3Connect,
