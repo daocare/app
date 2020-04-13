@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
@@ -15,6 +16,10 @@ import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 const BN = require('bn.js');
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    height: '100%',
+  },
   decriptionBlurb: { margin: '16px 0' },
   fieldGroup: {
     [theme.breakpoints.up('sm')]: {
@@ -25,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   wrapper: {
     display: 'flex',
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -49,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
   circularProgress: {
     marginLeft: theme.spacing.unit,
   },
+  buttonContainer: {
+    display: 'block',
+    marginTop: 20,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
 }));
 
 const Withdraw = () => {
@@ -56,6 +68,8 @@ const Withdraw = () => {
   const classes = useStyles();
   const router = useRouter();
   const web3Connect = useWeb3Connect();
+
+  // const { address, daiBalance } = useSelector((state) => state.user.user);
 
   useRedirectHomeIfNoEthAccount();
 
@@ -134,21 +148,23 @@ const Withdraw = () => {
                   <EllipsisLoader />
                 </Typography>
               ) : !hasAnActiveProposal ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={!withdrawingDisabled && (() => onSubmitFunds())}
-                  disabled={withdrawingDisabled}
-                >
-                  Withdraw
-                  {withdrawingDisabled && (
-                    <CircularProgress
-                      className={classes.circularProgress}
-                      size={14}
-                    />
-                  )}
-                </Button>
+                <div className={classes.buttonContainer}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={!withdrawingDisabled && (() => onSubmitFunds())}
+                    disabled={withdrawingDisabled}
+                  >
+                    Withdraw
+                    {withdrawingDisabled && (
+                      <CircularProgress
+                        className={classes.circularProgress}
+                        size={14}
+                      />
+                    )}
+                  </Button>
+                </div>
               ) : (
                 <Typography
                   variant="body2"

@@ -8,18 +8,24 @@ import EllipsisLoader from './EllipsisLoader';
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    height: 370,
+    height: '100%',
+  },
+  loadingContainer: {
     marginTop: 16,
     textAlign: 'center',
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
 const LoadingWeb3 = (props) => {
   const classes = useStyles();
   return (
-    <div>
+    <div className={classes.root}>
       <Header />
-      <div className={classes.root}>
+      <div className={classes.loadingContainer}>
         <Typography
           variant="body1"
           style={{

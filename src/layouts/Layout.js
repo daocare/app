@@ -1,4 +1,8 @@
 import React, { Suspense } from 'react';
+
+import { Provider } from 'react-redux';
+import store from '../redux/store';
+
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -56,24 +60,26 @@ const Layout = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <div className={classes.container}>
-        <main className={classes.content}>
-          <BetaFlag />
-          <Container maxWidth="md">
-            <WalletProfile />
-            <Paper elevation={0} className={classes.pageOuterContainer}>
-              <Page title="dao.care" className={classes.pageInnerContainer}>
-                <Suspense fallback={<LinearProgress />}>
-                  {renderRoutes(route.routes)}
-                </Suspense>
-              </Page>
-              <FooterInfo />
-            </Paper>
-          </Container>
-        </main>
+    <Provider store={store}>
+      <div className={classes.root}>
+        <div className={classes.container}>
+          <main className={classes.content}>
+            <BetaFlag />
+            <Container maxWidth="md">
+              <WalletProfile />
+              <Paper elevation={0} className={classes.pageOuterContainer}>
+                <Page title="dao.care" className={classes.pageInnerContainer}>
+                  <Suspense fallback={<LinearProgress />}>
+                    {renderRoutes(route.routes)}
+                  </Suspense>
+                </Page>
+                <FooterInfo />
+              </Paper>
+            </Container>
+          </main>
+        </div>
       </div>
-    </div>
+    </Provider>
   );
 };
 

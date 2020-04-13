@@ -1,4 +1,5 @@
 import React from 'react';
+import useRouter from '../utils/useRouter';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
 });
 
 const ProposalCard = (props) => {
+  const router = useRouter();
   const { title, shortDescription, website, image, id, emoji } = props.proposal;
   let imageUrl = getUrlByHash(image);
   const {
@@ -49,7 +51,11 @@ const ProposalCard = (props) => {
   };
   return (
     <Card className={classes.root} {...rest}>
-      <CardActionArea>
+      <CardActionArea
+        onClick={() => {
+          router.history.push(`/proposals/${id}`);
+        }}
+      >
         {isPreviousWinner && (
           <div
             style={{
@@ -95,7 +101,7 @@ const ProposalCard = (props) => {
             <IconButton
               color="primary"
               aria-label="vote"
-              onClick={() => vote(id)}
+              onClick={() => vote(id)} //TODO : Possible bug - need to look if its (id - 1)
             >
               <HowToVoteIcon />
             </IconButton>

@@ -3,10 +3,22 @@ import useRouter from '../utils/useRouter';
 import useWeb3Connect from '../utils/useWeb3Connect';
 import { Typography } from '@material-ui/core';
 import Page from '../components/Page';
+import { makeStyles } from '@material-ui/styles';
+import EllipsisLoader from '../components/EllipsisLoader';
+
+const useStyles = makeStyles((theme) => ({
+  pageCentered: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}));
 
 const NetworkNotSupported = () => {
   const web3Connect = useWeb3Connect();
   const router = useRouter();
+  const classes = useStyles();
 
   useEffect(() => {
     if (web3Connect.network == web3Connect.supportedNetwork) {
@@ -15,7 +27,10 @@ const NetworkNotSupported = () => {
   }, [web3Connect.network]);
 
   return (
-    <Page title={`dao.care | ${web3Connect.network} not supported`}>
+    <Page
+      title={`dao.care | ${web3Connect.network} not supported`}
+      className={classes.pageCentered}
+    >
       <div style={{ marginBottom: 16 }}>
         <Typography
           variant="body1"
@@ -26,8 +41,9 @@ const NetworkNotSupported = () => {
             fontWeight: 400,
           }}
         >
-          We are not yet supporting {web3Connect.network}, please connect to{' '}
-          {web3Connect.supportedNetwork}
+          We are not yet supporting{' '}
+          {web3Connect.network ? web3Connect.network : <EllipsisLoader />},
+          please connect to {web3Connect.supportedNetwork}
         </Typography>
       </div>
       <div

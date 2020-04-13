@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import Web3Connect from 'web3connect';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProposals as fetchProposalsRedux } from '../redux/actions';
+
 import WalletConnectProvider from '@walletconnect/web3-provider';
 // import Portis from "@portis/web3";
 // import Fortmatic from "fortmatic";
@@ -76,7 +79,8 @@ const web3Connect = new Web3Connect.Core({
   providerOptions, // required
 });
 
-function useWeb3Connect() {
+const useWeb3Connect = () => {
+  const dispatch = useDispatch();
   const [provider, setProvider] = useState(null);
   const [web3, setWeb3] = useState(null);
   const [web3ReadOnly, setWeb3ReadOnly] = useState(null);
@@ -434,28 +438,22 @@ function useWeb3Connect() {
           console.log(`Skipping ${hash} as it is not stored on a thread...`);
           continue;
         }
-        console.log({ hash }, "HASH");
-        const proposalRaw = (await getThreadFirstPost(hash));
-        console.log("the raw proposal", proposalRaw, !proposalRaw)
-        if (!proposalRaw) {
-          // If the proposal is null just continue!
-          console.log("it should continue")
-          continue
-        }
-        const proposal = proposalRaw.message;
-        // let proposal = (await getThreadFirstPost(hash)).message;
-        proposal.id = i;
+        let proposalThreadFirstPost = await getThreadFirstPost(hash);
+        if (proposalThreadFirstPost) {
+          let proposal = proposalThreadFirstPost['message'];
+          proposal.id = i;
 
-        if (i === tempCurrentVote) {
-          setCurrentVote(proposal);
-        }
+          if (i === tempCurrentVote) {
+            setCurrentVote(proposal);
+          }
 
-        let owner = await daoContract.methods.proposalOwner(i).call();
-        proposal.owner = owner;
-        if (owner === addr) {
-          foundOwner = true;
+          let owner = await daoContract.methods.proposalOwner(i).call();
+          proposal.owner = owner;
+          if (owner === addr) {
+            foundOwner = true;
+          }
+          tempProposals.push(proposal);
         }
-        tempProposals.push(proposal);
       }
 
       let deadline = await daoContract.methods.proposalDeadline().call();
@@ -475,6 +473,7 @@ function useWeb3Connect() {
         await daoContract.methods.topProject(iteration - 1).call()
       );
       setPreviousWinnerId(thePreviousWinnerId);
+      dispatch(fetchProposalsRedux(tempProposals));
     }
   };
 
@@ -594,6 +593,6 @@ function useWeb3Connect() {
     update3BoxDetails,
     triggerOpen3Box,
   };
-}
+};
 
 export default useWeb3Connect;

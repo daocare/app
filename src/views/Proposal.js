@@ -1,50 +1,29 @@
 import React, { useState, useEffect } from 'react';
+
+import { useSelector } from 'react-redux';
+
 import PropTypes from 'prop-types';
 import Box from '3box';
 
-import { useSelector } from 'react-redux';
-import { fetchProposals } from '../redux/actions';
-
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useRouter from '../utils/useRouter';
+import { linkTwitterHandleToEthAddressInFirebase } from '../utils/twitterUtils';
 
 import DepositIcon from '@material-ui/icons/AllInclusive';
 import TwitterIcon from '@material-ui/icons/Twitter';
 
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button, Grid } from '@material-ui/core';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import { IconButton, Tooltip, Link } from '@material-ui/core';
 
 import Page from '../components/Page';
 import Header from '../components/Header';
 import ProposalCard from '../components/ProposalCard';
 import EllipsisLoader from '../components/EllipsisLoader';
 
-import { FIREBASE_FUNCTIONS_ENDPOINT } from '../config/firebase';
 import { twitterHandleAlreadyLinked } from '../modules/twitterDb';
-
-const linkTwitterHandleToEthAddressInFirebase = async (
-  handle,
-  address,
-  txHash
-) => {
-  const response = await fetch(
-    FIREBASE_FUNCTIONS_ENDPOINT + '/registerTwitterHandle',
-    {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-
-      body: JSON.stringify({
-        handle,
-        address,
-        txHash,
-      }), // body data type must match "Content-Type" header
-    }
-  );
-  return await response.json();
-};
+import { getUrlByHash } from '../modules/pinata';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,27 +32,34 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     width: '100%',
   },
-  flexGrow: {
-    flexGrow: 1,
-  },
   button: {
     width: 190,
   },
-  card: {
-    width: 210,
-    height: 370,
+  image: {
+    display: 'block',
+    maxHeight: '300px',
+    maxWidth: '100%',
   },
-  decriptionBlurb: { margin: '16px 0' },
 }));
 
-const Proposals = () => {
+const Proposal = ({ match }) => {
   const web3Connect = useWeb3Connect();
-  const { fetched } = web3Connect;
+  // const proposals = useSelector((state) => state.proposals.proposals);
+  const { proposals, fetched } = web3Connect;
+  const proposal_id = match.params.proposal_id;
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
 
-  const proposals = useSelector((state) => state.proposals.proposals);
+  const [proposal, setProposal] = useState(null);
+
+  useEffect(() => {
+    if (fetched) {
+      setProposal(
+        proposals.find((proposal) => proposal.id == match.params.proposal_id)
+      );
+    }
+  }, [fetched]);
 
   const canVoteWithDelegate =
     status === 'ENABLED' ||
@@ -111,6 +97,16 @@ const Proposals = () => {
     }
   };
 
+  const voteTwitter = (emoji) => {
+    let url =
+      'https://twitter.com/intent/tweet?text=' +
+      encodeURI(`I am voting for proposal ~${emoji} on `) +
+      '%23' +
+      encodeURI(`DAOcare - A no loss funding DAO @dao_care`);
+    var win = window.open(url, '_blank');
+    win.focus();
+  };
+
   // If the user has delegated the voting && the firebase database doesn't have the correct value for their address/twitter handle. This code will fix it.
   useEffect(() => {
     if (canVoteWithDelegate) {
@@ -146,11 +142,14 @@ const Proposals = () => {
     web3Connect.hasProposal === false;
 
   return (
-    <Page className={classes.root} title="dao.care | All Proposals">
-      {/* <button onClick={() => dispatch(fetchProposals(['this', 'test']))}>
-        {' '}
-        Test
-      </button> */}
+    <Page
+      className={classes.root}
+      title={`dao.care | ${' '}${
+        proposals[proposal_id] !== undefined
+          ? proposals[proposal_id].emoji
+          : 'Loading'
+      } Proposal`}
+    >
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
         {status === 'DRAFT' &&
           !web3Connect.enabledTwitter &&
@@ -201,7 +200,7 @@ const Proposals = () => {
         )}
       </div>
       <Header />
-      {web3Connect.daiDeposit === 0 && web3Connect.connected && (
+      {/* {web3Connect.daiDeposit === 0 && web3Connect.connected && (
         <>
           <Typography variant="body2" className={classes.decriptionBlurb}>
             Deposit funds in the pool in order to vote on your favourite
@@ -222,62 +221,89 @@ const Proposals = () => {
             </Button>
           </div>
         </>
-      )}
-
-      {web3Connect.currentVote !== null && (
-        <>
-          <Typography variant="h5" className={classes.title}>
-            Your vote
-          </Typography>
-          <div style={{ marginTop: 16, marginBottom: 16 }}>
-            <ProposalCard
-              proposal={web3Connect.currentVote}
-              votingAllowed={false}
-              twitterAllowed={false}
-              address={address}
-            />
-          </div>
-        </>
-      )}
-
-      <Typography variant="h5" className={classes.title}>
-        All Proposals
-      </Typography>
-
+      )} */}
       <div style={{ marginTop: 16 }}>
-        {fetched && proposals.length > 0 && (
-          <>
-            <Grid container justify="space-evenly" spacing={4}>
-              {proposals.map((proposal) => {
-                console.log(proposal);
-                return (
-                  <Grid key={proposal.id} item>
-                    <div className={classes.card}>
-                      <ProposalCard
-                        proposal={proposal}
-                        votingAllowed={votingAllowed}
-                        twitterAllowed={!web3Connect.connected || votingAllowed}
-                        vote={web3Connect.contracts.dao.methods.vote}
-                        isPreviousWinner={
-                          proposal.id == web3Connect.previousWinnerId
-                        }
-                        address={address}
-                      />
-                    </div>
-                  </Grid>
-                );
-              })}
+        {proposal !== null && (
+          // for testing
+          <Grid container justify="space-between" spacing={2}>
+            <Grid item xs={12} md={6}>
+              {/* const { title, shortDescription, website, image, id, emoji } = props.proposal; */}
+
+              <img
+                src={getUrlByHash(proposal.image)}
+                alt="proposal image"
+                className={classes.image}
+              />
+              <Typography variant="caption" align="center">
+                {proposal.shortDescription}
+              </Typography>
+
+              {/* <ProposalCard
+                    proposal={proposal}
+                    votingAllowed={votingAllowed}
+                    twitterAllowed={!web3Connect.connected || votingAllowed}
+                    vote={web3Connect.contracts.dao.methods.vote}
+                    isPreviousWinner={
+                      proposal.id == web3Connect.previousWinnerId
+                    }
+                    address={address}
+                  /> */}
             </Grid>
-          </>
-        )}
-        {fetched && proposals.length === 0 && (
-          <Typography variant="caption" align="center">
-            No proposals available
-          </Typography>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h3" className={classes.title}>
+                {proposal.emoji + ' ' + proposal.title}
+              </Typography>
+              <Typography variant="caption" align="center">
+                <Link href={proposal.website} target="_blank">
+                  {proposal.website}
+                </Link>
+              </Typography>
+              <br />
+              <br />
+              <Typography variant="body1" align="left">
+                {proposal.description}
+              </Typography>
+              <br />
+              <Typography variant="caption" align="center">
+                Proposer:{' '}
+                <Link
+                  href={'https://twitter.com/' + proposal.ownerTwitter}
+                  target="_blank"
+                >
+                  @{proposal.ownerTwitter}
+                </Link>
+              </Typography>
+              {votingAllowed && !(proposal_id == web3Connect.previousWinnerId) && (
+                <Tooltip title="Vote using your wallet">
+                  <IconButton
+                    color="primary"
+                    aria-label="vote"
+                    onClick={() =>
+                      web3Connect.contracts.dao.methods.vote(proposal_id)
+                    }
+                  >
+                    <HowToVoteIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+              {(!web3Connect.connected || votingAllowed) &&
+                !(proposal_id == web3Connect.previousWinnerId) && (
+                  <Tooltip title="Vote via Twitter">
+                    <IconButton
+                      color="secondary"
+                      aria-label="vote via twitter"
+                      onClick={() => voteTwitter(proposals[proposal_id].emoji)}
+                    >
+                      <TwitterIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+            </Grid>
+          </Grid>
         )}
         {!fetched && (
           <Typography variant="caption" align="center">
-            Loading proposals
+            Loading proposal
             <EllipsisLoader />
           </Typography>
         )}
@@ -286,8 +312,8 @@ const Proposals = () => {
   );
 };
 
-Proposals.propTypes = {
+Proposal.propTypes = {
   className: PropTypes.string,
 };
 
-export default Proposals;
+export default Proposal;
