@@ -71,7 +71,9 @@ contract('PoolDeposits', accounts => {
     });
 
     let propId = await noLossDao.benefactorsProposal.call(accounts[2]);
-    let proposalIdentifierString = await noLossDao.proposalDetails.call(propId);
+    let proposalIdentifierString = await noLossDao.proposalIdentifier.call(
+      propId
+    );
     expectEvent(logs, 'ProposalAdded', {
       benefactor: accounts[2],
       proposalId: propId,

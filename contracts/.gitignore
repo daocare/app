@@ -7,3 +7,4 @@ secretsManager.js
 .openzeppelin/.session
 artifacts
 cache
+package-lock.json

@@ -156,7 +156,7 @@ contract NoLossDao_v0 is Initializable {
   modifier lockInFulfilled(address givenAddress) {
     require(
       iterationJoined[givenAddress] + 2 < proposalIteration,
-      'Benefactor has not fulfilled the minimum lockin period of 2 iterations.'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
     _;
   }

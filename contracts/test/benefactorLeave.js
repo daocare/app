@@ -124,7 +124,7 @@ contract('PoolDeposits', accounts => {
       poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
@@ -134,7 +134,7 @@ contract('PoolDeposits', accounts => {
       poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
@@ -144,7 +144,7 @@ contract('PoolDeposits', accounts => {
       poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
@@ -259,7 +259,7 @@ contract('PoolDeposits', accounts => {
       poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
