@@ -2,7 +2,7 @@ import moment from 'moment';
 
 const keccak256 = require('keccak256');
 
-export const BOX_SPACE = 'daocare';
+export const BOX_SPACE = 'daocare-kovan';
 
 const convertFilename2Hash = (fileName) => {
   return keccak256(fileName).toString('hex');

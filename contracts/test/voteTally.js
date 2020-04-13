@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
-const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
+const LendingPoolAddressProvider = artifacts.require(
+  'LendingPoolAddressesProvider'
+);
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('noLossDao', accounts => {
+contract('noLossDao', (accounts) => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -25,21 +27,25 @@ contract('noLossDao', accounts => {
   const applicationAmount = '5000000';
 
   beforeEach(async () => {
-    dai = await ERC20token.new('AveTest', 'AT', 18, accounts[0], {
-      from: accounts[0],
-    });
-    aDai = await ADai.new(dai.address, {
-      from: accounts[0],
-    });
-    aaveLendingPool = await AaveLendingPool.new(aDai.address, {
-      from: accounts[0],
-    });
-    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
+    dai = await ERC20token.new('DaiTest', 'DT', 18, accounts[0], {
       from: accounts[0],
     });
 
+    aDai = await ADai.new(dai.address, {
+      from: accounts[0],
+    });
+
+    aaveLendingPool = await AaveLendingPool.new(aDai.address, dai.address, {
+      from: accounts[0],
+    });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(
+      aaveLendingPool.address,
+      {
+        from: accounts[0],
+      }
+    );
+
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -49,7 +55,6 @@ contract('noLossDao', accounts => {
       applicationAmount,
       { from: accounts[0] }
     );
-
     await noLossDao.initialize(poolDeposits.address, '1800', {
       from: accounts[0],
     });
@@ -126,7 +131,9 @@ contract('noLossDao', accounts => {
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     let currentIteration = await noLossDao.proposalIteration.call();
-    const iterationLogs = await noLossDao.distributeFunds( { from: accounts[5] }); //check who winner was
+    const iterationLogs = await noLossDao.distributeFunds({
+      from: accounts[5],
+    }); //check who winner was
     let created_at = await time.latest();
     expectEvent(iterationLogs, 'IterationChanged', {
       timeStamp: created_at,

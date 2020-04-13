@@ -1,11 +1,10 @@
 pragma solidity 0.5.15;
 
-//import './interfaces/IERC20.sol';
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/INoLossDao.sol';
 import './interfaces/ILendingPoolAddressesProvider.sol';
-import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 import '@nomiclabs/buidler/console.sol';
 
 
@@ -42,6 +41,7 @@ contract PoolDeposits {
   );
   event DepositWithdrawn(address indexed user);
   event ProposalWithdrawn(address indexed benefactor);
+  event InterestSent(address indexed user, uint256 amount, uint256 iteration);
 
   ///////// Emergency Events ///////////
   event EmergencyStateReached(
@@ -127,6 +127,14 @@ contract PoolDeposits {
     _;
   }
 
+  modifier validInterestSplitInput(
+    address[] memory addresses,
+    uint256[] memory percentages
+  ) {
+    require(addresses.length == percentages.length, 'Input length not equal');
+    _;
+  }
+
   /***************
     Contract set-up: Not Upgradaable
     ***************/
@@ -147,6 +155,12 @@ contract PoolDeposits {
     admin = msg.sender;
     proposalAmount = _proposalAmount; // if we want this configurable put in other contract
     isEmergencyState = false;
+  }
+
+  /// @dev allows the proposalAmount (amount proposal has to stake to enter the pool) to be configurable
+  /// @param amount new proposalAmount
+  function changeProposalAmount(uint256 amount) external noLossDaoContractOnly {
+    proposalAmount = amount;
   }
 
   /// @dev Internal function completing the actual deposit to Aave and crediting users account
@@ -225,13 +239,37 @@ contract PoolDeposits {
     emit ProposalWithdrawn(msg.sender);
   }
 
-  /// @dev Sets the interest to acrue to winner of the iteration
-  /// @param _winner The address of the proposal winning the iteration
-  function redirectInterestStreamToWinner(address _winner)
+  /// @dev Splits the accrued interest between winners.
+  /// @param receivers An array of the addresses to split between
+  /// @param percentages the respective percentage to split
+  function distributeInterest(
+    address[] calldata receivers,
+    uint256[] calldata percentages,
+    address winner,
+    uint256 iteration
+  )
     external
+    validInterestSplitInput(receivers, percentages)
     noLossDaoContractOnly
   {
-    adaiContract.redirectInterestStream(_winner);
+    uint256 amountToRedeem = adaiContract.balanceOf(address(this)).sub(
+      totalDepositedDai
+    );
+    adaiContract.redeem(amountToRedeem);
+
+    uint256 percentageWinner = 1000;
+    for (uint256 i = 0; i < receivers.length; i++) {
+      percentageWinner = percentageWinner.sub(percentages[i]); //SafeMath prevents this going below 0
+      uint256 amountToSend = amountToRedeem.mul(percentages[i]).div(1000);
+      daiContract.transfer(receivers[i], amountToSend);
+      emit InterestSent(receivers[i], amountToSend, iteration);
+    }
+
+    uint256 amountToSendToWinner = amountToRedeem.mul(percentageWinner).div(
+      1000
+    );
+    daiContract.transfer(winner, amountToSendToWinner);
+    emit InterestSent(winner, amountToSendToWinner, iteration);
   }
 
   //////////////////////////////////////////////////

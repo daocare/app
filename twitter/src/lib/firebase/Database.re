@@ -2,6 +2,7 @@ open Firebase;
 open Globals;
 
 let tweetRepliesDb = "tweetReplies";
+let twitterHandlesDb = "twitterHandlesAddresses";
 let tweetRepliesCollection = "tweet_replies";
 
 let credential = [%raw
@@ -34,6 +35,22 @@ let getLatestTweetProcessed: unit => Js.Promise.t(option(string)) =
     ->async;
   };
 
+let getEthAddressFromEmoji: string => Js.Promise.t(option(string)) =
+  handle => {
+    open Firestore;
+    let docRef =
+      db->collection(tweetRepliesDb)->CollectionReference.doc(handle);
+    let%Async docSnapshot = docRef->DocumentReference.get;
+    (
+      if (docSnapshot.exists) {
+        Some(docSnapshot.data(.)->Obj.magic);
+      } else {
+        None;
+      }
+    )
+    ->async;
+  };
+
 let setLatestTweetReply: string => Js.Promise.t(unit) =
   latest => {
     open Firestore;
@@ -43,12 +60,6 @@ let setLatestTweetReply: string => Js.Promise.t(unit) =
       ->CollectionReference.doc(tweetRepliesCollection);
     let%Async _docSnapshot =
       docRef->DocumentReference.update({latest: latest});
-    // if (docSnapshot.exists) {
-    //   let dangerouslyConvertLatestTweet:
-    //     DocumentReference.someData => latestTweet = Obj.magic;
-    //   Some(docSnapshot.data(.)->dangerouslyConvertLatestTweet.latest);
-    // } else {
-    //   None;
-    // }
+
     ()->async;
   };

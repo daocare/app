@@ -5,6 +5,8 @@ contract IPoolDeposits {
 
   function usersDeposit(address userAddress) external view returns (uint256);
 
+   function changeProposalAmount(uint256 amount) external;
   function redirectInterestStreamToWinner(address _winner) external;
+    function distributeInterest(address[] calldata receivers, uint256[] calldata percentages,address winner,uint256 iteration) external ;
 
 }
