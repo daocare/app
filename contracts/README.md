@@ -12,6 +12,10 @@ yarn
 yarn run test
 ```
 
+```bash
+yarn run coverage
+```
+
 ### Clean Deploy
 
 ```bash
