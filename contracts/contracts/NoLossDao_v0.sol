@@ -23,7 +23,7 @@ contract NoLossDao_v0 is Initializable {
   ///////// Proposal specific ///////////
   uint256 public proposalId;
   uint256 public proposalDeadline; // keeping track of time
-  mapping(uint256 => string) public proposalDetails; // IPFS hash of proposal
+  mapping(uint256 => string) public proposalIdentifier;
   mapping(address => uint256) public benefactorsProposal; // benefactor -> proposal id
   mapping(uint256 => address) public proposalOwner; // proposal id -> benefactor (1:1 mapping)
   enum ProposalState {DoesNotExist, Withdrawn, Active, Cooldown} // Add Cooldown state and pending state
@@ -39,7 +39,7 @@ contract NoLossDao_v0 is Initializable {
   mapping(address => address) public voteDelegations; // For vote proxy
 
   //////// Necessary to fund dev and miners //////////
-  address[] interestReceivers;
+  address[] interestReceivers; // in v0, the interestReceivers is the address of the miner.
   uint256[] percentages;
 
   ///////// DEFI Contrcats ///////////
@@ -156,7 +156,7 @@ contract NoLossDao_v0 is Initializable {
   modifier lockInFulfilled(address givenAddress) {
     require(
       iterationJoined[givenAddress] + 2 < proposalIteration,
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
     _;
   }
@@ -263,16 +263,16 @@ contract NoLossDao_v0 is Initializable {
   }
 
   /// @dev Checks whether user is eligible to create a proposal then creates it. Executes a range of logic to add the new propsal (increments proposal ID, sets proposal owner, sets iteration joined, etc...)
-  /// @param proposalHash Hash of the proposal text
+  /// @param _proposalIdentifier Hash of the proposal text
   /// @param benefactorAddress address of benefactor creating proposal
   /// @return boolean whether the above executes successfully
   function noLossCreateProposal(
-    string calldata proposalHash,
+    string calldata _proposalIdentifier,
     address benefactorAddress
   ) external depositContractOnly returns (uint256 newProposalId) {
     proposalId = proposalId.add(1);
 
-    proposalDetails[proposalId] = proposalHash;
+    proposalIdentifier[proposalId] = _proposalIdentifier;
     proposalOwner[proposalId] = benefactorAddress;
     benefactorsProposal[benefactorAddress] = proposalId;
     state[proposalId] = ProposalState.Active;
@@ -311,7 +311,7 @@ contract NoLossDao_v0 is Initializable {
   function delegateVoting(address delegatedAddress)
     external
     userStaked(msg.sender)
-    userHasNoActiveProposal(msg.sender) //Careful when in cooldown can delegate then ???
+    userHasNoActiveProposal(msg.sender)
     userHasNoActiveProposal(delegatedAddress)
   {
     voteDelegations[msg.sender] = delegatedAddress;

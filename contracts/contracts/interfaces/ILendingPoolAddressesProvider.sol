@@ -1,8 +1,10 @@
 pragma solidity ^0.5.0;
 
+
 contract ILendingPoolAddressesProvider {
-    function getLendingPool() public view returns (address);
-    function getLendingPoolCore() public view returns (address);
+  function getLendingPool() public view returns (address);
+
+  function getLendingPoolCore() public view returns (address);
 }
 
 // INSERT LATER INTO NOLOSSDAO
@@ -14,4 +16,3 @@ contract ILendingPoolAddressesProvider {
 //     0x24a42fD28C976A61Df5D00D0599C34c4f90748c8
 // );
 // LendingPool lendingPool = LendingPool(provider.getLendingPool());
-

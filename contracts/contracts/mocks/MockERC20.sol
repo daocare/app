@@ -3,16 +3,17 @@ pragma solidity ^0.5.0;
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 import '@nomiclabs/buidler/console.sol';
 
+
 contract MockERC20 {
   using SafeMath for uint256;
   address public steward;
 
-  mapping (address => uint256) public _balances;
-  mapping (address => mapping(address => uint256)) public _allowance;
-    string name;
-    string symbol;
-    uint8 decimals;
-    address minter;
+  mapping(address => uint256) public _balances;
+  mapping(address => mapping(address => uint256)) public _allowance;
+  string name;
+  string symbol;
+  uint8 decimals;
+  address minter;
 
   constructor(
     string memory _name,
@@ -35,7 +36,7 @@ contract MockERC20 {
     _balances[user] = _balances[user].sub(amount);
   }
 
-  function approve(address user, uint256 amount) external returns(bool) {
+  function approve(address user, uint256 amount) external returns (bool) {
     _allowance[msg.sender][user] = amount;
     return true;
   }
@@ -46,16 +47,22 @@ contract MockERC20 {
     return true;
   }
 
-  function allowance(address owner, address spender) external view returns (uint256) {
+  function allowance(address owner, address spender)
+    external
+    view
+    returns (uint256)
+  {
     return _allowance[owner][spender];
   }
 
-  function transferFrom(address sender, address to, uint256 amount) external returns (bool) {
+  function transferFrom(address sender, address to, uint256 amount)
+    external
+    returns (bool)
+  {
     _balances[sender] = _balances[sender].sub(amount);
     _balances[to] = _balances[to].add(amount);
     return true;
   }
-
 
   function balanceOf(address user) external view returns (uint256) {
     return _balances[user];

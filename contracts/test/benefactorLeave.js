@@ -16,7 +16,7 @@ const LendingPoolAddressProvider = artifacts.require(
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('PoolDeposits', (accounts) => {
+contract('PoolDeposits', accounts => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -44,7 +44,6 @@ contract('PoolDeposits', (accounts) => {
     );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    //await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -125,7 +124,7 @@ contract('PoolDeposits', (accounts) => {
       poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
@@ -135,7 +134,7 @@ contract('PoolDeposits', (accounts) => {
       poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
@@ -145,7 +144,7 @@ contract('PoolDeposits', (accounts) => {
       poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
@@ -260,7 +259,7 @@ contract('PoolDeposits', (accounts) => {
       poolDeposits.withdrawProposal({
         from: accounts[2],
       }),
-      'Benefactor only eligible to receive funds in later iteration'
+      'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 3
