@@ -23,3 +23,13 @@ export const linkTwitterHandleToEthAddressInFirebase = async (
   );
   return await response.json();
 };
+
+export const voteTwitter = (emoji) => {
+  let url =
+    'https://twitter.com/intent/tweet?text=' +
+    encodeURI(`I am voting for proposal ~${emoji} on `) +
+    '%23' +
+    encodeURI(`DAOcare - A no loss funding DAO @dao_care`);
+  var win = window.open(url, '_blank');
+  win.focus();
+};

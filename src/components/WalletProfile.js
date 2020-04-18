@@ -31,7 +31,7 @@ const WalletProfile = (props) => {
         marginTop: 16,
         marginBottom: 16,
         color: 'white !important',
-        maxHeight: '20vh',
+        maxHeight: '16vh',
       }}
     >
       {web3Connect.connected && web3Connect.address ? (

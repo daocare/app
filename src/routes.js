@@ -20,6 +20,11 @@ const routes = [
         component: lazy(() => import('./views/SubmitProposal')),
       },
       {
+        path: '/how-it-works',
+        exact: true,
+        component: lazy(() => import('./views/HowItWorks')),
+      },
+      {
         path: '/deposit',
         exact: true,
         component: lazy(() => import('./views/Deposit')),

@@ -15,6 +15,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import InsertLinkIcon from '@material-ui/icons/InsertLink';
 
 import { getUrlByHash } from '../modules/pinata';
+import { voteTwitter } from '../utils/twitterUtils';
 
 const useStyles = makeStyles({
   root: {
@@ -40,15 +41,6 @@ const ProposalCard = (props) => {
     ...rest
   } = props;
   const classes = useStyles();
-  const voteTwitter = () => {
-    let url =
-      'https://twitter.com/intent/tweet?text=' +
-      encodeURI(`I am voting for proposal ~${emoji} on `) +
-      '%23' +
-      encodeURI(`DAOcare - A no loss funding DAO @dao_care`);
-    var win = window.open(url, '_blank');
-    win.focus();
-  };
   return (
     <Card className={classes.root} {...rest}>
       <CardActionArea
@@ -112,7 +104,7 @@ const ProposalCard = (props) => {
             <IconButton
               color="secondary"
               aria-label="vote via twitter"
-              onClick={voteTwitter}
+              onClick={voteTwitter(emoji)}
             >
               <TwitterIcon />
             </IconButton>

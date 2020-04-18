@@ -7,7 +7,10 @@ import Box from '3box';
 
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useRouter from '../utils/useRouter';
-import { linkTwitterHandleToEthAddressInFirebase } from '../utils/twitterUtils';
+import {
+  linkTwitterHandleToEthAddressInFirebase,
+  voteTwitter,
+} from '../utils/twitterUtils';
 
 import DepositIcon from '@material-ui/icons/AllInclusive';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -95,16 +98,6 @@ const Proposal = ({ match }) => {
     } else {
       setStatus('3BOX_FAILED');
     }
-  };
-
-  const voteTwitter = (emoji) => {
-    let url =
-      'https://twitter.com/intent/tweet?text=' +
-      encodeURI(`I am voting for proposal ~${emoji} on `) +
-      '%23' +
-      encodeURI(`DAOcare - A no loss funding DAO @dao_care`);
-    var win = window.open(url, '_blank');
-    win.focus();
   };
 
   // If the user has delegated the voting && the firebase database doesn't have the correct value for their address/twitter handle. This code will fix it.

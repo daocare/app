@@ -13,6 +13,7 @@ import BetaFlag from '../components/BetaFlag';
 import FooterInfo from '../components/FooterInfo';
 import Page from '../components/Page';
 import WalletProfile from '../components/WalletProfile';
+import Nav from '../components/Nav';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   pageOuterContainer: {
     padding: theme.spacing(2),
     position: 'relative',
-    height: '80vh',
+    height: '74vh',
   },
   pageInnerContainer: {
     margin: theme.spacing(0, 2),
@@ -75,6 +76,7 @@ const Layout = (props) => {
                 </Page>
                 <FooterInfo />
               </Paper>
+              <Nav />
             </Container>
           </main>
         </div>
