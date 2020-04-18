@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 import { lazy } from 'react';
 
-import Layout from './layouts/Layout';
+import Layout from './layouts/ReduxWrapper';
 
 const routes = [
   {

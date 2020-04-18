@@ -19,11 +19,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Page = (props) => {
-  const { title, children, ...rest } = props;
+  const { title, children } = props;
   const classes = useStyles();
   const router = useRouter();
-
-  console.log(rest);
 
   useEffect(() => {
     if (window.gtag) {
@@ -35,7 +33,7 @@ const Page = (props) => {
   }, [title, router]);
 
   return (
-    <React.Fragment {...rest}>
+    <React.Fragment>
       <Helmet>
         <title>{title}</title>
         <meta charset="UTF-8" />

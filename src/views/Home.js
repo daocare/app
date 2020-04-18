@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
+import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -50,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const web3Connect = useWeb3Connect();
-  const dispatch = useDispatch();
 
   const connected = useSelector((state) => state.user.connected);
   const { interestPrev, interestNext, fundSize } = useSelector(
@@ -60,15 +58,6 @@ const Home = () => {
   const router = useRouter();
 
   let hasFundsDeposited = web3Connect.daiDeposit > 0;
-
-  useInterval(async () => {
-    if (web3Connect) {
-      let interestPrev = await web3Connect.contracts.dao.methods.getInterest();
-      dispatch(getInterestPrev(interestPrev));
-      let totalFundSize = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
-      dispatch(getFundSize(totalFundSize));
-    }
-  }, 2000);
 
   return (
     <Page title="dao.care">

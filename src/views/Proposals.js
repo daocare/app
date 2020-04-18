@@ -67,13 +67,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Proposals = () => {
   const web3Connect = useWeb3Connect();
-  const { fetched } = web3Connect;
 
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
 
-  const proposals = useSelector((state) => state.proposals.proposals);
+  const { proposals, fetched } = useSelector((state) => state.proposals);
 
   const connected = useSelector((state) => state.user.connected);
 
