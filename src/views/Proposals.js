@@ -149,7 +149,7 @@ const Proposals = () => {
         {' '}
         Test
       </button> */}
-      <div style={{ position: 'absolute', top: 0, right: 0 }}>
+      <div style={{ position: 'absolute', top: 6, right: 10 }}>
         {status === 'DRAFT' &&
           !web3Connect.enabledTwitter &&
           web3Connect.connected &&
@@ -238,9 +238,7 @@ const Proposals = () => {
         </>
       )}
 
-      <Typography variant="h5" className={classes.title}>
-        All Proposals
-      </Typography>
+      <Typography variant="h5">All Proposals</Typography>
 
       <div style={{ marginTop: 16 }}>
         {fetched && proposals.length > 0 && (

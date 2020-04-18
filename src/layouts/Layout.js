@@ -63,11 +63,9 @@ const Layout = (props) => {
             <Container maxWidth="md">
               <WalletProfile />
               <Paper elevation={0} className={classes.pageOuterContainer}>
-                <div title="dao.care">
-                  <Suspense fallback={<LinearProgress />}>
-                    {renderRoutes(route.routes)}
-                  </Suspense>
-                </div>
+                <Suspense fallback={<LinearProgress />}>
+                  {renderRoutes(route.routes)}
+                </Suspense>
               </Paper>
               <Nav />
             </Container>

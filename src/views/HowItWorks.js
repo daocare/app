@@ -44,6 +44,7 @@ const HowItWorks = () => {
   return (
     <Page title="dao.care | How it works">
       <Header />
+      {/* <Typography variant="h5">How it Works</Typography> */}
       <Grid
         container
         justify="space-between"
