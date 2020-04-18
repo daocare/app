@@ -9,6 +9,8 @@ import useInterval from '../utils/useInterval';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import DepositIcon from '@material-ui/icons/AllInclusive';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
+
+import Page from '../components/Page';
 import Header from '../components/Header';
 import EllipsisLoader from '../components/EllipsisLoader';
 import FooterInfo from '../components/FooterInfo';
@@ -61,7 +63,7 @@ const Home = () => {
   }, 2000);
 
   return (
-    <>
+    <Page title="dao.care">
       <Header />
       <Typography variant="body1" className={classes.decriptionBlurb}>
         Deposit your DAI. Let your idle interest support community projects.
@@ -212,7 +214,7 @@ const Home = () => {
         </Button>
       </div>
       <FooterInfo />
-    </>
+    </Page>
   );
 };
 

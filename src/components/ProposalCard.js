@@ -104,7 +104,7 @@ const ProposalCard = (props) => {
             <IconButton
               color="secondary"
               aria-label="vote via twitter"
-              onClick={voteTwitter(emoji)}
+              onClick={() => voteTwitter(emoji)}
             >
               <TwitterIcon />
             </IconButton>

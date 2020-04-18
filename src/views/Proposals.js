@@ -48,8 +48,6 @@ const linkTwitterHandleToEthAddressInFirebase = async (
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
     position: 'relative',
     width: '100%',
   },

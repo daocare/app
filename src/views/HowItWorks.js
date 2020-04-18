@@ -9,6 +9,8 @@ import useInterval from '../utils/useInterval';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import DepositIcon from '@material-ui/icons/AllInclusive';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
+
+import Page from '../components/Page';
 import Header from '../components/Header';
 import EllipsisLoader from '../components/EllipsisLoader';
 
@@ -40,7 +42,7 @@ const HowItWorks = () => {
   const classes = useStyles();
 
   return (
-    <>
+    <Page title="dao.care | How it works">
       <Header />
       <Grid
         container
@@ -159,7 +161,7 @@ const HowItWorks = () => {
           </Typography>
         </Grid>
       </Grid>
-    </>
+    </Page>
   );
 };
 
