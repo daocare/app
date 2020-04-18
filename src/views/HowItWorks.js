@@ -23,13 +23,13 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 5px !important',
   },
   numberHighlight: {
-    fontSize: 28,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#A362A5',
     display: 'inline',
   },
   stepExplainerHeader: {
-    fontSize: 28,
+    fontSize: 22,
     color: '#6850A8',
     fontWeight: 'bold',
   },

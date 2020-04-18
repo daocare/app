@@ -22,6 +22,13 @@ const useStyles = makeStyles((theme) => ({
       opacity: '0.6',
     },
   },
+  socials: {
+    height: '20px',
+    marginLeft: '5px',
+    '&:hover': {
+      opacity: '0.6',
+    },
+  },
 }));
 
 const Nav = (props) => {
@@ -90,6 +97,20 @@ const Nav = (props) => {
         >
           How it Works
         </Typography>
+        <div className={classes.socialsContainer}>
+          <a href="https://twitter.com/dao_care" target="_blank">
+            <img
+              src="/assets/socials/twitter.svg"
+              className={classes.socials}
+            />
+          </a>
+          <a href="https://t.me/daocare" target="_blank">
+            <img
+              src="/assets/socials/telegram.svg"
+              className={classes.socials}
+            />
+          </a>
+        </div>
       </div>
     </React.Fragment>
   );
