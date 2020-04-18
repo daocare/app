@@ -47,8 +47,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Proposal = ({ match }) => {
   const web3Connect = useWeb3Connect();
-  // const proposals = useSelector((state) => state.proposals.proposals);
-  const { proposals, fetched } = web3Connect;
+
+  const { proposals, fetched } = useSelector((state) => state.proposals);
+  const connected = useSelector((state) => state.user.connected);
+
   const proposal_id = match.params.proposal_id;
   const classes = useStyles();
   const router = useRouter();
@@ -146,7 +148,7 @@ const Proposal = ({ match }) => {
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
         {status === 'DRAFT' &&
           !web3Connect.enabledTwitter &&
-          web3Connect.connected &&
+          connected &&
           web3Connect.daiDeposit > 0 && (
             <Button
               variant="contained"
@@ -193,28 +195,6 @@ const Proposal = ({ match }) => {
         )}
       </div>
       <Header />
-      {/* {web3Connect.daiDeposit === 0 && web3Connect.connected && (
-        <>
-          <Typography variant="body2" className={classes.decriptionBlurb}>
-            Deposit funds in the pool in order to vote on your favourite
-            proposal
-          </Typography>
-          <div style={{ margin: '16px 0px' }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              className={classes.button}
-              startIcon={<DepositIcon />}
-              onClick={() => {
-                router.history.push('/deposit');
-              }}
-            >
-              Deposit
-            </Button>
-          </div>
-        </>
-      )} */}
       <div style={{ marginTop: 16 }}>
         {proposal !== null && (
           // for testing
@@ -230,17 +210,6 @@ const Proposal = ({ match }) => {
               <Typography variant="caption" align="center">
                 {proposal.shortDescription}
               </Typography>
-
-              {/* <ProposalCard
-                    proposal={proposal}
-                    votingAllowed={votingAllowed}
-                    twitterAllowed={!web3Connect.connected || votingAllowed}
-                    vote={web3Connect.contracts.dao.methods.vote}
-                    isPreviousWinner={
-                      proposal.id == web3Connect.previousWinnerId
-                    }
-                    address={address}
-                  /> */}
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="h3" className={classes.title}>
@@ -279,7 +248,7 @@ const Proposal = ({ match }) => {
                   </IconButton>
                 </Tooltip>
               )}
-              {(!web3Connect.connected || votingAllowed) &&
+              {(connected || votingAllowed) &&
                 !(proposal_id == web3Connect.previousWinnerId) && (
                   <Tooltip title="Vote via Twitter">
                     <IconButton

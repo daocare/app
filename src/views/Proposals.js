@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Box from '3box';
 
 import { useSelector } from 'react-redux';
 import { fetchProposals } from '../redux/actions';
+
+import PropTypes from 'prop-types';
+import Box from '3box';
 
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useRouter from '../utils/useRouter';
@@ -67,11 +68,14 @@ const useStyles = makeStyles((theme) => ({
 const Proposals = () => {
   const web3Connect = useWeb3Connect();
   const { fetched } = web3Connect;
+
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
 
   const proposals = useSelector((state) => state.proposals.proposals);
+
+  const connected = useSelector((state) => state.user.connected);
 
   const canVoteWithDelegate =
     status === 'ENABLED' ||
@@ -152,7 +156,7 @@ const Proposals = () => {
       <div style={{ position: 'absolute', top: 6, right: 10 }}>
         {status === 'DRAFT' &&
           !web3Connect.enabledTwitter &&
-          web3Connect.connected &&
+          connected &&
           web3Connect.daiDeposit > 0 && (
             <Button
               variant="contained"
@@ -199,7 +203,7 @@ const Proposals = () => {
         )}
       </div>
       <Header />
-      {web3Connect.daiDeposit === 0 && web3Connect.connected && (
+      {web3Connect.daiDeposit === 0 && connected && (
         <>
           <Typography variant="body2" className={classes.decriptionBlurb}>
             Deposit funds in the pool in order to vote on your favourite
@@ -252,7 +256,7 @@ const Proposals = () => {
                       <ProposalCard
                         proposal={proposal}
                         votingAllowed={votingAllowed}
-                        twitterAllowed={!web3Connect.connected || votingAllowed}
+                        twitterAllowed={!connected || votingAllowed}
                         vote={web3Connect.contracts.dao.methods.vote}
                         isPreviousWinner={
                           proposal.id == web3Connect.previousWinnerId

@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+
+import { useSelector } from 'react-redux';
+
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { Typography, Button, Grid } from '@material-ui/core';
@@ -46,7 +49,9 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const web3Connect = useWeb3Connect();
-  let connected = web3Connect.connected;
+
+  const connected = useSelector((state) => state.user.connected);
+
   const router = useRouter();
   const [interest, setInterest] = useState(0);
   const [totalFundAmount, setTotalFundAmount] = useState(0);

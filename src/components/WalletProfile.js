@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useRouter from '../utils/useRouter';
 import Button from '@material-ui/core/Button';
@@ -22,6 +24,8 @@ const WalletProfile = (props) => {
     router.history.push('/');
   };
 
+  const connected = useSelector((state) => state.user.connected);
+
   return (
     <div
       style={{
@@ -41,7 +45,7 @@ const WalletProfile = (props) => {
           color: 'white !important',
         }}
       >
-        {web3Connect.connected && web3Connect.address ? (
+        {connected && web3Connect.address ? (
           <>
             <ProfileHover
               address={web3Connect.address}
