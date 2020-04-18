@@ -10,11 +10,13 @@ const {
 const PoolDeposits = artifacts.require('PoolDeposits');
 const NoLossDao = artifacts.require('NoLossDao_v0');
 const AaveLendingPool = artifacts.require('AaveLendingPool');
-const LendingPoolAddressProvider = artifacts.require('LendingPoolAddressesProvider');
+const LendingPoolAddressProvider = artifacts.require(
+  'LendingPoolAddressesProvider'
+);
 const ERC20token = artifacts.require('MockERC20');
 const ADai = artifacts.require('ADai');
 
-contract('noLossDao', accounts => {
+contract('noLossDao', (accounts) => {
   let aaveLendingPool;
   let lendingPoolAddressProvider;
   let poolDeposits;
@@ -31,15 +33,18 @@ contract('noLossDao', accounts => {
     aDai = await ADai.new(dai.address, {
       from: accounts[0],
     });
-    aaveLendingPool = await AaveLendingPool.new(aDai.address, {
+    aaveLendingPool = await AaveLendingPool.new(aDai.address, dai.address, {
       from: accounts[0],
     });
-    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(aaveLendingPool.address, {
-      from: accounts[0],
-    });
+    lendingPoolAddressProvider = await LendingPoolAddressProvider.new(
+      aaveLendingPool.address,
+      {
+        from: accounts[0],
+      }
+    );
 
     noLossDao = await NoLossDao.new({ from: accounts[0] });
-    await dai.addMinter(aDai.address, { from: accounts[0] });
+    //await dai.addMinter(aDai.address, { from: accounts[0] });
 
     poolDeposits = await PoolDeposits.new(
       dai.address,
@@ -86,22 +91,25 @@ contract('noLossDao', accounts => {
     await noLossDao.distributeFunds();
 
     // Can delegate vote
-    const delegate = await noLossDao.delegateVoting(accounts[3], { from: accounts[1] });
+    const delegate = await noLossDao.delegateVoting(accounts[3], {
+      from: accounts[1],
+    });
 
-     expectEvent(delegate, 'VoteDelegated', {
+    expectEvent(delegate, 'VoteDelegated', {
       user: accounts[1],
       delegatedTo: accounts[3],
     });
     let currentIteration = await noLossDao.proposalIteration.call();
     // Proxy can vote then user cannot
-    const voted = await noLossDao.voteProxy(1, accounts[1], { from: accounts[3] });
-     expectEvent(voted, 'VotedViaProxy', {
+    const voted = await noLossDao.voteProxy(1, accounts[1], {
+      from: accounts[3],
+    });
+    expectEvent(voted, 'VotedViaProxy', {
       proxy: accounts[3],
       user: accounts[1],
       iteration: currentIteration,
       proposalId: '1',
     });
-
 
     await expectRevert(
       noLossDao.voteDirect(1, { from: accounts[1] }),
@@ -193,9 +201,11 @@ contract('noLossDao', accounts => {
       noLossDao.voteProxy(2, accounts[1], { from: accounts[3] }),
       'User does not have proxy right'
     );
-    const voteDirectEvent= await noLossDao.voteDirect(2, { from: accounts[1] });
+    const voteDirectEvent = await noLossDao.voteDirect(2, {
+      from: accounts[1],
+    });
     let currentIteration = await noLossDao.proposalIteration.call();
-     expectEvent(voteDirectEvent, 'VotedDirect', {
+    expectEvent(voteDirectEvent, 'VotedDirect', {
       user: accounts[1],
       iteration: currentIteration,
       proposalId: '2',

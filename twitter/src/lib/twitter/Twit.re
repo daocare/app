@@ -145,7 +145,7 @@ let postWithResult = (twit, method, tweetArguments) => {
   p->Promise.Js.toBsPromise;
 };
 
-let postWithResult = (twit, method, tweetArguments) => {
+let getWithResult = (twit, method, tweetArguments) => {
   let (p, resolve) = Promise.pending();
   twit->get(.
     method,
@@ -160,3 +160,9 @@ let postWithResult = (twit, method, tweetArguments) => {
   );
   p->Promise.Js.toBsPromise;
 };
+
+let something = "other";
+
+[@bs.module "./postTweetInReply"]
+external postTweetInReply: (. t, string, string, string) => Js.Promise.t(unit) =
+  "postTweetInReply";

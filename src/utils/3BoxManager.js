@@ -56,7 +56,7 @@ export const get3BoxProfile = async (address) => {
         : profile,
     verifiedAccounts:
       Object.entries(verifiedAccounts).length === 0 &&
-      verifiedAccounts.constructor === Object
+        verifiedAccounts.constructor === Object
         ? null
         : verifiedAccounts,
   };
@@ -83,6 +83,7 @@ export const isFetching = () => fetching;
 
 export const getThreadFirstPost = async (threadAddress) => {
   let posts = await Box.getThreadByAddress(threadAddress);
+  console.log(posts, "Here we are...")
   if (posts && posts.length > 0) {
     return posts[0];
   }
