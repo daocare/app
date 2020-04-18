@@ -10,7 +10,6 @@ import { LinearProgress } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import BetaFlag from '../components/BetaFlag';
-import FooterInfo from '../components/FooterInfo';
 import Page from '../components/Page';
 import WalletProfile from '../components/WalletProfile';
 import Nav from '../components/Nav';
@@ -24,14 +23,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   pageOuterContainer: {
-    padding: theme.spacing(2),
     position: 'relative',
-    height: '74vh',
-  },
-  pageInnerContainer: {
-    margin: theme.spacing(0, 2),
-    overflow: 'auto',
-    height: '99%',
+    height: '80vh',
   },
   container: {
     display: 'flex',
@@ -42,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'auto',
     flex: '1 1 auto',
     position: 'absolute',
+    height: '100vh',
     top: 0,
     bottom: 0,
     left: 0,
@@ -69,12 +63,11 @@ const Layout = (props) => {
             <Container maxWidth="md">
               <WalletProfile />
               <Paper elevation={0} className={classes.pageOuterContainer}>
-                <Page title="dao.care" className={classes.pageInnerContainer}>
+                <Page title="dao.care">
                   <Suspense fallback={<LinearProgress />}>
                     {renderRoutes(route.routes)}
                   </Suspense>
                 </Page>
-                <FooterInfo />
               </Paper>
               <Nav />
             </Container>

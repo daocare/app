@@ -11,6 +11,7 @@ import DepositIcon from '@material-ui/icons/AllInclusive';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 import Header from '../components/Header';
 import EllipsisLoader from '../components/EllipsisLoader';
+import FooterInfo from '../components/FooterInfo';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -210,6 +211,7 @@ const Home = () => {
           All Proposals
         </Button>
       </div>
+      <FooterInfo />
     </>
   );
 };

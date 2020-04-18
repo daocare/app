@@ -7,15 +7,20 @@ import useRouter from '../utils/useRouter';
 
 const useStyles = makeStyles((theme) => ({
   navContainer: {
+    height: '10vh',
     width: '100%',
     display: 'flex',
     flexFlow: 'row wrap',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   navLink: {
     margin: '0 10px',
     color: 'white',
     cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.6',
+    },
   },
 }));
 

@@ -28,40 +28,44 @@ const WalletProfile = (props) => {
         display: 'flex',
         flexFlow: 'row nowrap',
         justifyContent: 'flex-end',
-        marginTop: 16,
-        marginBottom: 16,
-        color: 'white !important',
-        maxHeight: '16vh',
+        alignItems: 'center',
+        height: '10vh',
       }}
     >
-      {web3Connect.connected && web3Connect.address ? (
-        <>
-          <ProfileHover
-            address={web3Connect.address}
-            showName={true}
-            noTheme={true}
-            displayFull={true}
-          />
-          <Tooltip title="Disconnect from wallet">
-            <IconButton
-              style={{ color: purple[50] }}
-              aria-label="add an alarm"
-              onClick={handleLogout}
-            >
-              <ExitToAppIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      ) : (
-        <Button
-          variant="contained"
-          color="secondary"
-          disableElevation
-          onClick={handleConnect}
-        >
-          Connect
-        </Button>
-      )}
+      <div
+        style={{
+          display: 'flex',
+          flexFlow: 'row nowrap',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          color: 'white !important',
+        }}
+      >
+        {web3Connect.connected && web3Connect.address ? (
+          <>
+            <ProfileHover
+              address={web3Connect.address}
+              showName={true}
+              noTheme={true}
+              displayFull={true}
+            />
+            <Tooltip title="Disconnect wallet">
+              <IconButton style={{ color: purple[50] }} onClick={handleLogout}>
+                <ExitToAppIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            disableElevation
+            onClick={handleConnect}
+          >
+            Connect
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

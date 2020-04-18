@@ -11,9 +11,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexFlow: 'column nowrap',
     alignItems: 'flex-start',
-    // justifyContent: 'flex-start',
-    height: '100%',
-    width: '100%',
+    height: 'calc(100% - 32px)',
+    width: 'calc(100% - 32px)',
+    overflowY: 'auto',
+    padding: 16,
   },
 }));
 
