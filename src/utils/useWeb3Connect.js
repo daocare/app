@@ -3,11 +3,8 @@ import Web3 from 'web3';
 import Web3Connect from 'web3connect';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchProposals as fetchProposalsRedux,
-  connectUser,
-  disconnectUser,
-} from '../redux/actions';
+import { fetchProposals as fetchProposalsRedux } from '../redux/proposals/proposalsActions';
+import { connectUser, disconnectUser } from '../redux/user/userActions';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
 // import Portis from "@portis/web3";

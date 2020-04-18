@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
 
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -49,21 +50,23 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const web3Connect = useWeb3Connect();
+  const dispatch = useDispatch();
 
   const connected = useSelector((state) => state.user.connected);
+  const { interestPrev, interestNext, fundSize } = useSelector(
+    (state) => state.fund
+  );
 
   const router = useRouter();
-  const [interest, setInterest] = useState(0);
-  const [totalFundAmount, setTotalFundAmount] = useState(0);
 
   let hasFundsDeposited = web3Connect.daiDeposit > 0;
 
   useInterval(async () => {
     if (web3Connect) {
-      let interest = await web3Connect.contracts.dao.methods.getInterest();
-      setInterest(interest);
-      let totalFundAmount = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
-      setTotalFundAmount(totalFundAmount);
+      let interestPrev = await web3Connect.contracts.dao.methods.getInterest();
+      dispatch(getInterestPrev(interestPrev));
+      let totalFundSize = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
+      dispatch(getFundSize(totalFundSize));
     }
   }, 2000);
 
@@ -80,9 +83,9 @@ const Home = () => {
       <Grid container justify="space-between" spacing={2}>
         <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
-            {totalFundAmount > 0 ? (
+            {fundSize > 0 ? (
               <>
-                {totalFundAmount}
+                {fundSize}
                 <Typography
                   variant="body1"
                   className={classes.currencyHighlight}
@@ -99,9 +102,9 @@ const Home = () => {
         </Grid>
         <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
-            {interest > 0 ? (
+            {interestPrev > 0 ? (
               <>
-                {interest.toFixed(5)}
+                {interestPrev.toFixed(5)}
                 <Typography
                   variant="body1"
                   className={classes.currencyHighlight}
@@ -120,9 +123,9 @@ const Home = () => {
         </Grid>
         <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
-            {interest > 0 ? (
+            {interestNext > 0 ? (
               <>
-                {interest.toFixed(5)}
+                {interestNext.toFixed(5)}
                 <Typography
                   variant="body1"
                   className={classes.currencyHighlight}
