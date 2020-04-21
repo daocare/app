@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+
+import { useSelector } from 'react-redux';
+
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { Typography, Button, Grid } from '@material-ui/core';
@@ -9,8 +12,11 @@ import useInterval from '../utils/useInterval';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import DepositIcon from '@material-ui/icons/AllInclusive';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
+
+import Page from '../components/Page';
 import Header from '../components/Header';
 import EllipsisLoader from '../components/EllipsisLoader';
+import FooterInfo from '../components/FooterInfo';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -43,24 +49,18 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const web3Connect = useWeb3Connect();
-  let connected = web3Connect.connected;
+
+  const connected = useSelector((state) => state.user.connected);
+  const { interestPrev, interestNext, fundSize } = useSelector(
+    (state) => state.fund
+  );
+
   const router = useRouter();
-  const [interest, setInterest] = useState(0);
-  const [totalFundAmount, setTotalFundAmount] = useState(0);
 
   let hasFundsDeposited = web3Connect.daiDeposit > 0;
 
-  useInterval(async () => {
-    if (web3Connect) {
-      let interest = await web3Connect.contracts.dao.methods.getInterest();
-      setInterest(interest);
-      let totalFundAmount = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
-      setTotalFundAmount(totalFundAmount);
-    }
-  }, 2000);
-
   return (
-    <>
+    <Page title="dao.care">
       <Header />
       <Typography variant="body1" className={classes.decriptionBlurb}>
         Deposit your DAI. Let your idle interest support community projects.
@@ -72,9 +72,9 @@ const Home = () => {
       <Grid container justify="space-between" spacing={2}>
         <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
-            {totalFundAmount > 0 ? (
+            {fundSize > 0 ? (
               <>
-                {totalFundAmount}
+                {fundSize}
                 <Typography
                   variant="body1"
                   className={classes.currencyHighlight}
@@ -91,9 +91,9 @@ const Home = () => {
         </Grid>
         <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
-            {interest > 0 ? (
+            {interestPrev > 0 ? (
               <>
-                {interest.toFixed(5)}
+                {interestPrev.toFixed(5)}
                 <Typography
                   variant="body1"
                   className={classes.currencyHighlight}
@@ -112,9 +112,9 @@ const Home = () => {
         </Grid>
         <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
-            {interest > 0 ? (
+            {interestNext > 0 ? (
               <>
-                {interest.toFixed(5)}
+                {interestNext.toFixed(5)}
                 <Typography
                   variant="body1"
                   className={classes.currencyHighlight}
@@ -210,7 +210,8 @@ const Home = () => {
           All Proposals
         </Button>
       </div>
-    </>
+      <FooterInfo />
+    </Page>
   );
 };
 

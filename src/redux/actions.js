@@ -1,10 +1,5 @@
-import { FETCH_PROPOSALS } from './actionTypes';
+// import fundActions from './fund/fundActions';
+// import proposalsActions from './proposals/proposalsActions';
+// import userActions from './user/userActions';
 
-export const fetchProposals = (proposals) => {
-  return {
-    type: FETCH_PROPOSALS,
-    payload: { proposals },
-  };
-};
-
-//TODO: move proposals logic here
+// export default { fundActions, proposalsActions, userActions };

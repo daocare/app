@@ -49,10 +49,6 @@ const BN = require('bn.js');
 const STAKING_AMOUNT = 50;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
   textField: {
     margin: theme.spacing(1, 0),
     [theme.breakpoints.up('sm')]: {
@@ -238,7 +234,7 @@ const SubmitProposal = (props) => {
   });
 
   return (
-    <Page className={classes.root} title="dao.care | submit proposal">
+    <Page title="dao.care | submit proposal">
       {web3Connect.loadingWeb3 && (
         <>
           <LoadingWeb3 />

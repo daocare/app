@@ -1,18 +1,23 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 
-import { Provider } from 'react-redux';
-import store from '../redux/store';
+import { useDispatch } from 'react-redux';
+import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
+
+import useWeb3Connect from '../utils/useWeb3Connect';
+import useInterval from '../utils/useInterval';
 
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+
 import BetaFlag from '../components/BetaFlag';
-import FooterInfo from '../components/FooterInfo';
 import Page from '../components/Page';
 import WalletProfile from '../components/WalletProfile';
+import Nav from '../components/Nav';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,14 +28,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   pageOuterContainer: {
-    padding: theme.spacing(2),
     position: 'relative',
     height: '80vh',
-  },
-  pageInnerContainer: {
-    margin: theme.spacing(0, 2),
-    overflow: 'auto',
-    height: '99%',
   },
   container: {
     display: 'flex',
@@ -41,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'auto',
     flex: '1 1 auto',
     position: 'absolute',
+    height: '100vh',
     top: 0,
     bottom: 0,
     left: 0,
@@ -55,31 +55,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Layout = (props) => {
+  const web3Connect = useWeb3Connect();
+  const dispatch = useDispatch();
+
+  // This should execute once web3connect has loaded then iterate in the background
+  useInterval(async () => {
+    if (web3Connect) {
+      let interestPrev = await web3Connect.contracts.dao.methods.getInterest();
+      dispatch(getInterestPrev(interestPrev));
+      let totalFundSize = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
+      dispatch(getFundSize(totalFundSize));
+    }
+  }, 2000);
+
   const { route } = props;
 
   const classes = useStyles();
 
   return (
-    <Provider store={store}>
-      <div className={classes.root}>
-        <div className={classes.container}>
-          <main className={classes.content}>
-            <BetaFlag />
-            <Container maxWidth="md">
-              <WalletProfile />
-              <Paper elevation={0} className={classes.pageOuterContainer}>
-                <Page title="dao.care" className={classes.pageInnerContainer}>
-                  <Suspense fallback={<LinearProgress />}>
-                    {renderRoutes(route.routes)}
-                  </Suspense>
-                </Page>
-                <FooterInfo />
-              </Paper>
-            </Container>
-          </main>
-        </div>
+    <div className={classes.root}>
+      <div className={classes.container}>
+        <main className={classes.content}>
+          <BetaFlag />
+          <Container maxWidth="md">
+            <WalletProfile />
+            <Paper elevation={0} className={classes.pageOuterContainer}>
+              <Suspense fallback={<LinearProgress />}>
+                {renderRoutes(route.routes)}
+              </Suspense>
+            </Paper>
+            <Nav />
+          </Container>
+        </main>
       </div>
-    </Provider>
+    </div>
   );
 };
 

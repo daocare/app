@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -111,8 +113,8 @@ const Deposit = () => {
           ) : web3Connect.daiDeposit > 0 && status == 'DRAFT' ? (
             <>
               <Typography variant="body1">
-                You currently have {web3Connect.daiDeposit} in the fund. If you
-                would like to add to your deposit we require that you first
+                You currently have {web3Connect.daiDeposit} DAI in the fund. If
+                you would like to add to your deposit we require that you first
                 withdraw your current deposit. We do this to afford maximum
                 smart contract security.
               </Typography>

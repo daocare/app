@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 import { lazy } from 'react';
 
-import Layout from './layouts/Layout';
+import Layout from './layouts/ReduxWrapper';
 
 const routes = [
   {
@@ -18,6 +18,11 @@ const routes = [
         path: '/submit-proposal',
         exact: true,
         component: lazy(() => import('./views/SubmitProposal')),
+      },
+      {
+        path: '/how-it-works',
+        exact: true,
+        component: lazy(() => import('./views/HowItWorks')),
       },
       {
         path: '/deposit',

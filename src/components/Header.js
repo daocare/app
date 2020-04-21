@@ -9,23 +9,22 @@ const useStyles = makeStyles((theme) => ({
   headerContainer: {
     cursor: 'pointer',
     [theme.breakpoints.up('sm')]: {
-      margin: '16px 0px',
+      margin: '0px 0px 0px 0px',
     },
   },
   headerLogo: {
-    height: '90px',
+    height: '70px',
     display: 'inline',
     textAlign: 'left',
     [theme.breakpoints.down('xs')]: {
-      height: '60px',
+      height: '40px',
     },
   },
   headerText: {
-    marginTop: '76px',
-
     fontFamily: 'nunito',
     fontWeight: 700,
     display: 'inline',
+    fontSize: '70px',
     [theme.breakpoints.down('xs')]: {
       fontSize: '42px',
     },

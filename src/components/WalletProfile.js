@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useRouter from '../utils/useRouter';
 import Button from '@material-ui/core/Button';
@@ -22,46 +24,52 @@ const WalletProfile = (props) => {
     router.history.push('/');
   };
 
+  const connected = useSelector((state) => state.user.connected);
+
   return (
     <div
       style={{
         display: 'flex',
         flexFlow: 'row nowrap',
         justifyContent: 'flex-end',
-        marginTop: 16,
-        marginBottom: 16,
-        color: 'white !important',
-        maxHeight: '20vh',
+        alignItems: 'center',
+        height: '10vh',
       }}
     >
-      {web3Connect.connected && web3Connect.address ? (
-        <>
-          <ProfileHover
-            address={web3Connect.address}
-            showName={true}
-            noTheme={true}
-            displayFull={true}
-          />
-          <Tooltip title="Disconnect from wallet">
-            <IconButton
-              style={{ color: purple[50] }}
-              aria-label="add an alarm"
-              onClick={handleLogout}
-            >
-              <ExitToAppIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      ) : (
-        <Button
-          variant="contained"
-          color="secondary"
-          disableElevation
-          onClick={handleConnect}
-        >
-          Connect
-        </Button>
-      )}
+      <div
+        style={{
+          display: 'flex',
+          flexFlow: 'row nowrap',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          color: 'white !important',
+        }}
+      >
+        {connected && web3Connect.address ? (
+          <>
+            <ProfileHover
+              address={web3Connect.address}
+              showName={true}
+              noTheme={true}
+              displayFull={true}
+            />
+            <Tooltip title="Disconnect wallet">
+              <IconButton style={{ color: purple[50] }} onClick={handleLogout}>
+                <ExitToAppIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            disableElevation
+            onClick={handleConnect}
+          >
+            Connect
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

@@ -6,7 +6,7 @@ const FooterInfo = (props) => {
     <Typography
       variant="caption"
       color="secondary"
-      style={{ textAlign: 'center' }}
+      style={{ position: 'absolute', bottom: '10px' }}
     >
       We are currently running on Kovan network. Please get DAI from Aave{' '}
       <a

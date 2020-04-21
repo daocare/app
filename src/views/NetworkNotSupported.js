@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme) => ({
     flexFlow: 'column nowrap',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
 }));
 
@@ -27,37 +29,36 @@ const NetworkNotSupported = () => {
   }, [web3Connect.network]);
 
   return (
-    <Page
-      title={`dao.care | ${web3Connect.network} not supported`}
-      className={classes.pageCentered}
-    >
-      <div style={{ marginBottom: 16 }}>
-        <Typography
-          variant="body1"
+    <Page title={`dao.care | ${web3Connect.network} not supported`}>
+      <div className={classes.pageCentered}>
+        <div style={{ marginBottom: 16 }}>
+          <Typography
+            variant="body1"
+            style={{
+              marginTop: 16,
+              textAlign: 'center',
+              color: '#A362A5',
+              fontWeight: 400,
+            }}
+          >
+            We are not yet supporting{' '}
+            {web3Connect.network ? web3Connect.network : <EllipsisLoader />},
+            please connect to {web3Connect.supportedNetwork}
+          </Typography>
+        </div>
+        <div
           style={{
-            marginTop: 16,
+            marginTop: 32,
+            marginBottom: 32,
             textAlign: 'center',
-            color: '#A362A5',
-            fontWeight: 400,
           }}
         >
-          We are not yet supporting{' '}
-          {web3Connect.network ? web3Connect.network : <EllipsisLoader />},
-          please connect to {web3Connect.supportedNetwork}
-        </Typography>
-      </div>
-      <div
-        style={{
-          marginTop: 32,
-          marginBottom: 32,
-          textAlign: 'center',
-        }}
-      >
-        <img
-          style={{ maxWidth: '100%', maxHeight: 280 }}
-          src="/network-not-supported.svg"
-          alt="Network not supported"
-        />
+          <img
+            style={{ maxWidth: '100%', maxHeight: 280 }}
+            src="/network-not-supported.svg"
+            alt="Network not supported"
+          />
+        </div>
       </div>
     </Page>
   );
