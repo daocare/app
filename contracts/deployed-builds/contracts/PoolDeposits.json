@@ -20950,6 +20950,31 @@
           "name": "EmergencyWithdrawl",
           "type": "event"
         },
+        "0x9c519f8c3e0327df555365fe845098151a0599784748ec268bd18bcd0be93542": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "iteration",
+              "type": "uint256"
+            }
+          ],
+          "name": "InterestSent",
+          "type": "event"
+        },
         "0xc07acef038b6eb78641fd29d4d916bc1178a913d8950f162fb46f38a4f3aa4b8": {
           "anonymous": false,
           "inputs": [
@@ -20966,9 +20991,9 @@
               "type": "uint256"
             },
             {
-              "indexed": true,
+              "indexed": false,
               "internalType": "string",
-              "name": "proposalHash",
+              "name": "proposalIdentifier",
               "type": "string"
             }
           ],
@@ -21009,12 +21034,13 @@
         }
       },
       "links": {},
-      "address": "0x0b63dC71788f7fD8C786CAb9A53C54beFa64817e",
-      "transactionHash": "0xed125fc37bbe3d68cef07e3951e7b0ad55bcc4f32b978a1c150552a4b6f47762"
+      "address": "0xADcF68200F7e764712dB0C2C8ae2611a20A5E0A0",
+      "transactionHash": "0x73a8db1c11f894b8adc58adb99524c0559723d23bf4409b9bac44d8e46205470"
     }
   },
-  "schemaVersion": "3.0.11",
-  "updatedAt": "2020-04-19T18:42:28.649Z",
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-05-12T08:46:37.292Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "changeProposalAmount(uint256)": {
