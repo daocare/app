@@ -439,7 +439,7 @@ const useWeb3Connect = () => {
       let tempProposals = [];
       let foundOwner = false;
       for (let i = 1; i <= numProposals; i++) {
-        let hash = await daoContract.methods.proposalDetails(i).call();
+        let hash = await daoContract.methods.proposalIdentifier(i).call();
         if (!hash.includes('orbitdb')) {
           console.log(`Skipping ${hash} as it is not stored on a thread...`);
           continue;

@@ -316,14 +316,21 @@
   "proxies": {
     "example-truffle-migrate/NoLossDao": [
       {
-        "address": "0xe9373890d88528f3f46eE9fcFb1B04Eecf8E6585",
+        "address": "0xA5e728aF29b086f46048A09Fe0776548ABd2Bb42",
         "version": "2.5.3",
-        "implementation": "0x4Bd114e3519600A684412e5A1DDa299FDB62D6f0",
+        "implementation": "0x70A1785d1798c138bF8b178106D95033Cd2B62e4",
         "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
         "kind": "Upgradeable"
       },
       {
-        "address": "0xA5e728aF29b086f46048A09Fe0776548ABd2Bb42",
+        "address": "0xc8535Edc4429C4BE92eB3a7e75D6b91760672DEE",
+        "version": "2.5.3",
+        "implementation": "0x70A1785d1798c138bF8b178106D95033Cd2B62e4",
+        "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x79C01883AF4A05Cc3e33E4Fa0F294032B88b2dd7",
         "version": "2.5.3",
         "implementation": "0x70A1785d1798c138bF8b178106D95033Cd2B62e4",
         "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",

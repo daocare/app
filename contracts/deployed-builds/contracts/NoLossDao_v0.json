@@ -23979,12 +23979,13 @@
     "42": {
       "links": {},
       "events": {},
-      "address": "0x1Be540722F30fBb6A86f995F25A81f5BA5ac4327",
-      "updated_at": 1585689041652
+      "address": "0x79C01883AF4A05Cc3e33E4Fa0F294032B88b2dd7",
+      "updated_at": 1589273163291
     }
   },
-  "schemaVersion": "3.0.11",
-  "updatedAt": "2020-04-19T18:42:28.628Z",
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-05-12T08:46:37.262Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "changeProposalStakingAmount(uint256)": {

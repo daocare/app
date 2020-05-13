@@ -1,5 +1,7 @@
 # No Loss Dao Contracts
 
+In networks section of deployed builds (in NoLossDao_v0.json and PoolDeposits.json) are the contracts addresses. For upgradeable DAO, can also find address in kovan.json
+
 ### install
 
 ```bash
