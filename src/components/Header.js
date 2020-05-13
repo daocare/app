@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   headerContainer: {
     cursor: 'pointer',
     [theme.breakpoints.up('sm')]: {
-      margin: '0px 0px 0px 0px',
+      margin: '0',
     },
   },
   headerLogo: {
