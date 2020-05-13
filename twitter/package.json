@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "bs-let": "^0.1.16",
-    "bs-platform": "7.3.0-dev.1",
+    "bs-platform": "7.3.2",
     "nodemon": "^2.0.2",
     "decco": "^1.2.0"
   },

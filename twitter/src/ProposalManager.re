@@ -2,7 +2,7 @@ type proposalsManager = {
   currentProposals: string,
   proposalEmojiLookup: string,
   getCurrentProposals: (. unit) => Js.Promise.t(unit),
-  getProjectIdFromEmoji: (. unit) => option(int),
+  getProjectIdFromEmoji: (. string) => option(int),
   getIteration: (. unit) => Js.Promise.t(int),
   getProjectsTweetString: (. unit) => string,
 };
