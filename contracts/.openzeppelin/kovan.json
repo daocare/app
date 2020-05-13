@@ -1,11 +1,11 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0x70A1785d1798c138bF8b178106D95033Cd2B62e4",
-      "constructorCode": "608060405234801561001057600080fd5b50612293806100206000396000f3fe",
-      "bodyBytecodeHash": "ef1748c9ab09b17c59cad1dcffe4c70ac48ebddbd195fac81094791f3aa0493c",
-      "localBytecodeHash": "9113d47702d7b182bd45e0fb95a182a2f7e9765d740afdfafea7e52d1d158a05",
-      "deployedBytecodeHash": "9113d47702d7b182bd45e0fb95a182a2f7e9765d740afdfafea7e52d1d158a05",
+      "address": "0xAFFe7807d7E46E096d03522c315B16fAcC99a3AE",
+      "constructorCode": "608060405234801561001057600080fd5b506122cf806100206000396000f3fe",
+      "bodyBytecodeHash": "343817dc26e8d097de7cb2464e9067b0b8de4f8fcca3945a8bdd44e680e5ebcb",
+      "localBytecodeHash": "78c8775f5585dc6fc015e516e84a642d7470b68c625a74f5707537693f54bbe4",
+      "deployedBytecodeHash": "78c8775f5585dc6fc015e516e84a642d7470b68c625a74f5707537693f54bbe4",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -89,7 +89,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 12507,
+          "astId": 12514,
           "type": "t_bool",
           "src": "757:24:15"
         },
@@ -97,7 +97,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 12509,
+          "astId": 12516,
           "type": "t_bool",
           "src": "876:25:15"
         },
@@ -105,7 +105,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 12571,
+          "astId": 12578,
           "type": "t_array:50<t_uint256>",
           "src": "1982:29:15"
         },
@@ -262,53 +262,7 @@
             "src": "1116:46:1"
           }
         ],
-        "storageDiff": [
-          {
-            "action": "rename",
-            "updated": {
-              "index": 8,
-              "contract": "NoLossDao_v0",
-              "path": "contracts/NoLossDao_v0.sol",
-              "label": "proposalIdentifier",
-              "astId": 83,
-              "type": "t_mapping<t_string>",
-              "src": "773:52:1"
-            },
-            "original": {
-              "index": 8,
-              "contract": "NoLossDao_v0",
-              "path": "contracts/NoLossDao_v0.sol",
-              "label": "proposalDetails",
-              "astId": 82,
-              "type": "t_mapping<t_string>",
-              "src": "716:49:1"
-            }
-          },
-          {
-            "action": "insert",
-            "updated": {
-              "index": 17,
-              "contract": "NoLossDao_v0",
-              "path": "contracts/NoLossDao_v0.sol",
-              "label": "interestReceivers",
-              "astId": 127,
-              "type": "t_array:dyn<t_address>",
-              "src": "1777:27:1"
-            }
-          },
-          {
-            "action": "append",
-            "updated": {
-              "index": 18,
-              "contract": "NoLossDao_v0",
-              "path": "contracts/NoLossDao_v0.sol",
-              "label": "percentages",
-              "astId": 130,
-              "type": "t_array:dyn<t_uint256>",
-              "src": "1869:21:1"
-            }
-          }
-        ]
+        "storageDiff": []
       }
     }
   },
@@ -333,6 +287,13 @@
         "address": "0x79C01883AF4A05Cc3e33E4Fa0F294032B88b2dd7",
         "version": "2.5.3",
         "implementation": "0x70A1785d1798c138bF8b178106D95033Cd2B62e4",
+        "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x5D75954d85DD51b58CCC75006358E9600BF6d97f",
+        "version": "2.5.3",
+        "implementation": "0xAFFe7807d7E46E096d03522c315B16fAcC99a3AE",
         "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
         "kind": "Upgradeable"
       }
