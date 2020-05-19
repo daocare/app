@@ -82,8 +82,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Deposit = () => {
-  // const [status, setStatus] = useState('DRAFT');
-  const [status, setStatus] = useState('DEPOSITED');
+  const [status, setStatus] = useState('DRAFT');
+  // const [status, setStatus] = useState('DEPOSITED');
   const classes = useStyles();
   const router = useRouter();
   const web3Connect = useWeb3Connect();
