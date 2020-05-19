@@ -1,9 +1,10 @@
-open Globals;
+open Globals;  // https://twitter.com/Avo141378579/status/1262694952200536064
 
 let since_id = ref("");
 let currentIterationId = ref(0);
-let currentIterationTweetId = ref("1248192552701919233");
-let thisUserTwitterId = "1190359489603616773";
+let currentIterationTweetId = ref("1262694952200536064");
+//https://tweeterid.com/ <- Converter tool to convert handle to id
+let thisUserTwitterId = "1262377326052085762";
 
 let twitInstance = Twit.makeTwitterHandler(.);
 // NOTE: unsafe code! Just a quick hack to get it working.
