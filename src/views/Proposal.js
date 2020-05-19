@@ -24,6 +24,7 @@ import Page from '../components/Page';
 import Header from '../components/Header';
 import ProposalCard from '../components/ProposalCard';
 import EllipsisLoader from '../components/EllipsisLoader';
+import PreviousWinnerBadge from '../components/PreviousWinnerBadge';
 
 import { twitterHandleAlreadyLinked } from '../modules/twitterDb';
 import { getUrlByHash } from '../modules/pinata';
@@ -210,6 +211,9 @@ const Proposal = ({ match }) => {
               <Typography variant="caption" align="center">
                 {proposal.shortDescription}
               </Typography>
+              {proposal.id == web3Connect.previousWinnerId && (
+                <PreviousWinnerBadge />
+              )}
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="h3" className={classes.title}>

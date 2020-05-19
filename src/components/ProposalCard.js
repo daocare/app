@@ -17,6 +17,8 @@ import InsertLinkIcon from '@material-ui/icons/InsertLink';
 import { getUrlByHash } from '../modules/pinata';
 import { voteTwitter } from '../utils/twitterUtils';
 
+import PreviousWinnerBanner from './PreviousWinnerBanner';
+
 const useStyles = makeStyles({
   root: {
     position: 'relative',
@@ -48,23 +50,7 @@ const ProposalCard = (props) => {
           router.history.push(`/proposals/${id}`);
         }}
       >
-        {isPreviousWinner && (
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: '1rem',
-              color: 'white',
-              backgroundColor: '#6850A8',
-              padding: '0.1rem 2rem',
-              fontFamily: 'nunito',
-              fontWeight: 700,
-              transform: 'rotate(-45deg) translate(-34px, -20px)',
-            }}
-          >
-            <p>PREVIOUS WINNER</p>
-          </div>
-        )}
+        {isPreviousWinner && <PreviousWinnerBanner />}
         {imageUrl && (
           <CardMedia className={classes.media} image={imageUrl} title={title} />
         )}
