@@ -59,10 +59,28 @@ const useStyles = makeStyles((theme) => ({
   button: {
     width: 190,
   },
+  pageCentered: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  socials: {
+    filter: 'invert(70%)',
+    transform: 'translate(0, 25%)',
+    height: '20px',
+    marginLeft: '5px',
+    '&:hover': {
+      opacity: '0.6',
+    },
+  },
 }));
 
 const Deposit = () => {
-  const [status, setStatus] = useState('DRAFT');
+  // const [status, setStatus] = useState('DRAFT');
+  const [status, setStatus] = useState('DEPOSITED');
   const classes = useStyles();
   const router = useRouter();
   const web3Connect = useWeb3Connect();
@@ -96,6 +114,10 @@ const Deposit = () => {
       setTwitterWarning(false);
     }
   };
+
+  const celebrateImages = ['the-office.gif', 'ace-dancing.gif', 'harry.gif'];
+
+  const randomNumberImageIndex = Math.floor(Math.random() * 3);
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
@@ -260,36 +282,62 @@ const Deposit = () => {
             )
           )}
           {status === 'DEPOSITED' && (
-            <>
-              <Typography
-                variant="body2"
-                component="span"
-                className={classes.statusMsg}
-              >
-                Your funds have been deposited, thank you!
-              </Typography>
-              <div
-                className={classes.divContainer}
-                style={{
-                  marginTop: 24,
-                  marginBottom: 24,
-                  textAlign: 'center',
-                }}
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  className={classes.button}
-                  startIcon={<HowToVoteIcon />}
-                  onClick={() => {
-                    router.history.push('/proposals');
+            <div className={classes.pageCentered}>
+              <div>
+                <Typography
+                  variant="body1"
+                  component="span"
+                  style={{
+                    textAlign: 'center',
+                    display: 'block',
+                    margin: 'auto',
                   }}
                 >
-                  Vote
-                </Button>
+                  🎉 Wohoo! Your funds have been deposited! 🎊
+                </Typography>
+
+                <img
+                  src={`./assets/celebrate/${celebrateImages[randomNumberImageIndex]}`}
+                  style={{
+                    width: '340px',
+                    display: 'block',
+                    margin: '1rem auto',
+                  }}
+                />
+
+                <Typography
+                  variant="body2"
+                  component="span"
+                  style={{
+                    textAlign: 'center',
+                    display: 'block',
+                    margin: 'auto',
+                  }}
+                >
+                  {web3Connect.currentIterationDeadline}
+                  To afford maximum smart contract security you can only vote on
+                  the next voting cycle.
+                  <br /> Follow us on{' '}
+                  <a href="https://twitter.com/dao_care" target="_blank">
+                    {' '}
+                    twitter{' '}
+                    <img
+                      src="/assets/socials/twitter.svg"
+                      className={classes.socials}
+                    />
+                  </a>{' '}
+                  and join our{' '}
+                  <a href="https://t.me/daocare" target="_blank">
+                    telegram
+                    <img
+                      src="/assets/socials/telegram.svg"
+                      className={classes.socials}
+                    />
+                  </a>{' '}
+                  to get notified of the next voting cycle.
+                </Typography>
               </div>
-            </>
+            </div>
           )}
         </>
       )}
