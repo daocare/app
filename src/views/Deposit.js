@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
 import PropTypes from 'prop-types';
+import Moment from 'moment';
+
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -12,10 +13,12 @@ import {
 } from '@material-ui/core';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
+
 import Page from '../components/Page';
 import Header from '../components/Header';
 import LoadingWeb3 from '../components/LoadingWeb3';
 import EllipsisLoader from '../components/EllipsisLoader';
+
 import useRouter from '../utils/useRouter';
 import useWeb3Connect from '../utils/useWeb3Connect';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
@@ -118,6 +121,13 @@ const Deposit = () => {
   const celebrateImages = ['the-office.gif', 'ace-dancing.gif', 'harry.gif'];
 
   const randomNumberImageIndex = Math.floor(Math.random() * 3);
+
+  // TODO: Add countdown to next iteration
+  // const numSecondsLeftInIteration = Math.max(
+  //   0,
+  //   web3Connect.currentIterationDeadline -
+  //     Math.floor(new Date().getTime() / 1000)
+  // );
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
@@ -314,7 +324,9 @@ const Deposit = () => {
                     margin: 'auto',
                   }}
                 >
-                  {web3Connect.currentIterationDeadline}
+                  {/* // TODO: Add countdown to next iteration */}
+                  {/* {Moment(numSecondsLeftInIteration).calendar()}                   */}
+                  {/* {Moment(web3Connect.currentIterationDeadline).fromNow()}  */}
                   To afford maximum smart contract security you can only vote on
                   the next voting cycle.
                   <br /> Follow us on{' '}
