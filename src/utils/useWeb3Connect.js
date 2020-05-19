@@ -3,6 +3,7 @@ import Web3 from 'web3';
 import Web3Connect from 'web3connect';
 
 import { useDispatch, useSelector } from 'react-redux';
+
 import { fetchProposals as fetchProposalsRedux } from '../redux/proposals/proposalsActions';
 import { connectUser, disconnectUser } from '../redux/user/userActions';
 
@@ -37,13 +38,16 @@ const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
 const ADAI_ADDRESS = '0x58ad4cb396411b691a9aab6f74545b2c5217fe6a'; //kovan
 const DAO_ADDRESS = daoAbi.networks[CHAIN_ID].address;
 const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
-const INFURA_KEY = 'fd2fcca3c26e41cf88b907df3596b14e';
+// const INFURA_KEY = 'fd2fcca3c26e41cf88b907df3596b14e';
+const INFURA_KEY = 'e811479f4c414e219e7673b6671c2aba';
 const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 
 const NOT_SUPPORTED_URL = '/network-not-supported';
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
+
 let FETCH_UPDATE_INTERVAL = 7000;
+
 const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
@@ -211,33 +215,30 @@ const useWeb3Connect = () => {
   // eslint-disable-next-line
   useEffect(() => {
     if (!loaded && !loadingWeb3) {
+      // if (!loadingWeb3) {
+      console.log('so many requests, what is going on');
       let web3Infura = new Web3(INFURA_ENDPOINT);
       setWeb3ReadOnly(web3Infura);
-
       const daiContractReadOnly = new web3Infura.eth.Contract(
         daiAbi.abi,
         DAI_ADDRESS
       );
       setDaiContractReadOnly(daiContractReadOnly);
-
       const adaiContractReadOnly = new web3Infura.eth.Contract(
         daiAbi.abi,
         ADAI_ADDRESS
       );
       setAdaiContractReadOnly(adaiContractReadOnly);
-
       const daoContractReadOnly = new web3Infura.eth.Contract(
         daoAbi.abi,
         DAO_ADDRESS
       );
       setDaoContractReadOnly(daoContractReadOnly);
-
       const depositContractReadOnly = new web3Infura.eth.Contract(
         depositAbi.abi,
         DEPOSIT_ADDRESS
       );
       setDepositContractReadOnly(depositContractReadOnly);
-
       if (web3Connect.cachedProvider && !connected) {
         setLoadingWeb3(true);
         onConnect(
@@ -249,8 +250,10 @@ const useWeb3Connect = () => {
       } else {
         setLoaded(true);
       }
+      // setLoaded(true);
+      // setLoadingWeb3(true);
     }
-  });
+  }, []);
 
   useInterval(async () => {
     if (daoContractReadOnly) {

@@ -120,7 +120,9 @@ const Deposit = () => {
 
   const celebrateImages = ['the-office.gif', 'ace-dancing.gif', 'harry.gif'];
 
-  const randomNumberImageIndex = Math.floor(Math.random() * 3);
+  const [randomNumberImageIndex, setRandomNumberImageIndex] = useState(
+    Math.floor(Math.random() * 3)
+  );
 
   // TODO: Add countdown to next iteration
   // const numSecondsLeftInIteration = Math.max(
