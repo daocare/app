@@ -8,8 +8,6 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Torus from '@toruslabs/torus-embed';
 import supportedChains from './chains';
 
-console.log('useWeb3Modal');
-
 const INFURA_KEY = 'e811479f4c414e219e7673b6671c2aba'; // TODO: update for live version
 // const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 

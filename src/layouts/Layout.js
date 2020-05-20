@@ -3,9 +3,11 @@ import React, { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
 import { setDaiDeposit } from '../redux/user/userActions';
+import { setFundSize } from '../redux/fund/fundActions';
 
-import useUserData from '../utils/useUserData';
 import useInterval from '../utils/useInterval';
+import useUserData from '../utils/useUserData';
+import useDepositContract from '../utils/useDepositContract';
 
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
@@ -56,10 +58,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Layout = (props) => {
-  const userData = useUserData();
   const dispatch = useDispatch();
+  const userData = useUserData();
+  const depositContract = useDepositContract();
+
   const { connected, address } = useSelector((state) => state.user);
 
+  // On App Load
+  useEffect(() => {
+    depositContract.getFundSize().then((fundSize) => {
+      dispatch(setFundSize(fundSize));
+    });
+  }, []);
+
+  // On connection changes
   useEffect(() => {
     if (address) {
       userData.getUserDaiDeposit(address.toLowerCase()).then((weiDeposit) => {

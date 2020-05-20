@@ -63,6 +63,7 @@ const Home = () => {
 
   return (
     <Page title="dao.care">
+      {/* <button onClick={() => console.log(userDaiDeposit)}>test</button> */}
       <Header />
       <Typography variant="body1" className={classes.decriptionBlurb}>
         Deposit your DAI. Let your idle interest support community projects.
@@ -91,7 +92,7 @@ const Home = () => {
           </Typography>
           <Typography variant="body1">Fund size</Typography>
         </Grid>
-        <Grid item xs={12} md={4} className={classes.gridItem}>
+        {/* <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
             {interestPrev > 0 ? (
               <>
@@ -111,8 +112,8 @@ const Home = () => {
           <Typography variant="body1">
             Previous winner <br /> interest rewarded
           </Typography>
-        </Grid>
-        <Grid item xs={12} md={4} className={classes.gridItem}>
+        </Grid> */}
+        {/* <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
             {interestNext > 0 ? (
               <>
@@ -132,7 +133,7 @@ const Home = () => {
           <Typography variant="body1">
             Next winner <br /> interest reward
           </Typography>
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <div className={classes.buttonContainer}>
@@ -160,32 +161,7 @@ const Home = () => {
         >
           Submit Proposal
         </Button>
-        {userDaiDeposit <= 0 ? (
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            className={classes.button}
-            startIcon={<DepositIcon />}
-            onClick={() => {
-              if (connected) {
-                router.history.push('/deposit');
-              } else {
-                const connect = async () => {
-                  try {
-                    await web3Modal.triggerConnect();
-                    router.history.push('/deposit');
-                  } catch {
-                    console.warn('Cancelled connection');
-                  }
-                };
-                connect();
-              }
-            }}
-          >
-            Join Pool
-          </Button>
-        ) : (
+        {userDaiDeposit > 0 ? (
           <Button
             variant="contained"
             color="secondary"
@@ -209,6 +185,31 @@ const Home = () => {
             }}
           >
             Withdraw Funds
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            className={classes.button}
+            startIcon={<DepositIcon />}
+            onClick={() => {
+              if (connected) {
+                router.history.push('/deposit');
+              } else {
+                const connect = async () => {
+                  try {
+                    await web3Modal.triggerConnect();
+                    router.history.push('/deposit');
+                  } catch {
+                    console.warn('Cancelled connection');
+                  }
+                };
+                connect();
+              }
+            }}
+          >
+            Join Pool
           </Button>
         )}
         <Button
