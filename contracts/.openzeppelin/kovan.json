@@ -1,11 +1,11 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0x4Bd114e3519600A684412e5A1DDa299FDB62D6f0",
-      "constructorCode": "608060405234801561001057600080fd5b50611c87806100206000396000f3fe",
-      "bodyBytecodeHash": "ed2b87c719906422dcab39176c78045fd9b03f433b241a2d81c6aa4bd21bd314",
-      "localBytecodeHash": "c1098b48ea62460a81b6d1e2683d9a705f1eb6e36cc175dfc6655bb7785577bb",
-      "deployedBytecodeHash": "c1098b48ea62460a81b6d1e2683d9a705f1eb6e36cc175dfc6655bb7785577bb",
+      "address": "0xAFFe7807d7E46E096d03522c315B16fAcC99a3AE",
+      "constructorCode": "608060405234801561001057600080fd5b506122cf806100206000396000f3fe",
+      "bodyBytecodeHash": "343817dc26e8d097de7cb2464e9067b0b8de4f8fcca3945a8bdd44e680e5ebcb",
+      "localBytecodeHash": "78c8775f5585dc6fc015e516e84a642d7470b68c625a74f5707537693f54bbe4",
+      "deployedBytecodeHash": "78c8775f5585dc6fc015e516e84a642d7470b68c625a74f5707537693f54bbe4",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -68,6 +68,20 @@
           "valueType": "t_enum<NoLossDao_v0.ProposalState>",
           "label": "mapping(key => NoLossDao_v0.ProposalState)",
           "kind": "mapping"
+        },
+        "t_array:dyn<t_address>": {
+          "id": "t_array:dyn<t_address>",
+          "valueType": "t_address",
+          "length": "dyn",
+          "kind": "array",
+          "label": "address[]"
+        },
+        "t_array:dyn<t_uint256>": {
+          "id": "t_array:dyn<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "dyn",
+          "kind": "array",
+          "label": "uint256[]"
         }
       },
       "storage": [
@@ -75,145 +89,161 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 12688,
+          "astId": 12514,
           "type": "t_bool",
-          "src": "757:24:22"
+          "src": "757:24:15"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 12690,
+          "astId": 12516,
           "type": "t_bool",
-          "src": "876:25:22"
+          "src": "876:25:15"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 12746,
+          "astId": 12578,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:22"
+          "src": "1982:29:15"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "admin",
-          "astId": 70,
+          "astId": 71,
           "type": "t_address",
-          "src": "449:20:1"
+          "src": "506:20:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "votingInterval",
-          "astId": 72,
+          "astId": 73,
           "type": "t_uint256",
-          "src": "515:29:1"
+          "src": "572:29:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalIteration",
-          "astId": 74,
+          "astId": 75,
           "type": "t_uint256",
-          "src": "548:32:1"
+          "src": "605:32:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalId",
-          "astId": 76,
+          "astId": 77,
           "type": "t_uint256",
-          "src": "627:25:1"
+          "src": "684:25:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalDeadline",
-          "astId": 78,
+          "astId": 79,
           "type": "t_uint256",
-          "src": "656:31:1"
+          "src": "713:31:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
-          "label": "proposalDetails",
-          "astId": 82,
+          "label": "proposalIdentifier",
+          "astId": 83,
           "type": "t_mapping<t_string>",
-          "src": "716:49:1"
+          "src": "773:52:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "benefactorsProposal",
-          "astId": 86,
+          "astId": 87,
           "type": "t_mapping<t_uint256>",
-          "src": "794:54:1"
+          "src": "829:54:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalOwner",
-          "astId": 90,
+          "astId": 91,
           "type": "t_mapping<t_address>",
-          "src": "881:48:1"
+          "src": "916:48:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "state",
-          "astId": 99,
+          "astId": 100,
           "type": "t_mapping<t_enum<NoLossDao_v0.ProposalState>>",
-          "src": "1081:46:1"
+          "src": "1116:46:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "iterationJoined",
-          "astId": 103,
+          "astId": 104,
           "type": "t_mapping<t_uint256>",
-          "src": "1199:50:1"
+          "src": "1234:50:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "usersNominatedProject",
-          "astId": 109,
+          "astId": 110,
           "type": "t_mapping<t_uint256>",
-          "src": "1290:76:1"
+          "src": "1325:76:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "proposalVotes",
-          "astId": 115,
+          "astId": 116,
           "type": "t_mapping<t_uint256>",
-          "src": "1452:68:1"
+          "src": "1487:68:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "topProject",
-          "astId": 119,
+          "astId": 120,
           "type": "t_mapping<t_uint256>",
-          "src": "1565:45:1"
+          "src": "1600:45:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "voteDelegations",
-          "astId": 123,
+          "astId": 124,
           "type": "t_mapping<t_address>",
-          "src": "1614:50:1"
+          "src": "1649:50:1"
+        },
+        {
+          "contract": "NoLossDao_v0",
+          "path": "contracts/NoLossDao_v0.sol",
+          "label": "interestReceivers",
+          "astId": 127,
+          "type": "t_array:dyn<t_address>",
+          "src": "1777:27:1"
+        },
+        {
+          "contract": "NoLossDao_v0",
+          "path": "contracts/NoLossDao_v0.sol",
+          "label": "percentages",
+          "astId": 130,
+          "type": "t_array:dyn<t_uint256>",
+          "src": "1869:21:1"
         },
         {
           "contract": "NoLossDao_v0",
           "path": "contracts/NoLossDao_v0.sol",
           "label": "depositContract",
-          "astId": 125,
+          "astId": 132,
           "type": "t_address",
-          "src": "1726:36:1"
+          "src": "1934:36:1"
         }
       ],
       "warnings": {
@@ -221,7 +251,18 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": []
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [
+          {
+            "contract": "NoLossDao_v0",
+            "path": "contracts/NoLossDao_v0.sol",
+            "label": "state",
+            "astId": 100,
+            "type": "t_mapping<t_enum<NoLossDao_v0.ProposalState>>",
+            "src": "1116:46:1"
+          }
+        ],
+        "storageDiff": []
       }
     }
   },
@@ -229,9 +270,30 @@
   "proxies": {
     "example-truffle-migrate/NoLossDao": [
       {
-        "address": "0xe9373890d88528f3f46eE9fcFb1B04Eecf8E6585",
+        "address": "0xA5e728aF29b086f46048A09Fe0776548ABd2Bb42",
         "version": "2.5.3",
-        "implementation": "0x4Bd114e3519600A684412e5A1DDa299FDB62D6f0",
+        "implementation": "0x70A1785d1798c138bF8b178106D95033Cd2B62e4",
+        "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0xc8535Edc4429C4BE92eB3a7e75D6b91760672DEE",
+        "version": "2.5.3",
+        "implementation": "0x70A1785d1798c138bF8b178106D95033Cd2B62e4",
+        "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x79C01883AF4A05Cc3e33E4Fa0F294032B88b2dd7",
+        "version": "2.5.3",
+        "implementation": "0x70A1785d1798c138bF8b178106D95033Cd2B62e4",
+        "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x5D75954d85DD51b58CCC75006358E9600BF6d97f",
+        "version": "2.5.3",
+        "implementation": "0xAFFe7807d7E46E096d03522c315B16fAcC99a3AE",
         "admin": "0x1f283d80a235b56443E6a48AdB32964A1170F8f0",
         "kind": "Upgradeable"
       }
