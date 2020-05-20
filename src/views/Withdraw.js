@@ -13,8 +13,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import EllipsisLoader from '../components/EllipsisLoader';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 
-const BN = require('bn.js');
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
