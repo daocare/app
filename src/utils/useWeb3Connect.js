@@ -76,6 +76,7 @@ const providerOptions = {
   //   options: {}
   // }
 };
+
 let isFetchingProposals = false;
 
 const web3Connect = new Web3Connect.Core({
@@ -255,23 +256,24 @@ const useWeb3Connect = () => {
     }
   }, []);
 
-  useInterval(async () => {
-    if (daoContractReadOnly) {
-      fetchProposals();
-    }
-    if (
-      window.location.pathname === NOT_SUPPORTED_URL &&
-      networkId === SUPPORTED_CHAIN_ID
-    ) {
-      router.history.push('/');
-    }
-    if (connected && address) {
-      updateAllowance();
-      updateBalance();
-      updateDeposit();
-      updateDelegation();
-    }
-  }, FETCH_UPDATE_INTERVAL);
+  // TODO: reinstate (wont though)
+  // useInterval(async () => {
+  //   if (daoContractReadOnly) {
+  //     fetchProposals();
+  //   }
+  //   if (
+  //     window.location.pathname === NOT_SUPPORTED_URL &&
+  //     networkId === SUPPORTED_CHAIN_ID
+  //   ) {
+  //     router.history.push('/');
+  //   }
+  //   if (connected && address) {
+  //     updateAllowance();
+  //     updateBalance();
+  //     updateDeposit();
+  //     updateDelegation();
+  //   }
+  // }, FETCH_UPDATE_INTERVAL);
 
   const resetApp = async () => {
     if (web3 && web3.currentProvider && web3.currentProvider.close) {

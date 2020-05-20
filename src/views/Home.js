@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { Typography, Button, Grid } from '@material-ui/core';
-import useWeb3Connect from '../utils/useWeb3Connect';
-import useWeb3Modal from '../utils/useWeb3Modal';
 
+import useWeb3Modal from '../utils/useWeb3Modal';
+import useUserData from '../utils/useUserData';
 import useRouter from '../utils/useRouter';
 import useInterval from '../utils/useInterval';
 
@@ -49,17 +49,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
+  const userData = useUserData();
+
+  const test = userData.getUser('0x3281434f39b97e040a469891cb3b278283cb32cc');
+
   const classes = useStyles();
-  const web3Connect = useWeb3Connect();
 
   const connected = useSelector((state) => state.user.connected);
   const { interestPrev, interestNext, fundSize } = useSelector(
     (state) => state.fund
   );
+  const userDaiDeposit = useSelector((state) => state.user.daiDeposit);
 
   const router = useRouter();
 
-  let hasFundsDeposited = web3Connect.daiDeposit > 0;
+  //TODO - make user dai deposit have value, swithc to usestate
+  let hasFundsDeposited = userDaiDeposit > 0;
 
   return (
     <Page title="dao.care">

@@ -3,7 +3,7 @@ import React, { Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
 
-import useWeb3Connect from '../utils/useWeb3Connect';
+// import useWeb3Connect from '../utils/useWeb3Connect';
 import useInterval from '../utils/useInterval';
 
 import { renderRoutes } from 'react-router-config';
@@ -55,18 +55,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Layout = (props) => {
-  const web3Connect = useWeb3Connect();
+  // const web3Connect = useWeb3Connect();
   const dispatch = useDispatch();
 
+  // TODO: bring back
   // This should execute once web3connect has loaded then iterate in the background
-  useInterval(async () => {
-    if (web3Connect) {
-      let interestPrev = await web3Connect.contracts.dao.methods.getInterest();
-      dispatch(getInterestPrev(interestPrev));
-      let totalFundSize = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
-      dispatch(getFundSize(totalFundSize));
-    }
-  }, 2000);
+  // useInterval(async () => {
+  //   if (web3Connect) {
+  //     let interestPrev = await web3Connect.contracts.dao.methods.getInterest();
+  //     dispatch(getInterestPrev(interestPrev));
+  //     let totalFundSize = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
+  //     dispatch(getFundSize(totalFundSize));
+  //   }
+  // }, 2000);
 
   const { route } = props;
 
