@@ -1,17 +1,25 @@
 import { gql } from 'apollo-boost';
 import { client } from './Apollo';
-import { useQuery } from '@apollo/react-hooks';
+// import { useQuery } from '@apollo/react-hooks';
 
 const useUserData = () => {
   const USER_QUERY = gql`
     query Users($address: String!) {
-      users(where: { id: $address }) {
+      user(id: $address) {
         id
         amount
         timeJoined
         votes {
           id
         }
+      }
+    }
+  `;
+
+  const USER_DAI_DEPOSIT_QUERY = gql`
+    query Users($address: String!) {
+      user(id: $address) {
+        amount
       }
     }
   `;
@@ -33,16 +41,20 @@ const useUserData = () => {
     console.log(result);
   };
 
-  const getUser = async (address) => {
-    const result = await client.query({
-      query: USER_QUERY,
-      variables: { address },
-    });
-    console.log('result');
-    console.log(result);
+  const getUserDaiDeposit = async (address) => {
+    try {
+      const result = await client.query({
+        query: USER_DAI_DEPOSIT_QUERY,
+        variables: { address },
+      });
+      return result['data']['user']['amount'];
+    } catch {
+      console.warn('User not found');
+      return 0;
+    }
   };
 
-  return { getUser, getProjects };
+  return { getUserDaiDeposit, getProjects };
 };
 
 export default useUserData;

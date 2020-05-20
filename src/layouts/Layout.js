@@ -1,9 +1,10 @@
 import React, { Suspense, useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
+import { setDaiDeposit } from '../redux/user/userActions';
 
-// import useWeb3Connect from '../utils/useWeb3Connect';
+import useUserData from '../utils/useUserData';
 import useInterval from '../utils/useInterval';
 
 import { renderRoutes } from 'react-router-config';
@@ -55,8 +56,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Layout = (props) => {
-  // const web3Connect = useWeb3Connect();
+  const userData = useUserData();
   const dispatch = useDispatch();
+  const { connected, address } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (address) {
+      userData.getUserDaiDeposit(address.toLowerCase()).then((weiDeposit) => {
+        let daiDeposit = weiDeposit / Math.pow(10, 18);
+        dispatch(setDaiDeposit(daiDeposit));
+      });
+    }
+  }, [connected, address]);
 
   // TODO: bring back
   // This should execute once web3connect has loaded then iterate in the background

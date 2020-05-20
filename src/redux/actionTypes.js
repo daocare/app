@@ -4,7 +4,7 @@ export const FETCH_PROPOSALS = 'FETCH_PROPOSALS';
 // User
 export const CONNECT_USER = 'CONNECT_USER';
 export const DISCONNECT_USER = 'DISCONNECT_USER';
-export const GET_USER_DATA = 'GET_USER_DATA';
+export const SET_DAI_DEPOSIT = 'SET_DAI_DEPOSIT';
 
 // Fund
 export const GET_INTEREST_PREV = 'GET_INTEREST_PREV';

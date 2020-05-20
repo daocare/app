@@ -1,4 +1,9 @@
-import { GET_USER_DATA, CONNECT_USER, DISCONNECT_USER } from '../actionTypes';
+import {
+  GET_USER_DATA,
+  CONNECT_USER,
+  DISCONNECT_USER,
+  SET_DAI_DEPOSIT,
+} from '../actionTypes';
 
 const initialState = {
   loading: false,
@@ -23,14 +28,10 @@ export default function (state = initialState, action) {
         state: initialState,
       };
     }
-    case GET_USER_DATA: {
-      const { address, daiDeposit, daiBalance, hasAProposal } = action.payload;
+    case SET_DAI_DEPOSIT: {
       return {
         ...state,
-        address: address,
-        daiDeposit: daiDeposit,
-        daiBalance: daiBalance,
-        hasAProposal: hasAProposal,
+        daiDeposit: action.payload,
       };
     }
     default:
