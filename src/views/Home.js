@@ -9,7 +9,6 @@ import { Typography, Button, Grid } from '@material-ui/core';
 import useWeb3Modal from '../utils/useWeb3Modal';
 import useUserData from '../utils/useUserData';
 import useRouter from '../utils/useRouter';
-import useInterval from '../utils/useInterval';
 
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import DepositIcon from '@material-ui/icons/AllInclusive';
@@ -50,8 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const userData = useUserData();
-
-  const test = userData.getUser('0x3281434f39b97e040a469891cb3b278283cb32cc');
+  const web3Modal = useWeb3Modal();
 
   const classes = useStyles();
 
@@ -62,9 +60,6 @@ const Home = () => {
   const userDaiDeposit = useSelector((state) => state.user.daiDeposit);
 
   const router = useRouter();
-
-  //TODO - make user dai deposit have value, swithc to usestate
-  let hasFundsDeposited = userDaiDeposit > 0;
 
   return (
     <Page title="dao.care">
@@ -152,8 +147,12 @@ const Home = () => {
               router.history.push('/submit-proposal');
             } else {
               const connect = async () => {
-                await useWeb3Modal.triggerConnect();
-                router.history.push('/submit-proposal');
+                try {
+                  await web3Modal.triggerConnect();
+                  router.history.push('/submit-proposal');
+                } catch {
+                  console.warn('Cancelled connection');
+                }
               };
               connect();
             }
@@ -161,7 +160,7 @@ const Home = () => {
         >
           Submit Proposal
         </Button>
-        {!hasFundsDeposited ? (
+        {userDaiDeposit <= 0 ? (
           <Button
             variant="contained"
             color="secondary"
@@ -173,8 +172,12 @@ const Home = () => {
                 router.history.push('/deposit');
               } else {
                 const connect = async () => {
-                  await useWeb3Modal.triggerConnect();
-                  router.history.push('/deposit');
+                  try {
+                    await web3Modal.triggerConnect();
+                    router.history.push('/deposit');
+                  } catch {
+                    console.warn('Cancelled connection');
+                  }
                 };
                 connect();
               }
@@ -194,8 +197,12 @@ const Home = () => {
                 router.history.push('/withdraw');
               } else {
                 const connect = async () => {
-                  await useWeb3Modal.triggerConnect();
-                  router.history.push('/withdraw');
+                  try {
+                    await useWeb3Modal.triggerConnect();
+                    router.history.push('/withdraw');
+                  } catch {
+                    console.warn('Cancelled connection');
+                  }
                 };
                 connect();
               }
