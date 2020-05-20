@@ -30,16 +30,12 @@ const useDepositContract = () => {
       let tx = await depositContract.methods.deposit(amount).send({
         from: addr,
       });
-      // await updateBalance();
-      // await updateDeposit();
-      console.log(tx);
-      return tx;
-
-      return tx;
+      return value;
     } catch (err) {
       console.warn(err);
-      console.warn('Dao deposit failedddd');
-      console.error('Dao deposit failed');
+      console.warn('Dao deposit failed');
+
+      return 0;
     }
   };
 

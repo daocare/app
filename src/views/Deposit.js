@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import web3 from 'web3';
 import { useDispatch, useSelector } from 'react-redux';
-import { setDaiBalance, setDaiAllowance } from '../redux/user/userActions';
+import {
+  setDaiBalance,
+  setDaiAllowance,
+  setDaiDeposit,
+} from '../redux/user/userActions';
 import PropTypes from 'prop-types';
 import Moment from 'moment';
 
@@ -134,11 +138,14 @@ const Deposit = () => {
   };
 
   const onSubmit = async (data) => {
+    if (daiAllowance == 0) await approveDai();
+
     let { amount } = data;
     setStatus(`DEPOSITING`);
     console.log('submitting dai');
     try {
-      depositContract.triggerDeposit(amount, address).then(() => {
+      depositContract.triggerDeposit(amount, address).then((amount) => {
+        dispatch(setDaiDeposit(amount));
         setStatus('DEPOSITED');
       });
     } catch {
@@ -186,7 +193,7 @@ const Deposit = () => {
             As an owner of a proposal, you are unable to join the pool and vote
             on proposals from the same address.
           </Typography>
-        ) : daiDeposit > 0 ? (
+        ) : daiDeposit > 0 && !(status === 'DEPOSITED') ? (
           <>
             <Typography variant="body1">
               You currently have {daiDeposit} DAI in the fund. If you would like
@@ -299,7 +306,6 @@ const Deposit = () => {
                     type="submit"
                     disabled={
                       (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                      daiAllowance === 0 ||
                       daiBalance < amount ||
                       daiBalance === 0
                     }
@@ -332,7 +338,7 @@ const Deposit = () => {
             </>
           )
         )}
-        {status === 'DEPOSITED' && (
+        {status === 'DEPOSITED' && daiDeposit > 0 && (
           <div className={classes.pageCentered}>
             <div>
               <Typography

@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import proposals from './proposals/proposalsReducer';
 import user from './user/userReducer';
@@ -12,4 +12,9 @@ const rootReducer = combineReducers({
   web3,
 });
 
-export default createStore(rootReducer, applyMiddleware(thunk));
+// For redux chrome tool - https://github.com/zalmoxisus/redux-devtools-extension#usage
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+export default createStore(
+  rootReducer,
+  /* preloadedState, */ composeEnhancers(applyMiddleware(thunk))
+);
