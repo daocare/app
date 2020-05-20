@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { Typography, Button, Grid } from '@material-ui/core';
 import useWeb3Connect from '../utils/useWeb3Connect';
+import useWeb3Modal from '../utils/useWeb3Modal';
+
 import useRouter from '../utils/useRouter';
 import useInterval from '../utils/useInterval';
 
@@ -145,7 +147,7 @@ const Home = () => {
               router.history.push('/submit-proposal');
             } else {
               const connect = async () => {
-                await web3Connect.triggerConnect();
+                await useWeb3Modal.triggerConnect();
                 router.history.push('/submit-proposal');
               };
               connect();
@@ -166,7 +168,7 @@ const Home = () => {
                 router.history.push('/deposit');
               } else {
                 const connect = async () => {
-                  await web3Connect.triggerConnect();
+                  await useWeb3Modal.triggerConnect();
                   router.history.push('/deposit');
                 };
                 connect();
@@ -187,7 +189,7 @@ const Home = () => {
                 router.history.push('/withdraw');
               } else {
                 const connect = async () => {
-                  await web3Connect.triggerConnect();
+                  await useWeb3Modal.triggerConnect();
                   router.history.push('/withdraw');
                 };
                 connect();

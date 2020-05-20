@@ -15,12 +15,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         connected: true,
+        address: action.payload,
       };
     }
     case DISCONNECT_USER: {
       return {
-        ...state,
-        connected: false,
+        state: initialState,
       };
     }
     case GET_USER_DATA: {
