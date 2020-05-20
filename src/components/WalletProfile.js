@@ -1,9 +1,12 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProvider } from '../redux/web3/web3Actions';
 
 import useWeb3Modal from '../utils/useWeb3Modal';
 import useRouter from '../utils/useRouter';
+import INFURA_ENDPOINT from '../utils/infura';
+
 import Button from '@material-ui/core/Button';
 import ProfileHover from 'profile-hover';
 import Container from '@material-ui/core/Container';
@@ -14,13 +17,23 @@ import purple from '@material-ui/core/colors/purple';
 
 const WalletProfile = (props) => {
   const web3Modal = useWeb3Modal();
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleConnect = () => {
-    web3Modal.triggerConnect();
+    try {
+      web3Modal.triggerConnect().then((provider) => {
+        dispatch(setProvider(provider));
+      });
+    } catch (err) {
+      console.warn('Failed to connect');
+      console.warn(err);
+    }
   };
   const handleLogout = async () => {
-    web3Modal.triggerDisconnect();
+    web3Modal.triggerDisconnect().then(() => {
+      dispatch(setProvider(INFURA_ENDPOINT));
+    });
     router.history.push('/');
   };
 
