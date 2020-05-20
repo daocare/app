@@ -53,6 +53,11 @@ const routes = [
         exact: true,
         component: lazy(() => import('./views/IncreaseIteration')),
       },
+      {
+        path: '/experiment',
+        exact: true,
+        component: lazy(() => import('./views/Experiment')),
+      },
     ],
   },
 ];
