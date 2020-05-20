@@ -1,4 +1,10 @@
-import { CONNECT_USER, DISCONNECT_USER, SET_DAI_DEPOSIT } from '../actionTypes';
+import {
+  CONNECT_USER,
+  DISCONNECT_USER,
+  SET_DAI_DEPOSIT,
+  SET_DAI_BALANCE,
+  SET_DAI_ALLOWANCE,
+} from '../actionTypes';
 
 export const connectUser = (address) => {
   return {
@@ -13,9 +19,23 @@ export const disconnectUser = () => {
   };
 };
 
+export const setDaiBalance = (daiBalance) => {
+  return {
+    type: SET_DAI_BALANCE,
+    payload: daiBalance,
+  };
+};
+
 export const setDaiDeposit = (daiDeposit) => {
   return {
     type: SET_DAI_DEPOSIT,
     payload: daiDeposit,
+  };
+};
+
+export const setDaiAllowance = (daiAllowance) => {
+  return {
+    type: SET_DAI_ALLOWANCE,
+    payload: daiAllowance,
   };
 };

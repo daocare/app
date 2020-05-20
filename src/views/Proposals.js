@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { fetchProposals } from '../redux/actions';
+// import { fetchProposals } from '../redux/actions';
 
 import PropTypes from 'prop-types';
 import Box from '3box';

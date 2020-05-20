@@ -353,6 +353,7 @@ const useWeb3Connect = () => {
       setDaiAllowance(Number(allowance));
     }
   };
+
   const updateBalance = async (
     addr = address,
     daiContract = daiContractReadOnly,

@@ -8,6 +8,7 @@ import Page from '../components/Page';
 import Header from '../components/Header';
 import useRouter from '../utils/useRouter';
 import useWeb3Connect from '../utils/useWeb3Connect';
+import useDaiContract from '../utils/useDaiContract';
 import LoadingWeb3 from '../components/LoadingWeb3';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EllipsisLoader from '../components/EllipsisLoader';
@@ -65,13 +66,13 @@ const Withdraw = () => {
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
   const router = useRouter();
+  const daiContract = useDaiContract();
   const web3Connect = useWeb3Connect();
 
-  // const { address, daiBalance } = useSelector((state) => state.user.user);
+  // const { address } = useSelector((state) => state.user.user);
 
   useRedirectHomeIfNoEthAccount();
 
-  let balance = Number(web3Connect.daiBalance);
   let depositedFunds = Number(web3Connect.daiDeposit);
 
   let proposalLoading = web3Connect.hasProposal === null;

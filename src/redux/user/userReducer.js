@@ -3,6 +3,8 @@ import {
   CONNECT_USER,
   DISCONNECT_USER,
   SET_DAI_DEPOSIT,
+  SET_DAI_BALANCE,
+  SET_DAI_ALLOWANCE,
 } from '../actionTypes';
 
 const initialState = {
@@ -11,6 +13,7 @@ const initialState = {
   address: '',
   daiDeposit: null,
   daiBalance: null,
+  daiAllowance: null,
   hasAProposal: null,
 };
 
@@ -28,10 +31,22 @@ export default function (state = initialState, action) {
         state: initialState,
       };
     }
+    case SET_DAI_BALANCE: {
+      return {
+        ...state,
+        daiBalance: action.payload,
+      };
+    }
     case SET_DAI_DEPOSIT: {
       return {
         ...state,
         daiDeposit: action.payload,
+      };
+    }
+    case SET_DAI_ALLOWANCE: {
+      return {
+        ...state,
+        daiAllowance: action.payload,
       };
     }
     default:
