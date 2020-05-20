@@ -188,6 +188,8 @@ contract NoLossDao_v0 is Initializable {
     percentages.push(15); // 1.5% for miner
     interestReceivers.push(admin);
     percentages.push(135); // 13.5% for devlopers
+
+    emit IterationChanged(0, msg.sender, now);
   }
 
   ///////////////////////////////////
