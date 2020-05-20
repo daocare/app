@@ -44,6 +44,7 @@ exports.registerTwitterHandle = functions.https.onRequest(
         // // 3. verify balance
 
         // // TODO
+        // verify that the user being saved to twitterdb in firebase has a deposit in the dao contract
 
         // // 4. add to firebase
         await twitterDb.registerTwitterHandle(handle, address, txHash);
