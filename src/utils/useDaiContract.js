@@ -1,27 +1,25 @@
 import { useState } from 'react';
 import web3 from 'web3';
-
-const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
-const SUPPORTED_NETWORK = 'kovan';
-const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
-
-const depositAbi = require('../abis/PoolDeposits.json');
-const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
+import { useSelector } from 'react-redux';
 
 const daiAbi = require('../abis/ERC20.json');
-const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
+const depositAbi = require('../abis/PoolDeposits.json');
 
-const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
-const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY; //TODO use .env to distinguish between kovan and mainnet
+const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
+const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
+
+const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN TODO
 
 const useDaiContract = () => {
-  const [web3Infura] = useState(new web3(INFURA_ENDPOINT));
+  const { provider } = useSelector((state) => state.web3);
+  const address = useSelector((state) => state.user.address);
+  const [web3Provider] = useState(new web3(provider));
 
-  const daiContract = new web3Infura.eth.Contract(daiAbi.abi, DAI_ADDRESS);
+  const daiContract = new web3Provider.eth.Contract(daiAbi.abi, DAI_ADDRESS);
 
   const getUserDaiBalance = async (address) => {
     try {
-      let balance = new web3Infura.utils.BN(
+      let balance = new web3Provider.utils.BN(
         await daiContract.methods.balanceOf(address).call()
       );
       return Number(web3.utils.fromWei('' + balance, 'ether'));
@@ -31,18 +29,22 @@ const useDaiContract = () => {
     }
   };
 
-  const triggerDaiApprove = async (maximumAmountApproval, address) => {
-    let amount = web3.utils.toWei(maximumAmountApproval, 'ether');
-    try {
-      let tx = await daiContract.methods.approve(DEPOSIT_ADDRESS, amount).send({
-        from: address,
-      });
-      // await updateAllowance(); TODO
-      console.log(tx);
-      return tx;
-    } catch {
-      console.warn('Dai was not approved');
-    }
+  const triggerDaiApprove = async (value) => {
+    let amount = web3.utils.toWei(value, 'ether');
+
+    let tx = await daiContract.methods.approve(DEPOSIT_ADDRESS, amount).send({
+      from: address,
+    });
+    const allowance = await updateAllowance();
+    return web3.utils.fromWei(allowance, 'ether');
+  };
+
+  // SMART CONTRACT FUNCTIONS
+  const updateAllowance = async () => {
+    let allowance = await daiContract.methods
+      .allowance(address, DEPOSIT_ADDRESS)
+      .call();
+    return allowance;
   };
 
   return { getUserDaiBalance, triggerDaiApprove };

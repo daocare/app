@@ -8,8 +8,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Torus from '@toruslabs/torus-embed';
 import supportedChains from './chains';
 
-const INFURA_KEY = 'e811479f4c414e219e7673b6671c2aba'; // TODO: update for live version
-// const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
+const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
 
 const providerOptions = {
   walletconnect: {
@@ -64,6 +63,7 @@ const useWeb3Modal = () => {
 
   const triggerConnect = async () => {
     const providerInited = await web3Modal.connect();
+
     await subscribeProvider(providerInited);
     const web3Inited = new Web3(providerInited);
     await web3Inited.eth.extend({
@@ -81,6 +81,7 @@ const useWeb3Modal = () => {
     dispatch(connectUser(userAddress));
     console.log('web3 Initialised');
 
+    return providerInited;
     //   const networkIdTemp = await web3Inited.eth.net.getId();
 
     //   const chainIdTemp = await web3Inited.eth.chainId();

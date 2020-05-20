@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import web3 from 'web3';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDaiBalance, setDaiAllowance } from '../redux/user/userActions';
 import PropTypes from 'prop-types';
@@ -22,11 +23,11 @@ import EllipsisLoader from '../components/EllipsisLoader';
 
 import useRouter from '../utils/useRouter';
 import useDaiContract from '../utils/useDaiContract';
-import useWeb3Connect from '../utils/useWeb3Connect';
+import useDepositContract from '../utils/useDepositContract';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 import { useForm } from 'react-hook-form';
 
-import BN from 'bn.js';
+const BN = require('bn.js');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,10 +93,14 @@ const Deposit = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const web3Connect = useWeb3Connect();
   const daiContract = useDaiContract();
+  const depositContract = useDepositContract();
 
-  const { address, daiBalance } = useSelector((state) => state.user);
+  const { address, daiBalance, daiDeposit, daiAllowance } = useSelector(
+    (state) => state.user
+  );
+
+  const { provider } = useSelector((state) => state.web3);
 
   // On Deposit Page Load
   useEffect(() => {
@@ -113,19 +118,33 @@ const Deposit = () => {
 
   let approveDai = async () => {
     setStatus('APPROVING_DAI');
-    console.log('approve dai');
-    // await web3Connect.contracts.dai.methods.triggerDaiApprove(
-    //   new BN(daiBalance)
-    // );
-    setStatus('DAI_APPROVED');
+    try {
+      const bigNumberDaiBalance = new web3.utils.BN(daiBalance);
+      daiContract
+        .triggerDaiApprove(bigNumberDaiBalance, address, provider)
+        .then((allowance) => {
+          dispatch(setDaiAllowance(allowance));
+          setStatus('DAI_APPROVED');
+        });
+    } catch (err) {
+      console.warn(err);
+      console.warn('failed to approve dai');
+      setStatus('DAI_NOT_APPROVED');
+    }
   };
 
   const onSubmit = async (data) => {
     let { amount } = data;
     setStatus(`DEPOSITING`);
     console.log('submitting dai');
-    // await web3Connect.contracts.dao.methods.triggerDeposit(amount);
-    setStatus('DEPOSITED');
+    try {
+      depositContract.triggerDeposit(amount, address).then(() => {
+        setStatus('DEPOSITED');
+      });
+    } catch {
+      console.warn('failed to deposit dai');
+      setStatus('DAI_NOT_DEPOSITED');
+    }
   };
 
   const [twitterWarning, setTwitterWarning] = useState(false);
@@ -161,18 +180,19 @@ const Deposit = () => {
       <>
         <Header />
 
-        {web3Connect.hasProposal ? (
+        {/* {web3Connect.hasProposal ? ( */}
+        {false ? (
           <Typography style={{ color: '#FF9494' }}>
             As an owner of a proposal, you are unable to join the pool and vote
             on proposals from the same address.
           </Typography>
-        ) : web3Connect.daiDeposit > 0 && status == 'DRAFT' ? (
+        ) : daiDeposit > 0 ? (
           <>
             <Typography variant="body1">
-              You currently have {web3Connect.daiDeposit} DAI in the fund. If
-              you would like to add to your deposit we require that you first
-              withdraw your current deposit. We do this to afford maximum smart
-              contract security.
+              You currently have {daiDeposit} DAI in the fund. If you would like
+              to add to your deposit we require that you first withdraw your
+              current deposit. We do this to afford maximum smart contract
+              security.
             </Typography>
             <div
               className={classes.divContainer}
@@ -196,7 +216,7 @@ const Deposit = () => {
             </div>
           </>
         ) : (
-          web3Connect.daiDeposit === 0 && (
+          !(daiDeposit > 0) && (
             <>
               <Typography variant="body1" className={classes.decriptionBlurb}>
                 Deposit your DAI. Let your idle interest support community
@@ -221,9 +241,9 @@ const Deposit = () => {
                     }}
                     onChange={() => twitterMinimumWarning()}
                     style={{ width: 300 }}
-                    helperText={`Balance: ${web3Connect.daiBalance} DAI | Deposit: ${web3Connect.daiDeposit} DAI`}
+                    helperText={`Balance: ${daiBalance} DAI | Deposit: ${daiDeposit} DAI`}
                   />
-                  {(web3Connect.daiAllowance === 0 ||
+                  {(daiAllowance === 0 ||
                     status === 'DAI_APPROVED' ||
                     status === 'APPROVING_DAI') && (
                     <>
@@ -231,9 +251,7 @@ const Deposit = () => {
                         variant="contained"
                         color="primary"
                         style={{ width: 190, marginBottom: 22 }}
-                        disabled={
-                          web3Connect.daiAllowance > 0 || status !== 'DRAFT'
-                        }
+                        disabled={daiAllowance > 0 || status !== 'DRAFT'}
                         onClick={async () => approveDai()}
                       >
                         Allow DAI deposit
@@ -249,8 +267,7 @@ const Deposit = () => {
                           <EllipsisLoader />
                         </Typography>
                       )}
-                      {(status === 'DAI_APPROVED' ||
-                        web3Connect.daiAllowance > 0) && (
+                      {(status === 'DAI_APPROVED' || daiAllowance > 0) && (
                         <Typography
                           variant="body2"
                           component="span"
@@ -282,14 +299,14 @@ const Deposit = () => {
                     type="submit"
                     disabled={
                       (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                      web3Connect.daiAllowance === 0 ||
+                      daiAllowance === 0 ||
                       daiBalance < amount ||
                       daiBalance === 0
                     }
                   >
                     Deposit
                   </Button>
-                  {web3Connect.daiBalance < amount && (
+                  {daiBalance < amount && (
                     <Typography
                       variant="body2"
                       component="span"

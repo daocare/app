@@ -1,6 +1,5 @@
 import { gql } from 'apollo-boost';
 import { client } from './Apollo';
-// import { useQuery } from '@apollo/react-hooks';
 
 const useUserData = () => {
   const USER_QUERY = gql`

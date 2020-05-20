@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import useRouter from '../utils/useRouter';
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useDaiContract from '../utils/useDaiContract';
+import useDepositContract from '../utils/useDepositContract';
 import LoadingWeb3 from '../components/LoadingWeb3';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EllipsisLoader from '../components/EllipsisLoader';
@@ -63,33 +64,42 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Withdraw = () => {
+  useRedirectHomeIfNoEthAccount();
+
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
   const router = useRouter();
   const daiContract = useDaiContract();
+  const depositContract = useDepositContract();
   const web3Connect = useWeb3Connect();
 
-  // const { address } = useSelector((state) => state.user.user);
+  const { address, daiDeposit, daiAllowance } = useSelector(
+    (state) => state.user
+  );
 
-  useRedirectHomeIfNoEthAccount();
-
-  let depositedFunds = Number(web3Connect.daiDeposit);
+  let depositedFunds = Number(daiDeposit);
 
   let proposalLoading = web3Connect.hasProposal === null;
   let hasAnActiveProposal =
     web3Connect.hasProposal === true && !proposalLoading;
-  let hasNoDaiInFund = web3Connect.daiDeposit <= 0;
-  let hasNotApprovedDai = web3Connect.daiAllowance === 0;
+  let hasNoDaiInFund = daiDeposit <= 0;
+  let hasNotApprovedDai = daiAllowance === 0;
   let withdrawingDisabled =
     hasAnActiveProposal ||
     hasNoDaiInFund ||
     hasNotApprovedDai ||
     !web3Connect.fetched;
 
-  const onSubmitFunds = async () => {
+  const onWithdrawFunds = async () => {
     setStatus(`WITHDRAWING`);
-    await web3Connect.contracts.dao.methods.triggerWithdrawal();
-    setStatus('WITHDRAWN');
+    try {
+      depositContract.triggerWithdrawal(address).then(() => {
+        setStatus('WITHDRAWN');
+      });
+    } catch (err) {
+      console.warn(err);
+    }
+    // await web3Connect.contracts.dao.methods.triggerWithdrawal();
   };
 
   return (
@@ -152,7 +162,8 @@ const Withdraw = () => {
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    onClick={!withdrawingDisabled && (() => onSubmitFunds())}
+                    // onClick={!withdrawingDisabled && (() => onWithdrawFunds())}
+                    onClick={() => onWithdrawFunds()}
                     disabled={withdrawingDisabled}
                   >
                     Withdraw
