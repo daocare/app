@@ -144,6 +144,9 @@ let postWithResult = (twit, method, tweetArguments) => {
   );
   p->Promise.Js.toBsPromise;
 };
+[@bs.module "./postTweetInReply"]
+external newIterationTweet: (. t, string) => Js.Promise.t(unit) =
+  "newIterationTweet";
 
 let getWithResult = (twit, method, tweetArguments) => {
   let (p, resolve) = Promise.pending();

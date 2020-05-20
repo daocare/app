@@ -1,7 +1,7 @@
 open Globals; // https://twitter.com/Avo141378579/status/1262694952200536064
 
 let since_id = ref("");
-let currentIterationId = ref(0);
+let currentIterationId = ref(9);
 let currentIterationTweetId = ref("1262694952200536064");
 //https://tweeterid.com/ <- Converter tool to convert handle to id
 let thisUserTwitterId = "1262377326052085762";
@@ -11,184 +11,209 @@ let twitInstance = Twit.makeTwitterHandler(.);
 let etherHandler = ref(()->Obj.magic);
 
 let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
-  // let%Async currentIteration = proposalManager.getIteration(.);
-  // if (currentIteration != currentIterationId^) {
-  //   // This is safety so we don't re-create a tweet for an iteration.
-  //   if (currentIteration == currentIterationId^ + 1) {
-  //     currentIterationId := currentIteration;
-  //     let%Async _ = proposalManager.getCurrentProposals(.);
-  //     let%Async tweetUpdateResult =
-  //       Twit.postWithResult(
-  //         twitInstance,
-  //         "statuses/mentions_timeline",
-  //         TwitPostArgs.makeStatusArgs({
-  //           status:
-  //             "We have a new iteration. Please vote on one of the following projects\n\n"
-  //             ++ proposalManager.getProjectsTweetString(.),
-  //           in_reply_to_status_id: None,
-  //         }),
-  //       );
-  //     switch (tweetUpdateResult) {
-  //     | TweetSuccess(tweetData) => currentIterationTweetId := tweetData.id_str
-  //     | TweetError(error) => Js.log(error)
-  //     };
-  //     ()->async;
-  //   } else {
-  //     ()->async;
-  //   };
-  // } else {
-  let%Async tweetResult =
-    Twit.getWithResult(
-      twitInstance,
-      "statuses/mentions_timeline",
-      TwitPostArgs.makeMentionsArgs({since_id: since_id^}),
-    );
+  let%Async currentIteration = proposalManager.getIteration(.);
+  Js.log3("current iteration", currentIteration, currentIterationId^);
 
-  Js.log2("Tweet result", tweetResult);
+  if (currentIteration != currentIterationId^) {
+    // This is safety so we don't re-create a tweet for an iteration.
+    if (currentIteration == currentIterationId^ + 1) {
+      currentIterationId := currentIteration;
+      // let%Async _ = proposalManager.getCurrentProposals(.);
+      Js.log("Increased Iteration, attempitng to make tweet");
 
-  switch (tweetResult) {
-  | TweetGetError(err) => Js.log2("Error processing tweet", err)
-  | TweetGetSuccess(tweets) =>
-    tweets[0]
-    ->Option.map(tweet => {
-        Database.setLatestTweetReply(tweet.id_str)->ignore;
-        since_id := tweet.id_str;
-      })
-    ->ignore;
-    Js.log("before forEach");
-    let randomString = " " ++ (Random.int(5) mod 100)->string_of_int;
+      // let%Async _ =
+      //   Twit.newIterationTweet(.
+      //     twitInstance,
+      //     "We have a new iteration. Please vote on one of the following projects\n\n",
+      //     // ++ proposalManager.getProjectsTweetString(.),
+      //   );
 
-    tweets->Array.forEach(tweet => {
-      switch (tweet.in_reply_to_status_id_str) {
-      | Some(in_reply_to_status_id_str) =>
-        if (in_reply_to_status_id_str != currentIterationTweetId^) {
-          Twit.postTweetInReply(.
-            twitInstance,
-            "@"
-            ++ tweet.user.screen_name
-            ++ " Hi there, this post was not on the main thread. Please vote on this tweet: https://twitter.com/ParisMain1/status/"  //TODO: remove ParisMain1
-            ++ currentIterationTweetId^
-            ++ randomString,
-            tweet.id_str,
-            "@" ++ tweet.user.screen_name,
+      let%Async tweetUpdateResult =
+        Twit.postWithResult(
+          twitInstance,
+          "statuses/update",
+          TwitPostArgs.makeStatusArgs({
+            status: "We have a new iteration. Please vote on one of the following projects -- number 5\n\n",
+            // ++ proposalManager.getProjectsTweetString(.)
+
+            in_reply_to_status_id: None,
+          }),
+        );
+      switch (tweetUpdateResult) {
+      | TweetSuccess(tweetData) =>
+        currentIterationTweetId := tweetData.id_str;
+
+        let _ =
+          Database.setLatestTweetIteration(
+            ~latestTweetId=tweetData.id_str,
+            ~iteration=currentIteration->string_of_int,
           )
-          ->ignore;
-          ();
-        } else if (tweet.user.id_str === thisUserTwitterId) {
-          // Do nothing.
-          Js.log("Tweet from self - ignore");
-        } else {
-          let getResults = (_emojiRegex, _string) => [%raw
-            {| _string.match(_emojiRegex) || [] |}
-          ];
-          let results = getResults(emojiRegex, tweet.text);
-          Js.log2("The tweet text", tweet.text);
+          |> Js.Promise.catch(_error => {
+               Js.log("some unknown error setting latestTweetId in firebase");
+               Js.Promise.resolve();
+             });
+        ();
+      | TweetError(error) => Js.log(error)
+      };
 
-          switch (results->Array.length) {
-          | 0 =>
+      ()->async;
+    } else {
+      ()->async;
+    };
+  } else {
+    let%Async tweetResult =
+      Twit.getWithResult(
+        twitInstance,
+        "statuses/mentions_timeline",
+        TwitPostArgs.makeMentionsArgs({since_id: since_id^}),
+      );
+
+    Js.log2("Tweet result", tweetResult);
+
+    switch (tweetResult) {
+    | TweetGetError(err) => Js.log2("Error processing tweet", err)
+    | TweetGetSuccess(tweets) =>
+      tweets[0]
+      ->Option.map(tweet => {
+          Database.setLatestTweetReply(tweet.id_str)->ignore;
+          since_id := tweet.id_str;
+        })
+      ->ignore;
+      Js.log("before forEach");
+      let randomString = " " ++ (Random.int(5) mod 100)->string_of_int;
+
+      tweets->Array.forEach(tweet => {
+        switch (tweet.in_reply_to_status_id_str) {
+        | Some(in_reply_to_status_id_str) =>
+          if (in_reply_to_status_id_str != currentIterationTweetId^) {
             Twit.postTweetInReply(.
               twitInstance,
               "@"
               ++ tweet.user.screen_name
-              ++ " Hi there, please select an emoji from above, to make your vote. Please don't hesitate to ask if you need help getting setup!",
-              tweet.id_str ++ randomString,
+              ++ " Hi there, this post was not on the main thread. Please vote on this tweet: https://twitter.com/ParisMain1/status/"  //TODO: remove ParisMain1
+              ++ currentIterationTweetId^
+              ++ randomString,
+              tweet.id_str,
               "@" ++ tweet.user.screen_name,
             )
-            ->ignore
-          | 1 =>
-            let proposalId =
-              proposalManager.getProjectIdFromEmoji(.
-                results->Array.getUnsafe(0),
-              );
-            Js.log2("THE PROPOSAL ID", proposalId);
-            // TODO: add checks if the user is eligable to vote.
-            switch (proposalId) {
-            | Some(id) =>
-              let ethHandler: Ethereum.ethereumObject = etherHandler^;
-              ethHandler.noLossDao.methods.voteProxy(.
-                ~proposalId=id->string_of_int,
-                ~usersAddress=ethHandler.mainAddress,
-              ).
-                send({
-                from: ethHandler.mainAddress,
-              }).
-                on(.
-                 "transactionHash", hash => {
-                Twit.postTweetInReply(.
-                  twitInstance,
-                  "@"
-                  ++ tweet.user.screen_name
-                  ++ " Your vote has been submitted. Thank you for voting @"
-                  ++ tweet.user.screen_name
-                  ++ " . https://kovan.etherscan.io/tx/"
-                  ++ hash,
-                  tweet.id_str,
-                  "@" ++ tweet.user.screen_name,
-                )
-                ->ignore
-              }).
-                on(.
-                 "receipt", _receipt => {
-                // Js.log2("receipt", receipt);
-                Twit.postTweetInReply(.
-                  twitInstance,
-                  "@"
-                  ++ tweet.user.screen_name
-                  ++ " Your vote has been counted. Thank you for supporting great projects!",
-                  tweet.id_str,
-                  "@" ++ tweet.user.screen_name,
-                )
-                ->ignore
-              }).
-                //   on(.
-                //    "confirmation", confirmationNumber => {
-                //   Js.log2("confirmationNumber", confirmationNumber)
-                // }).
-                on(.
-                 "error", _error => {
-                Twit.postTweetInReply(.
-                  twitInstance,
-                  "@"
-                  ++ tweet.user.screen_name
-                  ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP.",
-                  tweet.id_str,
-                  "@" ++ tweet.user.screen_name,
-                )
-                ->ignore
-              })
-              ->ignore;
-              ();
-            | None =>
+            ->ignore;
+            ();
+          } else if (tweet.user.id_str === thisUserTwitterId) {
+            // Do nothing.
+            Js.log("Tweet from self - ignore");
+          } else {
+            let getResults = (_emojiRegex, _string) => [%raw
+              {| _string.match(_emojiRegex) || [] |}
+            ];
+            let results = getResults(emojiRegex, tweet.text);
+            Js.log2("The tweet text", tweet.text);
+
+            switch (results->Array.length) {
+            | 0 =>
               Twit.postTweetInReply(.
                 twitInstance,
                 "@"
                 ++ tweet.user.screen_name
-                ++ " Unfortunately we don't recognise that project ID. Please select an emoji of a listed project."
-                ++ randomString,
+                ++ " Hi there, please select an emoji from above, to make your vote. Please don't hesitate to ask if you need help getting setup!",
+                tweet.id_str ++ randomString,
+                "@" ++ tweet.user.screen_name,
+              )
+              ->ignore
+            | 1 =>
+              let proposalId =
+                proposalManager.getProjectIdFromEmoji(.
+                  results->Array.getUnsafe(0),
+                );
+              Js.log2("THE PROPOSAL ID", proposalId);
+              // TODO: add checks if the user is eligable to vote.
+              switch (proposalId) {
+              | Some(id) =>
+                let ethHandler: Ethereum.ethereumObject = etherHandler^;
+                ethHandler.noLossDao.methods.voteProxy(.
+                  ~proposalId=id->string_of_int,
+                  ~usersAddress=ethHandler.mainAddress,
+                ).
+                  send({
+                  from: ethHandler.mainAddress,
+                }).
+                  on(.
+                   "transactionHash", hash => {
+                  Twit.postTweetInReply(.
+                    twitInstance,
+                    "@"
+                    ++ tweet.user.screen_name
+                    ++ " Your vote has been submitted. Thank you for voting @"
+                    ++ tweet.user.screen_name
+                    ++ " . https://kovan.etherscan.io/tx/"
+                    ++ hash,
+                    tweet.id_str,
+                    "@" ++ tweet.user.screen_name,
+                  )
+                  ->ignore
+                }).
+                  on(.
+                   "receipt", _receipt => {
+                  // Js.log2("receipt", receipt);
+                  Twit.postTweetInReply(.
+                    twitInstance,
+                    "@"
+                    ++ tweet.user.screen_name
+                    ++ " Your vote has been counted. Thank you for supporting great projects!",
+                    tweet.id_str,
+                    "@" ++ tweet.user.screen_name,
+                  )
+                  ->ignore
+                }).
+                  //   on(.
+                  //    "confirmation", confirmationNumber => {
+                  //   Js.log2("confirmationNumber", confirmationNumber)
+                  // }).
+                  on(.
+                   "error", _error => {
+                  Twit.postTweetInReply(.
+                    twitInstance,
+                    "@"
+                    ++ tweet.user.screen_name
+                    ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP.",
+                    tweet.id_str,
+                    "@" ++ tweet.user.screen_name,
+                  )
+                  ->ignore
+                })
+                ->ignore;
+                ();
+              | None =>
+                Twit.postTweetInReply(.
+                  twitInstance,
+                  "@"
+                  ++ tweet.user.screen_name
+                  ++ " Unfortunately we don't recognise that project ID. Please select an emoji of a listed project."
+                  ++ randomString,
+                  tweet.id_str,
+                  "@" ++ tweet.user.screen_name,
+                )
+                ->ignore
+              };
+            | _ =>
+              Twit.postTweetInReply(.
+                twitInstance,
+                "@"
+                ++ tweet.user.screen_name
+                ++ " Please only include 1 emoji on your tweet if you want to vote.",
                 tweet.id_str,
                 "@" ++ tweet.user.screen_name,
               )
               ->ignore
             };
-          | _ =>
-            Twit.postTweetInReply(.
-              twitInstance,
-              "@"
-              ++ tweet.user.screen_name
-              ++ " Please only include 1 emoji on your tweet if you want to vote.",
-              tweet.id_str,
-              "@" ++ tweet.user.screen_name,
-            )
-            ->ignore
-          };
+          }
+        | None => Js.log("tweet isn't a response")
         }
-      | None => Js.log("tweet isn't a response")
-      }
-    });
+      });
+    };
+    ()->async;
   };
-  ()->async;
-  // };
 };
+
 let loopFunction = proposalManager => {
   loopFunctionAsync(proposalManager)->ignore;
 };
@@ -213,17 +238,34 @@ let start = () => {
 
   // Runs all pre-setup tasks.
   let%Async _ = asyncronousSetup();
+  Js.log("loaded setup");
 
   let%Async newSinceId = Database.getLatestTweetProcessed();
   // since_id := "1262698684233416706"; // For testing...
   since_id := newSinceId->Option.mapWithDefault("1262694952200536064", a => a);
+  Js.log("loaded sinceId");
+
+  let%Async latestIterationTweetId = Database.getLatestTweetIterationId();
+  currentIterationTweetId :=
+    latestIterationTweetId->Option.mapWithDefault("1262694952200536064", a =>
+      a
+    );
+  Js.log2("latest iteration tweet from db", currentIterationTweetId);
+
+  let%Async latestIteration = Database.getLatestTweetIteration();
+  currentIterationId :=
+    latestIteration->Option.mapWithDefault(0, a => a->int_of_string);
+  Js.log2("latest iteration from db", latestIteration);
 
   let proposalManager = ProposalManager.setupProposalManager(.);
 
+  Js.log("loaded the proposalManager");
   let%Async _result = proposalManager.getCurrentProposals(.);
   // let%Async currentIteration = proposalManager.getIteration(.);
   // currentIterationId := currentIteration;
+  Js.log("loaded the the currentProposals");
 
+  Js.log("calling loop function");
   loopFunction(proposalManager);
 
   // This is the app loop
