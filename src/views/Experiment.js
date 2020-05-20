@@ -13,6 +13,7 @@ import useDepositContract from '../utils/useDepositContract';
 import Page from '../components/Page';
 import Header from '../components/Header';
 import EllipsisLoader from '../components/EllipsisLoader';
+import LoadingWeb3 from '../components/LoadingWeb3';
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -39,6 +40,7 @@ const Experiment = () => {
       <Header />
       <Typography variant="body1" className={classes.decriptionBlurb}>
         Experiment page
+        <LoadingWeb3 />
       </Typography>
     </Page>
   );
