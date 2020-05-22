@@ -14,7 +14,8 @@ let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
   let%Async currentIteration = proposalManager.getIteration(.);
   Js.log3("current iteration", currentIteration, currentIterationId^);
 
-  if (currentIteration != currentIterationId^) {
+  if (false) {
+    // if (currentIteration != currentIterationId^) {
     // This is safety so we don't re-create a tweet for an iteration.
     if (currentIteration == currentIterationId^ + 1) {
       currentIterationId := currentIteration;
@@ -129,6 +130,12 @@ let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
               switch (proposalId) {
               | Some(id) =>
                 let ethHandler: Ethereum.ethereumObject = etherHandler^;
+
+                Js.log3(
+                  "Eth transaction being sent",
+                  id->string_of_int,
+                  ethHandler.mainAddress,
+                );
                 ethHandler.noLossDao.methods.voteProxy(.
                   ~proposalId=id->string_of_int,
                   ~usersAddress=ethHandler.mainAddress,
@@ -142,7 +149,7 @@ let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
                     twitInstance,
                     "@"
                     ++ tweet.user.screen_name
-                    ++ " Your vote has been submitted. Thank you for voting @"
+                    ++ " Your vote is being processed. Thank you for voting @"
                     ++ tweet.user.screen_name
                     ++ " . https://kovan.etherscan.io/tx/"
                     ++ hash,
@@ -169,16 +176,17 @@ let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
                   //   Js.log2("confirmationNumber", confirmationNumber)
                   // }).
                   on(.
-                   "error", _error => {
+                  "error", error => {
+                  Js.log2("THE ERROR", error);
                   Twit.postTweetInReply(.
                     twitInstance,
                     "@"
                     ++ tweet.user.screen_name
-                    ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP.",
+                    ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP @JasoonSmythe. (Choppy choppy Jason)",
                     tweet.id_str,
                     "@" ++ tweet.user.screen_name,
                   )
-                  ->ignore
+                  ->ignore;
                 })
                 ->ignore;
                 ();
@@ -224,11 +232,34 @@ let asyncronousSetup = () => {
       ~chainId=42,
       ~mnemonic=Secrets.Ethereum.mnemonic_string,
       ~providerUrl=Secrets.Ethereum.providerId,
-      ~daoAddress="0x1bE540722f30FBB6a86F995F25a81F5BA5Ac4326",
-      // ~daoAddress=Constants.getDaoAddress(),
+      // ~daoAddress="0x1bE540722f30FBB6a86F995F25a81F5BA5Ac4326",
+      ~daoAddress=Constants.getDaoAddress(),
     );
 
   etherHandler := ethObj;
+
+  let%Async newSinceId = Database.getLatestTweetProcessed();
+
+  // since_id := "1262698684233416706"; // For testing...
+  since_id := newSinceId->Option.mapWithDefault("1262694952200536064", a => a);
+  Js.log("loaded sinceId");
+
+  // let%Async {  latest: latestIterationTweetId,
+  // iteration: string,: latest, latestIteration} =
+  let%Async iterationDetailsOpt = Database.getLatestTweetIterationData();
+
+  currentIterationTweetId :=
+    iterationDetailsOpt->Option.mapWithDefault(
+      "1262694952200536064", iterationDetails =>
+      iterationDetails.latest
+    );
+
+  currentIterationId :=
+    iterationDetailsOpt
+    ->Option.flatMap(iterationDetails =>
+        iterationDetails.iteration->int_of_string_opt
+      )
+    ->Option.getWithDefault(0);
 
   ()->async;
 };
@@ -239,23 +270,6 @@ let start = () => {
   // Runs all pre-setup tasks.
   let%Async _ = asyncronousSetup();
   Js.log("loaded setup");
-
-  let%Async newSinceId = Database.getLatestTweetProcessed();
-  // since_id := "1262698684233416706"; // For testing...
-  since_id := newSinceId->Option.mapWithDefault("1262694952200536064", a => a);
-  Js.log("loaded sinceId");
-
-  let%Async latestIterationTweetId = Database.getLatestTweetIterationId();
-  currentIterationTweetId :=
-    latestIterationTweetId->Option.mapWithDefault("1262694952200536064", a =>
-      a
-    );
-  Js.log2("latest iteration tweet from db", currentIterationTweetId);
-
-  let%Async latestIteration = Database.getLatestTweetIteration();
-  currentIterationId :=
-    latestIteration->Option.mapWithDefault(0, a => a->int_of_string);
-  Js.log2("latest iteration from db", latestIteration);
 
   let proposalManager = ProposalManager.setupProposalManager(.);
 

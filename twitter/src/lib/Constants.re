@@ -2,7 +2,8 @@
 let getDaoAddress = () => {
   // // Intentionally the wrong address for testing only!
   // "0xe9373890d88528f3f46eE9fcFb1B04Eecf8E6585";
-  "0x1Be540722F30fBb6A86f995F25A81f5BA5ac4327";
+  // "0x1Be540722F30fBb6A86f995F25A81f5BA5ac4327";
+  "0x5D75954d85DD51b58CCC75006358E9600BF6d97f";
   // "0x1bE540722f30FBB6a86F995F25a81F5BA5Ac4326";
 };
 let emojiRegex = [%re

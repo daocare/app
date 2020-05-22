@@ -22,11 +22,14 @@ type latestIterationTweet = {
 
 let getLatestTweetProcessed: unit => Js.Promise.t(option(string)) =
   () => {
+    Js.log("1");
     open Firestore;
+    Js.log("2");
     let docRef =
       db
       ->collection(tweetRepliesDb)
       ->CollectionReference.doc(tweetRepliesCollection);
+    Js.log("3");
     let%Async docSnapshot = docRef->DocumentReference.get;
     (
       if (docSnapshot.exists) {
@@ -85,7 +88,8 @@ let setLatestTweetIteration:
   };
 
 //Refactor into single request
-let getLatestTweetIterationId: unit => Js.Promise.t(option(string)) =
+let getLatestTweetIterationData:
+  unit => Js.Promise.t(option(latestIterationTweet)) =
   () => {
     open Firestore;
     let docRef =
@@ -98,29 +102,7 @@ let getLatestTweetIterationId: unit => Js.Promise.t(option(string)) =
       if (docSnapshot.exists) {
         let dangerouslyConvertLatestTweet:
           DocumentReference.someData => latestIterationTweet = Obj.magic;
-        let res = docSnapshot.data(.)->dangerouslyConvertLatestTweet.latest;
-        Some(res);
-      } else {
-        None;
-      }
-    )
-    ->async;
-  };
-
-let getLatestTweetIteration: unit => Js.Promise.t(option(string)) =
-  () => {
-    open Firestore;
-    let docRef =
-      db
-      ->collection(tweetIterationTrackerDBCollection)
-      ->CollectionReference.doc(tweetIterationTrackerDocument);
-    // let%Async _docSnapshot = docRef->DocumentReference.get();
-    let%Async docSnapshot = docRef->DocumentReference.get;
-    (
-      if (docSnapshot.exists) {
-        let dangerouslyConvertLatestTweet:
-          DocumentReference.someData => latestIterationTweet = Obj.magic;
-        let res = docSnapshot.data(.)->dangerouslyConvertLatestTweet.iteration;
+        let res = docSnapshot.data(.)->dangerouslyConvertLatestTweet;
         Some(res);
       } else {
         None;
