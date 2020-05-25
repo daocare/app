@@ -24,7 +24,7 @@
   "dependencies": {
     "3box": "^1.17.1",
     "dotenv": "^8.2.0",
-    "firebase-admin": "8.12.1",
+    "firebase-admin": "^8.12.1",
     "reason-promise": "^1.0.2",
     "twit": "^2.2.11",
     "web3": "^1.2.6"
