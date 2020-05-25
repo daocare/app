@@ -60,6 +60,33 @@ let getEthAddressFromEmoji: string => Js.Promise.t(option(string)) =
     ->async;
   };
 
+type addressLookupResult = {address: string};
+let getEthAddressFromTwitter:
+  // {
+  //   handle: 'denhampreen',
+  //   timestamp: 1586204164.92,
+  //   txHash: null,
+  //   address: '0xcBc6e270d5f1D20EEFBa88e679b7De4829C4e23b'
+  // }
+  string => Js.Promise.t(option(addressLookupResult)) =
+  handle => {
+    open Firestore;
+    let lowerCaseHandle = handle->Js.String.toLowerCase;
+    let docRef =
+      db
+      ->collection(twitterHandlesDb)
+      ->CollectionReference.doc(lowerCaseHandle);
+    let%Async docSnapshot = docRef->DocumentReference.get;
+    (
+      if (docSnapshot.exists) {
+        Some(docSnapshot.data(.)->Obj.magic);
+      } else {
+        None;
+      }
+    )
+    ->async;
+  };
+
 let setLatestTweetReply: string => Js.Promise.t(unit) =
   latest => {
     open Firestore;

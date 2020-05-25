@@ -130,65 +130,90 @@ let loopFunctionAsync = (proposalManager: ProposalManager.proposalsManager) => {
               switch (proposalId) {
               | Some(id) =>
                 let ethHandler: Ethereum.ethereumObject = etherHandler^;
-
-                Js.log3(
-                  "Eth transaction being sent",
-                  id->string_of_int,
-                  ethHandler.mainAddress,
-                );
-                ethHandler.noLossDao.methods.voteProxy(.
-                  ~proposalId=id->string_of_int,
-                  ~usersAddress=ethHandler.mainAddress,
-                ).
-                  send({
-                  from: ethHandler.mainAddress,
-                }).
-                  on(.
-                   "transactionHash", hash => {
-                  Twit.postTweetInReply(.
-                    twitInstance,
-                    "@"
-                    ++ tweet.user.screen_name
-                    ++ " Your vote is being processed. Thank you for voting @"
-                    ++ tweet.user.screen_name
-                    ++ " . https://kovan.etherscan.io/tx/"
-                    ++ hash,
-                    tweet.id_str,
-                    "@" ++ tweet.user.screen_name,
-                  )
-                  ->ignore
-                }).
-                  on(.
-                   "receipt", _receipt => {
-                  // Js.log2("receipt", receipt);
-                  Twit.postTweetInReply(.
-                    twitInstance,
-                    "@"
-                    ++ tweet.user.screen_name
-                    ++ " Your vote has been counted. Thank you for supporting great projects!",
-                    tweet.id_str,
-                    "@" ++ tweet.user.screen_name,
-                  )
-                  ->ignore
-                }).
-                  //   on(.
-                  //    "confirmation", confirmationNumber => {
-                  //   Js.log2("confirmationNumber", confirmationNumber)
-                  // }).
-                  on(.
-                  "error", error => {
-                  Js.log2("THE ERROR", error);
-                  Twit.postTweetInReply(.
-                    twitInstance,
-                    "@"
-                    ++ tweet.user.screen_name
-                    ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP @JasoonSmythe. (Choppy choppy Jason)",
-                    tweet.id_str,
-                    "@" ++ tweet.user.screen_name,
-                  )
-                  ->ignore;
-                })
-                ->ignore;
+                {
+                  let%Async ethAddressResponse =
+                    Database.getEthAddressFromTwitter(tweet.user.screen_name);
+                  Js.log3(
+                    "getting twitter name---",
+                    ethAddressResponse,
+                    tweet.user.screen_name,
+                  );
+                  switch (ethAddressResponse) {
+                  | Some(result) =>
+                    Js.log2("the in transaction attempt result", result);
+                    let address = result.address;
+                    Js.log4(
+                      "Eth transaction being sent",
+                      id->string_of_int,
+                      address,
+                      ethHandler.mainAddress,
+                    );
+                    ethHandler.noLossDao.methods.voteProxy(.
+                      ~proposalId=id->string_of_int,
+                      ~usersAddress=address //TODO
+                    ).
+                      send({
+                      from: ethHandler.mainAddress,
+                    }).
+                      on(.
+                       "transactionHash", hash => {
+                      Twit.postTweetInReply(.
+                        twitInstance,
+                        "@"
+                        ++ tweet.user.screen_name
+                        ++ " Your vote is being processed. Thank you for voting @"
+                        ++ tweet.user.screen_name
+                        ++ " . https://kovan.etherscan.io/tx/"
+                        ++ hash,
+                        tweet.id_str,
+                        "@" ++ tweet.user.screen_name,
+                      )
+                      ->ignore
+                    }).
+                      on(.
+                       "receipt", _receipt => {
+                      // Js.log2("receipt", receipt);
+                      Twit.postTweetInReply(.
+                        twitInstance,
+                        "@"
+                        ++ tweet.user.screen_name
+                        ++ " Your vote has been counted. Thank you for supporting great projects!",
+                        tweet.id_str,
+                        "@" ++ tweet.user.screen_name,
+                      )
+                      ->ignore
+                    }).
+                      //   on(.
+                      //    "confirmation", confirmationNumber => {
+                      //   Js.log2("confirmationNumber", confirmationNumber)
+                      // }).
+                      on(.
+                      "error", error => {
+                      Js.log2("THE ERROR", error);
+                      Twit.postTweetInReply(.
+                        twitInstance,
+                        "@"
+                        ++ tweet.user.screen_name
+                        ++ " Unfortunately we were unable to vote for you. Support will handle this ASAP @JasoonSmythe. (Choppy choppy Jason)",
+                        tweet.id_str,
+                        "@" ++ tweet.user.screen_name,
+                      )
+                      ->ignore;
+                    })
+                    ->ignore;
+                  | None =>
+                    Twit.postTweetInReply(.
+                      twitInstance,
+                      "@"
+                      ++ tweet.user.screen_name
+                      ++ "We are unable to find your twitter address in our system. Have you verified your twitter account with 3box?",
+                      tweet.id_str,
+                      "@" ++ tweet.user.screen_name,
+                    )
+                    ->ignore
+                  };
+                  ()->async;
+                };
                 ();
               | None =>
                 Twit.postTweetInReply(.
@@ -265,6 +290,9 @@ let asyncronousSetup = () => {
 };
 
 let start = () => {
+  {
+    Database.getEthAddressFromTwitter("denhampreen");
+  };
   Js.log("Start");
 
   // Runs all pre-setup tasks.
