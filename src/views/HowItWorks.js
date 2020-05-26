@@ -23,7 +23,7 @@ import Header from '../components/Header';
 import EllipsisLoader from '../components/EllipsisLoader';
 
 const useStyles = makeStyles((theme) => ({
-  gridContainer: { margin: '0.2rem 0' },
+  // gridContainer: { margin: '0.2rem 0' },
   gridItemNumber: {
     textAlign: 'right',
     padding: '0 5px !important',
@@ -46,11 +46,42 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline',
   },
   stepExplainer: { display: 'inline' },
+  muggleToggle: {
+    position: 'absolute',
+    right: '2rem',
+  },
 }));
 
 const HowItWorks = () => {
-  const classes = useStyles();
-  const [howSteps, setHowSteps] = useState([
+  const muggleHowItWorks = [
+    {
+      header: 'Join the fund',
+      explainer:
+        'Deposit DAI, a crypto stable coin, into the fund to be part of the decentralized autonomous organization. The more DAI you deposit into the fund the more voting power you receive.',
+    },
+    {
+      header: 'The funds in the pool earn interest',
+      explainer:
+        'The funds are deposited into a savings account with Aave. Interest accrues on the DAI in the fund.',
+    },
+    {
+      header: 'Vote',
+      explainer:
+        'Every user who has deposited funds into the pool can vote on the proposal they feel is most worthy of receiving the interest. You can vote using your crypto wallet or you can vote on twitter by replying to the fortnightly tweet by @dao_care',
+    },
+    {
+      header: 'Winner',
+      explainer:
+        'At the end of each two week round the proposal with the most votes receives the interest from the fund generated over those 2 weeks. A new round begins every two weeks. ',
+    },
+    {
+      header: 'Withdraw all your funds',
+      explainer:
+        'At any point if you want to leave. You can withdraw all of your DAI from the fund',
+    },
+  ];
+
+  const wizardHowItWorks = [
     {
       header: 'Join the fund',
       explainer:
@@ -75,18 +106,22 @@ const HowItWorks = () => {
       explainer:
         'At any point if you want to leave. You can withdraw all of your DAI from the fund',
     },
-  ]);
+  ];
+
+  const classes = useStyles();
+  const [howSteps, setHowSteps] = useState(wizardHowItWorks);
 
   const [isMuggle, setIsMuggle] = React.useState(true);
 
   const handleChange = (event) => {
+    setHowSteps(event.target.checked ? wizardHowItWorks : muggleHowItWorks);
     setIsMuggle(event.target.checked);
   };
 
   return (
     <Page title="dao.care | How it works">
       <Header />
-      <div className="muggleToggle">
+      <div className={classes.muggleToggle}>
         <FormControlLabel
           control={
             <Switch
@@ -97,7 +132,9 @@ const HowItWorks = () => {
             />
           }
           labelPlacement="start"
-          label="I'm a blockchain wizard"
+          label={
+            isMuggle ? "I'm a blockchain wizard" : "I'm a blockchain muggle"
+          }
         />
       </div>
       {/* <Typography variant="h5">How it Works</Typography> */}
