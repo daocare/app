@@ -120,11 +120,12 @@ const Withdraw = () => {
                 variant="body2"
                 component="span"
                 className={classes.statusMsg}
+                style={{ marginBottom: '10px' }}
               >
                 Thank you for making an impact! Your funds have been withdrawn.
               </Typography>
-              <br />
               <Button
+                style={{ marginTop: '10px' }}
                 variant="contained"
                 color="primary"
                 size="large"
@@ -147,22 +148,24 @@ const Withdraw = () => {
             </Typography>
           ) : !hasAnActiveProposal ? (
             <div className={classes.buttonContainer}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                // onClick={!withdrawingDisabled && (() => onWithdrawFunds())}
-                onClick={() => onWithdrawFunds()}
-                disabled={withdrawingDisabled}
-              >
-                Withdraw
-                {withdrawingDisabled && (
-                  <CircularProgress
-                    className={classes.circularProgress}
-                    size={14}
-                  />
-                )}
-              </Button>
+              {!(daiDeposit <= 0 && daiDeposit != null) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  // onClick={!withdrawingDisabled && (() => onWithdrawFunds())}
+                  onClick={() => onWithdrawFunds()}
+                  disabled={withdrawingDisabled}
+                >
+                  Withdraw
+                  {withdrawingDisabled && (
+                    <CircularProgress
+                      className={classes.circularProgress}
+                      size={14}
+                    />
+                  )}
+                </Button>
+              )}
             </div>
           ) : (
             <Typography
@@ -176,7 +179,7 @@ const Withdraw = () => {
           )}
         </div>
       </div>
-      {daiDeposit <= 0 && (
+      {daiDeposit <= 0 && daiDeposit != null && status != 'WITHDRAWN' && (
         <Typography variant="body2" component="span" style={{ color: 'red' }}>
           It looks like you don't have any DAI deposited in the pool with this
           address

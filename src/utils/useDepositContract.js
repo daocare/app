@@ -1,7 +1,8 @@
 import { gql } from 'apollo-boost';
 import { client } from './Apollo';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDaiDeposit } from '../redux/user/userActions';
 
 import { useState } from 'react';
 import web3 from 'web3';
@@ -15,6 +16,7 @@ const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
 
 const useDepositContract = () => {
   const { provider } = useSelector((state) => state.web3);
+  const dispatch = useDispatch();
 
   const [web3Provider] = useState(new web3(provider));
 
@@ -40,11 +42,15 @@ const useDepositContract = () => {
   };
 
   const triggerWithdrawal = async (address) => {
-    let withdrawal = depositContract.methods.withdrawDeposit().send({
-      from: address,
-    });
-    console.log('withdrawal', withdrawal);
-    return withdrawal;
+    try {
+      let withdrawal = await depositContract.methods.withdrawDeposit().send({
+        from: address,
+      });
+      console.log('withdrawal', withdrawal);
+      dispatch(setDaiDeposit(0));
+    } catch (err) {
+      console.warn('Failed to withdraw: ', err);
+    }
   };
 
   const FUND_SIZE_QUERY = gql`

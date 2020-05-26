@@ -22,8 +22,9 @@ import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 
 import Page from '../components/Page';
 import Header from '../components/Header';
-
 import EllipsisLoader from '../components/EllipsisLoader';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import useRouter from '../utils/useRouter';
 import useDaiContract from '../utils/useDaiContract';
@@ -171,6 +172,11 @@ const Deposit = () => {
     Math.floor(Math.random() * 3)
   );
 
+  let cantDeposit =
+    (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+    daiBalance < amount ||
+    daiBalance === 0 ||
+    daiBalance == null;
   // TODO: Add countdown to next iteration
   // const numSecondsLeftInIteration = Math.max(
   //   0,
@@ -243,7 +249,9 @@ const Deposit = () => {
                   }}
                   onChange={() => twitterMinimumWarning()}
                   style={{ width: 300 }}
-                  helperText={`Balance: ${daiBalance} DAI | Deposit: ${daiDeposit} DAI`}
+                  helperText={`Balance: ${
+                    daiBalance == null ? '...' : daiBalance
+                  } DAI | Deposit: ${daiDeposit} DAI`}
                 />
                 {(daiAllowance === 0 ||
                   status === 'DAI_APPROVED' ||
@@ -299,13 +307,15 @@ const Deposit = () => {
                   color="primary"
                   className={classes.button}
                   type="submit"
-                  disabled={
-                    (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                    daiBalance < amount ||
-                    daiBalance === 0
-                  }
+                  disabled={cantDeposit}
                 >
                   Deposit
+                  {cantDeposit && (
+                    <CircularProgress
+                      className={classes.circularProgress}
+                      size={14}
+                    />
+                  )}
                 </Button>
                 {daiBalance < amount && (
                   <Typography
