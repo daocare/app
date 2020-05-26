@@ -133,7 +133,9 @@ const HowItWorks = () => {
           }
           labelPlacement="start"
           label={
-            isMuggle ? "I'm a blockchain wizard" : "I'm a blockchain muggle"
+            isMuggle
+              ? "I'm a blockchain wizard 🧙🏽‍♂️"
+              : "I'm a blockchain muggle 🧘🏻‍♂️"
           }
         />
       </div>
