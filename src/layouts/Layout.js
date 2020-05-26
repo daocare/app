@@ -1,9 +1,15 @@
 import React, { Suspense, useEffect } from 'react';
+import Web3 from 'web3';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
-import { setDaiDeposit } from '../redux/user/userActions';
+import {
+  setDaiDeposit,
+  connectUser,
+  setHasAProposal,
+} from '../redux/user/userActions';
 import { setFundSize } from '../redux/fund/fundActions';
+import { setProvider } from '../redux/web3/web3Actions';
 
 import useInterval from '../utils/useInterval';
 import useUserData from '../utils/useUserData';
@@ -69,6 +75,26 @@ const Layout = (props) => {
     depositContract.getFundSize().then((fundSize) => {
       dispatch(setFundSize(fundSize));
     });
+
+    // TODO: refactor & handle non ethereum browser
+    // Connect if already connected
+    if (window.ethereum) {
+      let web3 = new Web3(window.ethereum);
+      window.web3 = web3;
+      dispatch(setProvider(web3.currentProvider));
+      dispatch(connectUser(web3.currentProvider.selectedAddress));
+      window.ethereum.enable();
+    } else if (window.web3) {
+      console.log(window.web3.currentProvider);
+      let web3 = new Web3(window.web3.currentProvider);
+      window.web3 = web3;
+      dispatch(setProvider(web3.currentProvider));
+      dispatch(connectUser(web3.currentProvider.selectedAddress));
+    } else {
+      console.log(
+        'Non-Ethereum browser detected. You should consider trying MetaMask!'
+      );
+    }
   }, []);
 
   // On connection changes
@@ -77,6 +103,9 @@ const Layout = (props) => {
       userData.getUserDaiDeposit(address.toLowerCase()).then((weiDeposit) => {
         let daiDeposit = weiDeposit / Math.pow(10, 18);
         dispatch(setDaiDeposit(daiDeposit));
+      });
+      userData.getUserProjects(address.toLowerCase()).then((projects) => {
+        dispatch(setHasAProposal(projects.length > 0));
       });
     }
   }, [connected, address]);

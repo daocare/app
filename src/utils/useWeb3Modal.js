@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { connectUser, disconnectUser } from '../redux/user/userActions';
+import { setProvider } from '../redux/web3/web3Actions';
+import INFURA_ENDPOINT from '../utils/infura';
 
 import Web3Modal from 'web3modal';
 import Web3 from 'web3';
@@ -35,7 +37,10 @@ const useWeb3Modal = () => {
   const [web3, setWeb3] = useState(null);
 
   const subscribeProvider = async (provider) => {
-    provider.on('close', () => triggerDisconnect());
+    provider.on('close', () => {
+      console.log('disconnected from provider');
+      triggerDisconnect();
+    });
 
     provider.on('accountsChanged', async (accounts) => {
       dispatch(connectUser(accounts[0]));
@@ -75,13 +80,12 @@ const useWeb3Modal = () => {
         },
       ],
     });
-    // setWeb3(web3Inited);
     const accounts = await web3Inited.eth.getAccounts();
     const userAddress = accounts[0];
-    dispatch(connectUser(userAddress));
+    await dispatch(connectUser(userAddress));
+    await dispatch(setProvider(providerInited));
     console.log('web3 Initialised');
 
-    return providerInited;
     //   const networkIdTemp = await web3Inited.eth.net.getId();
 
     //   const chainIdTemp = await web3Inited.eth.chainId();
@@ -135,6 +139,7 @@ const useWeb3Modal = () => {
     // await web3.clearCachedProvider();
     // }
     await dispatch(disconnectUser());
+    await dispatch(setProvider(INFURA_ENDPOINT));
     // await web3Connect.clearCachedProvider();
     // await logout3Box();
     // await setProvider(null);

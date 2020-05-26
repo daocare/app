@@ -5,6 +5,7 @@ import {
   SET_DAI_DEPOSIT,
   SET_DAI_BALANCE,
   SET_DAI_ALLOWANCE,
+  SET_HAS_A_PROPOSAL,
 } from '../actionTypes';
 
 const initialState = {
@@ -47,6 +48,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         daiAllowance: action.payload,
+      };
+    }
+    case SET_HAS_A_PROPOSAL: {
+      return {
+        ...state,
+        hasAProposal: action.payload,
       };
     }
     default:

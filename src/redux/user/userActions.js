@@ -4,6 +4,7 @@ import {
   SET_DAI_DEPOSIT,
   SET_DAI_BALANCE,
   SET_DAI_ALLOWANCE,
+  SET_HAS_A_PROPOSAL,
 } from '../actionTypes';
 
 export const connectUser = (address) => {
@@ -37,5 +38,12 @@ export const setDaiAllowance = (daiAllowance) => {
   return {
     type: SET_DAI_ALLOWANCE,
     payload: daiAllowance,
+  };
+};
+
+export const setHasAProposal = (hasAProposal) => {
+  return {
+    type: SET_HAS_A_PROPOSAL,
+    payload: hasAProposal,
   };
 };

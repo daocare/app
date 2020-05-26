@@ -7,7 +7,6 @@ import Box from '@material-ui/core/Box';
 import Page from '../components/Page';
 import Header from '../components/Header';
 import useRouter from '../utils/useRouter';
-import useWeb3Connect from '../utils/useWeb3Connect';
 import useDaiContract from '../utils/useDaiContract';
 import useDepositContract from '../utils/useDepositContract';
 import LoadingWeb3 from '../components/LoadingWeb3';
@@ -72,26 +71,19 @@ const Withdraw = () => {
   const router = useRouter();
   const daiContract = useDaiContract();
   const depositContract = useDepositContract();
-  const web3Connect = useWeb3Connect();
 
-  const { address, daiDeposit, daiAllowance } = useSelector(
+  const { address, daiDeposit, daiAllowance, hasAProposal } = useSelector(
     (state) => state.user
   );
 
   let depositedFunds = Number(daiDeposit);
 
-  // const { hasProposal } = useSelector((state) => state.user);
-
-  let proposalLoading = web3Connect.hasProposal === null;
-  let hasAnActiveProposal =
-    web3Connect.hasProposal === true && !proposalLoading;
+  let hasAnActiveProposal = hasAProposal === true && !(hasAProposal === null);
   let hasNoDaiInFund = daiDeposit <= 0;
   let hasNotApprovedDai = daiAllowance === 0;
   let withdrawingDisabled =
-    hasAnActiveProposal ||
-    hasNoDaiInFund ||
-    hasNotApprovedDai ||
-    !web3Connect.fetched;
+    hasAnActiveProposal || hasNoDaiInFund || hasNotApprovedDai;
+  // !web3Connect.fetched; TODO
 
   const onWithdrawFunds = async () => {
     setStatus(`WITHDRAWING`);
@@ -131,6 +123,7 @@ const Withdraw = () => {
               >
                 Thank you for making an impact! Your funds have been withdrawn.
               </Typography>
+              <br />
               <Button
                 variant="contained"
                 color="primary"
