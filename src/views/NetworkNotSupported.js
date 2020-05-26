@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import useRouter from '../utils/useRouter';
 import useWeb3Modal from '../utils/useWeb3Modal';
 import { Typography } from '@material-ui/core';
@@ -18,21 +19,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NetworkNotSupported = () => {
-  // const web3Connect = useWeb3Connect();
+  const web3Modal = useWeb3Modal();
   const router = useRouter();
   const classes = useStyles();
 
-  //TODO: reinstate
+  const supportedNetworks = web3Modal.SUPPORTED_NETWORKS;
 
-  // useEffect(() => {
-  //   if (web3Connect.network == web3Connect.supportedNetwork) {
-  //     router.history.push('/');
-  //   }
-  // }, [web3Connect.network]);
+  const networkInfo = useSelector((state) => state.web3.networkInfo);
+
+  useEffect(() => {
+    if (supportedNetworks.includes(networkInfo.network)) {
+      router.history.push('/');
+    }
+  }, [networkInfo.network]);
 
   return (
-    // <Page title={`dao.care | ${web3Connect.network} not supported`}>
-    <Page title={`dao.care |  not supported`}>
+    <Page title={`dao.care | ${networkInfo.network} not supported`}>
       <div className={classes.pageCentered}>
         <div style={{ marginBottom: 16 }}>
           <Typography
@@ -45,8 +47,13 @@ const NetworkNotSupported = () => {
             }}
           >
             We are not yet supporting{' '}
-            {/* {web3Connect.network ? web3Connect.network : <EllipsisLoader />},
-            please connect to {web3Connect.supportedNetwork} */}
+            {networkInfo.network ? networkInfo.network : <EllipsisLoader />},
+            please connect to{' '}
+            {supportedNetworks.map((network, index) =>
+              supportedNetworks.length > 1 && !index == 0
+                ? ' or ' + network
+                : network
+            )}
           </Typography>
         </div>
         <div

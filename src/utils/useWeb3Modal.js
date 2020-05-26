@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { connectUser, disconnectUser } from '../redux/user/userActions';
-import { setProvider } from '../redux/web3/web3Actions';
+import { setProvider, setNetworkInfo } from '../redux/web3/web3Actions';
 import INFURA_ENDPOINT from '../utils/infura';
+import supportedChains from './chains';
 
 import Web3Modal from 'web3modal';
 import Web3 from 'web3';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Torus from '@toruslabs/torus-embed';
-import supportedChains from './chains';
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
 
@@ -36,6 +36,11 @@ const useWeb3Modal = () => {
   const dispatch = useDispatch();
   const [web3, setWeb3] = useState(null);
 
+  const SUPPORTED_NETWORKS = process.env.REACT_APP_SUPPORTED_NETWORKS.split(
+    ','
+  );
+
+  // Todo
   const subscribeProvider = async (provider) => {
     provider.on('close', () => {
       console.log('disconnected from provider');
@@ -58,7 +63,12 @@ const useWeb3Modal = () => {
 
     provider.on('networkChanged', async (networkId) => {
       console.log('networkChanged');
-      // const chainId = await web3.eth.chainId();
+      const chainId = await web3.eth.chainId();
+      // TODO
+      console.log(chainId);
+
+      // await dispatch(setNetworkInfo(networkId));
+      await dispatch(setNetworkInfo(networkId));
       // setChainId(chainId);
       // setNetworkId(networkId);
       // setNetwork(getNetworkByChainId(networkId));
@@ -82,9 +92,11 @@ const useWeb3Modal = () => {
     });
     const accounts = await web3Inited.eth.getAccounts();
     const userAddress = accounts[0];
+    const networkId = await web3Inited.eth.net.getId();
+
+    await dispatch(setNetworkInfo(networkId));
     await dispatch(connectUser(userAddress));
     await dispatch(setProvider(providerInited));
-    console.log('web3 Initialised');
 
     //   const networkIdTemp = await web3Inited.eth.net.getId();
 
@@ -152,7 +164,7 @@ const useWeb3Modal = () => {
     // await setDaiContract(null);
   };
 
-  return { triggerConnect, triggerDisconnect };
+  return { triggerConnect, triggerDisconnect, SUPPORTED_NETWORKS };
 };
 
 export default useWeb3Modal;

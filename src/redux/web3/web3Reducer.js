@@ -1,7 +1,11 @@
-import { SET_PROVIDER } from '../actionTypes';
+import { SET_PROVIDER, SET_NETWORK_INFO } from '../actionTypes';
 
 const initialState = {
   provider: null,
+  networkInfo: {
+    network: null,
+    networkId: null,
+  },
 };
 
 export default function (state = initialState, action) {
@@ -10,6 +14,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         provider: action.payload,
+      };
+    }
+    case SET_NETWORK_INFO: {
+      return {
+        ...state,
+        neworkInfo: action.payload,
       };
     }
     default:

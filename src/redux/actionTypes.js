@@ -16,3 +16,4 @@ export const SET_FUND_SIZE = 'SET_FUND_SIZE';
 
 //web3
 export const SET_PROVIDER = 'SET_PROVIDER';
+export const SET_NETWORK_INFO = 'SET_NETWORK_INFO';
