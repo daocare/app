@@ -5,6 +5,7 @@ import {
   SET_DAI_BALANCE,
   SET_DAI_ALLOWANCE,
   SET_HAS_A_PROPOSAL,
+  SET_ENABLED_TWITTER,
 } from '../actionTypes';
 
 export const connectUser = (address) => {
@@ -45,5 +46,12 @@ export const setHasAProposal = (hasAProposal) => {
   return {
     type: SET_HAS_A_PROPOSAL,
     payload: hasAProposal,
+  };
+};
+
+export const setEnabledTwitter = (enabledTwitter) => {
+  return {
+    type: SET_ENABLED_TWITTER,
+    payload: enabledTwitter,
   };
 };

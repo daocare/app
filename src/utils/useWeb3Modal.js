@@ -55,18 +55,18 @@ const useWeb3Modal = () => {
 
     provider.on('chainChanged', async (chainId) => {
       console.log('chainChanged');
-      // const networkId = await web3.eth.net.getId();
+      //
       // setChainId(networkId);
       // setNetwork(getNetworkByChainId(networkId));
       // fetchProposals();
     });
 
-    provider.on('networkChanged', async (networkId) => {
+    provider.on('networkChanged', async () => {
       console.log('networkChanged');
-      const chainId = await web3.eth.chainId();
+      // const chainId = await web3.eth.chainId();
       // TODO
-      console.log(chainId);
-
+      // console.log(chainId);
+      const networkId = await web3.eth.net.getId();
       // await dispatch(setNetworkInfo(networkId));
       await dispatch(setNetworkInfo(networkId));
       // setChainId(chainId);
