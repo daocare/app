@@ -40,7 +40,6 @@ const web3Modal = new Web3Modal({
 const useWeb3Modal = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [web3, setWeb3] = useState(null);
 
   const SUPPORTED_NETWORKS = process.env.REACT_APP_SUPPORTED_NETWORKS.split(
     ','
@@ -74,13 +73,14 @@ const useWeb3Modal = () => {
 
       // TODO
 
-      const chainId = await web3.eth.chainId();
-      console.log(chainId);
+      // const chainId = await web3.eth.chainId();
+      // console.log(chainId);
 
-      const networkId = await web3.eth.net.getId();
-      redirectToNotSupportedNetwork(chainId, networkId);
+      // const networkId = await web3.eth.net.getId();
+      // redirectToNotSupportedNetwork(chainId, networkId);
 
-      await dispatch(setNetworkInfo(networkId));
+      // await dispatch(setNetworkInfo(networkId));
+
       // setChainId(chainId);
       // setNetworkId(networkId);
       // setNetwork(getNetworkByChainId(networkId));
@@ -180,7 +180,7 @@ const useWeb3Modal = () => {
     }
   };
 
-  return { triggerConnect, triggerDisconnect, SUPPORTED_NETWORKS };
+  return { web3Modal, triggerConnect, triggerDisconnect, SUPPORTED_NETWORKS };
 };
 
 export default useWeb3Modal;
