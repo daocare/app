@@ -20,7 +20,6 @@ import AddIcon from '@material-ui/icons/PersonAdd';
 
 import Page from '../components/Page';
 import Header from '../components/Header';
-import LoadingWeb3 from '../components/LoadingWeb3';
 import IpfsUpload from '../components/IpfsUpload';
 import ProposalCard from '../components/ProposalCard';
 
@@ -237,7 +236,7 @@ const SubmitProposal = (props) => {
     <Page title="dao.care | submit proposal">
       {web3Connect.loadingWeb3 && (
         <>
-          <LoadingWeb3 />
+          <span />
         </>
       )}
 

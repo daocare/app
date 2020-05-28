@@ -5,7 +5,7 @@ import Web3Connect from 'web3connect';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchProposals as fetchProposalsRedux } from '../redux/proposals/proposalsActions';
-import { connectUser, disconnectUser } from '../redux/user/userActions';
+// import { connectUser, disconnectUser } from '../redux/user/userActions';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
 // import Portis from "@portis/web3";
@@ -76,6 +76,7 @@ const providerOptions = {
   //   options: {}
   // }
 };
+
 let isFetchingProposals = false;
 
 const web3Connect = new Web3Connect.Core({
@@ -195,7 +196,7 @@ const useWeb3Connect = () => {
     setProvider(providerInited);
     setWeb3(web3Inited);
     setConnected(true);
-    dispatch(connectUser());
+    // dispatch(connectUser());
     setAddress(addressTemp);
     setChainId(chainIdTemp);
     setNetworkId(networkIdTemp);
@@ -255,23 +256,24 @@ const useWeb3Connect = () => {
     }
   }, []);
 
-  useInterval(async () => {
-    if (daoContractReadOnly) {
-      fetchProposals();
-    }
-    if (
-      window.location.pathname === NOT_SUPPORTED_URL &&
-      networkId === SUPPORTED_CHAIN_ID
-    ) {
-      router.history.push('/');
-    }
-    if (connected && address) {
-      updateAllowance();
-      updateBalance();
-      updateDeposit();
-      updateDelegation();
-    }
-  }, FETCH_UPDATE_INTERVAL);
+  // TODO: reinstate (wont though)
+  // useInterval(async () => {
+  //   if (daoContractReadOnly) {
+  //     fetchProposals();
+  //   }
+  //   if (
+  //     window.location.pathname === NOT_SUPPORTED_URL &&
+  //     networkId === SUPPORTED_CHAIN_ID
+  //   ) {
+  //     router.history.push('/');
+  //   }
+  //   if (connected && address) {
+  //     updateAllowance();
+  //     updateBalance();
+  //     updateDeposit();
+  //     updateDelegation();
+  //   }
+  // }, FETCH_UPDATE_INTERVAL);
 
   const resetApp = async () => {
     if (web3 && web3.currentProvider && web3.currentProvider.close) {
@@ -282,7 +284,7 @@ const useWeb3Connect = () => {
     await setProvider(null);
     await setWeb3(null);
     await setConnected(false);
-    await dispatch(disconnectUser());
+    // await dispatch(disconnectUser());
     await setAddress(null);
     await setChainId(null);
     await setNetworkId(null);
@@ -351,6 +353,7 @@ const useWeb3Connect = () => {
       setDaiAllowance(Number(allowance));
     }
   };
+
   const updateBalance = async (
     addr = address,
     daiContract = daiContractReadOnly,

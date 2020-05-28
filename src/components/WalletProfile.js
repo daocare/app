@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import useWeb3Connect from '../utils/useWeb3Connect';
+import useWeb3Modal from '../utils/useWeb3Modal';
 import useRouter from '../utils/useRouter';
+
 import Button from '@material-ui/core/Button';
 import ProfileHover from 'profile-hover';
 import Container from '@material-ui/core/Container';
@@ -13,18 +14,24 @@ import Tooltip from '@material-ui/core/Tooltip';
 import purple from '@material-ui/core/colors/purple';
 
 const WalletProfile = (props) => {
-  const web3Connect = useWeb3Connect();
+  const web3Modal = useWeb3Modal();
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleConnect = () => {
-    web3Connect.triggerConnect();
+    try {
+      web3Modal.triggerConnect();
+    } catch (err) {
+      console.warn('Failed to connect');
+      console.warn(err);
+    }
   };
   const handleLogout = async () => {
-    await web3Connect.resetApp();
+    web3Modal.triggerDisconnect();
     router.history.push('/');
   };
 
-  const connected = useSelector((state) => state.user.connected);
+  const { connected, address } = useSelector((state) => state.user);
 
   return (
     <div
@@ -45,10 +52,10 @@ const WalletProfile = (props) => {
           color: 'white !important',
         }}
       >
-        {connected && web3Connect.address ? (
+        {connected ? (
           <>
             <ProfileHover
-              address={web3Connect.address}
+              address={address}
               showName={true}
               noTheme={true}
               displayFull={true}

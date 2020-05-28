@@ -1,4 +1,13 @@
-import { GET_USER_DATA, CONNECT_USER, DISCONNECT_USER } from '../actionTypes';
+import {
+  GET_USER_DATA,
+  CONNECT_USER,
+  DISCONNECT_USER,
+  SET_DAI_DEPOSIT,
+  SET_DAI_BALANCE,
+  SET_DAI_ALLOWANCE,
+  SET_HAS_A_PROPOSAL,
+  SET_ENABLED_TWITTER,
+} from '../actionTypes';
 
 const initialState = {
   loading: false,
@@ -6,7 +15,9 @@ const initialState = {
   address: '',
   daiDeposit: null,
   daiBalance: null,
+  daiAllowance: null,
   hasAProposal: null,
+  enabledTwitter: null,
 };
 
 export default function (state = initialState, action) {
@@ -15,22 +26,42 @@ export default function (state = initialState, action) {
       return {
         ...state,
         connected: true,
+        address: action.payload,
       };
     }
     case DISCONNECT_USER: {
       return {
-        ...state,
-        connected: false,
+        state: initialState,
       };
     }
-    case GET_USER_DATA: {
-      const { address, daiDeposit, daiBalance, hasAProposal } = action.payload;
+    case SET_DAI_BALANCE: {
       return {
         ...state,
-        address: address,
-        daiDeposit: daiDeposit,
-        daiBalance: daiBalance,
-        hasAProposal: hasAProposal,
+        daiBalance: action.payload,
+      };
+    }
+    case SET_DAI_DEPOSIT: {
+      return {
+        ...state,
+        daiDeposit: action.payload,
+      };
+    }
+    case SET_DAI_ALLOWANCE: {
+      return {
+        ...state,
+        daiAllowance: action.payload,
+      };
+    }
+    case SET_HAS_A_PROPOSAL: {
+      return {
+        ...state,
+        hasAProposal: action.payload,
+      };
+    }
+    case SET_ENABLED_TWITTER: {
+      return {
+        ...state,
+        enabledTwitter: action.payload,
       };
     }
     default:

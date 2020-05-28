@@ -10,8 +10,16 @@
     "in-source": true
   },
   "suffix": ".bs.js",
-  "bs-dependencies": ["decco", "reason-promise"],
-  "ppx-flags": ["decco/ppx", "bs-let/ppx"],
+  "bs-dependencies": [
+    "decco",
+    "reason-promise",
+    // "reason-promise",
+    "decco",
+    "bs-moment",
+    "bs-fetch"
+  ],
+  "bs-dev-dependencies": [],
+  "ppx-flags": ["bs-let/ppx", "decco/ppx", "@baransu/graphql_ppx_re/ppx"],
   "warnings": {
     "error": "+101"
   },

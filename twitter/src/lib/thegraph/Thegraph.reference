@@ -1,0 +1,251 @@
+// [%raw "require('isomorphic-fetch')"];
+// open Globals /*   let latestStateChangeQueryMade = G*/;
+
+// let dangerousOperationForJonJonToConvertToStringType: Js.Json.t => string = Obj.magic;
+
+// let decodeMoment: Js.Json.t => MomentRe.Moment.t =
+//   price =>
+//     price
+//     ->Js.Json.decodeString
+//     ->Belt.Option.mapWithDefault(0, a =>
+//         a->Belt.Int.fromString->Belt.Option.mapWithDefault(0, a => a)
+//       ) /*trusting that gql will be reliable here*/
+//     ->MomentRe.momentWithUnix;
+
+// let decodeBN: Js.Json.t => BN.t =
+//   number =>
+//     number
+//     ->Js.Json.decodeString
+//     ->Belt.Option.mapWithDefault("0", a => a) /*trusting that gql will be reliable here*/
+//     ->BN.new_;
+
+// module ProjectsQuery = [%graphql
+//   {|
+//   query
+//         {
+//           projects() {
+//             id
+//             benefactor
+//             projectDataIdentifier
+//             projectState
+//           }
+//         }
+
+//   |}
+// ] 
+/*   // let//  latestStateChangeQuery = LatestStateChangeHashQuery.make()*/ /*   startSubscribeToStateChangeEvents(stateChangeSubscriptionMade)*/;
+// // https://thegraph.com/explorer/subgraph/wild-cards/wildcards-goerli?query=StateChanges
+// module SubscribeToStateChanges = [%graphql
+//   {|
+//     subscription {
+//       stateChanges (first: 1, orderBy: timestamp, orderDirection: desc){
+//         id
+//         timestamp
+//         txEventList
+//         wildcardChanges {
+//           id
+//           price {
+//             price
+//           }
+//           owner {
+//             address
+//           }
+//           # TODO: the timeSold here is incorrect! The current line should be equivalent
+//           # previousOwners (first: 1, orderBy: timeSold, orderDirection: desc) {
+//           previousOwners (skip:1, first: 1, orderBy: timeAcquired, orderDirection: desc) {
+//             patron {
+//               address
+//             }
+//             # TODO: you can tweet about the streak here if desired? timeAquired-timeSold = streak.
+//             timeSold
+//             timeAcquired
+//           }
+//         }
+//         patronChanges {
+//           id
+//         }
+//       }
+//     }
+//   |}
+// ];
+
+// module LatestStateChangeHashQuery = [%graphql
+//   {|
+//     query {
+//       stateChanges (first: 1, orderBy: timestamp, orderDirection: desc){
+//         id
+//       }
+//     }
+//   |}
+// ];
+
+// let stateChangeSubscription = SubscribeToStateChanges.make();
+
+// // TODO: tweet the previous owner and tweet at them two (actually this is more important :))
+// //       also, it should say the name of the animal, and have a link to the animal that was just bought.
+// let handleBuyEvent = (newOwner, _previousOwner, _tokenId) => {
+//   let%Async optTwitterHandle =
+//     ThreeBoxVerification.getTwitterHandle3box(
+//       dangerousOperationForJonJonToConvertToStringType(newOwner),
+//     );
+
+//   let userIdentifier =
+//     switch (optTwitterHandle) {
+//     | Some(twitterHandle) => "@" ++ twitterHandle
+//     | None => "https://wildcards.world/#user/" ++ Obj.magic(newOwner)
+//     };
+
+//   let buyMessages = [|
+//     {j|Whoop whoop! $userIdentifier just bought a wildcard - Thank you for making a difference #SaveOurAnimals|j},
+//     {j|$userIdentifier has just become the guardian of a wildcard! Lets save the world together #SaveOurAnimals|j},
+//     {j|Stoked that $userIdentifier has just bought a wildcard! Your support is so appreciated! #SaveOurAnimals|j},
+//     {j|Hero in the house -> $userIdentifier <- has just bought a wildcard! Your support is so appreciated! #SaveOurAnimals|j},
+//     {j|Shout out to $userIdentifier who is the proud guardian of a new wildcard! Keep being a legend! #SaveOurAnimals|j},
+//     {j|$userIdentifier is in the house! Thanks for just getting a wildcard and supporting conservation! #SaveOurAnimals|j},
+//     {j|Thanks to $userIdentifier for supporting conservation by buying a wildcard! Visit wildcards.world to get your own #SaveOurAnimals|j},
+//     {j|3... 2... 1... and congrats to $userIdentifier on becoming the gaurdian of a new wildcard! Your support is so appreciated! #SaveOurAnimals|j},
+//   |];
+//   let num = Random.int(Array.length(buyMessages));
+//   let randomItem = Array.getUnsafe(buyMessages, num);
+
+//   Js.log("making the tweet!");
+//   Js.log(randomItem);
+
+//   let _ =
+//     TweetHandler.tweetHandler.makeTweet(
+//       ~status=randomItem,
+//       /*Sale price is the new price set and not what they paid for it*/
+//       /*Guessing we probably need to format the price number?*/
+//       ~in_reply_to_status_id=None,
+//     );
+//   ()->async;
+// };
+
+// let handlePriceChange = (owner, newPriceWei, _tokenId) => {
+//   let priceInEth = Web3Utils.fromWeiBNToEthPrecision(newPriceWei, ~digits=4);
+
+//   let%Async optTwitterHandle =
+//     ThreeBoxVerification.getTwitterHandle3box(
+//       dangerousOperationForJonJonToConvertToStringType(owner),
+//     );
+//   let userIdentifier =
+//     switch (optTwitterHandle) {
+//     | Some(twitterHandle) => "@" ++ twitterHandle
+//     | None =>
+//       "https://wildcards.world/#user/"
+//       ++ dangerousOperationForJonJonToConvertToStringType(owner)
+//     };
+
+//   // TODO: it should be less focus on price, and more focus on "they clearly value their guardianship (if the price increases"
+//   //       or - "Did you know? You can become the new guardian of X for just"
+//   //       it should also contain a link to the wildcard.
+//   let priceMessages = [|
+//     {j| $userIdentifier set their wildcard to a new price of $priceInEth|j},
+//     {j| Alert: $userIdentifier just changed the price of their wildcard to $priceInEth|j},
+//     {j| News flash, $userIdentifier set their wildcard to a new price of $priceInEth|j},
+//   |];
+
+//   let num = Random.int(Array.length(priceMessages));
+//   let randomItem = Array.getUnsafe(priceMessages, num);
+//   Js.log(randomItem);
+
+//   let _ =
+//     TweetHandler.tweetHandler.makeTweet(
+//       ~status=randomItem,
+//       /*We should say which wildcard it is. Bonus, attach its pic to the tweet*/
+//       ~in_reply_to_status_id=None,
+//     );
+//   ()->async;
+// };
+
+// let isInitalStateChangeEvent = ref(true);
+// let latestStageChangeHash = ref("not set yet");
+
+// type actionOnStateChange =
+//   | NoAction
+//   | TweetAboutBuy
+//   | TweetAboutPriceChange;
+
+// let startSubscribeToStateChangeEvents = stateChangeSubscriptionMade => {
+//   let _eventSubscription =
+//     Gql.makeQuery(
+//       stateChangeSubscriptionMade,
+//       None,
+//       (. json) => {
+//         let eventData = SubscribeToStateChanges.parse(json);
+//         let latestStateChange = eventData##stateChanges->Array.getUnsafe(0);
+
+//         if (isInitalStateChangeEvent^) {
+//           latestStageChangeHash :=  latestStateChange##id;
+//           isInitalStateChangeEvent := false;
+//         } else if (latestStageChangeHash^ == latestStateChange##id) {
+//           ();
+//         } else {
+//           latestStageChangeHash :=  latestStateChange##id;
+//           let eventData = SubscribeToStateChanges.parse(json);
+//           let latestStateChange = eventData##stateChanges->Array.getUnsafe(0);
+
+//           latestStageChangeHash :=  latestStateChange##id;
+
+//           let latestStateChangeEvents = latestStateChange##txEventList;
+//           let stateChangeAction =
+//             latestStateChangeEvents->Array.reduce(
+//               NoAction,
+//               (currentAction, someStateChange) => {
+//                 Js.log("Processing an event: " ++ someStateChange);
+
+//                 switch (someStateChange) {
+//                 | "PriceChange" =>
+//                   switch (currentAction) {
+//                   | TweetAboutBuy => TweetAboutBuy
+//                   | _ => TweetAboutPriceChange
+//                   }
+//                 | "Buy" => TweetAboutBuy
+//                 | "CollectPatronage"
+//                 | "RemainingDepositUpdate" => currentAction
+//                 | _ =>
+//                   Js.log("unknown event:" ++ someStateChange);
+//                   currentAction;
+//                 };
+//               },
+//             );
+
+//           let _ = {
+//             let%Opt wildcardChange = latestStateChange##wildcardChanges[0];
+//             let newGuardian = wildcardChange##owner##address;
+//             let wildcardId = wildcardChange##id;
+
+//             switch (stateChangeAction) {
+//             | NoAction => None
+//             | TweetAboutBuy =>
+//               // TODO: investigate what the previousOwners array looks like as you launch a new animal. (may require work on the graph)
+//               //       Should this be an option? If it was foreclosed first, or if it is a new wildcard a `None` makes sense.
+//               let optPreviousGuardians =
+//                 wildcardChange##previousOwners
+//                 >>= Array.get(_, 0)
+//                 <$> (previousOwner => previousOwner##patron##address);
+
+//               Js.log("Just bought an animal!!");
+
+//               let _ =
+//                 handleBuyEvent(newGuardian, optPreviousGuardians, wildcardId);
+
+//               None;
+//             | TweetAboutPriceChange =>
+//               let price = wildcardChange##price##price->decodeBN;
+
+//               let _ = handlePriceChange(newGuardian, price, wildcardId);
+
+//               None;
+//             };
+//           };
+//           ();
+//         };
+//       },
+//     );
+//   ();
+// };
+
+// // https://github.com/wild-cards/cryptovoxels-be/blob/master/src/gql/GalleryArtState.re#L152
+// let runStateWatcher = () => {
+//   let stateChangeSubscriptionMade = Gql.gql(. stateChangeSubscription##query);

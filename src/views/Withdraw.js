@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
@@ -7,13 +7,13 @@ import Box from '@material-ui/core/Box';
 import Page from '../components/Page';
 import Header from '../components/Header';
 import useRouter from '../utils/useRouter';
-import useWeb3Connect from '../utils/useWeb3Connect';
+import useDaiContract from '../utils/useDaiContract';
+import useDepositContract from '../utils/useDepositContract';
 import LoadingWeb3 from '../components/LoadingWeb3';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { LinearProgress } from '@material-ui/core';
 import EllipsisLoader from '../components/EllipsisLoader';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
-
-const BN = require('bn.js');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,130 +64,126 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Withdraw = () => {
+  useRedirectHomeIfNoEthAccount();
+
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
   const router = useRouter();
-  const web3Connect = useWeb3Connect();
+  const daiContract = useDaiContract();
+  const depositContract = useDepositContract();
 
-  // const { address, daiBalance } = useSelector((state) => state.user.user);
+  const { address, daiDeposit, daiAllowance, hasAProposal } = useSelector(
+    (state) => state.user
+  );
 
-  useRedirectHomeIfNoEthAccount();
+  let depositedFunds = Number(daiDeposit);
 
-  let balance = Number(web3Connect.daiBalance);
-  let depositedFunds = Number(web3Connect.daiDeposit);
-
-  let proposalLoading = web3Connect.hasProposal === null;
-  let hasAnActiveProposal =
-    web3Connect.hasProposal === true && !proposalLoading;
-  let hasNoDaiInFund = web3Connect.daiDeposit <= 0;
-  let hasNotApprovedDai = web3Connect.daiAllowance === 0;
+  let hasAnActiveProposal = hasAProposal === true && !(hasAProposal === null);
+  let hasNoDaiInFund = daiDeposit <= 0;
+  let hasNotApprovedDai = daiAllowance === 0;
   let withdrawingDisabled =
-    hasAnActiveProposal ||
-    hasNoDaiInFund ||
-    hasNotApprovedDai ||
-    !web3Connect.fetched;
+    hasAnActiveProposal || hasNoDaiInFund || hasNotApprovedDai;
+  // !web3Connect.fetched; TODO
 
-  const onSubmitFunds = async () => {
+  const onWithdrawFunds = async () => {
     setStatus(`WITHDRAWING`);
-    await web3Connect.contracts.dao.methods.triggerWithdrawal();
-    setStatus('WITHDRAWN');
+    try {
+      depositContract.triggerWithdrawal(address).then(() => {
+        setStatus('WITHDRAWN');
+      });
+    } catch (err) {
+      console.warn(err);
+    }
+    // await web3Connect.contracts.dao.methods.triggerWithdrawal();
   };
 
   return (
     <Page className={classes.root} title="dao.care | Withdraw">
-      {web3Connect.loadingWeb3 ? (
-        <LoadingWeb3 />
-      ) : (
-        <>
-          <Header />
-          <Typography variant="body1" className={classes.decriptionBlurb}>
-            Thank you for being such an awesome supporter of the community 💜.
-            Please note that if you withdraw your funds you won't be able to
-            vote on proposals anymore.
-          </Typography>
-          <Typography variant="body2" className={classes.decriptionBlurb}>
-            To afford maximum contract security you can only withdraw your
-            deposit in full.
-          </Typography>
-          <Typography variant="h5">Withdraw your DAI from the pool</Typography>
-          <Typography variant="body2">
-            Deposited funds: {depositedFunds}
-          </Typography>
+      <Header />
+      <Typography variant="body1" className={classes.decriptionBlurb}>
+        Thank you for being such an awesome supporter of the community 💜.
+        Please note that if you withdraw your funds you won't be able to vote on
+        proposals anymore.
+      </Typography>
+      <Typography variant="body2" className={classes.decriptionBlurb}>
+        To afford maximum contract security you can only withdraw your deposit
+        in full.
+      </Typography>
+      <Typography variant="h5">Withdraw your DAI from the pool</Typography>
+      <Typography variant="body2">Deposited funds: {depositedFunds}</Typography>
 
-          <div className={classes.wrapper}>
-            <div>
-              {status === 'WITHDRAWN' ? (
-                <>
-                  <Typography
-                    variant="body2"
-                    component="span"
-                    className={classes.statusMsg}
-                  >
-                    Thank you for making an impact! Your funds have been
-                    withdrawn.
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    className={classes.button}
-                    onClick={() => {
-                      router.history.push('/deposit');
-                    }}
-                  >
-                    Deposit
-                  </Button>
-                </>
-              ) : status === 'WITHDRAWING' ? (
-                <Typography
-                  variant="body2"
-                  component="span"
-                  className={classes.statusMsg}
+      <div className={classes.wrapper}>
+        <div>
+          {status === 'WITHDRAWN' ? (
+            <>
+              <Typography
+                variant="body2"
+                component="span"
+                className={classes.statusMsg}
+                style={{ marginBottom: '10px' }}
+              >
+                Thank you for making an impact! Your funds have been withdrawn.
+              </Typography>
+              <Button
+                style={{ marginTop: '10px' }}
+                variant="contained"
+                color="primary"
+                size="large"
+                className={classes.button}
+                onClick={() => {
+                  router.history.push('/deposit');
+                }}
+              >
+                Deposit
+              </Button>
+            </>
+          ) : status === 'WITHDRAWING' ? (
+            <Typography
+              variant="body2"
+              component="span"
+              className={classes.statusMsg}
+            >
+              Withdrawing {depositedFunds} DAI
+              <EllipsisLoader />
+            </Typography>
+          ) : !hasAnActiveProposal ? (
+            <div className={classes.buttonContainer}>
+              {!(daiDeposit <= 0 && daiDeposit != null) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  // onClick={!withdrawingDisabled && (() => onWithdrawFunds())}
+                  onClick={() => onWithdrawFunds()}
+                  disabled={withdrawingDisabled}
                 >
-                  Withdrawing {depositedFunds} DAI
-                  <EllipsisLoader />
-                </Typography>
-              ) : !hasAnActiveProposal ? (
-                <div className={classes.buttonContainer}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    onClick={!withdrawingDisabled && (() => onSubmitFunds())}
-                    disabled={withdrawingDisabled}
-                  >
-                    Withdraw
-                    {withdrawingDisabled && (
-                      <CircularProgress
-                        className={classes.circularProgress}
-                        size={14}
-                      />
-                    )}
-                  </Button>
-                </div>
-              ) : (
-                <Typography
-                  variant="body2"
-                  component="span"
-                  style={{ color: 'red' }}
-                >
-                  It looks like you have an active proposal, in order to
-                  withdraw your funds you need to first withdraw your proposal
-                </Typography>
+                  Withdraw
+                  {withdrawingDisabled && (
+                    <CircularProgress
+                      className={classes.circularProgress}
+                      size={14}
+                    />
+                  )}
+                </Button>
               )}
             </div>
-          </div>
-          {hasNoDaiInFund && (
+          ) : (
             <Typography
               variant="body2"
               component="span"
               style={{ color: 'red' }}
             >
-              It looks like you don't have any DAI deposited in the pool with
-              this address
+              It looks like you have an active proposal, in order to withdraw
+              your funds you need to first withdraw your proposal
             </Typography>
           )}
-        </>
+        </div>
+      </div>
+      {daiDeposit <= 0 && daiDeposit != null && status != 'WITHDRAWN' && (
+        <Typography variant="body2" component="span" style={{ color: 'red' }}>
+          It looks like you don't have any DAI deposited in the pool with this
+          address
+        </Typography>
       )}
     </Page>
   );

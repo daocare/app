@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Box from '3box';
 
 import useWeb3Connect from '../utils/useWeb3Connect';
+import useDaoContract from '../utils/useDaoContract';
 import useRouter from '../utils/useRouter';
 import {
   linkTwitterHandleToEthAddressInFirebase,
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Proposal = ({ match }) => {
   const web3Connect = useWeb3Connect();
+  const daoContract = useDaoContract();
 
   const { proposals, fetched } = useSelector((state) => state.proposals);
   const connected = useSelector((state) => state.user.connected);
@@ -81,7 +83,7 @@ const Proposal = ({ match }) => {
     const verified = await Box.getVerifiedAccounts(profile);
     if (verified && verified.twitter && verified.twitter.username) {
       setStatus('3BOX_VERIFIED');
-      let tx = await web3Connect.contracts.dao.methods.enableTwitterVoting();
+      let tx = await daoContract.enableTwitterVoting();
       if (!tx) {
         setStatus('TX_FAILED');
       } else {
