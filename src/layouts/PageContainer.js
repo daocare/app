@@ -8,6 +8,7 @@ import {
   setDaiDeposit,
   connectUser,
   setHasAProposal,
+  setVotes,
 } from '../redux/user/userActions';
 import { setFundSize } from '../redux/fund/fundActions';
 import { setProvider } from '../redux/web3/web3Actions';
@@ -64,12 +65,16 @@ const PageContainer = (props) => {
   // On connection changes
   useEffect(() => {
     if (address) {
+      // TODO : optimize into 1 request / also dispatch data inside useUserData
       userData.getUserDaiDeposit(address.toLowerCase()).then((weiDeposit) => {
         let daiDeposit = weiDeposit / Math.pow(10, 18);
         dispatch(setDaiDeposit(daiDeposit));
       });
       userData.getUserProjects(address.toLowerCase()).then((projects) => {
         dispatch(setHasAProposal(projects.length > 0));
+      });
+      userData.getUserVotes(address.toLowerCase()).then((usersVotes) => {
+        dispatch(setVotes(usersVotes));
       });
     }
   }, [connected, address]);
