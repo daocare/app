@@ -32,6 +32,20 @@ firebase deploy --only function:someFunction
 
 Copy `.env.example` values to the `.env` file. Then retrieve the contract address and network ID from the `./contracts/.openzeppelin` folder and get firebase credentials from https://console.firebase.google.com . (for the internal team, there is an example in the keybase folder)
 
+## UI Deploy
+
+```
+yarn build
+```
+
+```
+firebase login
+```
+
+```
+firebase deploy
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
