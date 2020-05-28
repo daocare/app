@@ -5,12 +5,11 @@ import useRouter from './useRouter';
 
 export const useRedirectHomeIfNoEthAccount = () => {
   const router = useRouter();
-
   const connected = useSelector((state) => state.user.connected);
 
   useEffect(() => {
     if (!connected) {
       router.history.push('/');
     }
-  }, [connected]);
+  }, [connected, router.history]);
 };

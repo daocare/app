@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { connectUser, disconnectUser } from '../redux/user/userActions';
 import { setProvider, setNetworkInfo } from '../redux/web3/web3Actions';
 import INFURA_ENDPOINT from '../utils/infura';
-import supportedChains from './chains';
 
 import useRouter from './useRouter';
 

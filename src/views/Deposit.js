@@ -7,7 +7,7 @@ import {
   setDaiDeposit,
 } from '../redux/user/userActions';
 import PropTypes from 'prop-types';
-import Moment from 'moment';
+// import Moment from 'moment';
 
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -17,7 +17,6 @@ import {
   TextField,
   InputAdornment,
 } from '@material-ui/core';
-import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 
 import Page from '../components/Page';

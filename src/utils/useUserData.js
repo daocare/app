@@ -16,6 +16,16 @@ const useUserData = () => {
     }
   `;
 
+  const USER_VOTES = gql`
+    query Users($address: String!) {
+      user(id: $address) {
+        votes {
+          id
+        }
+      }
+    }
+  `;
+
   const USER_DAI_DEPOSIT_QUERY = gql`
     query Users($address: String!) {
       user(id: $address) {
@@ -45,6 +55,19 @@ const useUserData = () => {
     }
   };
 
+  const getUserVotes = async (address) => {
+    try {
+      const result = await client.query({
+        query: USER_VOTES,
+        variables: { address },
+      });
+      return result['data']['user']['votes'];
+    } catch {
+      console.warn('User votes not found');
+      return 0;
+    }
+  };
+
   const getUserProjects = async (address) => {
     try {
       const result = await client.query({
@@ -58,7 +81,7 @@ const useUserData = () => {
     }
   };
 
-  return { getUserDaiDeposit, getUserProjects };
+  return { getUserDaiDeposit, getUserVotes, getUserProjects };
 };
 
 export default useUserData;

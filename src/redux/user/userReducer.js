@@ -7,6 +7,7 @@ import {
   SET_DAI_ALLOWANCE,
   SET_HAS_A_PROPOSAL,
   SET_ENABLED_TWITTER,
+  SET_VOTES,
 } from '../actionTypes';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   daiAllowance: null,
   hasAProposal: null,
   enabledTwitter: null,
+  votes: [],
 };
 
 export default function (state = initialState, action) {
@@ -62,6 +64,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         enabledTwitter: action.payload,
+      };
+    }
+    case SET_VOTES: {
+      return {
+        ...state,
+        votes: action.payload,
       };
     }
     default:

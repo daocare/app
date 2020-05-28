@@ -22,6 +22,7 @@ const useProposals = () => {
         }
         iterationsWon {
           id
+          iterationEndTimestamp
         }
       }
     }
@@ -50,6 +51,7 @@ const useProposals = () => {
       proposals = proposals.map((proposal, index) => {
         proposal.id = projects[index].id;
         proposal.owner = projects[index].benefactor.id; // mapping to how it was previously handled, could be refactored
+        proposal.iterationsWon = projects[index].iterationsWon;
         return proposal;
       });
 

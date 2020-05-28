@@ -6,6 +6,7 @@ import {
   SET_DAI_ALLOWANCE,
   SET_HAS_A_PROPOSAL,
   SET_ENABLED_TWITTER,
+  SET_VOTES,
 } from '../actionTypes';
 
 export const connectUser = (address) => {
@@ -53,5 +54,12 @@ export const setEnabledTwitter = (enabledTwitter) => {
   return {
     type: SET_ENABLED_TWITTER,
     payload: enabledTwitter,
+  };
+};
+
+export const setVotes = (votes) => {
+  return {
+    type: SET_VOTES,
+    payload: votes,
   };
 };

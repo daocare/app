@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   numberHighlight: {
     fontSize: 28,
+    display: 'inline',
     fontWeight: 'bold',
     color: '#A362A5',
   },
@@ -74,22 +75,19 @@ const Home = () => {
 
       <Grid container justify="space-between" spacing={2}>
         <Grid item xs={12} md={4} className={classes.gridItem}>
-          <Typography variant="body1" className={classes.numberHighlight}>
-            {fundSize > 0 ? (
-              <>
+          {fundSize > 0 ? (
+            <>
+              <Typography variant="body1" className={classes.numberHighlight}>
                 {fundSize}
-                <Typography
-                  variant="body1"
-                  className={classes.currencyHighlight}
-                >
-                  {' '}
-                  DAI
-                </Typography>
-              </>
-            ) : (
-              <EllipsisLoader />
-            )}
-          </Typography>
+              </Typography>
+              <Typography variant="body1" className={classes.currencyHighlight}>
+                {' '}
+                DAI
+              </Typography>
+            </>
+          ) : (
+            <EllipsisLoader />
+          )}
           <Typography variant="body1">Fund size</Typography>
         </Grid>
         {/* <Grid item xs={12} md={4} className={classes.gridItem}>

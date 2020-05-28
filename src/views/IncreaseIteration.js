@@ -41,54 +41,47 @@ const IncreaseIteration = () => {
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
-      {web3Connect.loadingWeb3 || web3Connect.fetched ? (
-        <>
-          <LoadingWeb3 />
-        </>
-      ) : (
-        <>
-          <Header />
-          <Typography variant="body1" className={classes.decriptionBlurb}>
-            This is an admin function to increase the iteration. This isn't
-            styled to look good, only for admin purposes now.
-          </Typography>
+      <>
+        <Header />
+        <Typography variant="body1" className={classes.decriptionBlurb}>
+          This is an admin function to increase the iteration. This isn't styled
+          to look good, only for admin purposes now.
+        </Typography>
 
-          <Typography variant="body1">
-            Current iteration Number: {web3Connect.currentIteration}
-          </Typography>
-          <Typography variant="body1">
-            Number of seconds till next iteration (only calculated when
-            component reloads - no `useEffect`s yet ;) ):{' '}
-            {numSecondsLeftInIteration}
-          </Typography>
-          <Typography variant="body1">
-            current top project id in current voting round (0 mean no project is
-            winning at the moment): {topProject}{' '}
-            {topProject > 0
-              ? '(' + web3Connect.proposals[topProject - 1].title + ')'
-              : ''}
-          </Typography>
+        <Typography variant="body1">
+          Current iteration Number: {web3Connect.currentIteration}
+        </Typography>
+        <Typography variant="body1">
+          Number of seconds till next iteration (only calculated when component
+          reloads - no `useEffect`s yet ;) ): {numSecondsLeftInIteration}
+        </Typography>
+        <Typography variant="body1">
+          current top project id in current voting round (0 mean no project is
+          winning at the moment): {topProject}{' '}
+          {topProject > 0
+            ? '(' + web3Connect.proposals[topProject - 1].title + ')'
+            : ''}
+        </Typography>
 
-          <div
-            className={classes.divContainer}
-            style={{
-              marginTop: 24,
-              marginBottom: 24,
-              textAlign: 'center',
-            }}
+        <div
+          className={classes.divContainer}
+          style={{
+            marginTop: 24,
+            marginBottom: 24,
+            textAlign: 'center',
+          }}
+        >
+          <Button
+            color="primary"
+            size="large"
+            className={classes.button}
+            startIcon={<UpdateIcon />}
+            onClick={web3Connect.contracts.dao.methods.distributeFunds}
           >
-            <Button
-              color="primary"
-              size="large"
-              className={classes.button}
-              startIcon={<UpdateIcon />}
-              onClick={web3Connect.contracts.dao.methods.distributeFunds}
-            >
-              Increment Iteration
-            </Button>
-          </div>
-        </>
-      )}
+            Increment Iteration
+          </Button>
+        </div>
+      </>
     </Page>
   );
 };

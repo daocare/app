@@ -7,8 +7,8 @@ import { setDaiDeposit } from '../redux/user/userActions';
 import { useState } from 'react';
 import web3 from 'web3';
 
-const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
-const SUPPORTED_NETWORK = 'kovan';
+// const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
+// const SUPPORTED_NETWORK = 'kovan';
 const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
 
 const depositAbi = require('../abis/PoolDeposits.json');
@@ -27,7 +27,6 @@ const useDepositContract = () => {
 
   const triggerDeposit = async (value, addr) => {
     let amount = web3.utils.toWei(value, 'ether');
-    console.log('addr', addr);
     try {
       let tx = await depositContract.methods.deposit(amount).send({
         from: addr,
