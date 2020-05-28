@@ -16,6 +16,7 @@ import useInterval from '../utils/useInterval';
 import useUserData from '../utils/useUserData';
 import useDepositContract from '../utils/useDepositContract';
 import useWeb3Modal from '../utils/useWeb3Modal';
+import useProposalsData from '../utils/useProposals';
 
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
@@ -42,12 +43,15 @@ const PageContainer = (props) => {
   const dispatch = useDispatch();
   const userData = useUserData();
   const depositContract = useDepositContract();
+  const proposalsData = useProposalsData();
   const web3Modal = useWeb3Modal();
 
   const { connected, address } = useSelector((state) => state.user);
 
   // On App Load
   useEffect(() => {
+    proposalsData.fetchProposals();
+
     depositContract.getFundSize().then((fundSize) => {
       dispatch(setFundSize(fundSize));
     });
