@@ -1,8 +1,8 @@
-import { FETCH_PROPOSALS } from '../actionTypes';
+import { SET_PROPOSALS } from '../actionTypes';
 
-export const fetchProposals = (proposals) => {
+export const setProposals = (proposals) => {
   return {
-    type: FETCH_PROPOSALS,
+    type: SET_PROPOSALS,
     payload: { proposals },
   };
 };

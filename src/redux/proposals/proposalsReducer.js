@@ -1,4 +1,4 @@
-import { FETCH_PROPOSALS } from '../actionTypes';
+import { SET_PROPOSALS } from '../actionTypes';
 
 const initialState = {
   loading: false,
@@ -9,7 +9,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case FETCH_PROPOSALS: {
+    case SET_PROPOSALS: {
       const { proposals } = action.payload;
       return {
         ...state,

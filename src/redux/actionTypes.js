@@ -1,5 +1,5 @@
 // Proposals
-export const FETCH_PROPOSALS = 'FETCH_PROPOSALS';
+export const SET_PROPOSALS = 'SET_PROPOSALS';
 
 // User
 export const CONNECT_USER = 'CONNECT_USER';

@@ -8,6 +8,7 @@ import Box from '3box';
 
 import useWeb3Connect from '../utils/useWeb3Connect';
 import useDaoContract from '../utils/useDaoContract';
+
 import useRouter from '../utils/useRouter';
 
 import DepositIcon from '@material-ui/icons/AllInclusive';
@@ -253,6 +254,7 @@ const Proposals = () => {
           <>
             <Grid container justify="space-evenly" spacing={4}>
               {proposals.map((proposal) => {
+                console.log('proposal');
                 console.log(proposal);
                 return (
                   <Grid key={proposal.id} item>

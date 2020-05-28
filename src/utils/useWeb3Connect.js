@@ -4,7 +4,6 @@ import Web3Connect from 'web3connect';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchProposals as fetchProposalsRedux } from '../redux/proposals/proposalsActions';
 // import { connectUser, disconnectUser } from '../redux/user/userActions';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -23,7 +22,7 @@ import {
   isFetching,
   logout3Box,
   isLoggedIn,
-  getThreadFirstPost,
+  getProposalFromThreadHashOld,
 } from './3BoxManager';
 
 const daiAbi = require('../abis/ERC20.json');
@@ -447,7 +446,7 @@ const useWeb3Connect = () => {
           console.log(`Skipping ${hash} as it is not stored on a thread...`);
           continue;
         }
-        let proposalThreadFirstPost = await getThreadFirstPost(hash);
+        let proposalThreadFirstPost = await getProposalFromThreadHashOld(hash);
         if (proposalThreadFirstPost) {
           let proposal = proposalThreadFirstPost['message'];
           proposal.id = i;
@@ -482,7 +481,6 @@ const useWeb3Connect = () => {
         await daoContract.methods.topProject(iteration - 1).call()
       );
       setPreviousWinnerId(thePreviousWinnerId);
-      dispatch(fetchProposalsRedux(tempProposals));
     }
   };
 

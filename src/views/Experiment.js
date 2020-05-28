@@ -8,6 +8,7 @@ import { Typography, Button, Grid } from '@material-ui/core';
 
 import useWeb3Modal from '../utils/useWeb3Modal';
 import useUserData from '../utils/useUserData';
+import useProposals from '../utils/useProposals';
 import useDepositContract from '../utils/useDepositContract';
 
 import Page from '../components/Page';
@@ -19,10 +20,16 @@ const useStyles = makeStyles((theme) => ({}));
 
 const Experiment = () => {
   const userData = useUserData();
+  const proposalsData = useProposals();
   const depositContract = useDepositContract();
 
   //   const test = userData.getUser('0x5790c9593e0d4a17a446d4c4b1c30b0541cdd10b');
   // const test = userData.getUser('0x3281434f39b97e040a469891cb3b278283cb32cc');
+
+  useEffect(() => {
+    console.log('fetchProposals effect');
+    proposalsData.fetchProposals();
+  }, []);
 
   const classes = useStyles();
 
@@ -40,7 +47,6 @@ const Experiment = () => {
       <Header />
       <Typography variant="body1" className={classes.decriptionBlurb}>
         Experiment page
-        <LoadingWeb3 />
       </Typography>
     </Page>
   );

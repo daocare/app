@@ -81,7 +81,16 @@ export const getBox = () => box;
 export const getSpace = () => space;
 export const isFetching = () => fetching;
 
-export const getThreadFirstPost = async (threadAddress) => {
+export const getProposalFromThreadHash = async (threadAddress) => {
+  let posts = await Box.getThreadByAddress(threadAddress);
+  if (posts && posts.length > 0) {
+    return posts[0]['message'];
+  }
+  return null;
+};
+
+//TODO delete
+export const getProposalFromThreadHashOld = async (threadAddress) => {
   let posts = await Box.getThreadByAddress(threadAddress);
   if (posts && posts.length > 0) {
     return posts[0];

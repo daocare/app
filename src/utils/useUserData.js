@@ -32,23 +32,6 @@ const useUserData = () => {
     }
   `;
 
-  // const getProjects = async () => {
-  //   const result = await client.query({
-  //     query: gql`
-  //       {
-  //         projects() {
-  //           id
-  //           benefactor
-  //           projectDataIdentifier
-  //           projectState
-  //         }
-  //       }
-  //     `,
-  //   });
-  //   console.log('projects');
-  //   console.log(result);
-  // };
-
   const getUserDaiDeposit = async (address) => {
     try {
       const result = await client.query({
