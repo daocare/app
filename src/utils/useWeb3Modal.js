@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { connectUser, disconnectUser } from '../redux/user/userActions';
 import { setProvider, setNetworkInfo } from '../redux/web3/web3Actions';
 import INFURA_ENDPOINT from '../utils/infura';
 import supportedChains from './chains';
+
+import useRouter from './useRouter';
 
 import Web3Modal from 'web3modal';
 import Web3 from 'web3';
@@ -11,6 +14,8 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Torus from '@toruslabs/torus-embed';
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
+const NOT_SUPPORTED_URL = '/network-not-supported';
+const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
 
 const providerOptions = {
   walletconnect: {
@@ -34,6 +39,7 @@ const web3Modal = new Web3Modal({
 
 const useWeb3Modal = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [web3, setWeb3] = useState(null);
 
   const SUPPORTED_NETWORKS = process.env.REACT_APP_SUPPORTED_NETWORKS.split(
@@ -42,12 +48,14 @@ const useWeb3Modal = () => {
 
   // Todo
   const subscribeProvider = async (provider) => {
+    console.log('subsciberProvider');
     provider.on('close', () => {
       console.log('disconnected from provider');
       triggerDisconnect();
     });
 
     provider.on('accountsChanged', async (accounts) => {
+      console.log('accountsChanged');
       dispatch(connectUser(accounts[0]));
       // fetchProposals(accounts[0]);
       // update3BoxDetails(accounts[0]);
@@ -63,11 +71,15 @@ const useWeb3Modal = () => {
 
     provider.on('networkChanged', async () => {
       console.log('networkChanged');
-      // const chainId = await web3.eth.chainId();
+
       // TODO
-      // console.log(chainId);
+
+      const chainId = await web3.eth.chainId();
+      console.log(chainId);
+
       const networkId = await web3.eth.net.getId();
-      // await dispatch(setNetworkInfo(networkId));
+      redirectToNotSupportedNetwork(chainId, networkId);
+
       await dispatch(setNetworkInfo(networkId));
       // setChainId(chainId);
       // setNetworkId(networkId);
@@ -78,6 +90,8 @@ const useWeb3Modal = () => {
 
   const triggerConnect = async () => {
     const providerInited = await web3Modal.connect();
+
+    console.log(providerInited);
 
     await subscribeProvider(providerInited);
     const web3Inited = new Web3(providerInited);
@@ -93,26 +107,13 @@ const useWeb3Modal = () => {
     const accounts = await web3Inited.eth.getAccounts();
     const userAddress = accounts[0];
     const networkId = await web3Inited.eth.net.getId();
+    const chainId = await web3Inited.eth.chainId();
 
     await dispatch(setNetworkInfo(networkId));
     await dispatch(connectUser(userAddress));
     await dispatch(setProvider(providerInited));
 
-    //   const networkIdTemp = await web3Inited.eth.net.getId();
-
-    //   const chainIdTemp = await web3Inited.eth.chainId();
-
-    //   if (chainIdTemp !== SUPPORTED_CHAIN_ID) {
-    //     if (window.location.pathname !== NOT_SUPPORTED_URL) {
-    //       router.history.push(NOT_SUPPORTED_URL);
-    //     }
-    //   }
-    //   if (
-    //     window.location.pathname === NOT_SUPPORTED_URL &&
-    //     networkId === SUPPORTED_CHAIN_ID
-    //   ) {
-    //     router.history.push('/');
-    //   }
+    redirectToNotSupportedNetwork(chainId, networkId);
 
     //   // instanciate contracts
     //   const daiContract = new web3Inited.eth.Contract(daiAbi.abi, DAI_ADDRESS);
@@ -150,6 +151,7 @@ const useWeb3Modal = () => {
     // console.log(web3.currentProvider);
     // await web3.clearCachedProvider();
     // }
+    web3Modal.clearCachedProvider();
     await dispatch(disconnectUser());
     await dispatch(setProvider(INFURA_ENDPOINT));
     // await web3Connect.clearCachedProvider();
@@ -162,6 +164,20 @@ const useWeb3Modal = () => {
     // await setChainId(null);
     // await setNetworkId(null);
     // await setDaiContract(null);
+  };
+
+  const redirectToNotSupportedNetwork = (chainId, networkId) => {
+    if (chainId !== SUPPORTED_CHAIN_ID) {
+      if (window.location.pathname !== NOT_SUPPORTED_URL) {
+        router.history.push(NOT_SUPPORTED_URL);
+      }
+    }
+    if (
+      window.location.pathname === NOT_SUPPORTED_URL &&
+      networkId === SUPPORTED_CHAIN_ID
+    ) {
+      router.history.push('/');
+    }
   };
 
   return { triggerConnect, triggerDisconnect, SUPPORTED_NETWORKS };
