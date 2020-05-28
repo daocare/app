@@ -1,21 +1,13 @@
-import React, { Suspense, useEffect } from 'react';
+import React from 'react';
 
-import { useDispatch } from 'react-redux';
-import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
-
-import useWeb3Connect from '../utils/useWeb3Connect';
-import useInterval from '../utils/useInterval';
-
-import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/styles';
-import { LinearProgress } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
+
 import Container from '@material-ui/core/Container';
+import PageContainer from './PageContainer';
 
 import BetaFlag from '../components/BetaFlag';
-import Page from '../components/Page';
 import WalletProfile from '../components/WalletProfile';
 import Nav from '../components/Nav';
 
@@ -26,10 +18,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-  },
-  pageOuterContainer: {
-    position: 'relative',
-    height: '80vh',
   },
   container: {
     display: 'flex',
@@ -55,19 +43,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Layout = (props) => {
-  const web3Connect = useWeb3Connect();
-  const dispatch = useDispatch();
-
-  // This should execute once web3connect has loaded then iterate in the background
-  useInterval(async () => {
-    if (web3Connect) {
-      let interestPrev = await web3Connect.contracts.dao.methods.getInterest();
-      dispatch(getInterestPrev(interestPrev));
-      let totalFundSize = await web3Connect.contracts.dao.methods.getTotalDepositedAmount();
-      dispatch(getFundSize(totalFundSize));
-    }
-  }, 2000);
-
   const { route } = props;
 
   const classes = useStyles();
@@ -79,11 +54,7 @@ const Layout = (props) => {
           <BetaFlag />
           <Container maxWidth="md">
             <WalletProfile />
-            <Paper elevation={0} className={classes.pageOuterContainer}>
-              <Suspense fallback={<LinearProgress />}>
-                {renderRoutes(route.routes)}
-              </Suspense>
-            </Paper>
+            <PageContainer route={route} />
             <Nav />
           </Container>
         </main>

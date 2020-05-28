@@ -1,26 +1,26 @@
 import {
-  GET_INTEREST_PREV,
-  GET_INTEREST_NEXT,
-  GET_FUND_SIZE,
+  SET_INTEREST_PREV,
+  SET_INTEREST_NEXT,
+  SET_FUND_SIZE,
 } from '../actionTypes';
 
-export const getInterestPrev = (prevInterest) => {
+export const setInterestPrev = (prevInterest) => {
   return {
-    type: GET_INTEREST_PREV,
+    type: SET_INTEREST_PREV,
     payload: prevInterest,
   };
 };
 
-export const getInterestNext = (nextInterest) => {
+export const setInterestNext = (nextInterest) => {
   return {
-    type: GET_INTEREST_NEXT,
+    type: SET_INTEREST_NEXT,
     payload: nextInterest,
   };
 };
 
-export const getFundSize = (fundSize) => {
+export const setFundSize = (fundSize) => {
   return {
-    type: GET_FUND_SIZE,
+    type: SET_FUND_SIZE,
     payload: fundSize,
   };
 };

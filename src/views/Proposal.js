@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Box from '3box';
 
 import useWeb3Connect from '../utils/useWeb3Connect';
+import useDaoContract from '../utils/useDaoContract';
 import useRouter from '../utils/useRouter';
 import {
   linkTwitterHandleToEthAddressInFirebase,
@@ -24,6 +25,7 @@ import Page from '../components/Page';
 import Header from '../components/Header';
 import ProposalCard from '../components/ProposalCard';
 import EllipsisLoader from '../components/EllipsisLoader';
+import PreviousWinnerBadge from '../components/PreviousWinnerBadge';
 
 import { twitterHandleAlreadyLinked } from '../modules/twitterDb';
 import { getUrlByHash } from '../modules/pinata';
@@ -47,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Proposal = ({ match }) => {
   const web3Connect = useWeb3Connect();
+  const daoContract = useDaoContract();
 
   const { proposals, fetched } = useSelector((state) => state.proposals);
   const connected = useSelector((state) => state.user.connected);
@@ -80,7 +83,7 @@ const Proposal = ({ match }) => {
     const verified = await Box.getVerifiedAccounts(profile);
     if (verified && verified.twitter && verified.twitter.username) {
       setStatus('3BOX_VERIFIED');
-      let tx = await web3Connect.contracts.dao.methods.enableTwitterVoting();
+      let tx = await daoContract.enableTwitterVoting();
       if (!tx) {
         setStatus('TX_FAILED');
       } else {
@@ -210,6 +213,9 @@ const Proposal = ({ match }) => {
               <Typography variant="caption" align="center">
                 {proposal.shortDescription}
               </Typography>
+              {proposal.id == web3Connect.previousWinnerId && (
+                <PreviousWinnerBadge />
+              )}
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="h3" className={classes.title}>

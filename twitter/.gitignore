@@ -11,5 +11,3 @@ npm-debug.log
 /dist
 /.graphql_ppx_cache
 *.bs.js
-
-Secrets.re

@@ -7,7 +7,7 @@ const { add, push, create } = scripts;
 // lendingPoolAddressProvider should be one of below depending on deployment
 // kovan 0x506B0B2CF20FAA8f38a4E2B524EE43e1f4458Cc5
 // mainnet 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8
-const lendingPoolAddressProvider= '0x506B0B2CF20FAA8f38a4E2B524EE43e1f4458Cc5';
+const lendingPoolAddressProvider = '0x506B0B2CF20FAA8f38a4E2B524EE43e1f4458Cc5';
 const daiAddress = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD';
 //const aavePoolAddress = '0x580D4Fdc4BF8f9b5ae2fb9225D584fED4AD5375c';
 //const aavePoolCoreAddress = '0x95D1189Ed88B380E319dF73fF00E479fcc4CFa45';
@@ -43,7 +43,7 @@ async function deploy(options, accounts, deployer) {
   let noLossDaoInstance = await NoLossDao_v0.at(noLossDao.address);
 
   // TODO: fix the interval here!
-  await noLossDaoInstance.initialize(poolDeposits.address, '1800', {
+  await noLossDaoInstance.initialize(poolDeposits.address, '30', {
     from: accounts[0],
   });
 }

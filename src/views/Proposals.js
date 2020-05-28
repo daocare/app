@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { fetchProposals } from '../redux/actions';
+// import { fetchProposals } from '../redux/actions';
 
 import PropTypes from 'prop-types';
 import Box from '3box';
 
 import useWeb3Connect from '../utils/useWeb3Connect';
+import useDaoContract from '../utils/useDaoContract';
 import useRouter from '../utils/useRouter';
 
 import DepositIcon from '@material-ui/icons/AllInclusive';
@@ -67,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Proposals = () => {
   const web3Connect = useWeb3Connect();
+  const daoContract = useDaoContract();
 
   const classes = useStyles();
   const router = useRouter();
@@ -74,15 +76,18 @@ const Proposals = () => {
 
   const { proposals, fetched } = useSelector((state) => state.proposals);
 
-  const connected = useSelector((state) => state.user.connected);
+  const {
+    connected,
+    enabledTwitter,
+    address,
+    hasAProposal,
+    daiDeposit,
+  } = useSelector((state) => state.user);
 
   const canVoteWithDelegate =
-    status === 'ENABLED' ||
-    (status !== '3BOX_VERIFIED' && web3Connect.enabledTwitter);
+    status === 'ENABLED' || (status !== '3BOX_VERIFIED' && enabledTwitter);
 
   const [canVoteViaTwitter, setCanVoteViaTwitter] = useState(false);
-
-  const address = web3Connect.address;
 
   const enableTwitter = async () => {
     setStatus('3BOX_VERIFICATION');
@@ -90,7 +95,7 @@ const Proposals = () => {
     const verified = await Box.getVerifiedAccounts(profile);
     if (verified && verified.twitter && verified.twitter.username) {
       setStatus('3BOX_VERIFIED');
-      let tx = await web3Connect.contracts.dao.methods.enableTwitterVoting();
+      let tx = await daoContract.enableTwitterVoting();
       if (!tx) {
         setStatus('TX_FAILED');
       } else {
@@ -115,7 +120,7 @@ const Proposals = () => {
   // If the user has delegated the voting && the firebase database doesn't have the correct value for their address/twitter handle. This code will fix it.
   useEffect(() => {
     if (canVoteWithDelegate) {
-      Box.getProfile(web3Connect.address).then(async (profile) => {
+      Box.getProfile(address).then(async (profile) => {
         const verified = await Box.getVerifiedAccounts(profile);
         const twitterIsVerified =
           verified && verified.twitter && verified.twitter.username;
@@ -143,8 +148,8 @@ const Proposals = () => {
 
   let votingAllowed =
     web3Connect.currentVote === null &&
-    web3Connect.daiDeposit > 0 &&
-    web3Connect.hasProposal === false;
+    daiDeposit > 0 &&
+    hasAProposal === false;
 
   return (
     <Page className={classes.root} title="dao.care | All Proposals">
@@ -156,7 +161,7 @@ const Proposals = () => {
         {status === 'DRAFT' &&
           !web3Connect.enabledTwitter &&
           connected &&
-          web3Connect.daiDeposit > 0 && (
+          daiDeposit > 0 && (
             <Button
               variant="contained"
               color="secondary"
@@ -202,7 +207,7 @@ const Proposals = () => {
         )}
       </div>
       <Header />
-      {web3Connect.daiDeposit === 0 && connected && (
+      {daiDeposit === 0 && connected && (
         <>
           <Typography variant="body2" className={classes.decriptionBlurb}>
             Deposit funds in the pool in order to vote on your favourite
@@ -256,7 +261,7 @@ const Proposals = () => {
                         proposal={proposal}
                         votingAllowed={votingAllowed}
                         twitterAllowed={!connected || votingAllowed}
-                        vote={web3Connect.contracts.dao.methods.vote}
+                        vote={daoContract.vote}
                         isPreviousWinner={
                           proposal.id == web3Connect.previousWinnerId
                         }

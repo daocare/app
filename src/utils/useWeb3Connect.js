@@ -3,8 +3,9 @@ import Web3 from 'web3';
 import Web3Connect from 'web3connect';
 
 import { useDispatch, useSelector } from 'react-redux';
+
 import { fetchProposals as fetchProposalsRedux } from '../redux/proposals/proposalsActions';
-import { connectUser, disconnectUser } from '../redux/user/userActions';
+// import { connectUser, disconnectUser } from '../redux/user/userActions';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
 // import Portis from "@portis/web3";
@@ -37,13 +38,16 @@ const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN
 const ADAI_ADDRESS = '0x58ad4cb396411b691a9aab6f74545b2c5217fe6a'; //kovan
 const DAO_ADDRESS = daoAbi.networks[CHAIN_ID].address;
 const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
-const INFURA_KEY = 'fd2fcca3c26e41cf88b907df3596b14e';
+// const INFURA_KEY = 'fd2fcca3c26e41cf88b907df3596b14e';
+const INFURA_KEY = 'e811479f4c414e219e7673b6671c2aba';
 const INFURA_ENDPOINT = 'https://kovan.infura.io/v3/' + INFURA_KEY;
 
 const NOT_SUPPORTED_URL = '/network-not-supported';
 
 const TWITTER_PROXY = '0xd3Cbce59318B2E570883719c8165F9390A12BdD6';
+
 let FETCH_UPDATE_INTERVAL = 7000;
+
 const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
@@ -72,6 +76,7 @@ const providerOptions = {
   //   options: {}
   // }
 };
+
 let isFetchingProposals = false;
 
 const web3Connect = new Web3Connect.Core({
@@ -191,7 +196,7 @@ const useWeb3Connect = () => {
     setProvider(providerInited);
     setWeb3(web3Inited);
     setConnected(true);
-    dispatch(connectUser());
+    // dispatch(connectUser());
     setAddress(addressTemp);
     setChainId(chainIdTemp);
     setNetworkId(networkIdTemp);
@@ -211,33 +216,30 @@ const useWeb3Connect = () => {
   // eslint-disable-next-line
   useEffect(() => {
     if (!loaded && !loadingWeb3) {
+      // if (!loadingWeb3) {
+      console.log('so many requests, what is going on');
       let web3Infura = new Web3(INFURA_ENDPOINT);
       setWeb3ReadOnly(web3Infura);
-
       const daiContractReadOnly = new web3Infura.eth.Contract(
         daiAbi.abi,
         DAI_ADDRESS
       );
       setDaiContractReadOnly(daiContractReadOnly);
-
       const adaiContractReadOnly = new web3Infura.eth.Contract(
         daiAbi.abi,
         ADAI_ADDRESS
       );
       setAdaiContractReadOnly(adaiContractReadOnly);
-
       const daoContractReadOnly = new web3Infura.eth.Contract(
         daoAbi.abi,
         DAO_ADDRESS
       );
       setDaoContractReadOnly(daoContractReadOnly);
-
       const depositContractReadOnly = new web3Infura.eth.Contract(
         depositAbi.abi,
         DEPOSIT_ADDRESS
       );
       setDepositContractReadOnly(depositContractReadOnly);
-
       if (web3Connect.cachedProvider && !connected) {
         setLoadingWeb3(true);
         onConnect(
@@ -249,26 +251,29 @@ const useWeb3Connect = () => {
       } else {
         setLoaded(true);
       }
+      // setLoaded(true);
+      // setLoadingWeb3(true);
     }
-  });
+  }, []);
 
-  useInterval(async () => {
-    if (daoContractReadOnly) {
-      fetchProposals();
-    }
-    if (
-      window.location.pathname === NOT_SUPPORTED_URL &&
-      networkId === SUPPORTED_CHAIN_ID
-    ) {
-      router.history.push('/');
-    }
-    if (connected && address) {
-      updateAllowance();
-      updateBalance();
-      updateDeposit();
-      updateDelegation();
-    }
-  }, FETCH_UPDATE_INTERVAL);
+  // TODO: reinstate (wont though)
+  // useInterval(async () => {
+  //   if (daoContractReadOnly) {
+  //     fetchProposals();
+  //   }
+  //   if (
+  //     window.location.pathname === NOT_SUPPORTED_URL &&
+  //     networkId === SUPPORTED_CHAIN_ID
+  //   ) {
+  //     router.history.push('/');
+  //   }
+  //   if (connected && address) {
+  //     updateAllowance();
+  //     updateBalance();
+  //     updateDeposit();
+  //     updateDelegation();
+  //   }
+  // }, FETCH_UPDATE_INTERVAL);
 
   const resetApp = async () => {
     if (web3 && web3.currentProvider && web3.currentProvider.close) {
@@ -279,7 +284,7 @@ const useWeb3Connect = () => {
     await setProvider(null);
     await setWeb3(null);
     await setConnected(false);
-    await dispatch(disconnectUser());
+    // await dispatch(disconnectUser());
     await setAddress(null);
     await setChainId(null);
     await setNetworkId(null);
@@ -348,6 +353,7 @@ const useWeb3Connect = () => {
       setDaiAllowance(Number(allowance));
     }
   };
+
   const updateBalance = async (
     addr = address,
     daiContract = daiContractReadOnly,
@@ -436,7 +442,7 @@ const useWeb3Connect = () => {
       let tempProposals = [];
       let foundOwner = false;
       for (let i = 1; i <= numProposals; i++) {
-        let hash = await daoContract.methods.proposalDetails(i).call();
+        let hash = await daoContract.methods.proposalIdentifier(i).call();
         if (!hash.includes('orbitdb')) {
           console.log(`Skipping ${hash} as it is not stored on a thread...`);
           continue;

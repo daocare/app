@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 import { lazy } from 'react';
 
-import Layout from './layouts/ReduxWrapper';
+import Layout from './layouts/ApolloWrapper';
 
 const routes = [
   {
@@ -52,6 +52,11 @@ const routes = [
         path: '/manually-increase-iteration',
         exact: true,
         component: lazy(() => import('./views/IncreaseIteration')),
+      },
+      {
+        path: '/experiment',
+        exact: true,
+        component: lazy(() => import('./views/Experiment')),
       },
     ],
   },

@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
+import web3 from 'web3';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setDaiBalance,
+  setDaiAllowance,
+  setDaiDeposit,
+} from '../redux/user/userActions';
 import PropTypes from 'prop-types';
+import Moment from 'moment';
+
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -12,12 +19,16 @@ import {
 } from '@material-ui/core';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
+
 import Page from '../components/Page';
 import Header from '../components/Header';
-import LoadingWeb3 from '../components/LoadingWeb3';
 import EllipsisLoader from '../components/EllipsisLoader';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import useRouter from '../utils/useRouter';
-import useWeb3Connect from '../utils/useWeb3Connect';
+import useDaiContract from '../utils/useDaiContract';
+import useDepositContract from '../utils/useDepositContract';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 import { useForm } from 'react-hook-form';
 
@@ -59,31 +70,89 @@ const useStyles = makeStyles((theme) => ({
   button: {
     width: 190,
   },
+  pageCentered: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  socials: {
+    filter: 'invert(70%)',
+    transform: 'translate(0, 25%)',
+    height: '20px',
+    marginLeft: '5px',
+    '&:hover': {
+      opacity: '0.6',
+    },
+  },
 }));
 
 const Deposit = () => {
+  useRedirectHomeIfNoEthAccount();
+
   const [status, setStatus] = useState('DRAFT');
+
   const classes = useStyles();
   const router = useRouter();
-  const web3Connect = useWeb3Connect();
+  const dispatch = useDispatch();
 
-  useRedirectHomeIfNoEthAccount();
+  const daiContract = useDaiContract();
+  const depositContract = useDepositContract();
+
+  const { address, daiBalance, daiDeposit, daiAllowance } = useSelector(
+    (state) => state.user
+  );
+
+  const { provider } = useSelector((state) => state.web3);
+
+  // On Deposit Page Load
+  useEffect(() => {
+    if (!(daiBalance > 0)) {
+      daiContract
+        .getUserDaiBalance(address.toLowerCase())
+        .then((daiBalance) => {
+          dispatch(setDaiBalance(daiBalance));
+        });
+    }
+  }, []);
 
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
   let amount = watch('amount') ? watch('amount') : 0;
-  let balance = Number(web3Connect.daiBalance);
-
-  const onSubmit = async (data) => {
-    let { amount } = data;
-    setStatus(`DEPOSITING`);
-    await web3Connect.contracts.dao.methods.triggerDeposit(amount);
-    setStatus('DEPOSITED');
-  };
 
   let approveDai = async () => {
     setStatus('APPROVING_DAI');
-    await web3Connect.contracts.dai.methods.triggerDaiApprove(new BN(999999));
-    setStatus('DAI_APPROVED');
+    try {
+      const bigNumberDaiBalance = new web3.utils.BN(daiBalance);
+      daiContract
+        .triggerDaiApprove(bigNumberDaiBalance, address, provider)
+        .then((allowance) => {
+          dispatch(setDaiAllowance(allowance));
+          setStatus('DAI_APPROVED');
+        });
+    } catch (err) {
+      console.warn(err);
+      console.warn('failed to approve dai');
+      setStatus('DAI_NOT_APPROVED');
+    }
+  };
+
+  const onSubmit = async (data) => {
+    if (daiAllowance == 0) await approveDai();
+
+    let { amount } = data;
+    setStatus(`DEPOSITING`);
+    console.log('submitting dai');
+    try {
+      depositContract.triggerDeposit(amount, address).then((amount) => {
+        dispatch(setDaiDeposit(amount));
+        setStatus('DEPOSITED');
+      });
+    } catch {
+      console.warn('failed to deposit dai');
+      setStatus('DAI_NOT_DEPOSITED');
+    }
   };
 
   const [twitterWarning, setTwitterWarning] = useState(false);
@@ -97,201 +166,242 @@ const Deposit = () => {
     }
   };
 
+  const celebrateImages = ['the-office.gif', 'ace-dancing.gif', 'harry.gif'];
+
+  const [randomNumberImageIndex, setRandomNumberImageIndex] = useState(
+    Math.floor(Math.random() * 3)
+  );
+
+  let cantDeposit =
+    (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+    daiBalance < amount ||
+    daiBalance === 0 ||
+    daiBalance == null;
+  // TODO: Add countdown to next iteration
+  // const numSecondsLeftInIteration = Math.max(
+  //   0,
+  //   web3Connect.currentIterationDeadline -
+  //     Math.floor(new Date().getTime() / 1000)
+  // );
+
   return (
     <Page className={classes.root} title="dao.care | Deposit">
-      {web3Connect.loadingWeb3 ? (
-        <LoadingWeb3 />
-      ) : (
-        <>
-          <Header />
+      <Header />
 
-          {web3Connect.hasProposal ? (
-            <Typography style={{ color: '#FF9494' }}>
-              As an owner of a proposal, you are unable to join the pool and
-              vote on proposals from the same address.
+      {/* {web3Connect.hasProposal ? ( */}
+      {false ? (
+        <Typography style={{ color: '#FF9494' }}>
+          As an owner of a proposal, you are unable to join the pool and vote on
+          proposals from the same address.
+        </Typography>
+      ) : daiDeposit > 0 && !(status === 'DEPOSITED') ? (
+        <>
+          <Typography variant="body1">
+            You currently have {daiDeposit} DAI in the fund. If you would like
+            to add to your deposit we require that you first withdraw your
+            current deposit. We do this to afford maximum smart contract
+            security.
+          </Typography>
+          <div
+            className={classes.divContainer}
+            style={{
+              marginTop: 24,
+              marginBottom: 24,
+              textAlign: 'center',
+            }}
+          >
+            <Button
+              color="primary"
+              size="large"
+              className={classes.button}
+              startIcon={<WithdrawIcon />}
+              onClick={() => {
+                router.history.push('/withdraw');
+              }}
+            >
+              Withdraw
+            </Button>
+          </div>
+        </>
+      ) : (
+        !(daiDeposit > 0) && (
+          <>
+            <Typography variant="body1" className={classes.decriptionBlurb}>
+              Deposit your DAI. Let your idle interest support community
+              projects. The amount of DAI you stake in the fund determines the
+              level of your voting power.
             </Typography>
-          ) : web3Connect.daiDeposit > 0 && status == 'DRAFT' ? (
-            <>
-              <Typography variant="body1">
-                You currently have {web3Connect.daiDeposit} DAI in the fund. If
-                you would like to add to your deposit we require that you first
-                withdraw your current deposit. We do this to afford maximum
-                smart contract security.
-              </Typography>
-              <div
-                className={classes.divContainer}
-                style={{
-                  marginTop: 24,
-                  marginBottom: 24,
-                  textAlign: 'center',
-                }}
-              >
-                <Button
-                  color="primary"
-                  size="large"
-                  className={classes.button}
-                  startIcon={<WithdrawIcon />}
-                  onClick={() => {
-                    router.history.push('/withdraw');
+            <Typography variant="h5">Deposit DAI</Typography>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box className={classes.fieldGroup}>
+                <TextField
+                  label="Amount"
+                  name="amount"
+                  type="number"
+                  variant="outlined"
+                  inputRef={register({ required: true })}
+                  className={classes.textField}
+                  required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">DAI</InputAdornment>
+                    ),
                   }}
-                >
-                  Withdraw
-                </Button>
-              </div>
-            </>
-          ) : (
-            web3Connect.daiDeposit === 0 && (
-              <>
-                <Typography variant="body1" className={classes.decriptionBlurb}>
-                  Deposit your DAI. Let your idle interest support community
-                  projects. The amount of DAI you stake in the fund determines
-                  the level of your voting power.
-                </Typography>
-                <Typography variant="h5">Deposit DAI</Typography>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <Box className={classes.fieldGroup}>
-                    <TextField
-                      label="Amount"
-                      name="amount"
-                      type="number"
-                      variant="outlined"
-                      inputRef={register({ required: true })}
-                      className={classes.textField}
-                      required
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">DAI</InputAdornment>
-                        ),
-                      }}
-                      onChange={() => twitterMinimumWarning()}
-                      style={{ width: 300 }}
-                      helperText={`Balance: ${web3Connect.daiBalance} DAI | Deposit: ${web3Connect.daiDeposit} DAI`}
-                    />
-                    {(web3Connect.daiAllowance === 0 ||
-                      status === 'DAI_APPROVED' ||
-                      status === 'APPROVING_DAI') && (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          style={{ width: 190, marginBottom: 22 }}
-                          disabled={
-                            web3Connect.daiAllowance > 0 || status !== 'DRAFT'
-                          }
-                          onClick={async () => approveDai()}
-                        >
-                          Allow DAI deposit
-                        </Button>
-                        {status === 'APPROVING_DAI' && (
-                          <Typography
-                            variant="body1"
-                            component="span"
-                            className={classes.statusMsg}
-                            style={{ marginBottom: 22 }}
-                          >
-                            Allowing deposits of DAI
-                            <EllipsisLoader />
-                          </Typography>
-                        )}
-                        {(status === 'DAI_APPROVED' ||
-                          web3Connect.daiAllowance > 0) && (
-                          <Typography
-                            variant="body2"
-                            component="span"
-                            className={classes.statusMsg}
-                            style={{ marginBottom: 22 }}
-                          >
-                            Deposit of DAI enabled
-                          </Typography>
-                        )}
-                      </>
-                    )}
-                  </Box>
-                  {twitterWarning && (
-                    <Typography
-                      variant="body2"
-                      component="span"
-                      style={{ color: 'orange' }}
-                    >
-                      Please note that in order to vote through twitter we
-                      require that you set a minimum deposit of{' '}
-                      {TWITTER_VOTING_MINIMUM} DAI, this is to cover gas costs.
-                    </Typography>
-                  )}
-                  <div className={classes.wrapper}>
+                  onChange={() => twitterMinimumWarning()}
+                  style={{ width: 300 }}
+                  helperText={`Balance: ${
+                    daiBalance == null ? '...' : daiBalance
+                  } DAI | Deposit: ${daiDeposit} DAI`}
+                />
+                {(daiAllowance === 0 ||
+                  status === 'DAI_APPROVED' ||
+                  status === 'APPROVING_DAI') && (
+                  <>
                     <Button
                       variant="contained"
                       color="primary"
-                      className={classes.button}
-                      type="submit"
-                      disabled={
-                        (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                        web3Connect.daiAllowance === 0 ||
-                        balance < amount ||
-                        balance === 0
-                      }
+                      style={{ width: 190, marginBottom: 22 }}
+                      disabled={daiAllowance > 0 || status !== 'DRAFT'}
+                      onClick={async () => approveDai()}
                     >
-                      Deposit
+                      Allow DAI deposit
                     </Button>
-                    {web3Connect.daiBalance < amount && (
+                    {status === 'APPROVING_DAI' && (
                       <Typography
-                        variant="body2"
+                        variant="body1"
                         component="span"
                         className={classes.statusMsg}
-                        style={{ color: '#FF9494' }}
+                        style={{ marginBottom: 22 }}
                       >
-                        You don't have enough DAI in your wallet to deposit{' '}
-                        {amount} DAI
-                      </Typography>
-                    )}
-                    {status === 'DEPOSITING' && (
-                      <Typography
-                        variant="body2"
-                        component="span"
-                        className={classes.statusMsg}
-                      >
-                        Depositing {amount} DAI
+                        Allowing deposits of DAI
                         <EllipsisLoader />
                       </Typography>
                     )}
-                  </div>
-                </form>
-              </>
-            )
-          )}
-          {status === 'DEPOSITED' && (
-            <>
-              <Typography
-                variant="body2"
-                component="span"
-                className={classes.statusMsg}
-              >
-                Your funds have been deposited, thank you!
-              </Typography>
-              <div
-                className={classes.divContainer}
-                style={{
-                  marginTop: 24,
-                  marginBottom: 24,
-                  textAlign: 'center',
-                }}
-              >
+                    {(status === 'DAI_APPROVED' || daiAllowance > 0) && (
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        className={classes.statusMsg}
+                        style={{ marginBottom: 22 }}
+                      >
+                        Deposit of DAI enabled
+                      </Typography>
+                    )}
+                  </>
+                )}
+              </Box>
+              {twitterWarning && (
+                <Typography
+                  variant="body2"
+                  component="span"
+                  style={{ color: 'orange' }}
+                >
+                  Please note that in order to vote through twitter we require
+                  that you set a minimum deposit of {TWITTER_VOTING_MINIMUM}{' '}
+                  DAI, this is to cover gas costs.
+                </Typography>
+              )}
+              <div className={classes.wrapper}>
                 <Button
                   variant="contained"
                   color="primary"
-                  size="large"
                   className={classes.button}
-                  startIcon={<HowToVoteIcon />}
-                  onClick={() => {
-                    router.history.push('/proposals');
-                  }}
+                  type="submit"
+                  disabled={cantDeposit}
                 >
-                  Vote
+                  Deposit
+                  {cantDeposit && (
+                    <CircularProgress
+                      className={classes.circularProgress}
+                      size={14}
+                    />
+                  )}
                 </Button>
+                {daiBalance < amount && (
+                  <Typography
+                    variant="body2"
+                    component="span"
+                    className={classes.statusMsg}
+                    style={{ color: '#FF9494' }}
+                  >
+                    You don't have enough DAI in your wallet to deposit {amount}{' '}
+                    DAI
+                  </Typography>
+                )}
+                {status === 'DEPOSITING' && (
+                  <Typography
+                    variant="body2"
+                    component="span"
+                    className={classes.statusMsg}
+                  >
+                    Depositing {amount} DAI
+                    <EllipsisLoader />
+                  </Typography>
+                )}
               </div>
-            </>
-          )}
-        </>
+            </form>
+          </>
+        )
+      )}
+      {status === 'DEPOSITED' && daiDeposit > 0 && (
+        <div className={classes.pageCentered}>
+          <div>
+            <Typography
+              variant="body1"
+              component="span"
+              style={{
+                textAlign: 'center',
+                display: 'block',
+                margin: 'auto',
+              }}
+            >
+              🎉 Wohoo! Your funds have been deposited! 🎊
+            </Typography>
+
+            <img
+              src={`./assets/celebrate/${celebrateImages[randomNumberImageIndex]}`}
+              style={{
+                width: '340px',
+                display: 'block',
+                margin: '1rem auto',
+              }}
+            />
+
+            <Typography
+              variant="body2"
+              component="span"
+              style={{
+                textAlign: 'center',
+                display: 'block',
+                margin: 'auto',
+              }}
+            >
+              {/* // TODO: Add countdown to next iteration */}
+              {/* {Moment(numSecondsLeftInIteration).calendar()}                   */}
+              {/* {Moment(web3Connect.currentIterationDeadline).fromNow()}  */}
+              To afford maximum smart contract security you can only vote on the
+              next voting cycle.
+              <br /> Follow us on{' '}
+              <a href="https://twitter.com/dao_care" target="_blank">
+                {' '}
+                twitter{' '}
+                <img
+                  src="/assets/socials/twitter.svg"
+                  className={classes.socials}
+                />
+              </a>{' '}
+              and join our{' '}
+              <a href="https://t.me/daocare" target="_blank">
+                telegram
+                <img
+                  src="/assets/socials/telegram.svg"
+                  className={classes.socials}
+                />
+              </a>{' '}
+              to get notified of the next voting cycle.
+            </Typography>
+          </div>
+        </div>
       )}
     </Page>
   );
