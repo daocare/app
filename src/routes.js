@@ -49,7 +49,7 @@ const routes = [
         component: lazy(() => import('./views/NetworkNotSupported')),
       },
       {
-        path: '/manually-increase-iteration',
+        path: '/increase-iteration',
         exact: true,
         component: lazy(() => import('./views/IncreaseIteration')),
       },
