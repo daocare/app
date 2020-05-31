@@ -1,87 +1,48 @@
 import { gql } from 'apollo-boost';
 import { client } from './Apollo';
 import { useDispatch } from 'react-redux';
+import {
+  setDaiDeposit,
+  setHasAProposal,
+  setVotes,
+} from '../redux/user/userActions';
 
 const useUserData = () => {
-  const USER_QUERY = gql`
+  const dispatch = useDispatch();
+
+  const USER_DATA_QUERY = gql`
     query Users($address: String!) {
       user(id: $address) {
         id
         amount
-        timeJoined
-        votes {
-          id
-        }
-      }
-    }
-  `;
-
-  const USER_VOTES = gql`
-    query Users($address: String!) {
-      user(id: $address) {
-        votes {
-          id
-        }
-      }
-    }
-  `;
-
-  const USER_DAI_DEPOSIT_QUERY = gql`
-    query Users($address: String!) {
-      user(id: $address) {
-        amount
-      }
-    }
-  `;
-
-  const USER_PROJECTS_QUERY = gql`
-    query Users($address: String!) {
-      user(id: $address) {
+        timeJoinedLeft
         projects
+        votes {
+          id
+        }
       }
     }
   `;
 
-  const getUserDaiDeposit = async (address) => {
+  const getUserData = async (address) => {
     try {
-      const result = await client.query({
-        query: USER_DAI_DEPOSIT_QUERY,
+      const userData = await client.query({
+        query: USER_DATA_QUERY,
         variables: { address },
       });
-      return result['data']['user']['amount'];
+      const daiDeposit = userData['data']['user']['amount'];
+      await dispatch(setDaiDeposit(daiDeposit / Math.pow(10, 18)));
+      const projects = userData['data']['user']['projects'];
+      await dispatch(setHasAProposal(projects.length > 0));
+      const votes = userData['data']['user']['votes'];
+      await dispatch(setVotes(votes));
     } catch {
-      console.warn('User not found');
+      console.warn('User not found fetching data');
       return 0;
     }
   };
 
-  const getUserVotes = async (address) => {
-    try {
-      const result = await client.query({
-        query: USER_VOTES,
-        variables: { address },
-      });
-      return result['data']['user']['votes'];
-    } catch {
-      console.warn('User votes not found');
-      return 0;
-    }
-  };
-
-  const getUserProjects = async (address) => {
-    try {
-      const result = await client.query({
-        query: USER_PROJECTS_QUERY,
-        variables: { address },
-      });
-      return result['data']['user']['projects'];
-    } catch {
-      console.warn('User not found while searching if they have projects');
-      return 0;
-    }
-  };
-
-  return { getUserDaiDeposit, getUserVotes, getUserProjects };
+  return { getUserData };
 };
 
 export default useUserData;

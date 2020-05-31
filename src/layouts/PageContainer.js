@@ -14,6 +14,7 @@ import { setFundSize } from '../redux/fund/fundActions';
 import { setProvider } from '../redux/web3/web3Actions';
 
 import useInterval from '../utils/useInterval';
+import useIteration from '../utils/useIteration';
 import useUserData from '../utils/useUserData';
 import useDepositContract from '../utils/useDepositContract';
 import useWeb3Modal from '../utils/useWeb3Modal';
@@ -46,6 +47,7 @@ const PageContainer = (props) => {
   const depositContract = useDepositContract();
   const proposalsData = useProposalsData();
   const web3Modal = useWeb3Modal();
+  const iteration = useIteration();
 
   const { connected, address } = useSelector((state) => state.user);
 
@@ -60,22 +62,17 @@ const PageContainer = (props) => {
     if (web3Modal.web3Modal.cachedProvider) {
       web3Modal.triggerConnect();
     }
+
+    iteration.getIteration();
   }, []);
 
   // On connection changes
   useEffect(() => {
     if (address) {
-      // TODO : optimize into 1 request / also dispatch data inside useUserData
-      userData.getUserDaiDeposit(address.toLowerCase()).then((weiDeposit) => {
-        let daiDeposit = weiDeposit / Math.pow(10, 18);
-        dispatch(setDaiDeposit(daiDeposit));
-      });
-      userData.getUserProjects(address.toLowerCase()).then((projects) => {
-        dispatch(setHasAProposal(projects.length > 0));
-      });
-      userData.getUserVotes(address.toLowerCase()).then((usersVotes) => {
-        dispatch(setVotes(usersVotes));
-      });
+      userData.getUserData(address.toLowerCase());
+      if (web3Modal.web3Modal.cachedProvider) {
+        web3Modal.triggerConnect();
+      }
     }
   }, [connected, address]);
 

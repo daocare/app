@@ -10,6 +10,7 @@ import {
 } from '../actionTypes';
 
 export const connectUser = (address) => {
+  console.log('Connect User');
   return {
     type: CONNECT_USER,
     payload: address,
@@ -17,6 +18,7 @@ export const connectUser = (address) => {
 };
 
 export const disconnectUser = () => {
+  console.log('Disconnect User');
   return {
     type: DISCONNECT_USER,
   };

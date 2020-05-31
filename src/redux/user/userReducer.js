@@ -12,7 +12,7 @@ import {
 
 const initialState = {
   loading: false,
-  connected: false,
+  connected: null,
   address: '',
   daiDeposit: null,
   daiBalance: null,
