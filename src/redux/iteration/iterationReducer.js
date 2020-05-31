@@ -1,8 +1,13 @@
-import { SET_ITERATION, SET_LAST_WINNER } from '../actionTypes';
+import {
+  SET_ITERATION,
+  SET_LAST_WINNER,
+  SET_ITERATION_DEADLINE,
+} from '../actionTypes';
 
 const initialState = {
   currentIteration: null,
   lastWinner: null,
+  currentIterationDeadline: null,
 };
 
 export default function (state = initialState, action) {
@@ -17,6 +22,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         lastWinner: action.payload,
+      };
+    }
+    case SET_ITERATION_DEADLINE: {
+      return {
+        ...state,
+        currentIterationDeadline: action.payload,
       };
     }
     default:

@@ -8,7 +8,7 @@ export const useRedirectHomeIfNoEthAccount = () => {
   const connected = useSelector((state) => state.user.connected);
 
   useEffect(() => {
-    if (!connected) {
+    if (connected == false) {
       router.history.push('/');
     }
   }, [connected, router.history]);
