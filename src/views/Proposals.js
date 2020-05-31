@@ -8,7 +8,7 @@ import Box from '3box';
 
 // import useWeb3Connect from '../utils/useWeb3Connect';
 import useDaoContract from '../utils/useDaoContract';
-// import useIteration from '../utils/useIteration';
+import useIteration from '../utils/useIteration';
 
 import useRouter from '../utils/useRouter';
 
@@ -71,15 +71,15 @@ const useStyles = makeStyles((theme) => ({
 const Proposals = () => {
   // const web3Connect = useWeb3Connect();
   const daoContract = useDaoContract();
-  // const iterationData = useIteration();
+  const iterationData = useIteration();
 
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
 
-  // useEffect(() => {
-  //   iterationData.getLastWinnerId();
-  // }, []);
+  useEffect(() => {
+    iterationData.getLastWinnerId();
+  }, []);
 
   const { currentIteration, lastWinner } = useSelector(
     (state) => state.iteration
@@ -92,6 +92,7 @@ const Proposals = () => {
     address,
     hasAProposal,
     daiDeposit,
+    votes,
   } = useSelector((state) => state.user);
 
   const canVoteWithDelegate =
@@ -156,16 +157,30 @@ const Proposals = () => {
     }
   }, [canVoteWithDelegate]);
 
+  const currentVoteId = null;
+
+  let calcHasVotedOnThisIteration = () => {
+    try {
+      const hasVotedThisIteration = votes.some(
+        (vote) => vote['id'].split('-')[0] == currentIteration
+      );
+      return hasVotedThisIteration;
+    } catch {
+      return null;
+    }
+  };
+
+  let hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+
+  useEffect(() => {
+    hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+  }, [currentIteration, votes]);
+
   let votingAllowed =
-    // web3Connect.currentVote === null && TODO
-    daiDeposit > 0 && hasAProposal === false;
+    !hasVotedOnThisIteration && daiDeposit > 0 && hasAProposal === false;
 
   return (
     <Page className={classes.root} title="dao.care | All Proposals">
-      {/* <button onClick={() => dispatch(fetchProposals(['this', 'test']))}>
-        {' '}
-        Test
-      </button> */}
       <div style={{ position: 'absolute', top: 6, right: 10 }}>
         {status === 'DRAFT' && !enabledTwitter && connected && daiDeposit > 0 && (
           <Button
@@ -235,30 +250,29 @@ const Proposals = () => {
           </div>
         </>
       )}
-      {/* TODO */}
-      {/* {web3Connect.currentVote !== null && (
+      {hasVotedOnThisIteration !== null && (
         <>
           <Typography variant="h5" className={classes.title}>
             Your vote
           </Typography>
+          {/* TODO */}
           <div style={{ marginTop: 16, marginBottom: 16 }}>
-            <ProposalCard
-              proposal={web3Connect.currentVote}
+            {/* {currentVoteId} */}
+            {/* <ProposalCard
+              proposal={currentVoteId}
               votingAllowed={false}
               twitterAllowed={false}
               address={address}
-            />
+            /> */}
           </div>
         </>
-      )} */}
+      )}
       <Typography variant="h5">All Proposals</Typography>
       <div style={{ marginTop: 16 }}>
         {fetched && proposals.length > 0 && (
           <>
             <Grid container justify="space-evenly" spacing={4}>
               {proposals.map((proposal) => {
-                console.log('proposal');
-                console.log(proposal.iterationsWon);
                 return (
                   <Grid key={proposal.id} item>
                     <div className={classes.card}>

@@ -45,7 +45,6 @@ const useWeb3Modal = () => {
 
   // Todo
   const subscribeProvider = async (provider) => {
-    console.log('subsciberProvider');
     provider.on('close', () => {
       console.log('disconnected from provider');
       triggerDisconnect();
@@ -88,8 +87,6 @@ const useWeb3Modal = () => {
 
   const triggerConnect = async () => {
     const providerInited = await web3Modal.connect();
-
-    console.log(providerInited);
 
     await subscribeProvider(providerInited);
     const web3Inited = new Web3(providerInited);
