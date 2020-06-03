@@ -29,6 +29,7 @@ const useUserData = () => {
     {
       users {
         id
+        amount
       }
     }
   `;
@@ -38,8 +39,13 @@ const useUserData = () => {
       const userData = await client.query({
         query: USERS_QUERY,
       });
-      const numberOfUsers = userData['data']['users'];
-      await dispatch(setNumberOfMembers(numberOfUsers.length));
+      const numberOfUsersdata = userData['data']['users'];
+      const numberOfActiveUsers =
+        numberOfUsersdata.length -
+        numberOfUsersdata.filter((user) => parseInt(user['amount']) <= 0)
+          .length;
+
+      await dispatch(setNumberOfMembers(numberOfActiveUsers));
     } catch {
       console.warn('User not found fetching data');
       return 0;
