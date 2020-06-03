@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 24,
   },
   numberHighlight: {
-    fontSize: 28,
+    fontSize: 60,
     display: 'inline',
     fontWeight: 'bold',
     color: '#A362A5',
@@ -58,6 +58,8 @@ const Home = () => {
   const { interestPrev, interestNext, fundSize } = useSelector(
     (state) => state.fund
   );
+  const proposals = useSelector((state) => state.proposals.proposals);
+  const numberOfMembers = useSelector((state) => state.fund.numberOfMembers);
   const userDaiDeposit = useSelector((state) => state.user.daiDeposit);
 
   const router = useRouter();
@@ -89,6 +91,26 @@ const Home = () => {
             <EllipsisLoader />
           )}
           <Typography variant="body1">Fund size</Typography>
+        </Grid>
+        <Grid item xs={12} md={4} className={classes.gridItem}>
+          {proposals.length > 0 ? (
+            <Typography variant="body1" className={classes.numberHighlight}>
+              {proposals.length}
+            </Typography>
+          ) : (
+            <EllipsisLoader />
+          )}
+          <Typography variant="body1">Number of Proposals</Typography>
+        </Grid>
+        <Grid item xs={12} md={4} className={classes.gridItem}>
+          {numberOfMembers > 0 ? (
+            <Typography variant="body1" className={classes.numberHighlight}>
+              {numberOfMembers}
+            </Typography>
+          ) : (
+            <EllipsisLoader />
+          )}
+          <Typography variant="body1">Number of Members</Typography>
         </Grid>
         {/* <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>

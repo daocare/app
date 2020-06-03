@@ -6,6 +6,7 @@ import {
   setHasAProposal,
   setVotes,
 } from '../redux/user/userActions';
+import { setNumberOfMembers } from '../redux/fund/fundActions';
 
 const useUserData = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,27 @@ const useUserData = () => {
       }
     }
   `;
+
+  const USERS_QUERY = gql`
+    {
+      users {
+        id
+      }
+    }
+  `;
+
+  const getUsers = async () => {
+    try {
+      const userData = await client.query({
+        query: USERS_QUERY,
+      });
+      const numberOfUsers = userData['data']['users'];
+      await dispatch(setNumberOfMembers(numberOfUsers.length));
+    } catch {
+      console.warn('User not found fetching data');
+      return 0;
+    }
+  };
 
   const getUserData = async (address) => {
     try {
@@ -42,7 +64,7 @@ const useUserData = () => {
     }
   };
 
-  return { getUserData };
+  return { getUsers, getUserData };
 };
 
 export default useUserData;

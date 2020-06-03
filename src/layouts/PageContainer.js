@@ -55,6 +55,8 @@ const PageContainer = (props) => {
   useEffect(() => {
     proposalsData.fetchProposals();
 
+    userData.getUsers();
+
     depositContract.getFundSize().then((fundSize) => {
       dispatch(setFundSize(fundSize));
     });

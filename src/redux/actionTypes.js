@@ -15,6 +15,7 @@ export const SET_VOTES = 'SET_VOTES';
 export const SET_INTEREST_PREV = 'SET_INTEREST_PREV';
 export const SET_INTEREST_NEXT = 'SET_INTEREST_NEXT';
 export const SET_FUND_SIZE = 'SET_FUND_SIZE';
+export const SET_NUMBER_OF_USERS = 'SET_NUMBER_OF_USERS';
 
 //web3
 export const SET_PROVIDER = 'SET_PROVIDER';
