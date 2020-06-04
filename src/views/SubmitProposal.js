@@ -28,7 +28,7 @@ import use3Box from '../utils/use3Box';
 import useRouter from '../utils/useRouter';
 import useInterval from '../utils/useInterval';
 import useDaiContract from '../utils/useDaiContract';
-import useDaoContract from '../utils/useDaoContract';
+import useDepositContract from '../utils/useDepositContract';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 import {
   open3Box,
@@ -85,7 +85,7 @@ const SubmitProposal = (props) => {
   const router = useRouter();
   const threeBoxData = use3Box();
   const daiContract = useDaiContract();
-  const daoContract = useDaoContract();
+  const depositContract = useDepositContract();
 
   const {
     daiDeposit,
@@ -645,7 +645,7 @@ const SubmitProposal = (props) => {
 
                           //TODO: Add emoji to firebase
 
-                          await daoContract.triggerSubmitProposal(
+                          await depositContract.triggerSubmitProposal(
                             threadAddress
                           );
 

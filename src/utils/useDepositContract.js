@@ -4,6 +4,9 @@ import { client } from './Apollo';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDaiDeposit } from '../redux/user/userActions';
 
+import useDaiContract from './useDaiContract';
+import useProposals from './useProposals';
+
 import { useState } from 'react';
 import web3 from 'web3';
 
@@ -17,7 +20,10 @@ const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
 const useDepositContract = () => {
   const { provider } = useSelector((state) => state.web3);
   const dispatch = useDispatch();
+  const daiContract = useDaiContract();
+  const proposalsData = useProposals();
 
+  const address = useSelector((state) => state.user.address);
   const [web3Provider] = useState(new web3(provider));
 
   const depositContract = new web3Provider.eth.Contract(
@@ -75,6 +81,15 @@ const useDepositContract = () => {
       console.warn('Fund not found');
       return 0;
     }
+  };
+
+  const triggerSubmitProposal = async (hash) => {
+    let tx = await depositContract.methods.createProposal(hash).send({
+      from: address,
+    });
+    await daiContract.updateAllowance();
+    await proposalsData.fetchProposals();
+    return tx;
   };
 
   return { getFundSize, triggerDeposit, triggerWithdrawal };

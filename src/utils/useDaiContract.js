@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import web3 from 'web3';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDaiAllowance } from '../redux/user/userActions';
 
 const daiAbi = require('../abis/ERC20.json');
 const depositAbi = require('../abis/PoolDeposits.json');
@@ -11,8 +12,9 @@ const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
 const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN TODO
 
 const useDaiContract = () => {
+  const dispatch = useDispatch();
   const { provider } = useSelector((state) => state.web3);
-  const address = useSelector((state) => state.user.address);
+  const address = useSelector((state) => state.user.address); // TODO check await
   const [web3Provider] = useState(new web3(provider));
 
   const daiContract = new web3Provider.eth.Contract(daiAbi.abi, DAI_ADDRESS);
@@ -39,15 +41,15 @@ const useDaiContract = () => {
     return web3.utils.fromWei(allowance, 'ether');
   };
 
-  // SMART CONTRACT FUNCTIONS
   const updateAllowance = async () => {
     let allowance = await daiContract.methods
       .allowance(address, DEPOSIT_ADDRESS)
       .call();
+    await dispatch(setDaiAllowance(allowance));
     return allowance;
   };
 
-  return { getUserDaiBalance, triggerDaiApprove };
+  return { getUserDaiBalance, triggerDaiApprove, updateAllowance };
 };
 
 export default useDaiContract;
