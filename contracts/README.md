@@ -1,30 +1,24 @@
 # No Loss Dao Contracts
 
-In networks section of deployed builds (in NoLossDao_v0.json and PoolDeposits.json) are the contracts addresses. For upgradeable DAO, can also find address in kovan.json
+In networks section of the deployed builds (in NoLossDao_v0.json and PoolDeposits.json) are the contracts' addresses. For upgradeable DAO, can also find address in `kovan.json` (in `.openzeppelin` folder)
 
-### install
+## Install
 
 ```bash
 yarn
 ```
 
-### Run the tests:
+## Run the tests
 
 ```bash
 yarn run test
-```
-
-```bash
 yarn run coverage
 ```
 
-### Clean Deploy
+## Clean Deploy
 
 ```bash
 yarn run clean
-```
-
-```bash
 yarn run deploy -- --network <network name you want to deploy to>
 ```
 
@@ -36,13 +30,13 @@ yarn run save-deployment
 
 ### Upgrade
 
-Prepair the upgrade by running instead of `yarn run clean`:
+Prepare the upgrade by running the below, instead of `yarn run clean`:
 
 ```bash
 yarn run prepair-upgrade
 ```
 
-#### Important After an upgrade or a deploy carefully examine the contents of both `deployed-builds/contracts` and `.openzeppelin` to make sure everything is in order before comiting or moving on.
+**IMPORTANT! After an upgrade or a deploy, carefully examine the contents of both `deployed-builds/contracts` and `.openzeppelin` to ensure everything is in order before comiting or moving on**
 
 ### License
 
