@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -81,7 +82,14 @@ const SubmitProposal = (props) => {
   const classes = useStyles();
   const router = useRouter();
 
+  const { daiDeposit, hasAProposal, address } = useSelector(
+    (state) => state.user
+  );
+
+  const provider = useSelector((state) => state.web3.provider);
+
   const web3Connect = useWeb3Connect();
+  const chainId = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [check3BoxProfile, setCheck3BoxProfile] = React.useState(false);
@@ -112,7 +120,7 @@ const SubmitProposal = (props) => {
   const onEmojiClick = async (event, emojiObject) => {
     event.preventDefault();
     console.log(emojiObject);
-    let networkSuffix = web3Connect.chainId == 42 ? '-kovan' : '';
+    let networkSuffix = chainId == 42 ? '-kovan' : '';
     if (await emojiExists(emojiObject.emoji, networkSuffix)) {
       setChosenEmoji(emojiObject);
 
@@ -123,11 +131,12 @@ const SubmitProposal = (props) => {
     }
   };
 
+  // TODO fix this shitty flow
   useInterval(async () => {
-    let is3BoxLoggedIn = await isLoggedIn(web3Connect.address);
+    let is3BoxLoggedIn = await isLoggedIn(address);
     if (getBox() === null && is3BoxLoggedIn && !isFetching()) {
       console.log('TRYING TO OPEN BOX');
-      open3Box(web3Connect.address, web3Connect.provider, setSpaceStatus);
+      open3Box(address, provider, setSpaceStatus);
     }
     if (
       is3BoxLoggedIn &&
@@ -234,15 +243,22 @@ const SubmitProposal = (props) => {
 
   return (
     <Page title="dao.care | submit proposal">
-      {web3Connect.loadingWeb3 && (
-        <>
-          <span />
-        </>
-      )}
+      <Header />
 
-      {!web3Connect.loadingWeb3 && (
+      {daiDeposit > 0 && (
+        <Typography variant="body2">
+          To afford maximum smart contract security we limit accounts that are
+          already part of the fund from submitting a proposal. Please use
+          another account to submit a proposal.
+        </Typography>
+      )}
+      {hasAProposal && (
+        <Typography variant="body2">
+          It looks like you have already submitted a proposal with this account.
+        </Typography>
+      )}
+      {!hasAProposal && daiDeposit === 0 && (
         <>
-          <Header />
           <Typography variant="h5" className={classes.title}>
             Submit Proposal
           </Typography>
@@ -278,11 +294,16 @@ const SubmitProposal = (props) => {
                           gutterBottom
                           style={{ marginBottom: 16 }}
                         >
-                          In order to submit a proposal, you need to have a 3Box
-                          profile with a twitter verification.
-                          <br />
-                          Please click on the 3Box cloud to create a profile on
-                          3Box hub.
+                          In order to submit a proposal, you need to verify your
+                          profile and twitter account with{' '}
+                          <a
+                            href="https://3box.io/hub"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => setCheck3BoxProfile(true)}
+                          >
+                            3Box
+                          </a>
                         </Typography>
                         {/* <Button
                           variant="contained"
@@ -331,11 +352,7 @@ const SubmitProposal = (props) => {
                             color="primary"
                             className={classes.button}
                             onClick={async () => {
-                              await open3Box(
-                                web3Connect.address,
-                                web3Connect.provider,
-                                setSpaceStatus
-                              );
+                              await open3Box(address, provider, setSpaceStatus);
                               setActiveStep(1);
                             }}
                             disabled={spaceStatus !== null}
@@ -496,7 +513,7 @@ const SubmitProposal = (props) => {
                       fileUploadedCB={(url, hash) => {
                         console.log({ url, hash });
                         setIpfsImage({ url, hash });
-                        pinHash(hash, web3Connect.address + '-logo');
+                        pinHash(hash, address + '-logo');
                       }}
                       caption={'Select image'}
                     />
@@ -509,7 +526,11 @@ const SubmitProposal = (props) => {
                     )}
                   </>
                   <div
-                    style={{ width: '100%', textAlign: 'center', padding: 32 }}
+                    style={{
+                      width: '100%',
+                      textAlign: 'center',
+                      padding: 32,
+                    }}
                   >
                     <Button
                       variant="contained"
@@ -542,7 +563,7 @@ const SubmitProposal = (props) => {
             </Step>
 
             <Step>
-              <StepLabel>Stake &amp; Submit</StepLabel>
+              <StepLabel>Stake and submit</StepLabel>
               <StepContent>
                 {/* <Typography variant="body1" style={{ marginTop: 16 }}>
                   Review your proposal
@@ -580,7 +601,11 @@ const SubmitProposal = (props) => {
                     </Typography>
                   )}
                 <div
-                  style={{ width: '100%', textAlign: 'center', padding: 32 }}
+                  style={{
+                    width: '100%',
+                    textAlign: 'center',
+                    padding: 32,
+                  }}
                 >
                   <Tooltip
                     title={`This operation will ${
@@ -684,17 +709,6 @@ const SubmitProposal = (props) => {
               </StepContent>
             </Step>
           </Stepper>
-
-          {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && <></>}
-          {web3Connect.daiDeposit > 0 && (
-            <Typography variant="body2">
-              You have already deposited and you can't add a proposal with the
-              same account, please create a new one.
-            </Typography>
-          )}
-          {web3Connect.hasProposal && (
-            <Typography variant="body2">You already have a proposal</Typography>
-          )}
         </>
       )}
     </Page>

@@ -175,7 +175,12 @@ const useWeb3Modal = () => {
     }
   };
 
-  return { web3Modal, triggerConnect, triggerDisconnect, SUPPORTED_NETWORKS };
+  return {
+    web3Modal,
+    triggerConnect,
+    triggerDisconnect,
+    SUPPORTED_NETWORKS,
+  };
 };
 
 export default useWeb3Modal;
