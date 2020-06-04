@@ -7,6 +7,7 @@ import {
   SET_HAS_A_PROPOSAL,
   SET_ENABLED_TWITTER,
   SET_VOTES,
+  SET_3BOX_INFO,
 } from '../actionTypes';
 
 export const connectUser = (address) => {
@@ -63,5 +64,12 @@ export const setVotes = (votes) => {
   return {
     type: SET_VOTES,
     payload: votes,
+  };
+};
+
+export const set3BoxData = (isLoggedIn, profile, verifiedAccounts) => {
+  return {
+    type: SET_3BOX_INFO,
+    payload: { isLoggedIn, profile, verifiedAccounts },
   };
 };

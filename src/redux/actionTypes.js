@@ -10,6 +10,7 @@ export const SET_DAI_ALLOWANCE = 'SET_DAI_ALLOWANCE';
 export const SET_HAS_A_PROPOSAL = 'SET_HAS_A_PROPOSAL';
 export const SET_ENABLED_TWITTER = 'SET_ENABLED_TWITTER';
 export const SET_VOTES = 'SET_VOTES';
+export const SET_3BOX_INFO = 'SET_3BOX_INFO';
 
 // Fund
 export const SET_INTEREST_PREV = 'SET_INTEREST_PREV';

@@ -8,6 +8,7 @@ import {
   SET_HAS_A_PROPOSAL,
   SET_ENABLED_TWITTER,
   SET_VOTES,
+  SET_3BOX_INFO,
 } from '../actionTypes';
 
 const initialState = {
@@ -20,6 +21,11 @@ const initialState = {
   hasAProposal: null,
   enabledTwitter: null,
   votes: [],
+  threeBox: {
+    isLoggedIn: null,
+    profile: null,
+    verifiedAccounts: null,
+  },
 };
 
 export default function (state = initialState, action) {
@@ -70,6 +76,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         votes: action.payload,
+      };
+    }
+    case SET_3BOX_INFO: {
+      return {
+        ...state,
+        threeBox: action.payload,
       };
     }
     default:

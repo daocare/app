@@ -334,6 +334,7 @@ const useWeb3Connect = () => {
     }
     return { profile: null, verifiedAccounts: null };
   };
+
   const triggerOpen3Box = async (addr = address, prov = provider) => {
     if (addr && prov) {
       await open3Box(addr, prov);
