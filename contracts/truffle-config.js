@@ -1,4 +1,3 @@
-const path = require('path');
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const {
   mnemonic,
@@ -6,7 +5,7 @@ const {
   rinkebyProviderUrl,
   goerliProviderUrl,
   kovanProviderUrl,
-} = require('./secretsManager.js');
+} = require('./secretsManagerCi.js');
 
 const blockchainNodeHost = process.env.BLOCKCHAIN_NODE_HOST || 'localhost';
 
