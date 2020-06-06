@@ -116,6 +116,7 @@ const Deposit = () => {
         });
       }
       daiContract.getUserDaiAllowance();
+      setStatus('READY');
     }
   }, [address, provider]);
 
@@ -178,7 +179,10 @@ const Deposit = () => {
   );
 
   let cantDeposit =
-    daiBalance < amount || daiBalance === 0 || daiBalance == null;
+    status != 'READY' ||
+    daiBalance < amount ||
+    daiBalance === 0 ||
+    daiBalance == null;
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">

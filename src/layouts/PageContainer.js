@@ -49,7 +49,7 @@ const PageContainer = (props) => {
   const web3Modal = useWeb3Modal();
   const iteration = useIteration();
 
-  const { connected, address } = useSelector((state) => state.user);
+  const { connected, address, daiBalance } = useSelector((state) => state.user);
 
   // On App Load
   useEffect(() => {
@@ -66,6 +66,10 @@ const PageContainer = (props) => {
     iteration.getIteration();
     iteration.getCurrentIterationIncreaseTimestamp();
   }, []);
+
+  useEffect(() => {
+    depositContract.getFundSize();
+  }, [daiBalance]);
 
   // On connection changes
   useEffect(() => {
