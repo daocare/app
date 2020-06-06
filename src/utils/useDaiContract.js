@@ -33,11 +33,15 @@ const useDaiContract = () => {
 
   const getUserDaiAllowance = async () => {
     try {
-      let allowanceAmount = new web3Provider.utils.BN(
-        await daiContract.methods.allowance(address, DEPOSIT_ADDRESS).call()
+      let allowanceAmount = await daiContract.methods
+        .allowance(address, DEPOSIT_ADDRESS)
+        .call();
+
+      let allowanceAmountFromWei = Number(
+        web3.utils.fromWei('' + allowanceAmount, 'ether')
       );
-      dispatch(setDaiAllowance(allowanceAmount));
-      return Number(web3.utils.fromWei('' + allowanceAmount, 'ether'));
+
+      dispatch(setDaiAllowance(allowanceAmountFromWei));
     } catch {
       console.warn("Couldn't find this users dai allowance");
       return 0;

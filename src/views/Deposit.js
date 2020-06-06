@@ -141,8 +141,6 @@ const Deposit = () => {
   const onSubmit = async (data) => {
     let { amount } = data;
 
-    console.log('amount');
-    console.log(amount);
     console.log('daiAllowance');
     console.log(daiAllowance);
     if (amount > daiAllowance) await approveDai();
@@ -263,15 +261,6 @@ const Deposit = () => {
                   status === 'DAI_APPROVED' ||
                   status === 'APPROVING_DAI') && (
                   <>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      style={{ width: 190, marginBottom: 22 }}
-                      disabled={daiAllowance > 0 || status !== 'DRAFT'}
-                      onClick={async () => approveDai()}
-                    >
-                      Allow DAI deposit
-                    </Button>
                     {status === 'APPROVING_DAI' && (
                       <Typography
                         variant="body1"
@@ -283,7 +272,7 @@ const Deposit = () => {
                         <EllipsisLoader />
                       </Typography>
                     )}
-                    {(status === 'DAI_APPROVED' || daiAllowance > 0) && (
+                    {status === 'DAI_APPROVED' && (
                       <Typography
                         variant="body2"
                         component="span"
