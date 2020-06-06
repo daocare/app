@@ -158,7 +158,36 @@ const Proposals = () => {
     }
   }, [canVoteWithDelegate]);
 
-  const currentVoteId = null;
+  let calcCurrentVote = () => {
+    try {
+      let currentVote = votes.filter(
+        (vote) => vote['id'].split('-')[0] == currentIteration
+      );
+      let voteId = currentVote[0]['id'].split('-')[1];
+      return voteId;
+    } catch (err) {
+      console.warn('No votes yet', err);
+      return -1;
+    }
+  };
+
+  const currentVoteId = calcCurrentVote();
+
+  let [votedProposal, setVotedProposal] = useState(undefined);
+
+  useEffect(() => {
+    console.log('proposals');
+    console.log(proposals);
+    let filteredProposal = proposals.filter((proposal) => {
+      console.log('proposal.id');
+      console.log(proposal.id);
+      console.log('currentVoteId');
+      console.log(currentVoteId);
+      return proposal.id == currentVoteId;
+    });
+    console.log(filteredProposal[0]);
+    setVotedProposal(filteredProposal[0]);
+  }, [currentVoteId, proposals]);
 
   let calcHasVotedOnThisIteration = () => {
     try {
@@ -256,20 +285,18 @@ const Proposals = () => {
           </div>
         </>
       )}
-      {hasVotedOnThisIteration !== null && (
+      {hasVotedOnThisIteration == true && votedProposal != undefined && (
         <>
           <Typography variant="h5" className={classes.title}>
             Your vote
           </Typography>
-          {/* TODO */}
           <div style={{ marginTop: 16, marginBottom: 16 }}>
-            {/* {currentVoteId} */}
-            {/* <ProposalCard
-              proposal={currentVoteId}
+            <ProposalCard
+              proposal={votedProposal}
               votingAllowed={false}
               twitterAllowed={false}
               address={address}
-            /> */}
+            />
           </div>
         </>
       )}

@@ -173,6 +173,16 @@ const Withdraw = () => {
             </Typography>
           ) : !hasAnActiveProposal ? (
             <div className={classes.buttonContainer}>
+              {daiDeposit <= 0 && daiDeposit != null && status != 'WITHDRAWN' && (
+                <Typography
+                  variant="body2"
+                  component="span"
+                  style={{ color: 'red' }}
+                >
+                  It looks like you don't have any DAI deposited in the pool
+                  with this address
+                </Typography>
+              )}
               {hasVotedOnThisIteration ? (
                 <Typography
                   variant="body2"
@@ -221,12 +231,6 @@ const Withdraw = () => {
           )}
         </div>
       </div>
-      {daiDeposit <= 0 && daiDeposit != null && status != 'WITHDRAWN' && (
-        <Typography variant="body2" component="span" style={{ color: 'red' }}>
-          It looks like you don't have any DAI deposited in the pool with this
-          address
-        </Typography>
-      )}
     </Page>
   );
 };

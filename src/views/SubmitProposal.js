@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import AddIcon from '@material-ui/icons/PersonAdd';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Page from '../components/Page';
 import Header from '../components/Header';
@@ -38,7 +39,7 @@ import {
   getBox,
 } from '../utils/3BoxManager';
 import { emojiExists } from '../modules/twitterDb';
-import { pinHash } from '../modules/pinata';
+import { pinHash, getUrlByHash } from '../modules/pinata';
 
 import { useForm } from 'react-hook-form';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
@@ -117,12 +118,12 @@ const SubmitProposal = (props) => {
   const [threadAddress, setThreadAddress] = React.useState(null);
   const [proposal, setProposal] = React.useState(
     null
-    //   {
-    //   title: 'Wildcards',
-    //   shortDescription: 'Always for sale ethereum conservation tokens',
-    //   website: 'https://wildcards.world',
+    // {
+    //   title: 'Test Proposal',
+    //   shortDescription: 'We are coming to mainnet soon!',
+    //   website: 'https://avolabs.io',
     //   image: getUrlByHash('QmckEm47utHmuw5Z5tXCXmsUj6WiUoNxX3B8C2RhWdG6EQ'),
-    //   description: 'Bla Bla',
+    //   description: 'Soon soon :)',
     // }
   );
 
@@ -140,15 +141,24 @@ const SubmitProposal = (props) => {
     }
   };
 
+  useEffect(() => {
+    threeBoxData.update3BoxDetails();
+
+    if (!isFetching()) {
+      open3Box(address, provider, setSpaceStatus);
+      console.log('opened3box');
+    }
+  }, [address, provider]);
+
   // TODO fix this shitty looping flow
   useInterval(async () => {
     console.log('I run every 3 seconds?');
-    if (getBox() === null && threeBox.isLoggedIn && !isFetching()) {
+    if (getBox() === null && threeBox['isLoggedIn'] && !isFetching()) {
       console.log('TRYING TO OPEN BOX');
       open3Box(address, provider, setSpaceStatus);
     }
     if (
-      threeBox.isLoggedIn &&
+      threeBox['isLoggedIn'] &&
       !isFetching() &&
       getSpace() !== null &&
       activeStep === 0
@@ -158,8 +168,8 @@ const SubmitProposal = (props) => {
     if (check3BoxProfile) {
       console.log('I am checking if 3box has been created...');
       await threeBoxData.update3BoxDetails();
-      console.log(threeBox.verifiedAccounts);
-      if (threeBox.profile && threeBox.verifiedAccounts.twitter) {
+
+      if (threeBox['profile'] && threeBox['verifiedAccounts']['twitter']) {
         setCheck3BoxProfile(false);
       }
     }
@@ -211,7 +221,7 @@ const SubmitProposal = (props) => {
       description: descriptionValue,
       team,
       emoji: chosenEmoji.emoji,
-      ownerTwitter: threeBox.verifiedAccounts.twitter.username,
+      ownerTwitter: threeBox['verifiedAccounts']['twitter']['username'],
     };
     console.log(body);
 
@@ -266,10 +276,27 @@ const SubmitProposal = (props) => {
           It looks like you have already submitted a proposal with this account.
         </Typography>
       )}
+      {daiBalance !== null && daiBalance < STAKING_AMOUNT && (
+        <Typography
+          variant="body2"
+          component="span"
+          style={{
+            color: '#FF9494',
+            textAlign: 'center',
+            display: 'block',
+          }}
+        >
+          You do not have enough DAI in your wallet to submit a proposal
+        </Typography>
+      )}
       {!hasAProposal && daiDeposit === 0 && (
         <>
           <Typography variant="h5" className={classes.title}>
             Submit Proposal
+          </Typography>
+          <Typography variant="body2">
+            <InfoIcon fontSize="inherit" /> In order to submit a proposal you
+            will be required to stake 50 DAI
           </Typography>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
@@ -295,7 +322,7 @@ const SubmitProposal = (props) => {
                         }}
                       />
                     </a>
-                    {!threeBox.profile && (
+                    {!threeBox['profile'] && (
                       <>
                         <Typography
                           variant="body2"
@@ -323,9 +350,9 @@ const SubmitProposal = (props) => {
                         </Button> */}
                       </>
                     )}
-                    {threeBox.profile &&
-                      (!threeBox.verifiedAccounts ||
-                        !threeBox.verifiedAccounts.twitter) && (
+                    {threeBox['profile'] &&
+                      (!threeBox['verifiedAccounts'] ||
+                        !threeBox['verifiedAccounts']['twitter']) && (
                         <Typography
                           variant="body2"
                           gutterBottom
@@ -335,9 +362,9 @@ const SubmitProposal = (props) => {
                           3Box to verify your twitter
                         </Typography>
                       )}
-                    {threeBox.profile &&
-                      threeBox.verifiedAccounts &&
-                      threeBox.verifiedAccounts.twitter && (
+                    {threeBox['profile'] &&
+                      threeBox['verifiedAccounts'] &&
+                      threeBox['verifiedAccounts']['twitter'] && (
                         <>
                           <Typography
                             variant="body2"
@@ -470,7 +497,7 @@ const SubmitProposal = (props) => {
                           avatar={
                             <Avatar
                               alt={member}
-                              src={'https://avatars.io/twitter/' + member}
+                              src={'https://avatars.io/twitter/' + member} //TODO this doesn't seem to work
                             />
                           }
                           label={member}
@@ -594,19 +621,7 @@ const SubmitProposal = (props) => {
                     {STAKING_AMOUNT} DAI
                   </Typography>
                 </Tooltip>
-                {daiBalance !== null && daiBalance < STAKING_AMOUNT && (
-                  <Typography
-                    variant="body2"
-                    component="span"
-                    style={{
-                      color: '#FF9494',
-                      textAlign: 'center',
-                      display: 'block',
-                    }}
-                  >
-                    You don't have enough DAI on your wallet
-                  </Typography>
-                )}
+
                 <div
                   style={{
                     width: '100%',
@@ -626,11 +641,11 @@ const SubmitProposal = (props) => {
                       variant="contained"
                       color="primary"
                       className={classes.button}
-                      disabled={
-                        daiBalance === null ||
-                        daiBalance < STAKING_AMOUNT ||
-                        status !== 'PROPOSAL_STORED'
-                      }
+                      // disabled={
+                      //   daiBalance === null ||
+                      //   daiBalance < STAKING_AMOUNT ||
+                      //   status !== 'PROPOSAL_STORED'
+                      // } TODO
                       onClick={async () => {
                         let execute = async () => {
                           if (daiAllowance < STAKING_AMOUNT) {
@@ -667,7 +682,7 @@ const SubmitProposal = (props) => {
                           display: 'block',
                         }}
                       >
-                        Please allow the transfer of {STAKING_AMOUNT} DAI on
+                        Please allow the transfer of {STAKING_AMOUNT} DAI from
                         your wallet...
                       </Typography>
                     )}

@@ -97,7 +97,12 @@ const useDepositContract = () => {
     return tx;
   };
 
-  return { getFundSize, triggerDeposit, triggerWithdrawal };
+  return {
+    getFundSize,
+    triggerDeposit,
+    triggerWithdrawal,
+    triggerSubmitProposal,
+  };
 };
 
 export default useDepositContract;
