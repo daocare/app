@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -17,15 +18,18 @@ import {
 } from '@material-ui/core';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import AddIcon from '@material-ui/icons/PersonAdd';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Page from '../components/Page';
 import Header from '../components/Header';
 import IpfsUpload from '../components/IpfsUpload';
 import ProposalCard from '../components/ProposalCard';
 
-import useWeb3Connect from '../utils/useWeb3Connect';
+import use3Box from '../utils/use3Box';
 import useRouter from '../utils/useRouter';
 import useInterval from '../utils/useInterval';
+import useDaiContract from '../utils/useDaiContract';
+import useDepositContract from '../utils/useDepositContract';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 import {
   open3Box,
@@ -35,7 +39,7 @@ import {
   getBox,
 } from '../utils/3BoxManager';
 import { emojiExists } from '../modules/twitterDb';
-import { pinHash } from '../modules/pinata';
+import { pinHash, getUrlByHash } from '../modules/pinata';
 
 import { useForm } from 'react-hook-form';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
@@ -80,8 +84,22 @@ const SubmitProposal = (props) => {
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
   const router = useRouter();
+  const threeBoxData = use3Box();
+  const daiContract = useDaiContract();
+  const depositContract = useDepositContract();
 
-  const web3Connect = useWeb3Connect();
+  const {
+    daiDeposit,
+    hasAProposal,
+    address,
+    threeBox,
+    daiBalance,
+    daiAllowance,
+  } = useSelector((state) => state.user);
+
+  const provider = useSelector((state) => state.web3.provider);
+
+  const chainId = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [check3BoxProfile, setCheck3BoxProfile] = React.useState(false);
@@ -100,19 +118,19 @@ const SubmitProposal = (props) => {
   const [threadAddress, setThreadAddress] = React.useState(null);
   const [proposal, setProposal] = React.useState(
     null
-    //   {
-    //   title: 'Wildcards',
-    //   shortDescription: 'Always for sale ethereum conservation tokens',
-    //   website: 'https://wildcards.world',
+    // {
+    //   title: 'Test Proposal',
+    //   shortDescription: 'We are coming to mainnet soon!',
+    //   website: 'https://avolabs.io',
     //   image: getUrlByHash('QmckEm47utHmuw5Z5tXCXmsUj6WiUoNxX3B8C2RhWdG6EQ'),
-    //   description: 'Bla Bla',
+    //   description: 'Soon soon :)',
     // }
   );
 
   const onEmojiClick = async (event, emojiObject) => {
     event.preventDefault();
     console.log(emojiObject);
-    let networkSuffix = web3Connect.chainId == 42 ? '-kovan' : '';
+    let networkSuffix = chainId == 42 ? '-kovan' : '';
     if (await emojiExists(emojiObject.emoji, networkSuffix)) {
       setChosenEmoji(emojiObject);
 
@@ -123,14 +141,24 @@ const SubmitProposal = (props) => {
     }
   };
 
+  useEffect(() => {
+    threeBoxData.update3BoxDetails();
+
+    if (!isFetching()) {
+      open3Box(address, provider, setSpaceStatus);
+      console.log('opened3box');
+    }
+  }, [address, provider]);
+
+  // TODO fix this shitty looping flow
   useInterval(async () => {
-    let is3BoxLoggedIn = await isLoggedIn(web3Connect.address);
-    if (getBox() === null && is3BoxLoggedIn && !isFetching()) {
+    console.log('I run every 3 seconds?');
+    if (getBox() === null && threeBox['isLoggedIn'] && !isFetching()) {
       console.log('TRYING TO OPEN BOX');
-      open3Box(web3Connect.address, web3Connect.provider, setSpaceStatus);
+      open3Box(address, provider, setSpaceStatus);
     }
     if (
-      is3BoxLoggedIn &&
+      threeBox['isLoggedIn'] &&
       !isFetching() &&
       getSpace() !== null &&
       activeStep === 0
@@ -139,9 +167,9 @@ const SubmitProposal = (props) => {
     }
     if (check3BoxProfile) {
       console.log('I am checking if 3box has been created...');
-      let { profile, verifiedAccounts } = await web3Connect.update3BoxDetails();
-      console.log({ verifiedAccounts });
-      if (profile && verifiedAccounts.twitter) {
+      await threeBoxData.update3BoxDetails();
+
+      if (threeBox['profile'] && threeBox['verifiedAccounts']['twitter']) {
         setCheck3BoxProfile(false);
       }
     }
@@ -193,7 +221,7 @@ const SubmitProposal = (props) => {
       description: descriptionValue,
       team,
       emoji: chosenEmoji.emoji,
-      ownerTwitter: web3Connect.userVerifiedAccounts.twitter.username,
+      ownerTwitter: threeBox['verifiedAccounts']['twitter']['username'],
     };
     console.log(body);
 
@@ -234,24 +262,47 @@ const SubmitProposal = (props) => {
 
   return (
     <Page title="dao.care | submit proposal">
-      {web3Connect.loadingWeb3 && (
-        <>
-          <span />
-        </>
-      )}
+      <Header />
 
-      {!web3Connect.loadingWeb3 && (
+      {daiDeposit > 0 && (
+        <Typography variant="body2">
+          To afford maximum smart contract security we limit accounts that are
+          already part of the fund from submitting a proposal. Please use
+          another account to submit a proposal.
+        </Typography>
+      )}
+      {hasAProposal && (
+        <Typography variant="body2">
+          It looks like you have already submitted a proposal with this account.
+        </Typography>
+      )}
+      {daiBalance !== null && daiBalance < STAKING_AMOUNT && (
+        <Typography
+          variant="body2"
+          component="span"
+          style={{
+            color: '#FF9494',
+            textAlign: 'center',
+            display: 'block',
+          }}
+        >
+          You do not have enough DAI in your wallet to submit a proposal
+        </Typography>
+      )}
+      {!hasAProposal && daiDeposit === 0 && (
         <>
-          <Header />
           <Typography variant="h5" className={classes.title}>
             Submit Proposal
+          </Typography>
+          <Typography variant="body2">
+            <InfoIcon fontSize="inherit" /> In order to submit a proposal you
+            will be required to stake 50 DAI
           </Typography>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
               <StepLabel>3Box verification</StepLabel>
               <StepContent>
                 <div className={classes.stepContent}>
-                  {/* {web3Connect.is3BoxLoggedIn && ( */}
                   <div className={classes.step3Box}>
                     <a
                       href="https://3box.io/hub"
@@ -271,18 +322,23 @@ const SubmitProposal = (props) => {
                         }}
                       />
                     </a>
-                    {!web3Connect.userProfile && (
+                    {!threeBox['profile'] && (
                       <>
                         <Typography
                           variant="body2"
                           gutterBottom
                           style={{ marginBottom: 16 }}
                         >
-                          In order to submit a proposal, you need to have a 3Box
-                          profile with a twitter verification.
-                          <br />
-                          Please click on the 3Box cloud to create a profile on
-                          3Box hub.
+                          In order to submit a proposal, you need to verify your
+                          profile and twitter account with{' '}
+                          <a
+                            href="https://3box.io/hub"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => setCheck3BoxProfile(true)}
+                          >
+                            3Box
+                          </a>
                         </Typography>
                         {/* <Button
                           variant="contained"
@@ -294,9 +350,9 @@ const SubmitProposal = (props) => {
                         </Button> */}
                       </>
                     )}
-                    {web3Connect.userProfile &&
-                      (!web3Connect.userVerifiedAccounts ||
-                        !web3Connect.userVerifiedAccounts.twitter) && (
+                    {threeBox['profile'] &&
+                      (!threeBox['verifiedAccounts'] ||
+                        !threeBox['verifiedAccounts']['twitter']) && (
                         <Typography
                           variant="body2"
                           gutterBottom
@@ -306,9 +362,9 @@ const SubmitProposal = (props) => {
                           3Box to verify your twitter
                         </Typography>
                       )}
-                    {web3Connect.userProfile &&
-                      web3Connect.userVerifiedAccounts &&
-                      web3Connect.userVerifiedAccounts.twitter && (
+                    {threeBox['profile'] &&
+                      threeBox['verifiedAccounts'] &&
+                      threeBox['verifiedAccounts']['twitter'] && (
                         <>
                           <Typography
                             variant="body2"
@@ -317,8 +373,8 @@ const SubmitProposal = (props) => {
                           >
                             {!spaceStatus && (
                               <span>
-                                We found your 3Box profile with a twitter
-                                account!
+                                We found your 3Box profile with a verified
+                                twitter account!
                                 <br />
                                 We now need to open a dao.care space on your
                                 3Box.
@@ -331,11 +387,7 @@ const SubmitProposal = (props) => {
                             color="primary"
                             className={classes.button}
                             onClick={async () => {
-                              await open3Box(
-                                web3Connect.address,
-                                web3Connect.provider,
-                                setSpaceStatus
-                              );
+                              await open3Box(address, provider, setSpaceStatus);
                               setActiveStep(1);
                             }}
                             disabled={spaceStatus !== null}
@@ -445,7 +497,7 @@ const SubmitProposal = (props) => {
                           avatar={
                             <Avatar
                               alt={member}
-                              src={'https://avatars.io/twitter/' + member}
+                              src={'https://avatars.io/twitter/' + member} //TODO this doesn't seem to work
                             />
                           }
                           label={member}
@@ -496,7 +548,7 @@ const SubmitProposal = (props) => {
                       fileUploadedCB={(url, hash) => {
                         console.log({ url, hash });
                         setIpfsImage({ url, hash });
-                        pinHash(hash, web3Connect.address + '-logo');
+                        pinHash(hash, address + '-logo');
                       }}
                       caption={'Select image'}
                     />
@@ -509,7 +561,11 @@ const SubmitProposal = (props) => {
                     )}
                   </>
                   <div
-                    style={{ width: '100%', textAlign: 'center', padding: 32 }}
+                    style={{
+                      width: '100%',
+                      textAlign: 'center',
+                      padding: 32,
+                    }}
                   >
                     <Button
                       variant="contained"
@@ -519,8 +575,8 @@ const SubmitProposal = (props) => {
                       style={{ marginBottom: 16 }}
                       disabled={
                         // (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-                        // web3Connect.daiAllowance === 0 ||
-                        // web3Connect.daiBalance < STAKING_AMOUNT
+                        // daiAllowance === 0 ||
+                        // daiBalance < STAKING_AMOUNT
                         Object.keys(validationErrors()).length !== 0 ||
                         status === 'STORING_PROPOSAL'
                       }
@@ -542,7 +598,7 @@ const SubmitProposal = (props) => {
             </Step>
 
             <Step>
-              <StepLabel>Stake &amp; Submit</StepLabel>
+              <StepLabel>Stake and submit</StepLabel>
               <StepContent>
                 {/* <Typography variant="body1" style={{ marginTop: 16 }}>
                   Review your proposal
@@ -565,27 +621,17 @@ const SubmitProposal = (props) => {
                     {STAKING_AMOUNT} DAI
                   </Typography>
                 </Tooltip>
-                {web3Connect.daiBalance !== null &&
-                  web3Connect.daiBalance < STAKING_AMOUNT && (
-                    <Typography
-                      variant="body2"
-                      component="span"
-                      style={{
-                        color: '#FF9494',
-                        textAlign: 'center',
-                        display: 'block',
-                      }}
-                    >
-                      You don't have enough DAI on your wallet
-                    </Typography>
-                  )}
+
                 <div
-                  style={{ width: '100%', textAlign: 'center', padding: 32 }}
+                  style={{
+                    width: '100%',
+                    textAlign: 'center',
+                    padding: 32,
+                  }}
                 >
                   <Tooltip
                     title={`This operation will ${
-                      web3Connect.daiAllowance === null ||
-                      web3Connect.daiAllowance < STAKING_AMOUNT
+                      daiAllowance === null || daiAllowance < STAKING_AMOUNT
                         ? `first allow dao.care to extract ${STAKING_AMOUNT} DAI from your wallet and then `
                         : ''
                     }transfer ${STAKING_AMOUNT} DAI to the pool in order to submit your proposal`}
@@ -595,16 +641,16 @@ const SubmitProposal = (props) => {
                       variant="contained"
                       color="primary"
                       className={classes.button}
-                      disabled={
-                        web3Connect.daiBalance === null ||
-                        web3Connect.daiBalance < STAKING_AMOUNT ||
-                        status !== 'PROPOSAL_STORED'
-                      }
+                      // disabled={
+                      //   daiBalance === null ||
+                      //   daiBalance < STAKING_AMOUNT ||
+                      //   status !== 'PROPOSAL_STORED'
+                      // } TODO
                       onClick={async () => {
                         let execute = async () => {
-                          if (web3Connect.daiAllowance < STAKING_AMOUNT) {
+                          if (daiAllowance < STAKING_AMOUNT) {
                             setStatus('APPROVING_DAI');
-                            await web3Connect.contracts.dai.methods.triggerDaiApprove(
+                            await daiContract.triggerDaiApprove(
                               new BN(STAKING_AMOUNT)
                             );
                             setStatus('DAI_APPROVED');
@@ -614,7 +660,7 @@ const SubmitProposal = (props) => {
 
                           //TODO: Add emoji to firebase
 
-                          await web3Connect.contracts.dao.methods.triggerSubmitProposal(
+                          await depositContract.triggerSubmitProposal(
                             threadAddress
                           );
 
@@ -636,7 +682,7 @@ const SubmitProposal = (props) => {
                           display: 'block',
                         }}
                       >
-                        Please allow the transfer of {STAKING_AMOUNT} DAI on
+                        Please allow the transfer of {STAKING_AMOUNT} DAI from
                         your wallet...
                       </Typography>
                     )}
@@ -684,17 +730,6 @@ const SubmitProposal = (props) => {
               </StepContent>
             </Step>
           </Stepper>
-
-          {!web3Connect.hasProposal && web3Connect.daiDeposit === 0 && <></>}
-          {web3Connect.daiDeposit > 0 && (
-            <Typography variant="body2">
-              You have already deposited and you can't add a proposal with the
-              same account, please create a new one.
-            </Typography>
-          )}
-          {web3Connect.hasProposal && (
-            <Typography variant="body2">You already have a proposal</Typography>
-          )}
         </>
       )}
     </Page>

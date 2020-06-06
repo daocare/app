@@ -70,7 +70,12 @@ const ProposalCard = (props) => {
       </CardActionArea>
       <CardActions style={{ float: 'right' }}>
         <Tooltip title="Open website">
-          <IconButton aria-label="open" href={website} target="_blank">
+          <IconButton
+            aria-label="open"
+            href={website}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <InsertLinkIcon />
           </IconButton>
         </Tooltip>

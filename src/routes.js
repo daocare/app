@@ -25,6 +25,11 @@ const routes = [
         component: lazy(() => import('./views/HowItWorks')),
       },
       {
+        path: '/security',
+        exact: true,
+        component: lazy(() => import('./views/Security')),
+      },
+      {
         path: '/deposit',
         exact: true,
         component: lazy(() => import('./views/Deposit')),
@@ -49,7 +54,7 @@ const routes = [
         component: lazy(() => import('./views/NetworkNotSupported')),
       },
       {
-        path: '/manually-increase-iteration',
+        path: '/increase-iteration',
         exact: true,
         component: lazy(() => import('./views/IncreaseIteration')),
       },

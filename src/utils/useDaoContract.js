@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setEnabledTwitter } from '../redux/user/userActions';
 
+import useUserData from './useUserData';
+
 const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
 const SUPPORTED_NETWORK = 'kovan';
 const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
@@ -15,10 +17,11 @@ const DAO_ADDRESS = daoAbi.networks[CHAIN_ID].address;
 const useDaoContract = () => {
   const { provider } = useSelector((state) => state.web3);
   const address = useSelector((state) => state.user.address);
-  const [web3Provider] = useState(new web3(provider));
+  const web3Provider = new web3(provider);
   const dispatch = useDispatch();
 
   const daoContract = new web3Provider.eth.Contract(daoAbi.abi, DAO_ADDRESS);
+  const userData = useUserData();
 
   const updateDelegation = async () => {
     if (address) {
@@ -40,16 +43,33 @@ const useDaoContract = () => {
   };
 
   const vote = async (id) => {
-    let tx = await daoContract.methods.voteDirect(id).send({
-      from: address,
-    });
-    // await fetchProposals(); // TODO
-    return tx;
+    try {
+      let tx = await daoContract.methods.voteDirect(parseInt(id)).send({
+        from: address,
+      });
+      // await fetchProposals(); // TODO
+      userData.getUserData(address);
+      return tx;
+    } catch (err) {
+      console.warn('Unable to vote: ', err);
+    }
+  };
+
+  const distributeFunds = async () => {
+    try {
+      let distributeFundsTx = daoContract.methods.distributeFunds().send({
+        from: address,
+      });
+      return distributeFundsTx;
+    } catch (err) {
+      console.warn('Unable to increase iteration and distribute funds: ', err);
+    }
   };
 
   return {
     enableTwitterVoting,
     vote,
+    distributeFunds,
   };
 };
 

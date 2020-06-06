@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import Moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
@@ -72,18 +73,42 @@ const Withdraw = () => {
   const daiContract = useDaiContract();
   const depositContract = useDepositContract();
 
-  const { address, daiDeposit, daiAllowance, hasAProposal } = useSelector(
-    (state) => state.user
+  const {
+    address,
+    daiDeposit,
+    daiAllowance,
+    hasAProposal,
+    votes,
+  } = useSelector((state) => state.user);
+
+  const { currentIteration, currentIterationDeadline } = useSelector(
+    (state) => state.iteration
   );
 
   let depositedFunds = Number(daiDeposit);
 
   let hasAnActiveProposal = hasAProposal === true && !(hasAProposal === null);
   let hasNoDaiInFund = daiDeposit <= 0;
-  let hasNotApprovedDai = daiAllowance === 0;
+
+  let calcHasVotedOnThisIteration = () => {
+    try {
+      const hasVotedThisIteration = votes.some(
+        (vote) => vote['id'].split('-')[0] == currentIteration
+      );
+      return hasVotedThisIteration;
+    } catch {
+      return null;
+    }
+  };
+
+  let hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+
+  useEffect(() => {
+    hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+  }, [currentIteration, votes]);
+
   let withdrawingDisabled =
-    hasAnActiveProposal || hasNoDaiInFund || hasNotApprovedDai;
-  // !web3Connect.fetched; TODO
+    hasAnActiveProposal || hasNoDaiInFund || hasVotedOnThisIteration;
 
   const onWithdrawFunds = async () => {
     setStatus(`WITHDRAWING`);
@@ -148,23 +173,50 @@ const Withdraw = () => {
             </Typography>
           ) : !hasAnActiveProposal ? (
             <div className={classes.buttonContainer}>
-              {!(daiDeposit <= 0 && daiDeposit != null) && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  // onClick={!withdrawingDisabled && (() => onWithdrawFunds())}
-                  onClick={() => onWithdrawFunds()}
-                  disabled={withdrawingDisabled}
+              {daiDeposit <= 0 && daiDeposit != null && status != 'WITHDRAWN' && (
+                <Typography
+                  variant="body2"
+                  component="span"
+                  style={{ color: 'red' }}
                 >
-                  Withdraw
-                  {withdrawingDisabled && (
-                    <CircularProgress
-                      className={classes.circularProgress}
-                      size={14}
-                    />
+                  It looks like you don't have any DAI deposited in the pool
+                  with this address
+                </Typography>
+              )}
+              {hasVotedOnThisIteration ? (
+                <Typography
+                  variant="body2"
+                  component="span"
+                  style={{ color: 'red' }}
+                >
+                  It looks like you have voted on this voting cycle.
+                  <br />
+                  You won't be able to withdraw your funds until the end of this
+                  voting cycle. <br />
+                  The current voting cycle will end{' '}
+                  {Moment.unix(currentIterationDeadline).fromNow()}
+                </Typography>
+              ) : (
+                <>
+                  {!(daiDeposit <= 0 && daiDeposit != null) && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}
+                      // onClick={!withdrawingDisabled && (() => onWithdrawFunds())}
+                      onClick={() => onWithdrawFunds()}
+                      disabled={withdrawingDisabled}
+                    >
+                      Withdraw
+                      {withdrawingDisabled && (
+                        <CircularProgress
+                          className={classes.circularProgress}
+                          size={14}
+                        />
+                      )}
+                    </Button>
                   )}
-                </Button>
+                </>
               )}
             </div>
           ) : (
@@ -179,12 +231,6 @@ const Withdraw = () => {
           )}
         </div>
       </div>
-      {daiDeposit <= 0 && daiDeposit != null && status != 'WITHDRAWN' && (
-        <Typography variant="body2" component="span" style={{ color: 'red' }}>
-          It looks like you don't have any DAI deposited in the pool with this
-          address
-        </Typography>
-      )}
     </Page>
   );
 };

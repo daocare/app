@@ -8,7 +8,10 @@ import { Typography, Button, Grid } from '@material-ui/core';
 
 import useWeb3Modal from '../utils/useWeb3Modal';
 import useUserData from '../utils/useUserData';
+import useProposals from '../utils/useProposals';
 import useDepositContract from '../utils/useDepositContract';
+import useDaiContract from '../utils/useDaiContract';
+import useIteration from '../utils/useIteration';
 
 import Page from '../components/Page';
 import Header from '../components/Header';
@@ -18,11 +21,15 @@ import LoadingWeb3 from '../components/LoadingWeb3';
 const useStyles = makeStyles((theme) => ({}));
 
 const Experiment = () => {
-  const userData = useUserData();
-  const depositContract = useDepositContract();
+  const daiContract = useDaiContract();
 
-  //   const test = userData.getUser('0x5790c9593e0d4a17a446d4c4b1c30b0541cdd10b');
-  // const test = userData.getUser('0x3281434f39b97e040a469891cb3b278283cb32cc');
+  // useEffect(() => {
+  //   daiContract.getUserDaiAllowance();
+  // }, []);
+
+  const test = () => {
+    daiContract.getUserDaiAllowance();
+  };
 
   const classes = useStyles();
 
@@ -39,8 +46,7 @@ const Experiment = () => {
     <Page title="dao.care">
       <Header />
       <Typography variant="body1" className={classes.decriptionBlurb}>
-        Experiment page
-        <LoadingWeb3 />
+        <button onClick={() => test()}> Tesy</button>
       </Typography>
     </Page>
   );

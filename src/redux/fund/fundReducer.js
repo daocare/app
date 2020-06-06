@@ -2,6 +2,7 @@ import {
   SET_INTEREST_PREV,
   SET_INTEREST_NEXT,
   SET_FUND_SIZE,
+  SET_NUMBER_OF_USERS,
 } from '../actionTypes';
 
 const initialState = {
@@ -9,6 +10,7 @@ const initialState = {
   interestPrev: null,
   interestNext: null,
   fundSize: null,
+  numberOfMembers: null,
 };
 
 export default function (state = initialState, action) {
@@ -29,6 +31,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         fundSize: action.payload,
+      };
+    }
+    case SET_NUMBER_OF_USERS: {
+      return {
+        ...state,
+        numberOfMembers: action.payload,
       };
     }
     default:

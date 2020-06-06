@@ -8,13 +8,13 @@ const PreviousWinnerBanner = () => (
       top: '1rem',
       color: 'white',
       backgroundColor: '#6850A8',
-      padding: '0.1rem 2rem',
+      padding: '0.4rem 2rem',
       fontFamily: 'nunito',
       fontWeight: 700,
-      transform: 'rotate(-45deg) translate(-34px, -20px)',
+      transform: 'rotate(-45deg) translate(-47px, -13px)',
     }}
   >
-    <p>PREVIOUS WINNER</p>
+    <span>PREVIOUS WINNER</span>
   </div>
 );
 

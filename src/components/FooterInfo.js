@@ -16,7 +16,7 @@ const FooterInfo = (props) => {
       >
         test app
       </a>
-      .
+      . This project is still under active development.
     </Typography>
   );
 };

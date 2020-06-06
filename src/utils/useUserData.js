@@ -1,14 +1,27 @@
 import { gql } from 'apollo-boost';
 import { client } from './Apollo';
 import { useDispatch } from 'react-redux';
+import {
+  setDaiDeposit,
+  setHasAProposal,
+  setVotes,
+  setLastIterationJoinedOrLeft,
+} from '../redux/user/userActions';
+import { setNumberOfMembers } from '../redux/fund/fundActions';
 
 const useUserData = () => {
-  const USER_QUERY = gql`
+  const dispatch = useDispatch();
+
+  const USER_DATA_QUERY = gql`
     query Users($address: String!) {
       user(id: $address) {
         id
         amount
-        timeJoined
+        timeJoinedLeft
+        iterationJoinedLeft {
+          id
+        }
+        projects
         votes {
           id
         }
@@ -16,66 +29,60 @@ const useUserData = () => {
     }
   `;
 
-  const USER_DAI_DEPOSIT_QUERY = gql`
-    query Users($address: String!) {
-      user(id: $address) {
+  const USERS_QUERY = gql`
+    {
+      users {
+        id
         amount
       }
     }
   `;
 
-  const USER_PROJECTS_QUERY = gql`
-    query Users($address: String!) {
-      user(id: $address) {
-        projects
-      }
-    }
-  `;
-
-  // const getProjects = async () => {
-  //   const result = await client.query({
-  //     query: gql`
-  //       {
-  //         projects() {
-  //           id
-  //           benefactor
-  //           projectDataIdentifier
-  //           projectState
-  //         }
-  //       }
-  //     `,
-  //   });
-  //   console.log('projects');
-  //   console.log(result);
-  // };
-
-  const getUserDaiDeposit = async (address) => {
+  const getUsers = async () => {
     try {
-      const result = await client.query({
-        query: USER_DAI_DEPOSIT_QUERY,
-        variables: { address },
+      const userData = await client.query({
+        query: USERS_QUERY,
       });
-      return result['data']['user']['amount'];
+      const numberOfUsersdata = userData['data']['users'];
+      const numberOfActiveUsers =
+        numberOfUsersdata.length -
+        numberOfUsersdata.filter((user) => parseInt(user['amount']) <= 0)
+          .length;
+
+      await dispatch(setNumberOfMembers(numberOfActiveUsers));
     } catch {
-      console.warn('User not found');
+      console.warn('User not found fetching data');
       return 0;
     }
   };
 
-  const getUserProjects = async (address) => {
+  const getUserData = async (address) => {
     try {
-      const result = await client.query({
-        query: USER_PROJECTS_QUERY,
+      const userData = await client.query({
+        query: USER_DATA_QUERY,
         variables: { address },
       });
-      return result['data']['user']['projects'];
-    } catch {
-      console.warn('User not found while searching if they have projects');
+      const daiDeposit = userData['data']['user']['amount'];
+      await dispatch(setDaiDeposit(daiDeposit / Math.pow(10, 18)));
+      const projects = userData['data']['user']['projects'];
+      await dispatch(setHasAProposal(projects.length > 0));
+      const votes = userData['data']['user']['votes'];
+      await dispatch(setVotes(votes));
+
+      const lastIterationJoinedOrLeft = Math.max.apply(
+        Math,
+        userData['data']['user']['iterationJoinedLeft'].map(function (iter) {
+          return parseInt(iter['id']);
+        })
+      );
+      await dispatch(setLastIterationJoinedOrLeft(lastIterationJoinedOrLeft));
+    } catch (err) {
+      console.warn('User error when fetching data', err);
       return 0;
     }
   };
 
-  return { getUserDaiDeposit, getUserProjects };
+  return { getUsers, getUserData };
 };
 
 export default useUserData;

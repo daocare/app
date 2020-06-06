@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '3box';
 
-import useWeb3Connect from '../utils/useWeb3Connect';
+// import useWeb3Connect from '../utils/useWeb3Connect';
 import useDaoContract from '../utils/useDaoContract';
 import useRouter from '../utils/useRouter';
 import {
@@ -48,11 +48,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Proposal = ({ match }) => {
-  const web3Connect = useWeb3Connect();
+  // const web3Connect = useWeb3Connect();
   const daoContract = useDaoContract();
 
   const { proposals, fetched } = useSelector((state) => state.proposals);
-  const connected = useSelector((state) => state.user.connected);
+  const {
+    connected,
+    address,
+    enabledTwitter,
+    daiDeposit,
+    hasAProposal,
+    votes,
+    lastIterationJoinedOrLeft,
+  } = useSelector((state) => state.user);
+
+  const { currentIteration, lastWinner } = useSelector(
+    (state) => state.iteration
+  );
 
   const proposal_id = match.params.proposal_id;
   const classes = useStyles();
@@ -70,12 +82,9 @@ const Proposal = ({ match }) => {
   }, [fetched]);
 
   const canVoteWithDelegate =
-    status === 'ENABLED' ||
-    (status !== '3BOX_VERIFIED' && web3Connect.enabledTwitter);
+    status === 'ENABLED' || (status !== '3BOX_VERIFIED' && enabledTwitter);
 
   const [canVoteViaTwitter, setCanVoteViaTwitter] = useState(false);
-
-  const address = web3Connect.address;
 
   const enableTwitter = async () => {
     setStatus('3BOX_VERIFICATION');
@@ -108,7 +117,7 @@ const Proposal = ({ match }) => {
   // If the user has delegated the voting && the firebase database doesn't have the correct value for their address/twitter handle. This code will fix it.
   useEffect(() => {
     if (canVoteWithDelegate) {
-      Box.getProfile(web3Connect.address).then(async (profile) => {
+      Box.getProfile(address).then(async (profile) => {
         const verified = await Box.getVerifiedAccounts(profile);
         const twitterIsVerified =
           verified && verified.twitter && verified.twitter.username;
@@ -134,10 +143,32 @@ const Proposal = ({ match }) => {
     }
   }, [canVoteWithDelegate]);
 
+  //TODO: clean this, duplicate code between Proposal & Proposals & withdraw
+
+  let calcHasVotedOnThisIteration = () => {
+    try {
+      const hasVotedThisIteration = votes.some(
+        (vote) => vote['id'].split('-')[0] == currentIteration
+      );
+      return hasVotedThisIteration;
+    } catch {
+      return null;
+    }
+  };
+
+  let hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+
+  useEffect(() => {
+    hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+  }, [currentIteration, votes]);
+
+  let newToThisIteration = lastIterationJoinedOrLeft == currentIteration;
+
   let votingAllowed =
-    web3Connect.currentVote === null &&
-    web3Connect.daiDeposit > 0 &&
-    web3Connect.hasProposal === false;
+    !newToThisIteration &&
+    !hasVotedOnThisIteration &&
+    daiDeposit > 0 &&
+    hasAProposal === false;
 
   return (
     <Page
@@ -149,20 +180,17 @@ const Proposal = ({ match }) => {
       } Proposal`}
     >
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
-        {status === 'DRAFT' &&
-          !web3Connect.enabledTwitter &&
-          connected &&
-          web3Connect.daiDeposit > 0 && (
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              startIcon={<TwitterIcon />}
-              onClick={enableTwitter}
-            >
-              Enable Twitter voting
-            </Button>
-          )}
+        {status === 'DRAFT' && !enabledTwitter && connected && daiDeposit > 0 && (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            startIcon={<TwitterIcon />}
+            onClick={enableTwitter}
+          >
+            Enable Twitter voting
+          </Button>
+        )}
         {status === '3BOX_VERIFICATION' && (
           <Typography variant="caption">
             Verifying 3Box twitter
@@ -213,16 +241,18 @@ const Proposal = ({ match }) => {
               <Typography variant="caption" align="center">
                 {proposal.shortDescription}
               </Typography>
-              {proposal.id == web3Connect.previousWinnerId && (
-                <PreviousWinnerBadge />
-              )}
+              {proposal.id == lastWinner && <PreviousWinnerBadge />}
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="h3" className={classes.title}>
                 {proposal.emoji + ' ' + proposal.title}
               </Typography>
               <Typography variant="caption" align="center">
-                <Link href={proposal.website} target="_blank">
+                <Link
+                  href={proposal.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {proposal.website}
                 </Link>
               </Typography>
@@ -237,35 +267,33 @@ const Proposal = ({ match }) => {
                 <Link
                   href={'https://twitter.com/' + proposal.ownerTwitter}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   @{proposal.ownerTwitter}
                 </Link>
               </Typography>
-              {votingAllowed && !(proposal_id == web3Connect.previousWinnerId) && (
+              {votingAllowed && !(proposal_id == lastWinner) && (
                 <Tooltip title="Vote using your wallet">
                   <IconButton
                     color="primary"
                     aria-label="vote"
-                    onClick={() =>
-                      web3Connect.contracts.dao.methods.vote(proposal_id)
-                    }
+                    onClick={() => daoContract.vote(proposal_id)}
                   >
                     <HowToVoteIcon />
                   </IconButton>
                 </Tooltip>
               )}
-              {(connected || votingAllowed) &&
-                !(proposal_id == web3Connect.previousWinnerId) && (
-                  <Tooltip title="Vote via Twitter">
-                    <IconButton
-                      color="secondary"
-                      aria-label="vote via twitter"
-                      onClick={() => voteTwitter(proposals[proposal_id].emoji)}
-                    >
-                      <TwitterIcon />
-                    </IconButton>
-                  </Tooltip>
-                )}
+              {(connected || votingAllowed) && !(proposal_id == lastWinner) && (
+                <Tooltip title="Vote via Twitter">
+                  <IconButton
+                    color="secondary"
+                    aria-label="vote via twitter"
+                    onClick={() => voteTwitter(proposals[proposal_id].emoji)}
+                  >
+                    <TwitterIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
             </Grid>
           </Grid>
         )}

@@ -46,20 +46,28 @@ export const open3Box = async (address, provider, setStatus = console.log) => {
 };
 
 export const get3BoxProfile = async (address) => {
-  const profile = await Box.getProfile(address);
-  const verifiedAccounts = await Box.getVerifiedAccounts(profile);
+  try {
+    const profile = await Box.getProfile(address);
+    const verifiedAccounts = await Box.getVerifiedAccounts(profile);
 
-  return {
-    profile:
-      Object.entries(profile).length === 0 && profile.constructor === Object
-        ? null
-        : profile,
-    verifiedAccounts:
-      Object.entries(verifiedAccounts).length === 0 &&
-      verifiedAccounts.constructor === Object
-        ? null
-        : verifiedAccounts,
-  };
+    return {
+      profile:
+        Object.entries(profile).length === 0 && profile.constructor === Object
+          ? null
+          : profile,
+      verifiedAccounts:
+        Object.entries(verifiedAccounts).length === 0 &&
+        verifiedAccounts.constructor === Object
+          ? null
+          : verifiedAccounts,
+    };
+  } catch {
+    return {
+      profile: null,
+      verifiedAccounts: null,
+    };
+    console.warn("Couldn't find user in 3box");
+  }
 };
 
 export const logout3Box = async () => {
@@ -81,7 +89,16 @@ export const getBox = () => box;
 export const getSpace = () => space;
 export const isFetching = () => fetching;
 
-export const getThreadFirstPost = async (threadAddress) => {
+export const getProposalFromThreadHash = async (threadAddress) => {
+  let posts = await Box.getThreadByAddress(threadAddress);
+  if (posts && posts.length > 0) {
+    return posts[0]['message'];
+  }
+  return null;
+};
+
+//TODO delete
+export const getProposalFromThreadHashOld = async (threadAddress) => {
   let posts = await Box.getThreadByAddress(threadAddress);
   if (posts && posts.length > 0) {
     return posts[0];

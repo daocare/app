@@ -4,12 +4,14 @@ import proposals from './proposals/proposalsReducer';
 import user from './user/userReducer';
 import fund from './fund/fundReducer';
 import web3 from './web3/web3Reducer';
+import iteration from './iteration/iterationReducer';
 
 const rootReducer = combineReducers({
   user,
   proposals,
   fund,
   web3,
+  iteration,
 });
 
 // For redux chrome tool - https://github.com/zalmoxisus/redux-devtools-extension#usage

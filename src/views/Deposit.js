@@ -17,7 +17,6 @@ import {
   TextField,
   InputAdornment,
 } from '@material-ui/core';
-import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 
 import Page from '../components/Page';
@@ -105,18 +104,21 @@ const Deposit = () => {
     (state) => state.user
   );
 
+  const { currentIterationDeadline } = useSelector((state) => state.iteration);
+
   const { provider } = useSelector((state) => state.web3);
 
-  // On Deposit Page Load
   useEffect(() => {
-    if (!(daiBalance > 0)) {
-      daiContract
-        .getUserDaiBalance(address.toLowerCase())
-        .then((daiBalance) => {
+    if (address && provider) {
+      if (!(daiBalance > 0)) {
+        daiContract.getUserDaiBalance().then((daiBalance) => {
           dispatch(setDaiBalance(daiBalance));
         });
+      }
+      daiContract.getUserDaiAllowance();
+      setStatus('READY');
     }
-  }, []);
+  }, [address, provider]);
 
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
   let amount = watch('amount') ? watch('amount') : 0;
@@ -125,7 +127,7 @@ const Deposit = () => {
     setStatus('APPROVING_DAI');
     try {
       const bigNumberDaiBalance = new web3.utils.BN(daiBalance);
-      daiContract
+      await daiContract
         .triggerDaiApprove(bigNumberDaiBalance, address, provider)
         .then((allowance) => {
           dispatch(setDaiAllowance(allowance));
@@ -139,14 +141,18 @@ const Deposit = () => {
   };
 
   const onSubmit = async (data) => {
-    if (daiAllowance == 0) await approveDai();
-
     let { amount } = data;
+
+    console.log('daiAllowance');
+    console.log(daiAllowance);
+    if (amount > daiAllowance) await approveDai();
+
     setStatus(`DEPOSITING`);
     console.log('submitting dai');
     try {
       depositContract.triggerDeposit(amount, address).then((amount) => {
         dispatch(setDaiDeposit(amount));
+        depositContract.getFundSize();
         setStatus('DEPOSITED');
       });
     } catch {
@@ -173,16 +179,10 @@ const Deposit = () => {
   );
 
   let cantDeposit =
-    (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
+    status != 'READY' ||
     daiBalance < amount ||
     daiBalance === 0 ||
     daiBalance == null;
-  // TODO: Add countdown to next iteration
-  // const numSecondsLeftInIteration = Math.max(
-  //   0,
-  //   web3Connect.currentIterationDeadline -
-  //     Math.floor(new Date().getTime() / 1000)
-  // );
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
@@ -250,25 +250,16 @@ const Deposit = () => {
                   onChange={() => twitterMinimumWarning()}
                   style={{ width: 300 }}
                   helperText={`Balance: ${
-                    daiBalance == null ? '...' : daiBalance
+                    daiBalance == null ? '...' : Math.floor(daiBalance)
                   } DAI | Deposit: ${daiDeposit} DAI`}
                 />
                 {(daiAllowance === 0 ||
                   status === 'DAI_APPROVED' ||
                   status === 'APPROVING_DAI') && (
                   <>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      style={{ width: 190, marginBottom: 22 }}
-                      disabled={daiAllowance > 0 || status !== 'DRAFT'}
-                      onClick={async () => approveDai()}
-                    >
-                      Allow DAI deposit
-                    </Button>
                     {status === 'APPROVING_DAI' && (
                       <Typography
-                        variant="body1"
+                        variant="body2"
                         component="span"
                         className={classes.statusMsg}
                         style={{ marginBottom: 22 }}
@@ -277,7 +268,7 @@ const Deposit = () => {
                         <EllipsisLoader />
                       </Typography>
                     )}
-                    {(status === 'DAI_APPROVED' || daiAllowance > 0) && (
+                    {status === 'DAI_APPROVED' && (
                       <Typography
                         variant="body2"
                         component="span"
@@ -376,13 +367,14 @@ const Deposit = () => {
                 margin: 'auto',
               }}
             >
-              {/* // TODO: Add countdown to next iteration */}
-              {/* {Moment(numSecondsLeftInIteration).calendar()}                   */}
-              {/* {Moment(web3Connect.currentIterationDeadline).fromNow()}  */}
               To afford maximum smart contract security you can only vote on the
               next voting cycle.
               <br /> Follow us on{' '}
-              <a href="https://twitter.com/dao_care" target="_blank">
+              <a
+                href="https://twitter.com/dao_care"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {' '}
                 twitter{' '}
                 <img
@@ -391,7 +383,11 @@ const Deposit = () => {
                 />
               </a>{' '}
               and join our{' '}
-              <a href="https://t.me/daocare" target="_blank">
+              <a
+                href="https://t.me/daocare"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 telegram
                 <img
                   src="/assets/socials/telegram.svg"
@@ -399,6 +395,19 @@ const Deposit = () => {
                 />
               </a>{' '}
               to get notified of the next voting cycle.
+            </Typography>
+            <Typography
+              variant="body2"
+              component="span"
+              style={{
+                paddingTop: '20px',
+                textAlign: 'center',
+                display: 'block',
+                margin: 'auto',
+              }}
+            >
+              The next voting cycle will begin{' '}
+              {Moment.unix(currentIterationDeadline).fromNow()}
             </Typography>
           </div>
         </div>

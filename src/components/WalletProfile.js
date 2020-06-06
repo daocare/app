@@ -61,7 +61,10 @@ const WalletProfile = (props) => {
               displayFull={true}
             />
             <Tooltip title="Disconnect wallet">
-              <IconButton style={{ color: purple[50] }} onClick={handleLogout}>
+              <IconButton
+                style={{ color: purple[50] }}
+                onClick={() => handleLogout()}
+              >
                 <ExitToAppIcon />
               </IconButton>
             </Tooltip>

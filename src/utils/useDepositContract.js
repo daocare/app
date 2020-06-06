@@ -3,12 +3,16 @@ import { client } from './Apollo';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setDaiDeposit } from '../redux/user/userActions';
+import { setFundSize } from '../redux/fund/fundActions';
+
+import useDaiContract from './useDaiContract';
+import useProposals from './useProposals';
 
 import { useState } from 'react';
 import web3 from 'web3';
 
-const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
-const SUPPORTED_NETWORK = 'kovan';
+// const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
+// const SUPPORTED_NETWORK = 'kovan';
 const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
 
 const depositAbi = require('../abis/PoolDeposits.json');
@@ -17,8 +21,11 @@ const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
 const useDepositContract = () => {
   const { provider } = useSelector((state) => state.web3);
   const dispatch = useDispatch();
+  const daiContract = useDaiContract();
+  const proposalsData = useProposals();
 
-  const [web3Provider] = useState(new web3(provider));
+  const address = useSelector((state) => state.user.address);
+  const web3Provider = new web3(provider);
 
   const depositContract = new web3Provider.eth.Contract(
     depositAbi.abi,
@@ -27,7 +34,6 @@ const useDepositContract = () => {
 
   const triggerDeposit = async (value, addr) => {
     let amount = web3.utils.toWei(value, 'ether');
-    console.log('addr', addr);
     try {
       let tx = await depositContract.methods.deposit(amount).send({
         from: addr,
@@ -66,10 +72,14 @@ const useDepositContract = () => {
       const result = await client.query({
         query: FUND_SIZE_QUERY,
       });
-      return Number(
-        web3.utils.fromWei(
-          '' + result['data']['voteManager']['totalDeposited'],
-          'ether'
+      dispatch(
+        setFundSize(
+          Number(
+            web3.utils.fromWei(
+              '' + result['data']['voteManager']['totalDeposited'],
+              'ether'
+            )
+          )
         )
       );
     } catch {
@@ -78,7 +88,21 @@ const useDepositContract = () => {
     }
   };
 
-  return { getFundSize, triggerDeposit, triggerWithdrawal };
+  const triggerSubmitProposal = async (hash) => {
+    let tx = await depositContract.methods.createProposal(hash).send({
+      from: address,
+    });
+    await daiContract.updateAllowance();
+    await proposalsData.fetchProposals();
+    return tx;
+  };
+
+  return {
+    getFundSize,
+    triggerDeposit,
+    triggerWithdrawal,
+    triggerSubmitProposal,
+  };
 };
 
 export default useDepositContract;

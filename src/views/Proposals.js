@@ -6,8 +6,10 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '3box';
 
-import useWeb3Connect from '../utils/useWeb3Connect';
+// import useWeb3Connect from '../utils/useWeb3Connect';
 import useDaoContract from '../utils/useDaoContract';
+import useIteration from '../utils/useIteration';
+
 import useRouter from '../utils/useRouter';
 
 import DepositIcon from '@material-ui/icons/AllInclusive';
@@ -67,13 +69,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Proposals = () => {
-  const web3Connect = useWeb3Connect();
+  // const web3Connect = useWeb3Connect();
   const daoContract = useDaoContract();
+  const iterationData = useIteration();
 
   const classes = useStyles();
   const router = useRouter();
   const [status, setStatus] = useState('DRAFT');
 
+  useEffect(() => {
+    iterationData.getLastWinnerId();
+  }, []);
+
+  const { currentIteration, lastWinner } = useSelector(
+    (state) => state.iteration
+  );
   const { proposals, fetched } = useSelector((state) => state.proposals);
 
   const {
@@ -82,6 +92,8 @@ const Proposals = () => {
     address,
     hasAProposal,
     daiDeposit,
+    votes,
+    lastIterationJoinedOrLeft,
   } = useSelector((state) => state.user);
 
   const canVoteWithDelegate =
@@ -146,32 +158,76 @@ const Proposals = () => {
     }
   }, [canVoteWithDelegate]);
 
+  let calcCurrentVote = () => {
+    try {
+      let currentVote = votes.filter(
+        (vote) => vote['id'].split('-')[0] == currentIteration
+      );
+      let voteId = currentVote[0]['id'].split('-')[1];
+      return voteId;
+    } catch (err) {
+      console.warn('No votes yet', err);
+      return -1;
+    }
+  };
+
+  const currentVoteId = calcCurrentVote();
+
+  let [votedProposal, setVotedProposal] = useState(undefined);
+
+  useEffect(() => {
+    console.log('proposals');
+    console.log(proposals);
+    let filteredProposal = proposals.filter((proposal) => {
+      console.log('proposal.id');
+      console.log(proposal.id);
+      console.log('currentVoteId');
+      console.log(currentVoteId);
+      return proposal.id == currentVoteId;
+    });
+    console.log(filteredProposal[0]);
+    setVotedProposal(filteredProposal[0]);
+  }, [currentVoteId, proposals]);
+
+  let calcHasVotedOnThisIteration = () => {
+    try {
+      const hasVotedThisIteration = votes.some(
+        (vote) => vote['id'].split('-')[0] == currentIteration
+      );
+      return hasVotedThisIteration;
+    } catch {
+      return null;
+    }
+  };
+
+  let hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+
+  useEffect(() => {
+    hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+  }, [currentIteration, votes]);
+
+  let newToThisIteration = lastIterationJoinedOrLeft == currentIteration;
+
   let votingAllowed =
-    web3Connect.currentVote === null &&
+    !newToThisIteration &&
+    !hasVotedOnThisIteration &&
     daiDeposit > 0 &&
     hasAProposal === false;
 
   return (
     <Page className={classes.root} title="dao.care | All Proposals">
-      {/* <button onClick={() => dispatch(fetchProposals(['this', 'test']))}>
-        {' '}
-        Test
-      </button> */}
       <div style={{ position: 'absolute', top: 6, right: 10 }}>
-        {status === 'DRAFT' &&
-          !web3Connect.enabledTwitter &&
-          connected &&
-          daiDeposit > 0 && (
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              startIcon={<TwitterIcon />}
-              onClick={enableTwitter}
-            >
-              Enable Twitter voting
-            </Button>
-          )}
+        {status === 'DRAFT' && !enabledTwitter && connected && daiDeposit > 0 && (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            startIcon={<TwitterIcon />}
+            onClick={enableTwitter}
+          >
+            Enable Twitter voting
+          </Button>
+        )}
         {status === '3BOX_VERIFICATION' && (
           <Typography variant="caption">
             Verifying 3Box twitter
@@ -229,15 +285,14 @@ const Proposals = () => {
           </div>
         </>
       )}
-
-      {web3Connect.currentVote !== null && (
+      {hasVotedOnThisIteration == true && votedProposal != undefined && (
         <>
           <Typography variant="h5" className={classes.title}>
             Your vote
           </Typography>
           <div style={{ marginTop: 16, marginBottom: 16 }}>
             <ProposalCard
-              proposal={web3Connect.currentVote}
+              proposal={votedProposal}
               votingAllowed={false}
               twitterAllowed={false}
               address={address}
@@ -245,15 +300,12 @@ const Proposals = () => {
           </div>
         </>
       )}
-
       <Typography variant="h5">All Proposals</Typography>
-
       <div style={{ marginTop: 16 }}>
         {fetched && proposals.length > 0 && (
           <>
             <Grid container justify="space-evenly" spacing={4}>
               {proposals.map((proposal) => {
-                console.log(proposal);
                 return (
                   <Grid key={proposal.id} item>
                     <div className={classes.card}>
@@ -262,9 +314,7 @@ const Proposals = () => {
                         votingAllowed={votingAllowed}
                         twitterAllowed={!connected || votingAllowed}
                         vote={daoContract.vote}
-                        isPreviousWinner={
-                          proposal.id == web3Connect.previousWinnerId
-                        }
+                        isPreviousWinner={lastWinner == proposal.id}
                         address={address}
                       />
                     </div>

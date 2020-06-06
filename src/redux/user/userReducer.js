@@ -7,17 +7,27 @@ import {
   SET_DAI_ALLOWANCE,
   SET_HAS_A_PROPOSAL,
   SET_ENABLED_TWITTER,
+  SET_VOTES,
+  SET_3BOX_INFO,
+  SET_LAST_ITERATION_JOINED_OR_LEFT,
 } from '../actionTypes';
 
 const initialState = {
   loading: false,
-  connected: false,
+  connected: null,
   address: '',
   daiDeposit: null,
   daiBalance: null,
   daiAllowance: null,
   hasAProposal: null,
   enabledTwitter: null,
+  votes: [],
+  lastIterationJoinedOrLeft: null,
+  threeBox: {
+    isLoggedIn: null,
+    profile: null,
+    verifiedAccounts: null,
+  },
 };
 
 export default function (state = initialState, action) {
@@ -62,6 +72,24 @@ export default function (state = initialState, action) {
       return {
         ...state,
         enabledTwitter: action.payload,
+      };
+    }
+    case SET_VOTES: {
+      return {
+        ...state,
+        votes: action.payload,
+      };
+    }
+    case SET_LAST_ITERATION_JOINED_OR_LEFT: {
+      return {
+        ...state,
+        lastIterationJoinedOrLeft: action.payload,
+      };
+    }
+    case SET_3BOX_INFO: {
+      return {
+        ...state,
+        threeBox: action.payload,
       };
     }
     default:

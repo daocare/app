@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import Web3 from 'web3';
+import Web3Modal from 'web3modal';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
@@ -7,13 +8,17 @@ import {
   setDaiDeposit,
   connectUser,
   setHasAProposal,
+  setVotes,
 } from '../redux/user/userActions';
-import { setFundSize } from '../redux/fund/fundActions';
+
 import { setProvider } from '../redux/web3/web3Actions';
 
 import useInterval from '../utils/useInterval';
+import useIteration from '../utils/useIteration';
 import useUserData from '../utils/useUserData';
 import useDepositContract from '../utils/useDepositContract';
+import useWeb3Modal from '../utils/useWeb3Modal';
+import useProposalsData from '../utils/useProposals';
 
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
@@ -40,50 +45,39 @@ const PageContainer = (props) => {
   const dispatch = useDispatch();
   const userData = useUserData();
   const depositContract = useDepositContract();
+  const proposalsData = useProposalsData();
+  const web3Modal = useWeb3Modal();
+  const iteration = useIteration();
 
-  const { connected, address } = useSelector((state) => state.user);
+  const { connected, address, daiBalance } = useSelector((state) => state.user);
 
-  // TODO Move this to new paper component that encapsulates pages but not the WalletProfile
   // On App Load
   useEffect(() => {
-    depositContract.getFundSize().then((fundSize) => {
-      dispatch(setFundSize(fundSize));
-    });
+    proposalsData.fetchProposals();
 
-    // TODO: refactor & handle non ethereum browser
-    // Connect if already connected
-    if (window.ethereum) {
-      let web3 = new Web3(window.ethereum);
-      window.web3 = web3;
-      console.log('web3.currentProvider');
-      console.log(web3.currentProvider);
-      console.log(web3.currentProvider.networkVersion);
-      dispatch(setProvider(web3.currentProvider));
-      dispatch(connectUser(web3.currentProvider.selectedAddress));
-      window.ethereum.enable();
-    } else if (window.web3) {
-      console.log(window.web3.currentProvider);
-      let web3 = new Web3(window.web3.currentProvider);
-      window.web3 = web3;
-      dispatch(setProvider(web3.currentProvider));
-      dispatch(connectUser(web3.currentProvider.selectedAddress));
-    } else {
-      console.log(
-        'Non-Ethereum browser detected. You should consider trying MetaMask!'
-      );
+    userData.getUsers();
+
+    depositContract.getFundSize();
+
+    if (web3Modal.web3Modal.cachedProvider) {
+      web3Modal.triggerConnect();
     }
+
+    iteration.getIteration();
+    iteration.getCurrentIterationIncreaseTimestamp();
   }, []);
+
+  useEffect(() => {
+    depositContract.getFundSize();
+  }, [daiBalance]);
 
   // On connection changes
   useEffect(() => {
     if (address) {
-      userData.getUserDaiDeposit(address.toLowerCase()).then((weiDeposit) => {
-        let daiDeposit = weiDeposit / Math.pow(10, 18);
-        dispatch(setDaiDeposit(daiDeposit));
-      });
-      userData.getUserProjects(address.toLowerCase()).then((projects) => {
-        dispatch(setHasAProposal(projects.length > 0));
-      });
+      userData.getUserData(address.toLowerCase());
+      if (web3Modal.web3Modal.cachedProvider) {
+        web3Modal.triggerConnect();
+      }
     }
   }, [connected, address]);
 
