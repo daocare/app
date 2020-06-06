@@ -19,14 +19,13 @@ const useDaiContract = () => {
 
   const daiContract = new web3Provider.eth.Contract(daiAbi.abi, DAI_ADDRESS);
 
-  const getUserDaiBalance = async (address) => {
+  const getUserDaiBalance = async () => {
     try {
-      let balance = new web3Provider.utils.BN(
-        await daiContract.methods.balanceOf(address).call()
-      );
-      return Number(web3.utils.fromWei('' + balance, 'ether'));
-    } catch {
-      console.warn("Couldn't find this users dai balance");
+      let balance = await daiContract.methods.balanceOf(address).call();
+      let balanceBN = new web3Provider.utils.BN(balance);
+      return Number(web3.utils.fromWei('' + balanceBN, 'ether'));
+    } catch (err) {
+      console.warn("Couldn't find this users dai balance", err);
       return 0;
     }
   };

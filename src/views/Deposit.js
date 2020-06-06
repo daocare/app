@@ -7,7 +7,7 @@ import {
   setDaiDeposit,
 } from '../redux/user/userActions';
 import PropTypes from 'prop-types';
-// import Moment from 'moment';
+import Moment from 'moment';
 
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -104,19 +104,20 @@ const Deposit = () => {
     (state) => state.user
   );
 
+  const { currentIterationDeadline } = useSelector((state) => state.iteration);
+
   const { provider } = useSelector((state) => state.web3);
 
-  // On Deposit Page Load
   useEffect(() => {
-    if (!(daiBalance > 0)) {
-      daiContract
-        .getUserDaiBalance(address.toLowerCase())
-        .then((daiBalance) => {
+    if (address && provider) {
+      if (!(daiBalance > 0)) {
+        daiContract.getUserDaiBalance().then((daiBalance) => {
           dispatch(setDaiBalance(daiBalance));
         });
+      }
+      daiContract.getUserDaiAllowance();
     }
-    daiContract.getUserDaiAllowance();
-  }, []);
+  }, [address, provider]);
 
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
   let amount = watch('amount') ? watch('amount') : 0;
@@ -177,16 +178,7 @@ const Deposit = () => {
   );
 
   let cantDeposit =
-    (status !== 'DRAFT' && status !== 'DAI_APPROVED') ||
-    daiBalance < amount ||
-    daiBalance === 0 ||
-    daiBalance == null;
-  // TODO: Add countdown to next iteration
-  // const numSecondsLeftInIteration = Math.max(
-  //   0,
-  //   web3Connect.currentIterationDeadline -
-  //     Math.floor(new Date().getTime() / 1000)
-  // );
+    daiBalance < amount || daiBalance === 0 || daiBalance == null;
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
@@ -371,9 +363,6 @@ const Deposit = () => {
                 margin: 'auto',
               }}
             >
-              {/* // TODO: Add countdown to next iteration */}
-              {/* {Moment(numSecondsLeftInIteration).calendar()}                   */}
-              {/* {Moment(web3Connect.currentIterationDeadline).fromNow()}  */}
               To afford maximum smart contract security you can only vote on the
               next voting cycle.
               <br /> Follow us on{' '}
@@ -394,6 +383,19 @@ const Deposit = () => {
                 />
               </a>{' '}
               to get notified of the next voting cycle.
+            </Typography>
+            <Typography
+              variant="body2"
+              component="span"
+              style={{
+                paddingTop: '20px',
+                textAlign: 'center',
+                display: 'block',
+                margin: 'auto',
+              }}
+            >
+              The next voting cycle will begin{' '}
+              {Moment.unix(currentIterationDeadline).fromNow()}
             </Typography>
           </div>
         </div>

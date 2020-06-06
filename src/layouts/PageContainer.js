@@ -64,6 +64,7 @@ const PageContainer = (props) => {
     }
 
     iteration.getIteration();
+    iteration.getCurrentIterationIncreaseTimestamp();
   }, []);
 
   // On connection changes

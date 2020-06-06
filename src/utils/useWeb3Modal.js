@@ -105,8 +105,8 @@ const useWeb3Modal = () => {
     const chainId = await web3Inited.eth.chainId();
 
     await dispatch(setNetworkInfo(networkId));
-    await dispatch(connectUser(userAddress));
     await dispatch(setProvider(providerInited));
+    await dispatch(connectUser(userAddress));
 
     redirectToNotSupportedNetwork(chainId, networkId);
 
