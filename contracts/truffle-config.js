@@ -5,7 +5,7 @@ const {
   rinkebyProviderUrl,
   goerliProviderUrl,
   kovanProviderUrl,
-} = require('./secretsManagerCi.js');
+} = require('./secretsManager.js');
 
 const blockchainNodeHost = process.env.BLOCKCHAIN_NODE_HOST || 'localhost';
 
