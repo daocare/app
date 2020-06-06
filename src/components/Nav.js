@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
       opacity: '0.6',
     },
   },
+  navLinkUnConnected: {
+    opacity: '0.6',
+  },
   socials: {
     height: '20px',
     marginLeft: '5px',
@@ -64,7 +67,10 @@ const Nav = (props) => {
         <Typography
           gutterBottom
           variant="body1"
-          className={classes.navLink}
+          className={
+            classes.navLink +
+            (connected ? '' : ' ' + classes.navLinkUnConnected)
+          }
           onClick={() => {
             if (connected) {
               router.history.push('/deposit');
@@ -86,7 +92,10 @@ const Nav = (props) => {
         <Typography
           gutterBottom
           variant="body1"
-          className={classes.navLink}
+          className={
+            classes.navLink +
+            (connected ? '' : ' ' + classes.navLinkUnConnected)
+          }
           onClick={() => {
             if (connected) {
               router.history.push('/withdraw');
@@ -108,7 +117,10 @@ const Nav = (props) => {
         <Typography
           gutterBottom
           variant="body1"
-          className={classes.navLink}
+          className={
+            classes.navLink +
+            (connected ? '' : ' ' + classes.navLinkUnConnected)
+          }
           onClick={() => {
             if (connected) {
               router.history.push('/submit-proposal');
