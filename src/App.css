@@ -6,6 +6,10 @@ body {
   font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
+a {
+  color: #6850a8;
+}
+
 .betaFlag {
   position: absolute;
   left: 0;

@@ -370,7 +370,11 @@ const Deposit = () => {
               To afford maximum smart contract security you can only vote on the
               next voting cycle.
               <br /> Follow us on{' '}
-              <a href="https://twitter.com/dao_care" target="_blank">
+              <a
+                href="https://twitter.com/dao_care"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {' '}
                 twitter{' '}
                 <img
@@ -379,7 +383,11 @@ const Deposit = () => {
                 />
               </a>{' '}
               and join our{' '}
-              <a href="https://t.me/daocare" target="_blank">
+              <a
+                href="https://t.me/daocare"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 telegram
                 <img
                   src="/assets/socials/telegram.svg"

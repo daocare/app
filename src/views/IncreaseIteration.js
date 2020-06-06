@@ -60,7 +60,11 @@ const IncreaseIteration = () => {
         This is an admin function to increase the iteration. It's open to anyone
         to take the action and the first to do it is rewarded 🤠. A secret game
         within the DAO. Ping the dev team on{' '}
-        <a href="https://t.me/daocare" target="_blank">
+        <a
+          href="https://t.me/daocare"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           telegram
         </a>{' '}
         if you find this nugget and we will give you some more info.

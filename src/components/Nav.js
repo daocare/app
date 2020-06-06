@@ -149,14 +149,32 @@ const Nav = (props) => {
         >
           How it Works
         </Typography>
+        <Typography
+          gutterBottom
+          variant="body1"
+          className={classes.navLink}
+          onClick={() => {
+            router.history.push('/security');
+          }}
+        >
+          Security
+        </Typography>
         <div className={classes.socialsContainer}>
-          <a href="https://twitter.com/dao_care" target="_blank">
+          <a
+            href="https://twitter.com/dao_care"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               src="/assets/socials/twitter.svg"
               className={classes.socials}
             />
           </a>
-          <a href="https://t.me/daocare" target="_blank">
+          <a
+            href="https://t.me/daocare"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               src="/assets/socials/telegram.svg"
               className={classes.socials}

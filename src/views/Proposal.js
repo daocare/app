@@ -221,7 +221,11 @@ const Proposal = ({ match }) => {
                 {proposal.emoji + ' ' + proposal.title}
               </Typography>
               <Typography variant="caption" align="center">
-                <Link href={proposal.website} target="_blank">
+                <Link
+                  href={proposal.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {proposal.website}
                 </Link>
               </Typography>
@@ -236,6 +240,7 @@ const Proposal = ({ match }) => {
                 <Link
                   href={'https://twitter.com/' + proposal.ownerTwitter}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   @{proposal.ownerTwitter}
                 </Link>
