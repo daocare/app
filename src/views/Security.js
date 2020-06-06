@@ -59,7 +59,7 @@ const Security = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Dit craft v1 audit
+              ditCraft v1 audit
             </a>
           </Typography>
         </Grid>
@@ -85,9 +85,9 @@ const Security = () => {
             </a>
           </Typography>
         </Grid>
-        <Grid item xs={12} md={4} className={classes.gridItem}>
+        {/* <Grid item xs={12} md={4} className={classes.gridItem}>
           <a href="#" target="_blank" rel="noopener noreferrer">
-            {/* TODO */}
+            TODO
             <img
               src="/assets/security/etherscan.svg"
               className={classes.socials}
@@ -96,11 +96,11 @@ const Security = () => {
 
           <Typography variant="body2">
             <a href="#" target="_blank" rel="noopener noreferrer">
-              {/* TODO Here too */}
-              Etherscan Code Verification
+               TODO Here too 
+              Etherscan Code
             </a>
           </Typography>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Page>
   );

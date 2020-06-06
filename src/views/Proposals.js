@@ -93,6 +93,7 @@ const Proposals = () => {
     hasAProposal,
     daiDeposit,
     votes,
+    lastIterationJoinedOrLeft,
   } = useSelector((state) => state.user);
 
   const canVoteWithDelegate =
@@ -176,8 +177,13 @@ const Proposals = () => {
     hasVotedOnThisIteration = calcHasVotedOnThisIteration();
   }, [currentIteration, votes]);
 
+  let newToThisIteration = lastIterationJoinedOrLeft == currentIteration;
+
   let votingAllowed =
-    !hasVotedOnThisIteration && daiDeposit > 0 && hasAProposal === false;
+    !newToThisIteration &&
+    !hasVotedOnThisIteration &&
+    daiDeposit > 0 &&
+    hasAProposal === false;
 
   return (
     <Page className={classes.root} title="dao.care | All Proposals">

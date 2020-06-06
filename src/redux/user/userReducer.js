@@ -9,6 +9,7 @@ import {
   SET_ENABLED_TWITTER,
   SET_VOTES,
   SET_3BOX_INFO,
+  SET_LAST_ITERATION_JOINED_OR_LEFT,
 } from '../actionTypes';
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   hasAProposal: null,
   enabledTwitter: null,
   votes: [],
+  lastIterationJoinedOrLeft: null,
   threeBox: {
     isLoggedIn: null,
     profile: null,
@@ -76,6 +78,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         votes: action.payload,
+      };
+    }
+    case SET_LAST_ITERATION_JOINED_OR_LEFT: {
+      return {
+        ...state,
+        lastIterationJoinedOrLeft: action.payload,
       };
     }
     case SET_3BOX_INFO: {

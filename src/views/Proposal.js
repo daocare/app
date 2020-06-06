@@ -58,9 +58,13 @@ const Proposal = ({ match }) => {
     enabledTwitter,
     daiDeposit,
     hasAProposal,
+    votes,
+    lastIterationJoinedOrLeft,
   } = useSelector((state) => state.user);
 
-  const lastWinner = useSelector((state) => state.iteration.lastWinner);
+  const { currentIteration, lastWinner } = useSelector(
+    (state) => state.iteration
+  );
 
   const proposal_id = match.params.proposal_id;
   const classes = useStyles();
@@ -139,9 +143,32 @@ const Proposal = ({ match }) => {
     }
   }, [canVoteWithDelegate]);
 
+  //TODO: clean this, duplicate code between Proposal & Proposals
+
+  let calcHasVotedOnThisIteration = () => {
+    try {
+      const hasVotedThisIteration = votes.some(
+        (vote) => vote['id'].split('-')[0] == currentIteration
+      );
+      return hasVotedThisIteration;
+    } catch {
+      return null;
+    }
+  };
+
+  let hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+
+  useEffect(() => {
+    hasVotedOnThisIteration = calcHasVotedOnThisIteration();
+  }, [currentIteration, votes]);
+
+  let newToThisIteration = lastIterationJoinedOrLeft == currentIteration;
+
   let votingAllowed =
-    // web3Connect.currentVote === null && TODO
-    daiDeposit > 0 && hasAProposal === false;
+    !newToThisIteration &&
+    !hasVotedOnThisIteration &&
+    daiDeposit > 0 &&
+    hasAProposal === false;
 
   return (
     <Page

@@ -8,6 +8,7 @@ import {
   SET_ENABLED_TWITTER,
   SET_VOTES,
   SET_3BOX_INFO,
+  SET_LAST_ITERATION_JOINED_OR_LEFT,
 } from '../actionTypes';
 
 export const connectUser = (address) => {
@@ -64,6 +65,13 @@ export const setVotes = (votes) => {
   return {
     type: SET_VOTES,
     payload: votes,
+  };
+};
+
+export const setLastIterationJoinedOrLeft = (lastIterationJoinedOrLeft) => {
+  return {
+    type: SET_LAST_ITERATION_JOINED_OR_LEFT,
+    payload: lastIterationJoinedOrLeft,
   };
 };
 

@@ -5,6 +5,7 @@ import {
   setDaiDeposit,
   setHasAProposal,
   setVotes,
+  setLastIterationJoinedOrLeft,
 } from '../redux/user/userActions';
 import { setNumberOfMembers } from '../redux/fund/fundActions';
 
@@ -17,6 +18,9 @@ const useUserData = () => {
         id
         amount
         timeJoinedLeft
+        iterationJoinedLeft {
+          id
+        }
         projects
         votes {
           id
@@ -64,8 +68,16 @@ const useUserData = () => {
       await dispatch(setHasAProposal(projects.length > 0));
       const votes = userData['data']['user']['votes'];
       await dispatch(setVotes(votes));
-    } catch {
-      console.warn('User not found fetching data');
+
+      const lastIterationJoinedOrLeft = Math.max.apply(
+        Math,
+        userData['data']['user']['iterationJoinedLeft'].map(function (iter) {
+          return parseInt(iter['id']);
+        })
+      );
+      await dispatch(setLastIterationJoinedOrLeft(lastIterationJoinedOrLeft));
+    } catch (err) {
+      console.warn('User error when fetching data', err);
       return 0;
     }
   };
