@@ -263,7 +263,7 @@ const Deposit = () => {
                   <>
                     {status === 'APPROVING_DAI' && (
                       <Typography
-                        variant="body1"
+                        variant="body2"
                         component="span"
                         className={classes.statusMsg}
                         style={{ marginBottom: 22 }}
