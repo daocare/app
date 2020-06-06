@@ -115,6 +115,7 @@ const Deposit = () => {
           dispatch(setDaiBalance(daiBalance));
         });
     }
+    daiContract.getUserDaiAllowance();
   }, []);
 
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
@@ -124,7 +125,7 @@ const Deposit = () => {
     setStatus('APPROVING_DAI');
     try {
       const bigNumberDaiBalance = new web3.utils.BN(daiBalance);
-      daiContract
+      await daiContract
         .triggerDaiApprove(bigNumberDaiBalance, address, provider)
         .then((allowance) => {
           dispatch(setDaiAllowance(allowance));
@@ -138,14 +139,20 @@ const Deposit = () => {
   };
 
   const onSubmit = async (data) => {
-    if (daiAllowance == 0) await approveDai();
-
     let { amount } = data;
+
+    console.log('amount');
+    console.log(amount);
+    console.log('daiAllowance');
+    console.log(daiAllowance);
+    if (amount > daiAllowance) await approveDai();
+
     setStatus(`DEPOSITING`);
     console.log('submitting dai');
     try {
       depositContract.triggerDeposit(amount, address).then((amount) => {
         dispatch(setDaiDeposit(amount));
+        depositContract.getFundSize();
         setStatus('DEPOSITED');
       });
     } catch {
@@ -249,7 +256,7 @@ const Deposit = () => {
                   onChange={() => twitterMinimumWarning()}
                   style={{ width: 300 }}
                   helperText={`Balance: ${
-                    daiBalance == null ? '...' : daiBalance
+                    daiBalance == null ? '...' : Math.floor(daiBalance)
                   } DAI | Deposit: ${daiDeposit} DAI`}
                 />
                 {(daiAllowance === 0 ||

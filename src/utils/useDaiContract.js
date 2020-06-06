@@ -13,9 +13,9 @@ const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN TODO
 
 const useDaiContract = () => {
   const dispatch = useDispatch();
-  const { provider } = useSelector((state) => state.web3);
+  const provider = useSelector((state) => state.web3.provider);
   const address = useSelector((state) => state.user.address); // TODO check await
-  const [web3Provider] = useState(new web3(provider));
+  const web3Provider = new web3(provider);
 
   const daiContract = new web3Provider.eth.Contract(daiAbi.abi, DAI_ADDRESS);
 
@@ -27,6 +27,19 @@ const useDaiContract = () => {
       return Number(web3.utils.fromWei('' + balance, 'ether'));
     } catch {
       console.warn("Couldn't find this users dai balance");
+      return 0;
+    }
+  };
+
+  const getUserDaiAllowance = async () => {
+    try {
+      let allowanceAmount = new web3Provider.utils.BN(
+        await daiContract.methods.allowance(address, DEPOSIT_ADDRESS).call()
+      );
+      dispatch(setDaiAllowance(allowanceAmount));
+      return Number(web3.utils.fromWei('' + allowanceAmount, 'ether'));
+    } catch {
+      console.warn("Couldn't find this users dai allowance");
       return 0;
     }
   };
@@ -49,7 +62,12 @@ const useDaiContract = () => {
     return allowance;
   };
 
-  return { getUserDaiBalance, triggerDaiApprove, updateAllowance };
+  return {
+    getUserDaiBalance,
+    getUserDaiAllowance,
+    triggerDaiApprove,
+    updateAllowance,
+  };
 };
 
 export default useDaiContract;

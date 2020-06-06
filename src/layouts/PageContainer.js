@@ -10,7 +10,7 @@ import {
   setHasAProposal,
   setVotes,
 } from '../redux/user/userActions';
-import { setFundSize } from '../redux/fund/fundActions';
+
 import { setProvider } from '../redux/web3/web3Actions';
 
 import useInterval from '../utils/useInterval';
@@ -57,9 +57,7 @@ const PageContainer = (props) => {
 
     userData.getUsers();
 
-    depositContract.getFundSize().then((fundSize) => {
-      dispatch(setFundSize(fundSize));
-    });
+    depositContract.getFundSize();
 
     if (web3Modal.web3Modal.cachedProvider) {
       web3Modal.triggerConnect();

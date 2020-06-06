@@ -3,6 +3,7 @@ import { client } from './Apollo';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setDaiDeposit } from '../redux/user/userActions';
+import { setFundSize } from '../redux/fund/fundActions';
 
 import useDaiContract from './useDaiContract';
 import useProposals from './useProposals';
@@ -24,7 +25,7 @@ const useDepositContract = () => {
   const proposalsData = useProposals();
 
   const address = useSelector((state) => state.user.address);
-  const [web3Provider] = useState(new web3(provider));
+  const web3Provider = new web3(provider);
 
   const depositContract = new web3Provider.eth.Contract(
     depositAbi.abi,
@@ -71,10 +72,14 @@ const useDepositContract = () => {
       const result = await client.query({
         query: FUND_SIZE_QUERY,
       });
-      return Number(
-        web3.utils.fromWei(
-          '' + result['data']['voteManager']['totalDeposited'],
-          'ether'
+      dispatch(
+        setFundSize(
+          Number(
+            web3.utils.fromWei(
+              '' + result['data']['voteManager']['totalDeposited'],
+              'ether'
+            )
+          )
         )
       );
     } catch {

@@ -10,6 +10,7 @@ import useWeb3Modal from '../utils/useWeb3Modal';
 import useUserData from '../utils/useUserData';
 import useProposals from '../utils/useProposals';
 import useDepositContract from '../utils/useDepositContract';
+import useDaiContract from '../utils/useDaiContract';
 import useIteration from '../utils/useIteration';
 
 import Page from '../components/Page';
@@ -20,10 +21,14 @@ import LoadingWeb3 from '../components/LoadingWeb3';
 const useStyles = makeStyles((theme) => ({}));
 
 const Experiment = () => {
-  useEffect(() => {}, []);
+  const daiContract = useDaiContract();
+
+  // useEffect(() => {
+  //   daiContract.getUserDaiAllowance();
+  // }, []);
 
   const test = () => {
-    console.log('test');
+    daiContract.getUserDaiAllowance();
   };
 
   const classes = useStyles();
