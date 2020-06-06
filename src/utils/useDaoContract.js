@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setEnabledTwitter } from '../redux/user/userActions';
 
+import useUserData from './useUserData';
+
 const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
 const SUPPORTED_NETWORK = 'kovan';
 const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
@@ -19,6 +21,7 @@ const useDaoContract = () => {
   const dispatch = useDispatch();
 
   const daoContract = new web3Provider.eth.Contract(daoAbi.abi, DAO_ADDRESS);
+  const userData = useUserData();
 
   const updateDelegation = async () => {
     if (address) {
@@ -45,6 +48,7 @@ const useDaoContract = () => {
         from: address,
       });
       // await fetchProposals(); // TODO
+      userData.getUserData(address);
       return tx;
     } catch (err) {
       console.warn('Unable to vote: ', err);

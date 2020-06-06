@@ -143,7 +143,7 @@ const Proposal = ({ match }) => {
     }
   }, [canVoteWithDelegate]);
 
-  //TODO: clean this, duplicate code between Proposal & Proposals
+  //TODO: clean this, duplicate code between Proposal & Proposals & withdraw
 
   let calcHasVotedOnThisIteration = () => {
     try {
