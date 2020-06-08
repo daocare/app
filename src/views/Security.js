@@ -41,7 +41,7 @@ const Security = () => {
         spacing={2}
         className={classes.securityContainer}
       >
-        <Grid item xs={12} md={4} className={classes.gridItem}>
+        <Grid item xs={12} md={3} className={classes.gridItem}>
           <a
             href="/dao.care_smart_contract_audit.pdf"
             target="_blank"
@@ -59,11 +59,22 @@ const Security = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              ditCraft v1 audit
+              ditCraft v1 Audit
             </a>
           </Typography>
         </Grid>
-        <Grid item xs={12} md={4} className={classes.gridItem}>
+        <Grid item xs={12} md={3} className={classes.gridItem}>
+          <a href="/coverage" target="_blank" rel="noopener noreferrer">
+            <img src="/assets/security/tests.svg" className={classes.socials} />
+          </a>
+
+          <Typography variant="body2">
+            <a href="/coverage" target="_blank" rel="noopener noreferrer">
+              Smart Contract Coverage
+            </a>
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={3} className={classes.gridItem}>
           <a
             href="https://github.com/DAOcare"
             target="_blank"
@@ -81,11 +92,11 @@ const Security = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Github code
+              Github Code
             </a>
           </Typography>
         </Grid>
-        {/* <Grid item xs={12} md={4} className={classes.gridItem}>
+        {/* <Grid item xs={12} md={3} className={classes.gridItem}>
           <a href="#" target="_blank" rel="noopener noreferrer">
             TODO
             <img
