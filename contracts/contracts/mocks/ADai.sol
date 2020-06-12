@@ -1,11 +1,11 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 import '../interfaces/IADai.sol';
 import './MockERC20.sol';
+
 // import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol';
 
-import '@nomiclabs/buidler/console.sol';
-
+//import '@nomiclabs/buidler/console.sol';
 
 // MOCK ONLY
 contract ADai is IADai, MockERC20 {
@@ -19,11 +19,11 @@ contract ADai is IADai, MockERC20 {
   }
 
   function redeem(uint256 _amount) public {
-    console.log(' **** aDai being redeemed by *****', msg.sender);
-    console.log('Burning this amount of aDai: ', _amount);
+    //console.log(' **** aDai being redeemed by *****', msg.sender);
+    //console.log('Burning this amount of aDai: ', _amount);
     this.burnFrom(msg.sender, _amount);
-    console.log('Sending this amount of dai: ', _amount);
+    //console.log('Sending this amount of dai: ', _amount);
     dai.mint(msg.sender, _amount);
-    console.log(' **** aDai redemtpion successful *****');
+    //console.log(' **** aDai redemtpion successful *****');
   }
 }

@@ -16,8 +16,8 @@
   "author": "daocare",
   "license": "MIT",
   "dependencies": {
-    "@openzeppelin/contracts-ethereum-package": "^2.2.3",
-    "@openzeppelin/upgrades": "^2.5.3",
+    "@openzeppelin/contracts-ethereum-package": "^3.0.0",
+    "@openzeppelin/upgrades": "^2.8.0",
     "truffle-hdwallet-provider": "^1.0.17"
   },
   "devDependencies": {

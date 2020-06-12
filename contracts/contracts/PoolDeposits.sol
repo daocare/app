@@ -1,4 +1,4 @@
-pragma solidity 0.5.17;
+pragma solidity 0.6.10;
 
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
@@ -21,7 +21,7 @@ contract PoolDeposits {
   IERC20 public daiContract;
   IAaveLendingPool public aaveLendingContract;
   IADai public adaiContract;
-  INoLossDao public noLossDaoContract; // should we be able to change this as admin.
+  INoLossDao public noLossDaoContract;
   ILendingPoolAddressesProvider public provider;
   address public aaveLendingContractCore;
 
@@ -165,6 +165,12 @@ contract PoolDeposits {
   /// @param amount new proposalAmount
   function changeProposalAmount(uint256 amount) external noLossDaoContractOnly {
     proposalAmount = amount;
+  }
+
+  /// @dev allows the admin to be chanded. Note admin can only declare an emergency
+  /// @param newAdmin address of the new admin
+  function changeAdmin(address newAdmin) external onlyAdmin {
+    admin = newAdmin;
   }
 
   /// @dev Internal function completing the actual deposit to Aave and crediting users account

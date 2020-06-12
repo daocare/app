@@ -1,8 +1,7 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 import '../interfaces/ILendingPoolAddressesProvider.sol';
 import './AaveLendingPool.sol';
-
 
 contract LendingPoolAddressesProvider is ILendingPoolAddressesProvider {
   AaveLendingPool public aaveLendingPool;

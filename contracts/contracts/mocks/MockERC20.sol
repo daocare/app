@@ -1,8 +1,7 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 import '@nomiclabs/buidler/console.sol';
-
 
 contract MockERC20 {
   using SafeMath for uint256;
@@ -55,10 +54,11 @@ contract MockERC20 {
     return _allowance[owner][spender];
   }
 
-  function transferFrom(address sender, address to, uint256 amount)
-    external
-    returns (bool)
-  {
+  function transferFrom(
+    address sender,
+    address to,
+    uint256 amount
+  ) external returns (bool) {
     _balances[sender] = _balances[sender].sub(amount);
     _balances[to] = _balances[to].add(amount);
     return true;

@@ -18,15 +18,15 @@ module.exports = {
     mainnet: {
       network_id: 1,
       provider: new HDWalletProvider(mnemonic, mainnetProviderUrl, 0),
-      // gas: 4700000,
-      gasPrice: 10000000000, // 10 gwei
+      gas: 4700000,
+      gasPrice: 38000000000, // 10 gwei
       skipDryRun: true,
     },
     kovan: {
       network_id: 42,
       provider: new HDWalletProvider(mnemonic, kovanProviderUrl, 0),
       gas: 4700000,
-      gasPrice: 45000000000, // 10 gwe
+      gasPrice: 4000000000, // 1 gwe
       skipDryRun: true,
     },
     rinkeby: {
@@ -39,8 +39,8 @@ module.exports = {
     goerli: {
       network_id: 5,
       provider: new HDWalletProvider(mnemonic, goerliProviderUrl, 0),
-      // gas: 47000000,
-      gasPrice: 10000000000, // 10 gwei
+      gas: 4700000,
+      gasPrice: 50000000000, // 50 gwei
       skipDryRun: true,
     },
     development: {
@@ -65,7 +65,7 @@ module.exports = {
   },
   compilers: {
     solc: {
-      version: '0.5.17',
+      version: '0.6.10',
       settings: {
         optimizer: {
           enabled: true,

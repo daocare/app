@@ -115,6 +115,21 @@ contract('PoolDeposits', accounts => {
     await poolDeposits.emergencyWithdraw({ from: accounts[1] });
   });
 
+  it('poolDeposits:emergency. Only admin can change the admin', async () => {
+    await expectRevert(
+      poolDeposits.changeAdmin(accounts[5], { from: accounts[2] }),
+      'Not admin'
+    );
+  });
+  it('poolDeposits:changeAdmin', async () => {
+    const newAdmin = accounts[5];
+    const adminBefore = await poolDeposits.admin.call();
+    await poolDeposits.changeAdmin(newAdmin, { from: adminBefore });
+    const adminAfter = await poolDeposits.admin();
+    assert.isOk(adminBefore !== adminAfter, "Admin didn't change");
+    assert.equal(newAdmin, adminAfter, "Admin didn't change");
+  });
+
   it('poolDeposits:emergency. Admin and only admin can instantly declare emergency', async () => {
     let mintAmount1 = '100000000000000000000000';
     let mintAmount2 = '100000000000000000000001';

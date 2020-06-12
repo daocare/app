@@ -1,10 +1,10 @@
-pragma solidity 0.5.17;
+pragma solidity 0.6.10;
 
 // import "./interfaces/IERC20.sol";
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
 import './interfaces/IPoolDeposits.sol';
-import '@nomiclabs/buidler/console.sol';
+// import '@nomiclabs/buidler/console.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 import '@openzeppelin/upgrades/contracts/Initializable.sol';
 
@@ -182,7 +182,7 @@ contract NoLossDao_v0 is Initializable {
     depositContract = IPoolDeposits(depositContractAddress);
     admin = msg.sender;
     votingInterval = _votingInterval;
-    proposalDeadline = now.add(_votingInterval);
+    proposalDeadline = now.add(5184000); // Length of the 1st iteration can be set here (5184000 = 60days)
     interestReceivers.push(admin); // This will change to miner when iterationchanges
     percentages.push(15); // 1.5% for miner
     interestReceivers.push(admin);
