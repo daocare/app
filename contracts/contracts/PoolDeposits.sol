@@ -92,6 +92,11 @@ contract PoolDeposits {
   ////////////////////////////////////
   //////// Modifiers /////////////////
   ////////////////////////////////////
+  modifier onlyAdmin() {
+    require(msg.sender == admin, 'Not admin');
+    _;
+  }
+
   modifier noLossDaoContractOnly() {
     require(
       address(noLossDaoContract) == msg.sender, // Is this a valid way of getting the address?
@@ -275,8 +280,8 @@ contract PoolDeposits {
   //////// EMERGENCY MODULE FUNCTIONS  //////////////
   ///////////////////////////////////////////////////
 
-  /// @dev Declares a state of emergency and enables emergency withdrawls that are not dependant on any external smart contracts
-  function declareStateOfEmergency() external emergencyEnacted {
+  /// @dev Internal function setting the emergency state of contract to true.
+  function _declareStateOfEmergency() internal {
     isEmergencyState = true;
     emit EmergencyStateReached(
       msg.sender,
@@ -284,6 +289,16 @@ contract PoolDeposits {
       totalDepositedDai,
       emergencyVoteAmount
     );
+  }
+
+  /// @dev Allows admin to activate emergency state
+  function adminActivateEmergency() external onlyAdmin {
+    _declareStateOfEmergency();
+  }
+
+  /// @dev Declares a state of emergency and enables emergency withdrawls that are not dependant on any external smart contracts
+  function declareStateOfEmergency() external emergencyEnacted {
+    _declareStateOfEmergency();
   }
 
   /// @dev Immediately lets yoou withdraw your funds in an state of emergency

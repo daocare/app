@@ -207,7 +207,9 @@ contract NoLossDao_v0 is Initializable {
     depositContract.changeProposalAmount(amount);
   }
 
-  /// @dev Changes the amount required to stake for new proposal
+  /// @dev Admin function for setting the who recieves interest and what percentage.
+  /// @param _interestReceivers The list of addresses to recieve interest
+  /// @param _percentages The percentage they each will recieve
   function setInterestReceivers(
     address[] memory _interestReceivers,
     uint256[] memory _percentages
@@ -345,6 +347,7 @@ contract NoLossDao_v0 is Initializable {
     noVoteYet(delegatedFrom)
     userStaked(delegatedFrom)
     userHasNoActiveProposal(delegatedFrom)
+    userHasNoActiveProposal(msg.sender)
     joinedInTime(delegatedFrom)
   {
     _vote(proposalIdToVoteFor, delegatedFrom);
