@@ -26,7 +26,7 @@ module.exports = {
       network_id: 42,
       provider: new HDWalletProvider(mnemonic, kovanProviderUrl, 0),
       gas: 4700000,
-      gasPrice: 10000000000, // 10 gwe
+      gasPrice: 45000000000, // 10 gwe
       skipDryRun: true,
     },
     rinkeby: {
@@ -65,7 +65,7 @@ module.exports = {
   },
   compilers: {
     solc: {
-      version: '0.5.15',
+      version: '0.5.17',
       settings: {
         optimizer: {
           enabled: true,

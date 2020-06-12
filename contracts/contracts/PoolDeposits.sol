@@ -1,4 +1,4 @@
-pragma solidity 0.5.15;
+pragma solidity 0.5.17;
 
 import './interfaces/IAaveLendingPool.sol';
 import './interfaces/IADai.sol';
@@ -6,7 +6,6 @@ import './interfaces/INoLossDao.sol';
 import './interfaces/ILendingPoolAddressesProvider.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 import '@nomiclabs/buidler/console.sol';
-
 
 /** @title Pooled Deposits Contract*/
 contract PoolDeposits {

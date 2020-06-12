@@ -1,4 +1,4 @@
-pragma solidity 0.5.15;
+pragma solidity 0.5.17;
 
 // import "./interfaces/IERC20.sol";
 import './interfaces/IAaveLendingPool.sol';
@@ -7,7 +7,6 @@ import './interfaces/IPoolDeposits.sol';
 import '@nomiclabs/buidler/console.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 import '@openzeppelin/upgrades/contracts/Initializable.sol';
-
 
 /** @title No Loss Dao Contract. */
 contract NoLossDao_v0 is Initializable {
