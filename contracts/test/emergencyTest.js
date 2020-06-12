@@ -115,6 +115,32 @@ contract('PoolDeposits', accounts => {
     await poolDeposits.emergencyWithdraw({ from: accounts[1] });
   });
 
+  it('poolDeposits:emergency. Admin and only admin can instantly declare emergency', async () => {
+    let mintAmount1 = '100000000000000000000000';
+    let mintAmount2 = '100000000000000000000001';
+    // deposit
+    await dai.mint(accounts[1], mintAmount1);
+    await dai.approve(poolDeposits.address, mintAmount1, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount1, { from: accounts[1] });
+
+    await dai.mint(accounts[2], mintAmount2);
+    await dai.approve(poolDeposits.address, mintAmount2, {
+      from: accounts[2],
+    });
+    await poolDeposits.deposit(mintAmount2, { from: accounts[2] });
+
+    await expectRevert(
+      poolDeposits.adminActivateEmergency({ from: accounts[2] }),
+      'Not admin'
+    );
+    await poolDeposits.adminActivateEmergency({ from: accounts[0] });
+
+    await poolDeposits.emergencyWithdraw({ from: accounts[2] });
+    await poolDeposits.emergencyWithdraw({ from: accounts[1] });
+  });
+
   it('poolDeposits:emergency. Cannot deposit or create proposal once emergency declared', async () => {
     let mintAmount1 = '100000000000000000000000';
     let mintAmount2 = '100000000000000000000001';
