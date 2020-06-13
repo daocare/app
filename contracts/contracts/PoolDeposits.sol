@@ -53,6 +53,7 @@ contract PoolDeposits {
   );
   event EmergencyVote(address indexed user, uint256 emergencyVoteAmount);
   event RemoveEmergencyVote(address indexed user, uint256 emergencyVoteAmount);
+  event ADaiRedeemFailed();
   event EmergencyWithdrawl(address indexed user);
 
   ///////////////////////////////////////////////////////////////////
@@ -201,8 +202,12 @@ contract PoolDeposits {
     depositedDai[msg.sender] = depositedDai[msg.sender].sub(amount);
     totalDepositedDai = totalDepositedDai.sub(amount);
 
-    adaiContract.redeem(amount);
-    daiContract.transfer(msg.sender, amount);
+    try adaiContract.redeem(amount)  {
+      daiContract.transfer(msg.sender, amount);
+    } catch {
+      emit ADaiRedeemFailed();
+      adaiContract.transfer(msg.sender, amount);
+    }
   }
 
   /// @dev Lets a user join DAOcare through depositing
@@ -273,6 +278,34 @@ contract PoolDeposits {
     emit ProposalWithdrawn(msg.sender);
   }
 
+  function _distribute(
+    address[] calldata receivers,
+    uint256[] calldata percentages,
+    address winner,
+    uint256 iteration,
+    uint256 totalInterestFromIteration,
+    address tokenContract
+  ) internal {
+    IERC20 payoutToken = IERC20(tokenContract);
+
+    uint256 percentageWinner = 1000;
+    for (uint256 i = 0; i < receivers.length; i++) {
+      percentageWinner = percentageWinner.sub(percentages[i]); //SafeMath prevents this going below 0
+      uint256 amountToSend = totalInterestFromIteration.mul(percentages[i]).div(
+        1000
+      );
+      payoutToken.transfer(receivers[i], amountToSend);
+      emit InterestSent(receivers[i], amountToSend, iteration);
+    }
+
+    // TODO: mul and div are slightly more expensive than add/subtract - move to using that instead of keeping track of the percentage.
+    uint256 amountToSendToWinner = totalInterestFromIteration
+      .mul(percentageWinner)
+      .div(1000);
+    payoutToken.transfer(winner, amountToSendToWinner);
+    emit InterestSent(winner, amountToSendToWinner, iteration);
+  }
+
   /// @dev Splits the accrued interest between winners.
   /// @param receivers An array of the addresses to split between
   /// @param percentages the respective percentage to split
@@ -289,21 +322,25 @@ contract PoolDeposits {
     uint256 amountToRedeem = adaiContract.balanceOf(address(this)).sub(
       totalDepositedDai
     );
-    adaiContract.redeem(amountToRedeem);
-
-    uint256 percentageWinner = 1000;
-    for (uint256 i = 0; i < receivers.length; i++) {
-      percentageWinner = percentageWinner.sub(percentages[i]); //SafeMath prevents this going below 0
-      uint256 amountToSend = amountToRedeem.mul(percentages[i]).div(1000);
-      daiContract.transfer(receivers[i], amountToSend);
-      emit InterestSent(receivers[i], amountToSend, iteration);
+    try adaiContract.redeem(amountToRedeem)  {
+      _distribute(
+        receivers,
+        percentages,
+        winner,
+        iteration,
+        amountToRedeem,
+        address(daiContract)
+      );
+    } catch {
+      _distribute(
+        receivers,
+        percentages,
+        winner,
+        iteration,
+        amountToRedeem,
+        address(adaiContract)
+      );
     }
-
-    uint256 amountToSendToWinner = amountToRedeem.mul(percentageWinner).div(
-      1000
-    );
-    daiContract.transfer(winner, amountToSendToWinner);
-    emit InterestSent(winner, amountToSendToWinner, iteration);
   }
 
   //////////////////////////////////////////////////
