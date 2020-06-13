@@ -42,7 +42,12 @@ contract PoolDeposits {
   event DepositWithdrawn(address indexed user);
   event PartialDepositWithdrawn(address indexed user, uint256 amount);
   event ProposalWithdrawn(address indexed benefactor);
-  event InterestSent(address indexed user, uint256 amount, uint256 iteration);
+  event InterestSent(address indexed user, uint256 amount);
+  event WinnerPayout(
+    address indexed user,
+    uint256 indexed iteration,
+    uint256 amount
+  );
 
   ///////// Emergency Events ///////////
   event EmergencyStateReached(
@@ -288,22 +293,18 @@ contract PoolDeposits {
   ) internal {
     IERC20 payoutToken = IERC20(tokenContract);
 
-    uint256 percentageWinner = 1000;
+    uint256 winnerPayout = totalInterestFromIteration;
     for (uint256 i = 0; i < receivers.length; i++) {
-      percentageWinner = percentageWinner.sub(percentages[i]); //SafeMath prevents this going below 0
       uint256 amountToSend = totalInterestFromIteration.mul(percentages[i]).div(
         1000
       );
       payoutToken.transfer(receivers[i], amountToSend);
-      emit InterestSent(receivers[i], amountToSend, iteration);
+      winnerPayout = winnerPayout.sub(amountToSend); //SafeMath prevents this going below 0
+      emit InterestSent(receivers[i], amountToSend);
     }
 
-    // TODO: mul and div are slightly more expensive than add/subtract - move to using that instead of keeping track of the percentage.
-    uint256 amountToSendToWinner = totalInterestFromIteration
-      .mul(percentageWinner)
-      .div(1000);
-    payoutToken.transfer(winner, amountToSendToWinner);
-    emit InterestSent(winner, amountToSendToWinner, iteration);
+    payoutToken.transfer(winner, winnerPayout);
+    emit WinnerPayout(winner, winnerPayout, iteration);
   }
 
   /// @dev Splits the accrued interest between winners.
