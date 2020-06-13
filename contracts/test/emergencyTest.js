@@ -297,7 +297,7 @@ contract('PoolDeposits', accounts => {
       (parseInt(mintAmount1) + parseInt(mintAmount2)).toString()
     );
 
-    const logs = await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    const logs = await poolDeposits.exit({ from: accounts[1] });
     expectEvent(logs, 'RemoveEmergencyVote', {
       user: accounts[1],
       emergencyVoteAmount: mintAmount1,

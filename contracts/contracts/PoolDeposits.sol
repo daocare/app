@@ -5,7 +5,8 @@ import './interfaces/IADai.sol';
 import './interfaces/INoLossDao.sol';
 import './interfaces/ILendingPoolAddressesProvider.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
-import '@nomiclabs/buidler/console.sol';
+
+// import '@nomiclabs/buidler/console.sol';
 
 /** @title Pooled Deposits Contract*/
 contract PoolDeposits {
@@ -190,7 +191,7 @@ contract PoolDeposits {
     aaveLendingContract.deposit(address(daiContract), amount, 30);
 
     timeJoined[msg.sender] = now;
-    depositedDai[msg.sender] = amount;
+    depositedDai[msg.sender] = depositedDai[msg.sender].add(amount);
     totalDepositedDai = totalDepositedDai.add(amount);
   }
 
@@ -224,8 +225,9 @@ contract PoolDeposits {
   /// Withdraws the proposalAmount (50DAI) if succesful
   function exit() external userStaked {
     uint256 amount = depositedDai[msg.sender];
-    _withdrawFunds(amount);
+    // NOTE: it is critical that _removeEmergancyVote happens before _withdrawFunds.
     _removeEmergencyVote();
+    _withdrawFunds(amount);
     noLossDaoContract.noLossWithdraw(msg.sender);
     emit DepositWithdrawn(msg.sender);
   }
@@ -235,6 +237,7 @@ contract PoolDeposits {
   /// Withdraws the proposalAmount (50DAI) if succesful
   function withdrawDeposit(uint256 amount)
     external
+    // If this user has voted to call an emergancy, they cannot do a partial withdrawal
     hasNotEmergancyVoted
     userStaked
   {

@@ -75,7 +75,7 @@ contract('PoolDeposits', accounts => {
     assert.equal(beforeDeposit.toString(), mintAmount);
 
     // withdraw their funds
-    await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    await poolDeposits.exit({ from: accounts[1] });
 
     let afterDai = await dai.balanceOf.call(accounts[1]);
     let afterDeposit = await poolDeposits.depositedDai.call(accounts[1]);
@@ -110,14 +110,14 @@ contract('PoolDeposits', accounts => {
 
     // withdraw their funds
     await expectRevert(
-      poolDeposits.withdrawDeposit({ from: accounts[1] }),
+      poolDeposits.exit({ from: accounts[1] }),
       'User already voted this iteration'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
-    await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    await poolDeposits.exit({ from: accounts[1] });
     let afterDai = await dai.balanceOf.call(accounts[1]);
     let afterDeposit = await poolDeposits.depositedDai.call(accounts[1]);
 
@@ -135,13 +135,13 @@ contract('PoolDeposits', accounts => {
     await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
     // withdraw their funds
-    const logs = await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    const logs = await poolDeposits.exit({ from: accounts[1] });
     expectEvent(logs, 'DepositWithdrawn', {
       user: accounts[1],
     });
 
     await expectRevert(
-      poolDeposits.withdrawDeposit({ from: accounts[1] }),
+      poolDeposits.exit({ from: accounts[1] }),
       'User has no stake'
     );
   });
@@ -158,7 +158,7 @@ contract('PoolDeposits', accounts => {
     });
 
     await expectRevert(
-      poolDeposits.withdrawDeposit({ from: accounts[2] }),
+      poolDeposits.exit({ from: accounts[2] }),
       'User has a proposal'
     );
   });
