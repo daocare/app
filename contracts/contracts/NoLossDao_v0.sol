@@ -268,7 +268,7 @@ contract NoLossDao_v0 is Initializable {
   /// @dev Checks whether user is eligible to create a proposal then creates it. Executes a range of logic to add the new propsal (increments proposal ID, sets proposal owner, sets iteration joined, etc...)
   /// @param _proposalIdentifier Hash of the proposal text
   /// @param benefactorAddress address of benefactor creating proposal
-  /// @return boolean whether the above executes successfully
+  /// @return newProposalId boolean whether the above executes successfully
   function noLossCreateProposal(
     string calldata _proposalIdentifier,
     address benefactorAddress

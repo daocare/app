@@ -8,7 +8,7 @@ import './MockERC20.sol';
 //import '@nomiclabs/buidler/console.sol';
 
 // MOCK ONLY
-contract ADai is IADai, MockERC20 {
+contract ADai is MockERC20 {
   MockERC20 public dai;
 
   constructor(MockERC20 daiAddress)

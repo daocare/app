@@ -10,11 +10,11 @@ contract LendingPoolAddressesProvider is ILendingPoolAddressesProvider {
     aaveLendingPool = aaveLendingPoolAddress;
   }
 
-  function getLendingPool() public view returns (address) {
+  function getLendingPool() public override view returns (address) {
     return address(aaveLendingPool);
   }
 
-  function getLendingPoolCore() public view returns (address) {
+  function getLendingPoolCore() public override view returns (address) {
     return address(aaveLendingPool);
   }
 }

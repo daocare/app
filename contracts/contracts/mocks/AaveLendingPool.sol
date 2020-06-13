@@ -20,7 +20,7 @@ contract AaveLendingPool is IAaveLendingPool {
     address _reserve,
     uint256 _amount,
     uint16 _referralCode
-  ) public {
+  ) public override {
     //console.log(' **** deposit into Aave lendingPool by *****', msg.sender);
     dai.burnFrom(msg.sender, _amount);
     // console.log('This amount of dai is being deposited ', _amount);
