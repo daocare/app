@@ -244,6 +244,7 @@ contract NoLossDao_v0 is Initializable {
   function noLossDeposit(address userAddress)
     external
     depositContractOnly
+    noVoteYet(userAddress) // if the user wants to increase their deposit, they must not have voted already.
     userHasNoProposal(userAddress) // Checks they are not a benefactor
     returns (bool)
   {

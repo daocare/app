@@ -39,6 +39,7 @@ contract PoolDeposits {
     string proposalIdentifier
   );
   event DepositWithdrawn(address indexed user);
+  event PartialDepositWithdrawn(address indexed user, uint256 amount);
   event ProposalWithdrawn(address indexed benefactor);
   event InterestSent(address indexed user, uint256 amount, uint256 iteration);
 
@@ -131,6 +132,11 @@ contract PoolDeposits {
     _;
   }
 
+  modifier hasNotEmergancyVoted() {
+    require(!emergencyVoted[msg.sender], 'User has emergancy voted');
+    _;
+  }
+
   modifier validInterestSplitInput(
     address[] memory addresses,
     uint256[] memory percentages
@@ -189,11 +195,9 @@ contract PoolDeposits {
   }
 
   /// @dev Internal function completing the actual redemption from Aave and sendinding funds back to user
-  function _withdrawFunds() internal {
-    uint256 amount = depositedDai[msg.sender];
-    _removeEmergencyVote();
-
-    depositedDai[msg.sender] = 0;
+  /// @param amount the user wants to withdraw from the DAOcare pool
+  function _withdrawFunds(uint256 amount) internal {
+    depositedDai[msg.sender] = depositedDai[msg.sender].sub(amount);
     totalDepositedDai = totalDepositedDai.sub(amount);
 
     adaiContract.redeem(amount);
@@ -204,11 +208,12 @@ contract PoolDeposits {
   /// @param amount the user wants to deposit into the DAOcare pool
   function deposit(uint256 amount)
     external
-    blankUser
+    hasNotEmergancyVoted
     allowanceAvailable(amount)
     requiredDai(amount)
     stableState
   {
+    // NOTE: if the user adds a deposit they won't be able to vote in that iteration
     _depositFunds(amount);
     noLossDaoContract.noLossDeposit(msg.sender);
     emit DepositAdded(msg.sender, amount);
@@ -217,10 +222,26 @@ contract PoolDeposits {
   /// @dev Lets a user withdraw their original amount sent to DAOcare
   /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
   /// Withdraws the proposalAmount (50DAI) if succesful
-  function withdrawDeposit() external userStaked {
-    _withdrawFunds();
+  function exit() external userStaked {
+    uint256 amount = depositedDai[msg.sender];
+    _withdrawFunds(amount);
+    _removeEmergencyVote();
     noLossDaoContract.noLossWithdraw(msg.sender);
     emit DepositWithdrawn(msg.sender);
+  }
+
+  /// @dev Lets a user withdraw their original amount sent to DAOcare
+  /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
+  /// Withdraws the proposalAmount (50DAI) if succesful
+  function withdrawDeposit(uint256 amount)
+    external
+    hasNotEmergancyVoted
+    userStaked
+  {
+    // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.
+    require(amount < depositedDai[msg.sender], 'cannot withdraw full balance');
+    _withdrawFunds(amount);
+    emit PartialDepositWithdrawn(msg.sender, amount);
   }
 
   /// @dev Lets user create proposal
@@ -244,7 +265,7 @@ contract PoolDeposits {
 
   /// @dev Lets user withdraw proposal
   function withdrawProposal() external {
-    _withdrawFunds();
+    _withdrawFunds(depositedDai[msg.sender]);
     noLossDaoContract.noLossWithdrawProposal(msg.sender);
     emit ProposalWithdrawn(msg.sender);
   }
@@ -309,7 +330,7 @@ contract PoolDeposits {
 
   /// @dev Immediately lets yoou withdraw your funds in an state of emergency
   function emergencyWithdraw() external userStaked emergencyState {
-    _withdrawFunds();
+    _withdrawFunds(depositedDai[msg.sender]);
     emit EmergencyWithdrawl(msg.sender);
   }
 
@@ -328,9 +349,8 @@ contract PoolDeposits {
 
   /// @dev Internal function removing a users emergency vote if they leave the pool
   function _removeEmergencyVote() internal {
-    bool status = emergencyVoted[msg.sender];
-    emergencyVoted[msg.sender] = false;
-    if (status == true) {
+    if (emergencyVoted[msg.sender] == true) {
+      emergencyVoted[msg.sender] = false;
       emergencyVoteAmount = emergencyVoteAmount.sub(depositedDai[msg.sender]);
       emit RemoveEmergencyVote(msg.sender, depositedDai[msg.sender]);
     }
