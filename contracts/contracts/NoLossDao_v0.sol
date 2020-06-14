@@ -239,13 +239,20 @@ contract NoLossDao_v0 is Initializable {
   ////////and proposal holders (benefactors) /////////////
   ////////////////////////////////////////////////////////
 
+  function userHasNotVotedThisIteration(address userAddress)
+    external
+    view
+    returns (bool)
+  {
+    return usersNominatedProject[proposalIteration][userAddress] == 0;
+  }
+
   /// @dev Checks whether user is eligible deposit and sets the proposal iteration joined, to the current iteration
   /// @param userAddress address of the user wanting to deposit
   /// @return boolean whether the above executes successfully
   function noLossDeposit(address userAddress)
     external
     depositContractOnly
-    noVoteYet(userAddress) // if the user wants to increase their deposit, they must not have voted already.
     userHasNoProposal(userAddress) // Checks they are not a benefactor
     returns (bool)
   {

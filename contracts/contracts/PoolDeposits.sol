@@ -139,8 +139,18 @@ contract PoolDeposits {
     _;
   }
 
-  modifier hasNotEmergancyVoted() {
+  modifier hasNotEmergencyVoted() {
     require(!emergencyVoted[msg.sender], 'User has emergancy voted');
+    _;
+  }
+
+  modifier partialWithdrawConditionsCheck(uint256 amount) {
+    // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.
+    require(amount < depositedDai[msg.sender], 'cannot withdraw full balance');
+    require(
+      noLossDaoContract.userHasNotVotedThisIteration(msg.sender),
+      'User already voted this iteration'
+    );
     _;
   }
 
@@ -219,7 +229,7 @@ contract PoolDeposits {
   /// @param amount the user wants to deposit into the DAOcare pool
   function deposit(uint256 amount)
     external
-    hasNotEmergancyVoted
+    hasNotEmergencyVoted
     allowanceAvailable(amount)
     requiredDai(amount)
     stableState
@@ -248,11 +258,10 @@ contract PoolDeposits {
   function withdrawDeposit(uint256 amount)
     external
     // If this user has voted to call an emergancy, they cannot do a partial withdrawal
-    hasNotEmergancyVoted
+    hasNotEmergencyVoted
     userStaked
+    partialWithdrawConditionsCheck(amount) // checks they have not voted and not trying to withdraw full amount
   {
-    // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.
-    require(amount < depositedDai[msg.sender], 'cannot withdraw full balance');
     _withdrawFunds(amount);
     emit PartialDepositWithdrawn(msg.sender, amount);
   }
