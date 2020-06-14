@@ -183,7 +183,7 @@ contract NoLossDao_v0 is Initializable {
     admin = msg.sender;
     votingInterval = _votingInterval;
     proposalDeadline = now.add(_votingInterval);
-    // proposalDeadline = now.add(5184000); // Length of the 1st iteration can be set here (5184000 = 60days)
+    // proposalDeadline = now.add(5184000); // Length of the 1st iteration can be set here. For mainnet we use 2 months to 'warmup' the dao (5184000 = 60days)
     interestReceivers.push(admin); // This will change to miner when iterationchanges
     percentages.push(15); // 1.5% for miner
     interestReceivers.push(admin);
