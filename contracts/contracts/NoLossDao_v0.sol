@@ -239,16 +239,18 @@ contract NoLossDao_v0 is Initializable {
   ////////and proposal holders (benefactors) /////////////
   ////////////////////////////////////////////////////////
 
-  /// @dev Returns true if the user has not voted this iteration
+  /// @dev Returns true if the user has not voted this iteration and they are not a proposal
   /// @param userAddress address of the user we are checking
-  /// @return boolean (true if user has not voted this iteration)
-  /// Indentical to modifier, hasNoVote, but funciton need for poolDeposits to allow partial withdrawl
-  function userHasNotVotedThisIteration(address userAddress)
+  /// @return boolean true if user hasn't voted and isn't a proposal
+  /// Indentical to modifier, hasNoVote && userHasNoProposal, but funciton need for poolDeposits to allow partial withdrawl
+  function userHasNotVotedThisIterationAndIsNotProposal(address userAddress)
     external
     view
     returns (bool)
   {
-    return usersNominatedProject[proposalIteration][userAddress] == 0;
+    return
+      usersNominatedProject[proposalIteration][userAddress] == 0 &&
+      benefactorsProposal[userAddress] == 0;
   }
 
   /// @dev Checks whether user is eligible deposit and sets the proposal iteration joined, to the current iteration

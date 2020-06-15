@@ -71,7 +71,7 @@ contract('PoolDeposits', accounts => {
 
       test - user can vote after partial withdrawal 
       */
-  it('poolDeposits:withdrawDeposit. User can leave pool', async () => {
+  it('poolDeposits:partialWithdrawDeposit. User cannot partial withdraw after emergency voting', async () => {
     let mintAmount = '60000000000';
     // Join in iteration 1
     await dai.mint(accounts[1], mintAmount);
@@ -86,12 +86,18 @@ contract('PoolDeposits', accounts => {
     assert.equal(beforeDai.toString(), '0');
     assert.equal(beforeDeposit.toString(), mintAmount);
 
-    await time.increase(time.duration.seconds(8640001); // 100 days and 1 second
+    await time.increase(time.duration.seconds(8640001)); // 100 days and 1 second
     //await noLossDao.distributeFunds();
 
     await poolDeposits.voteEmergency({from: accounts[1]});
 
+
     // check that the partial withdraw fails. 
+    await expectRevert(
+      poolDeposits.withdrawDeposit(30000000000, { from: accounts[1] }),
+      'User has emergency voted'
+    );
+
 
     // withdraw their funds
     await poolDeposits.exit({ from: accounts[1] });
@@ -102,8 +108,9 @@ contract('PoolDeposits', accounts => {
     assert.equal(afterDai.toString(), mintAmount);
     assert.equal(afterDeposit.toString(), '0');
   });
-  /*
-  it('poolDeposits:userLEAVE. User cannot leave pool till new iteration if they have voted', async () => {
+
+
+  it('poolDeposits:partialWithdrawDeposit. User cannot leave pool till new iteration if they have voted', async () => {
     let mintAmount = '60000000000';
 
     // Deposit
@@ -125,26 +132,113 @@ contract('PoolDeposits', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
+    await expectRevert(
+      poolDeposits.withdrawDeposit(60000000000, { from: accounts[1] }),
+      'Cannot withdraw full balance'
+    );
+
+    await expectRevert(
+      poolDeposits.withdrawDeposit(60000000001, { from: accounts[1] }),
+      'Cannot withdraw full balance'
+    );
+
     await noLossDao.voteDirect(1, { from: accounts[1] });
 
     // withdraw their funds
     await expectRevert(
-      poolDeposits.exit({ from: accounts[1] }),
-      'User already voted this iteration'
+      poolDeposits.withdrawDeposit(30000000000, { from: accounts[1] }),
+      'User already voted this iteration or is a proposal'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
-    await poolDeposits.exit({ from: accounts[1] });
+    await poolDeposits.withdrawDeposit(30000000000, { from: accounts[1] });
     let afterDai = await dai.balanceOf.call(accounts[1]);
     let afterDeposit = await poolDeposits.depositedDai.call(accounts[1]);
 
-    assert.equal(afterDai.toString(), mintAmount);
-    assert.equal(afterDeposit.toString(), '0');
+    assert.equal(afterDai.toString(), '30000000000');
+    assert.equal(afterDeposit.toString(), '30000000000');
   });
 
-  it('poolDeposits:userLEAVE. User cannot once already left pool', async () => {
+
+  it('poolDeposits:partialWithdrawDeposit. Will send adai if redeem fails', async () => {
+    let mintAmount = '60000000000';
+
+    // Deposit
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
+
+    // someone create a proposal
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[2],
+    });
+    await poolDeposits.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
+
+    await aDai.setRedeemFailNotEnoughLiquidity(true);
+
+    await poolDeposits.withdrawDeposit(30000000000, { from: accounts[1] });
+
+    let afterDai = await dai.balanceOf.call(accounts[1]);
+    let afterADai = await aDai.balanceOf.call(accounts[1]);
+    let afterDeposit = await poolDeposits.depositedDai.call(accounts[1]);
+
+    assert.equal(afterDai.toString(), '0');
+    assert.equal(afterADai.toString(), '30000000000');
+    assert.equal(afterDeposit.toString(), '30000000000');
+  });
+
+
+  it('poolDeposits:partialWithdrawDeposit. User can vote after partial withdrawl', async () => {
+    let mintAmount = '60000000000';
+
+    // Deposit
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
+
+    // someone create a proposal
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[2],
+    });
+    await poolDeposits.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
+
+ 
+    await poolDeposits.withdrawDeposit(30000000000, { from: accounts[1] });
+    await noLossDao.voteDirect(1, { from: accounts[1] });
+
+    let votesForProposal1NextIteration = await noLossDao.proposalVotes.call(
+      '1',
+      '1'
+    );
+
+    assert.equal(
+      votesForProposal1NextIteration.toString(),
+      "30000000000"
+    );
+
+  });
+
+
+
+  it('poolDeposits:partialWithdrawDeposit. User cannot partial withdraw once already left pool', async () => {
     let mintAmount = '60000000000';
     // Join in iteration 1
     await dai.mint(accounts[1], mintAmount);
@@ -160,12 +254,31 @@ contract('PoolDeposits', accounts => {
     });
 
     await expectRevert(
-      poolDeposits.exit({ from: accounts[1] }),
+      poolDeposits.withdrawDeposit(1, { from: accounts[1] }),
       'User has no stake'
     );
   });
 
-  it('poolDeposits:userLEAVE. Someone with a proposal cant call withdraw deposit', async () => {
+
+  it('poolDeposits:partialWithdrawDeposit. Partial withdraw event emitted correctly', async () => {
+    let mintAmount = '60000000000';
+    // Join in iteration 1
+    await dai.mint(accounts[1], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[1],
+    });
+    await poolDeposits.deposit(mintAmount, { from: accounts[1] });
+
+    // withdraw their funds
+    const logs = await poolDeposits.withdrawDeposit(10000000000, { from: accounts[1] });
+    expectEvent(logs, 'PartialDepositWithdrawn', {
+      user: accounts[1],
+      amount: "10000000000",
+    });
+
+  });
+
+  it('poolDeposits:partialWithdrawDeposit. Someone with a proposal cant call partial withdraw deposit', async () => {
     let mintAmount = '60000000000';
     // Join in iteration 1
     await dai.mint(accounts[2], mintAmount);
@@ -177,9 +290,9 @@ contract('PoolDeposits', accounts => {
     });
 
     await expectRevert(
-      poolDeposits.exit({ from: accounts[2] }),
-      'User has a proposal'
+      poolDeposits.withdrawDeposit(4999999, { from: accounts[2] }),
+      'User already voted this iteration or is a proposal'
     );
   });
-  */
+  
 });

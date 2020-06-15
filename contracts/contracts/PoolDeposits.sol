@@ -140,20 +140,22 @@ contract PoolDeposits {
   }
 
   modifier hasNotEmergencyVoted() {
-    require(!emergencyVoted[msg.sender], 'User has emergancy voted');
+    require(!emergencyVoted[msg.sender], 'User has emergency voted');
     _;
   }
 
   modifier validAmountToWithdraw(uint256 amount) {
     // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.
-    require(amount < depositedDai[msg.sender], 'cannot withdraw full balance');
+    require(amount < depositedDai[msg.sender], 'Cannot withdraw full balance');
     _;
   }
 
   modifier userHasNotVotedThisIteration() {
     require(
-      noLossDaoContract.userHasNotVotedThisIteration(msg.sender),
-      'User already voted this iteration'
+      noLossDaoContract.userHasNotVotedThisIterationAndIsNotProposal(
+        msg.sender
+      ),
+      'User already voted this iteration or is a proposal'
     );
     _;
   }
@@ -268,32 +270,15 @@ contract PoolDeposits {
     emit DepositWithdrawn(msg.sender);
   }
 
-  /*
-  DELETE ME: (work comment)
-    PARTIAL WITHDRAWAL
-    test each modifier:
-      -hasNotEmergencyVoted
-      -userStaked
-      -userHasNotVotedThisIteration
-      -validAmountToWithdraw(amount) - cannot withdraw same or more than balance.
-
-      test event is emitted (with correct params)
-
-
-      test if if redeem fails - should send adai instead
-
-      test - user can vote after partial withdrawal 
-  */
-
   /// @dev Lets a user withdraw some of their amount
   /// Checks they have not voted
   function withdrawDeposit(uint256 amount)
     external
     // If this user has voted to call an emergancy, they cannot do a partial withdrawal
-    hasNotEmergencyVoted
     userStaked
-    userHasNotVotedThisIteration
+    hasNotEmergencyVoted
     validAmountToWithdraw(amount) // checks they have not voted and not trying to withdraw full amount
+    userHasNotVotedThisIteration
   {
     _withdrawFunds(amount);
     emit PartialDepositWithdrawn(msg.sender, amount);

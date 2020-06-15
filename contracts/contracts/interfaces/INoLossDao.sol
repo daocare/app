@@ -1,7 +1,7 @@
 pragma solidity ^0.6.0;
 
 abstract contract INoLossDao {
-  function userHasNotVotedThisIteration(address userAddress)
+  function userHasNotVotedThisIterationAndIsNotProposal(address userAddress)
     external
     virtual
     view
