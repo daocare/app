@@ -239,6 +239,10 @@ contract NoLossDao_v0 is Initializable {
   ////////and proposal holders (benefactors) /////////////
   ////////////////////////////////////////////////////////
 
+  /// @dev Returns true if the user has not voted this iteration
+  /// @param userAddress address of the user we are checking
+  /// @return boolean (true if user has not voted this iteration)
+  /// Indentical to modifier, hasNoVote, but funciton need for poolDeposits to allow partial withdrawl
   function userHasNotVotedThisIteration(address userAddress)
     external
     view

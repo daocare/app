@@ -144,9 +144,13 @@ contract PoolDeposits {
     _;
   }
 
-  modifier partialWithdrawConditionsCheck(uint256 amount) {
+  modifier validAmountToWithdraw(uint256 amount) {
     // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.
     require(amount < depositedDai[msg.sender], 'cannot withdraw full balance');
+    _;
+  }
+
+  modifier userHasNotVotedThisIteration() {
     require(
       noLossDaoContract.userHasNotVotedThisIteration(msg.sender),
       'User already voted this iteration'
@@ -225,6 +229,19 @@ contract PoolDeposits {
     }
   }
 
+  /*
+  DELETE ME: (work comment)
+    test each modifier:
+      PARTIAL DEPOSIT:
+      - hasNotEmergencyVoted
+      - allowanceAvailable(amount)
+      - requiredDai(amount)
+      - stableState
+      
+      ...wip...
+
+  */
+
   /// @dev Lets a user join DAOcare through depositing
   /// @param amount the user wants to deposit into the DAOcare pool
   function deposit(uint256 amount)
@@ -242,7 +259,6 @@ contract PoolDeposits {
 
   /// @dev Lets a user withdraw their original amount sent to DAOcare
   /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
-  /// Withdraws the proposalAmount (50DAI) if succesful
   function exit() external userStaked {
     uint256 amount = depositedDai[msg.sender];
     // NOTE: it is critical that _removeEmergancyVote happens before _withdrawFunds.
@@ -252,15 +268,32 @@ contract PoolDeposits {
     emit DepositWithdrawn(msg.sender);
   }
 
-  /// @dev Lets a user withdraw their original amount sent to DAOcare
-  /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
-  /// Withdraws the proposalAmount (50DAI) if succesful
+  /*
+  DELETE ME: (work comment)
+    PARTIAL WITHDRAWAL
+    test each modifier:
+      -hasNotEmergencyVoted
+      -userStaked
+      -userHasNotVotedThisIteration
+      -validAmountToWithdraw(amount) - cannot withdraw same or more than balance.
+
+      test event is emitted (with correct params)
+
+
+      test if if redeem fails - should send adai instead
+
+      test - user can vote after partial withdrawal 
+  */
+
+  /// @dev Lets a user withdraw some of their amount
+  /// Checks they have not voted
   function withdrawDeposit(uint256 amount)
     external
     // If this user has voted to call an emergancy, they cannot do a partial withdrawal
     hasNotEmergencyVoted
     userStaked
-    partialWithdrawConditionsCheck(amount) // checks they have not voted and not trying to withdraw full amount
+    userHasNotVotedThisIteration
+    validAmountToWithdraw(amount) // checks they have not voted and not trying to withdraw full amount
   {
     _withdrawFunds(amount);
     emit PartialDepositWithdrawn(msg.sender, amount);
@@ -292,6 +325,13 @@ contract PoolDeposits {
     emit ProposalWithdrawn(msg.sender);
   }
 
+  /// @dev Internal function splitting and sending the accrued interest between winners.
+  /// @param receivers An array of the addresses to split between
+  /// @param percentages the respective percentage to split
+  /// @param winner The person who will recieve this distribution
+  /// @param iteration the iteration of the dao
+  /// @param totalInterestFromIteration Total interest that should be split to relevant parties
+  /// @param tokenContract will be aDai or Dai (depending on try catch in distributeInterst - `redeem`)
   function _distribute(
     address[] calldata receivers,
     uint256[] calldata percentages,
@@ -316,9 +356,11 @@ contract PoolDeposits {
     emit WinnerPayout(winner, winnerPayout, iteration);
   }
 
-  /// @dev Splits the accrued interest between winners.
+  /// @dev Tries to redeem aDai and send acrrued interest to winners. Falls back to Dai.
   /// @param receivers An array of the addresses to split between
   /// @param percentages the respective percentage to split
+  /// @param winner address of the winning proposal
+  /// @param iteration the iteration of the dao
   function distributeInterest(
     address[] calldata receivers,
     uint256[] calldata percentages,

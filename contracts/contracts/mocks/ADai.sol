@@ -10,15 +10,22 @@ import './MockERC20.sol';
 // MOCK ONLY
 contract ADai is MockERC20 {
   MockERC20 public dai;
+  bool public noLiquidityBool;
 
   constructor(MockERC20 daiAddress)
     public
     MockERC20('Dai', 'D', 18, msg.sender)
   {
     dai = daiAddress;
+    noLiquidityBool = false;
+  }
+
+  function setRedeemFailNotEnoughLiquidity(bool liquidityStatus) public {
+    noLiquidityBool = liquidityStatus;
   }
 
   function redeem(uint256 _amount) public {
+    require(!noLiquidityBool, 'Not enough liquidity in Pool (MOCK)');
     //console.log(' **** aDai being redeemed by *****', msg.sender);
     //console.log('Burning this amount of aDai: ', _amount);
     this.burnFrom(msg.sender, _amount);
