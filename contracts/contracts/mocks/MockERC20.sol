@@ -61,6 +61,7 @@ contract MockERC20 {
   ) external returns (bool) {
     _balances[sender] = _balances[sender].sub(amount);
     _balances[to] = _balances[to].add(amount);
+    _allowance[sender][to] = _allowance[sender][to].sub(amount);
     return true;
   }
 

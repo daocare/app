@@ -134,7 +134,7 @@ contract PoolDeposits {
     _;
   }
 
-  modifier hasDeposit() {
+  modifier userStaked() {
     require(depositedDai[msg.sender] > 0, 'User has no stake');
     _;
   }
@@ -231,19 +231,6 @@ contract PoolDeposits {
     }
   }
 
-  /*
-  DELETE ME: (work comment)
-    test each modifier:
-      PARTIAL DEPOSIT:
-      - hasNotEmergencyVoted
-      - allowanceAvailable(amount)
-      - requiredDai(amount)
-      - stableState
-      
-      ...wip...
-
-  */
-
   /// @dev Lets a user join DAOcare through depositing
   /// @param amount the user wants to deposit into the DAOcare pool
   function deposit(uint256 amount)
@@ -261,7 +248,7 @@ contract PoolDeposits {
 
   /// @dev Lets a user withdraw their original amount sent to DAOcare
   /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
-  function exit() external hasDeposit {
+  function exit() external userStaked {
     uint256 amount = depositedDai[msg.sender];
     // NOTE: it is critical that _removeEmergancyVote happens before _withdrawFunds.
     _removeEmergencyVote();
@@ -276,8 +263,8 @@ contract PoolDeposits {
     external
     // If this user has voted to call an emergancy, they cannot do a partial withdrawal
     hasNotEmergencyVoted
-    validAmountToWithdraw(amount) // checks they have not voted and not trying to withdraw full amount
-    userHasNotVotedThisIterationAndIsNotProposal
+    validAmountToWithdraw(amount) // not trying to withdraw full amount (eg. amount is less than the total)
+    userHasNotVotedThisIterationAndIsNotProposal // checks they have not voted
   {
     _withdrawFunds(amount);
     emit PartialDepositWithdrawn(msg.sender, amount);
@@ -405,7 +392,7 @@ contract PoolDeposits {
   }
 
   /// @dev Immediately lets yoou withdraw your funds in an state of emergency
-  function emergencyWithdraw() external hasDeposit emergencyState {
+  function emergencyWithdraw() external userStaked emergencyState {
     _withdrawFunds(depositedDai[msg.sender]);
     emit EmergencyWithdrawl(msg.sender);
   }
@@ -414,7 +401,7 @@ contract PoolDeposits {
   /// Requires time lock here to defeat flash loan punks
   function voteEmergency()
     external
-    hasDeposit
+    userStaked
     noEmergencyVoteYet
     eligibleToEmergencyVote
   {
