@@ -134,7 +134,7 @@ contract PoolDeposits {
     _;
   }
 
-  modifier userStaked() {
+  modifier hasDeposit() {
     require(depositedDai[msg.sender] > 0, 'User has no stake');
     _;
   }
@@ -150,7 +150,7 @@ contract PoolDeposits {
     _;
   }
 
-  modifier userHasNotVotedThisIteration() {
+  modifier userHasNotVotedThisIterationAndIsNotProposal() {
     require(
       noLossDaoContract.userHasNotVotedThisIterationAndIsNotProposal(
         msg.sender
@@ -261,7 +261,7 @@ contract PoolDeposits {
 
   /// @dev Lets a user withdraw their original amount sent to DAOcare
   /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
-  function exit() external userStaked {
+  function exit() external hasDeposit {
     uint256 amount = depositedDai[msg.sender];
     // NOTE: it is critical that _removeEmergancyVote happens before _withdrawFunds.
     _removeEmergencyVote();
@@ -275,10 +275,9 @@ contract PoolDeposits {
   function withdrawDeposit(uint256 amount)
     external
     // If this user has voted to call an emergancy, they cannot do a partial withdrawal
-    userStaked
     hasNotEmergencyVoted
     validAmountToWithdraw(amount) // checks they have not voted and not trying to withdraw full amount
-    userHasNotVotedThisIteration
+    userHasNotVotedThisIterationAndIsNotProposal
   {
     _withdrawFunds(amount);
     emit PartialDepositWithdrawn(msg.sender, amount);
@@ -406,7 +405,7 @@ contract PoolDeposits {
   }
 
   /// @dev Immediately lets yoou withdraw your funds in an state of emergency
-  function emergencyWithdraw() external userStaked emergencyState {
+  function emergencyWithdraw() external hasDeposit emergencyState {
     _withdrawFunds(depositedDai[msg.sender]);
     emit EmergencyWithdrawl(msg.sender);
   }
@@ -415,7 +414,7 @@ contract PoolDeposits {
   /// Requires time lock here to defeat flash loan punks
   function voteEmergency()
     external
-    userStaked
+    hasDeposit
     noEmergencyVoteYet
     eligibleToEmergencyVote
   {

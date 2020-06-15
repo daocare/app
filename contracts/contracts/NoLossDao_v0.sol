@@ -91,7 +91,7 @@ contract NoLossDao_v0 is Initializable {
     _;
   }
 
-  modifier userStaked(address givenAddress) {
+  modifier hasDeposit(address givenAddress) {
     require(
       depositContract.depositedDai(givenAddress) > 0,
       'User has no stake'
@@ -328,7 +328,7 @@ contract NoLossDao_v0 is Initializable {
   /// @param delegatedAddress the address to which you are delegating your voting rights
   function delegateVoting(address delegatedAddress)
     external
-    userStaked(msg.sender)
+    hasDeposit(msg.sender)
     userHasNoActiveProposal(msg.sender)
     userHasNoActiveProposal(delegatedAddress)
   {
@@ -344,7 +344,7 @@ contract NoLossDao_v0 is Initializable {
     external
     proposalActive(proposalIdToVoteFor)
     noVoteYet(msg.sender)
-    userStaked(msg.sender)
+    hasDeposit(msg.sender)
     userHasNoActiveProposal(msg.sender)
     joinedInTime(msg.sender)
   {
@@ -360,7 +360,7 @@ contract NoLossDao_v0 is Initializable {
     proposalActive(proposalIdToVoteFor)
     proxyRight(delegatedFrom)
     noVoteYet(delegatedFrom)
-    userStaked(delegatedFrom)
+    hasDeposit(delegatedFrom)
     userHasNoActiveProposal(delegatedFrom)
     userHasNoActiveProposal(msg.sender)
     joinedInTime(delegatedFrom)
