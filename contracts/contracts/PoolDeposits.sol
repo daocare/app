@@ -139,8 +139,24 @@ contract PoolDeposits {
     _;
   }
 
-  modifier hasNotEmergancyVoted() {
-    require(!emergencyVoted[msg.sender], 'User has emergancy voted');
+  modifier hasNotEmergencyVoted() {
+    require(!emergencyVoted[msg.sender], 'User has emergency voted');
+    _;
+  }
+
+  modifier validAmountToWithdraw(uint256 amount) {
+    // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.
+    require(amount < depositedDai[msg.sender], 'Cannot withdraw full balance');
+    _;
+  }
+
+  modifier userHasNotVotedThisIterationAndIsNotProposal() {
+    require(
+      noLossDaoContract.userHasNotVotedThisIterationAndIsNotProposal(
+        msg.sender
+      ),
+      'User already voted this iteration or is a proposal'
+    );
     _;
   }
 
@@ -219,7 +235,7 @@ contract PoolDeposits {
   /// @param amount the user wants to deposit into the DAOcare pool
   function deposit(uint256 amount)
     external
-    hasNotEmergancyVoted
+    hasNotEmergencyVoted
     allowanceAvailable(amount)
     requiredDai(amount)
     stableState
@@ -232,7 +248,6 @@ contract PoolDeposits {
 
   /// @dev Lets a user withdraw their original amount sent to DAOcare
   /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
-  /// Withdraws the proposalAmount (50DAI) if succesful
   function exit() external userStaked {
     uint256 amount = depositedDai[msg.sender];
     // NOTE: it is critical that _removeEmergancyVote happens before _withdrawFunds.
@@ -242,17 +257,15 @@ contract PoolDeposits {
     emit DepositWithdrawn(msg.sender);
   }
 
-  /// @dev Lets a user withdraw their original amount sent to DAOcare
-  /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
-  /// Withdraws the proposalAmount (50DAI) if succesful
+  /// @dev Lets a user withdraw some of their amount
+  /// Checks they have not voted
   function withdrawDeposit(uint256 amount)
     external
     // If this user has voted to call an emergancy, they cannot do a partial withdrawal
-    hasNotEmergancyVoted
-    userStaked
+    hasNotEmergencyVoted
+    validAmountToWithdraw(amount) // not trying to withdraw full amount (eg. amount is less than the total)
+    userHasNotVotedThisIterationAndIsNotProposal // checks they have not voted
   {
-    // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.
-    require(amount < depositedDai[msg.sender], 'cannot withdraw full balance');
     _withdrawFunds(amount);
     emit PartialDepositWithdrawn(msg.sender, amount);
   }
@@ -283,6 +296,13 @@ contract PoolDeposits {
     emit ProposalWithdrawn(msg.sender);
   }
 
+  /// @dev Internal function splitting and sending the accrued interest between winners.
+  /// @param receivers An array of the addresses to split between
+  /// @param percentages the respective percentage to split
+  /// @param winner The person who will recieve this distribution
+  /// @param iteration the iteration of the dao
+  /// @param totalInterestFromIteration Total interest that should be split to relevant parties
+  /// @param tokenContract will be aDai or Dai (depending on try catch in distributeInterst - `redeem`)
   function _distribute(
     address[] calldata receivers,
     uint256[] calldata percentages,
@@ -307,9 +327,11 @@ contract PoolDeposits {
     emit WinnerPayout(winner, winnerPayout, iteration);
   }
 
-  /// @dev Splits the accrued interest between winners.
+  /// @dev Tries to redeem aDai and send acrrued interest to winners. Falls back to Dai.
   /// @param receivers An array of the addresses to split between
   /// @param percentages the respective percentage to split
+  /// @param winner address of the winning proposal
+  /// @param iteration the iteration of the dao
   function distributeInterest(
     address[] calldata receivers,
     uint256[] calldata percentages,

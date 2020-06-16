@@ -54,7 +54,7 @@ contract('PoolDeposits', accounts => {
       { from: accounts[0] }
     );
 
-    await noLossDao.initialize(poolDeposits.address, '5184000', {
+    await noLossDao.initialize(poolDeposits.address, '1800', '1800', {
       from: accounts[0],
     });
   });
@@ -68,13 +68,13 @@ contract('PoolDeposits', accounts => {
     });
     await poolDeposits.deposit(mintAmount, { from: accounts[1] });
 
-    await time.increase(time.duration.seconds(5184001)); //1
+    await time.increase(time.duration.seconds(1801)); //1
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001)); //2
+    await time.increase(time.duration.seconds(1801)); //2
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001)); //3
+    await time.increase(time.duration.seconds(1801)); //3
     await noLossDao.distributeFunds();
 
     await expectRevert(
@@ -86,13 +86,13 @@ contract('PoolDeposits', accounts => {
   });
 
   it('poolDeposits:benefactorLeave. Cannot withdraw proposal as nobody ', async () => {
-    await time.increase(time.duration.seconds(5184001));
+    await time.increase(time.duration.seconds(1801));
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001));
+    await time.increase(time.duration.seconds(1801));
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001));
+    await time.increase(time.duration.seconds(1801));
     await noLossDao.distributeFunds();
 
     await expectRevert(
@@ -127,7 +127,7 @@ contract('PoolDeposits', accounts => {
       'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 1
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
     await expectRevert(
@@ -137,7 +137,7 @@ contract('PoolDeposits', accounts => {
       'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 2
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
     await expectRevert(
@@ -147,7 +147,7 @@ contract('PoolDeposits', accounts => {
       'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 3
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
     const logs = await poolDeposits.withdrawProposal({
@@ -199,13 +199,13 @@ contract('PoolDeposits', accounts => {
     assert.equal('9000000', depositedDaiUser.toString());
     assert.equal('14000000', totalDai);
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 1
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 2
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 3
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
     const logs = await poolDeposits.withdrawProposal({
@@ -231,13 +231,13 @@ contract('PoolDeposits', accounts => {
       from: accounts[2],
     });
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 1
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 2
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 3
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
     await poolDeposits.withdrawProposal({
@@ -249,10 +249,10 @@ contract('PoolDeposits', accounts => {
       from: accounts[2],
     });
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 1
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 2
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 2
     await noLossDao.distributeFunds();
 
     await expectRevert(
@@ -262,7 +262,7 @@ contract('PoolDeposits', accounts => {
       'Benefactor has not fulfilled the minimum lockin period of 2 iterations'
     );
 
-    await time.increase(time.duration.seconds(5184001)); // increment to iteration 3
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 3
     await noLossDao.distributeFunds();
 
     await poolDeposits.withdrawProposal({

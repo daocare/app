@@ -52,6 +52,7 @@ async function deploy(options, accounts, deployer) {
   await noLossDaoInstance.initialize(
     poolDeposits.address,
     '1209600' /*60×60×24×14*/,
+    '5184000' /*2 months = 60*60*24*60*/,
     {
       from: accounts[0],
     }

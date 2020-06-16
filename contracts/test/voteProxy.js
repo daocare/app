@@ -54,7 +54,7 @@ contract('noLossDao', accounts => {
       { from: accounts[0] }
     );
 
-    await noLossDao.initialize(poolDeposits.address, '1800', {
+    await noLossDao.initialize(poolDeposits.address, '1800', '1800', {
       from: accounts[0],
     });
   });
