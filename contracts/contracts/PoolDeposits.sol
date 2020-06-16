@@ -5,7 +5,8 @@ import './interfaces/IADai.sol';
 import './interfaces/INoLossDao.sol';
 import './interfaces/ILendingPoolAddressesProvider.sol';
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
-import '@nomiclabs/buidler/console.sol';
+
+// import '@nomiclabs/buidler/console.sol';
 
 /** @title Pooled Deposits Contract*/
 contract PoolDeposits {
@@ -39,8 +40,14 @@ contract PoolDeposits {
     string proposalIdentifier
   );
   event DepositWithdrawn(address indexed user);
+  event PartialDepositWithdrawn(address indexed user, uint256 amount);
   event ProposalWithdrawn(address indexed benefactor);
-  event InterestSent(address indexed user, uint256 amount, uint256 iteration);
+  event InterestSent(address indexed user, uint256 amount);
+  event WinnerPayout(
+    address indexed user,
+    uint256 indexed iteration,
+    uint256 amount
+  );
 
   ///////// Emergency Events ///////////
   event EmergencyStateReached(
@@ -51,6 +58,7 @@ contract PoolDeposits {
   );
   event EmergencyVote(address indexed user, uint256 emergencyVoteAmount);
   event RemoveEmergencyVote(address indexed user, uint256 emergencyVoteAmount);
+  event ADaiRedeemFailed();
   event EmergencyWithdrawl(address indexed user);
 
   ///////////////////////////////////////////////////////////////////
@@ -131,6 +139,27 @@ contract PoolDeposits {
     _;
   }
 
+  modifier hasNotEmergencyVoted() {
+    require(!emergencyVoted[msg.sender], 'User has emergency voted');
+    _;
+  }
+
+  modifier validAmountToWithdraw(uint256 amount) {
+    // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.
+    require(amount < depositedDai[msg.sender], 'Cannot withdraw full balance');
+    _;
+  }
+
+  modifier userHasNotVotedThisIterationAndIsNotProposal() {
+    require(
+      noLossDaoContract.userHasNotVotedThisIterationAndIsNotProposal(
+        msg.sender
+      ),
+      'User already voted this iteration or is a proposal'
+    );
+    _;
+  }
+
   modifier validInterestSplitInput(
     address[] memory addresses,
     uint256[] memory percentages
@@ -184,31 +213,34 @@ contract PoolDeposits {
     aaveLendingContract.deposit(address(daiContract), amount, 30);
 
     timeJoined[msg.sender] = now;
-    depositedDai[msg.sender] = amount;
+    depositedDai[msg.sender] = depositedDai[msg.sender].add(amount);
     totalDepositedDai = totalDepositedDai.add(amount);
   }
 
   /// @dev Internal function completing the actual redemption from Aave and sendinding funds back to user
-  function _withdrawFunds() internal {
-    uint256 amount = depositedDai[msg.sender];
-    _removeEmergencyVote();
-
-    depositedDai[msg.sender] = 0;
+  /// @param amount the user wants to withdraw from the DAOcare pool
+  function _withdrawFunds(uint256 amount) internal {
+    depositedDai[msg.sender] = depositedDai[msg.sender].sub(amount);
     totalDepositedDai = totalDepositedDai.sub(amount);
 
-    adaiContract.redeem(amount);
-    daiContract.transfer(msg.sender, amount);
+    try adaiContract.redeem(amount)  {
+      daiContract.transfer(msg.sender, amount);
+    } catch {
+      emit ADaiRedeemFailed();
+      adaiContract.transfer(msg.sender, amount);
+    }
   }
 
   /// @dev Lets a user join DAOcare through depositing
   /// @param amount the user wants to deposit into the DAOcare pool
   function deposit(uint256 amount)
     external
-    blankUser
+    hasNotEmergencyVoted
     allowanceAvailable(amount)
     requiredDai(amount)
     stableState
   {
+    // NOTE: if the user adds a deposit they won't be able to vote in that iteration
     _depositFunds(amount);
     noLossDaoContract.noLossDeposit(msg.sender);
     emit DepositAdded(msg.sender, amount);
@@ -216,11 +248,26 @@ contract PoolDeposits {
 
   /// @dev Lets a user withdraw their original amount sent to DAOcare
   /// Calls the NoLossDao conrrtact to determine eligibility to withdraw
-  /// Withdraws the proposalAmount (50DAI) if succesful
-  function withdrawDeposit() external userStaked {
-    _withdrawFunds();
+  function exit() external userStaked {
+    uint256 amount = depositedDai[msg.sender];
+    // NOTE: it is critical that _removeEmergancyVote happens before _withdrawFunds.
+    _removeEmergencyVote();
+    _withdrawFunds(amount);
     noLossDaoContract.noLossWithdraw(msg.sender);
     emit DepositWithdrawn(msg.sender);
+  }
+
+  /// @dev Lets a user withdraw some of their amount
+  /// Checks they have not voted
+  function withdrawDeposit(uint256 amount)
+    external
+    // If this user has voted to call an emergancy, they cannot do a partial withdrawal
+    hasNotEmergencyVoted
+    validAmountToWithdraw(amount) // not trying to withdraw full amount (eg. amount is less than the total)
+    userHasNotVotedThisIterationAndIsNotProposal // checks they have not voted
+  {
+    _withdrawFunds(amount);
+    emit PartialDepositWithdrawn(msg.sender, amount);
   }
 
   /// @dev Lets user create proposal
@@ -244,14 +291,47 @@ contract PoolDeposits {
 
   /// @dev Lets user withdraw proposal
   function withdrawProposal() external {
-    _withdrawFunds();
+    _withdrawFunds(depositedDai[msg.sender]);
     noLossDaoContract.noLossWithdrawProposal(msg.sender);
     emit ProposalWithdrawn(msg.sender);
   }
 
-  /// @dev Splits the accrued interest between winners.
+  /// @dev Internal function splitting and sending the accrued interest between winners.
   /// @param receivers An array of the addresses to split between
   /// @param percentages the respective percentage to split
+  /// @param winner The person who will recieve this distribution
+  /// @param iteration the iteration of the dao
+  /// @param totalInterestFromIteration Total interest that should be split to relevant parties
+  /// @param tokenContract will be aDai or Dai (depending on try catch in distributeInterst - `redeem`)
+  function _distribute(
+    address[] calldata receivers,
+    uint256[] calldata percentages,
+    address winner,
+    uint256 iteration,
+    uint256 totalInterestFromIteration,
+    address tokenContract
+  ) internal {
+    IERC20 payoutToken = IERC20(tokenContract);
+
+    uint256 winnerPayout = totalInterestFromIteration;
+    for (uint256 i = 0; i < receivers.length; i++) {
+      uint256 amountToSend = totalInterestFromIteration.mul(percentages[i]).div(
+        1000
+      );
+      payoutToken.transfer(receivers[i], amountToSend);
+      winnerPayout = winnerPayout.sub(amountToSend); //SafeMath prevents this going below 0
+      emit InterestSent(receivers[i], amountToSend);
+    }
+
+    payoutToken.transfer(winner, winnerPayout);
+    emit WinnerPayout(winner, winnerPayout, iteration);
+  }
+
+  /// @dev Tries to redeem aDai and send acrrued interest to winners. Falls back to Dai.
+  /// @param receivers An array of the addresses to split between
+  /// @param percentages the respective percentage to split
+  /// @param winner address of the winning proposal
+  /// @param iteration the iteration of the dao
   function distributeInterest(
     address[] calldata receivers,
     uint256[] calldata percentages,
@@ -265,21 +345,25 @@ contract PoolDeposits {
     uint256 amountToRedeem = adaiContract.balanceOf(address(this)).sub(
       totalDepositedDai
     );
-    adaiContract.redeem(amountToRedeem);
-
-    uint256 percentageWinner = 1000;
-    for (uint256 i = 0; i < receivers.length; i++) {
-      percentageWinner = percentageWinner.sub(percentages[i]); //SafeMath prevents this going below 0
-      uint256 amountToSend = amountToRedeem.mul(percentages[i]).div(1000);
-      daiContract.transfer(receivers[i], amountToSend);
-      emit InterestSent(receivers[i], amountToSend, iteration);
+    try adaiContract.redeem(amountToRedeem)  {
+      _distribute(
+        receivers,
+        percentages,
+        winner,
+        iteration,
+        amountToRedeem,
+        address(daiContract)
+      );
+    } catch {
+      _distribute(
+        receivers,
+        percentages,
+        winner,
+        iteration,
+        amountToRedeem,
+        address(adaiContract)
+      );
     }
-
-    uint256 amountToSendToWinner = amountToRedeem.mul(percentageWinner).div(
-      1000
-    );
-    daiContract.transfer(winner, amountToSendToWinner);
-    emit InterestSent(winner, amountToSendToWinner, iteration);
   }
 
   //////////////////////////////////////////////////
@@ -309,7 +393,7 @@ contract PoolDeposits {
 
   /// @dev Immediately lets yoou withdraw your funds in an state of emergency
   function emergencyWithdraw() external userStaked emergencyState {
-    _withdrawFunds();
+    _withdrawFunds(depositedDai[msg.sender]);
     emit EmergencyWithdrawl(msg.sender);
   }
 
@@ -328,9 +412,8 @@ contract PoolDeposits {
 
   /// @dev Internal function removing a users emergency vote if they leave the pool
   function _removeEmergencyVote() internal {
-    bool status = emergencyVoted[msg.sender];
-    emergencyVoted[msg.sender] = false;
-    if (status == true) {
+    if (emergencyVoted[msg.sender] == true) {
+      emergencyVoted[msg.sender] = false;
       emergencyVoteAmount = emergencyVoteAmount.sub(depositedDai[msg.sender]);
       emit RemoveEmergencyVote(msg.sender, depositedDai[msg.sender]);
     }

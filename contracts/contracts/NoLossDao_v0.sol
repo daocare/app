@@ -91,7 +91,7 @@ contract NoLossDao_v0 is Initializable {
     _;
   }
 
-  modifier userStaked(address givenAddress) {
+  modifier hasDeposit(address givenAddress) {
     require(
       depositContract.depositedDai(givenAddress) > 0,
       'User has no stake'
@@ -175,14 +175,16 @@ contract NoLossDao_v0 is Initializable {
   ////////////////////////////////////
   //////// SETUP CONTRACT////////////
   //// NOTE: Upgradable at the moment
-  function initialize(address depositContractAddress, uint256 _votingInterval)
-    public
-    initializer
-  {
+  function initialize(
+    address depositContractAddress,
+    uint256 _votingInterval,
+    uint256 _lengthOfIterationZero
+  ) public initializer {
     depositContract = IPoolDeposits(depositContractAddress);
     admin = msg.sender;
     votingInterval = _votingInterval;
-    proposalDeadline = now.add(5184000); // Length of the 1st iteration can be set here (5184000 = 60days)
+    // Length of the 1st iteration can be set here. For mainnet we use 2 months to 'warmup' the dao (5184000 = 60days)
+    proposalDeadline = now.add(_lengthOfIterationZero);
     interestReceivers.push(admin); // This will change to miner when iterationchanges
     percentages.push(15); // 1.5% for miner
     interestReceivers.push(admin);
@@ -237,6 +239,20 @@ contract NoLossDao_v0 is Initializable {
   /////// Deposit & withdraw function for users //////////
   ////////and proposal holders (benefactors) /////////////
   ////////////////////////////////////////////////////////
+
+  /// @dev Returns true if the user has not voted this iteration and they are not a proposal
+  /// @param userAddress address of the user we are checking
+  /// @return boolean true if user hasn't voted and isn't a proposal
+  /// Indentical to modifier, hasNoVote && userHasNoProposal, but funciton need for poolDeposits to allow partial withdrawl
+  function userHasNotVotedThisIterationAndIsNotProposal(address userAddress)
+    external
+    view
+    returns (bool)
+  {
+    return
+      usersNominatedProject[proposalIteration][userAddress] == 0 &&
+      benefactorsProposal[userAddress] == 0;
+  }
 
   /// @dev Checks whether user is eligible deposit and sets the proposal iteration joined, to the current iteration
   /// @param userAddress address of the user wanting to deposit
@@ -313,7 +329,7 @@ contract NoLossDao_v0 is Initializable {
   /// @param delegatedAddress the address to which you are delegating your voting rights
   function delegateVoting(address delegatedAddress)
     external
-    userStaked(msg.sender)
+    hasDeposit(msg.sender)
     userHasNoActiveProposal(msg.sender)
     userHasNoActiveProposal(delegatedAddress)
   {
@@ -329,7 +345,7 @@ contract NoLossDao_v0 is Initializable {
     external
     proposalActive(proposalIdToVoteFor)
     noVoteYet(msg.sender)
-    userStaked(msg.sender)
+    hasDeposit(msg.sender)
     userHasNoActiveProposal(msg.sender)
     joinedInTime(msg.sender)
   {
@@ -345,7 +361,7 @@ contract NoLossDao_v0 is Initializable {
     proposalActive(proposalIdToVoteFor)
     proxyRight(delegatedFrom)
     noVoteYet(delegatedFrom)
-    userStaked(delegatedFrom)
+    hasDeposit(delegatedFrom)
     userHasNoActiveProposal(delegatedFrom)
     userHasNoActiveProposal(msg.sender)
     joinedInTime(delegatedFrom)

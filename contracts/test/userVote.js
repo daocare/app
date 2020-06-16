@@ -54,7 +54,7 @@ contract('noLossDao', accounts => {
       { from: accounts[0] }
     );
 
-    await noLossDao.initialize(poolDeposits.address, '1800', {
+    await noLossDao.initialize(poolDeposits.address, '1800', '1800', {
       from: accounts[0],
     });
   });
@@ -221,7 +221,7 @@ contract('noLossDao', accounts => {
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await noLossDao.distributeFunds();
 
-    await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    await poolDeposits.exit({ from: accounts[1] });
     await expectRevert(
       noLossDao.voteDirect(1, { from: accounts[1] }),
       'User has no stake'
@@ -252,17 +252,17 @@ contract('noLossDao', accounts => {
     await noLossDao.voteDirect(1, { from: accounts[1] });
 
     await expectRevert(
-      poolDeposits.withdrawDeposit({ from: accounts[1] }),
+      poolDeposits.exit({ from: accounts[1] }),
       'User already voted this iteration'
     );
 
     await time.increase(time.duration.seconds(1801)); // increment to iteration 1
     await expectRevert(
-      poolDeposits.withdrawDeposit({ from: accounts[1] }),
+      poolDeposits.exit({ from: accounts[1] }),
       'User already voted this iteration'
     );
     await noLossDao.distributeFunds();
 
-    await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    await poolDeposits.exit({ from: accounts[1] });
   });
 });

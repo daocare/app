@@ -54,7 +54,7 @@ contract('PoolDeposits', accounts => {
       { from: accounts[0] }
     );
 
-    await noLossDao.initialize(poolDeposits.address, '1800', {
+    await noLossDao.initialize(poolDeposits.address, '1800', '1800', {
       from: accounts[0],
     });
   });
@@ -83,18 +83,30 @@ contract('PoolDeposits', accounts => {
     assert.equal(mintAmount, deposit.toString());
   });
 
-  it('poolDeposits:userJoin. User cannot join once already in', async () => {
+  it('poolDeposits:userJoin. If user calls `deposit` twice their deposit will increase accordingly.', async () => {
     let mintAmount = '60000000000';
     await dai.mint(accounts[1], mintAmount);
     await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
+    const depositAmount = '30000000000';
 
-    await poolDeposits.deposit('30000000000', { from: accounts[1] });
-    await expectRevert(
-      poolDeposits.deposit('30000000000', { from: accounts[1] }),
-      'Person is already a user'
-    ); // double deposit not allowed
+    await poolDeposits.deposit(depositAmount, { from: accounts[1] });
+    let depositInitial = await poolDeposits.depositedDai.call(accounts[1]);
+    await poolDeposits.deposit(depositAmount, { from: accounts[1] });
+    let depositAfterSecondDeposit = await poolDeposits.depositedDai.call(
+      accounts[1]
+    );
+    assert.equal(
+      depositAmount,
+      depositInitial.toString(),
+      'initial deposit value is wrong'
+    );
+    assert.equal(
+      depositAfterSecondDeposit.toString(),
+      depositInitial.add(new BN(depositAmount)).toString(),
+      'Deposit after second deposit is wrong'
+    );
   });
 
   it('poolDeposits:userJoin. Deposit - should revert if no deposit approved', async () => {
