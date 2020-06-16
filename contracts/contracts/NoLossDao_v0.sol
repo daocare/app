@@ -175,15 +175,16 @@ contract NoLossDao_v0 is Initializable {
   ////////////////////////////////////
   //////// SETUP CONTRACT////////////
   //// NOTE: Upgradable at the moment
-  function initialize(address depositContractAddress, uint256 _votingInterval)
-    public
-    initializer
-  {
+  function initialize(
+    address depositContractAddress,
+    uint256 _votingInterval,
+    uint256 _lengthOfIterationZero
+  ) public initializer {
     depositContract = IPoolDeposits(depositContractAddress);
     admin = msg.sender;
     votingInterval = _votingInterval;
-    proposalDeadline = now.add(_votingInterval);
-    // proposalDeadline = now.add(5184000); // Length of the 1st iteration can be set here. For mainnet we use 2 months to 'warmup' the dao (5184000 = 60days)
+    // Length of the 1st iteration can be set here. For mainnet we use 2 months to 'warmup' the dao (5184000 = 60days)
+    proposalDeadline = now.add(_lengthOfIterationZero);
     interestReceivers.push(admin); // This will change to miner when iterationchanges
     percentages.push(15); // 1.5% for miner
     interestReceivers.push(admin);
