@@ -58,19 +58,7 @@ contract('PoolDeposits', accounts => {
       from: accounts[0],
     });
   });
-  /*
-        -hasNotEmergencyVoted
-      -userStaked
-      -userHasNotVotedThisIteration
-      -validAmountToWithdraw(amount) - cannot withdraw same or more than balance.
 
-      test event is emitted (with correct params)
-
-
-      test if if redeem fails - should send adai instead
-
-      test - user can vote after partial withdrawal 
-      */
   it('poolDeposits:partialWithdrawDeposit. User cannot partial withdraw after emergency voting', async () => {
     let mintAmount = '60000000000';
     // Join in iteration 1

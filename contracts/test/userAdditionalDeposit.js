@@ -61,13 +61,16 @@ contract('PoolDeposits', accounts => {
   });
 
   it('poolDeposits:userAdditionalDepsoit. Cannot add deposit if they have voted an emergency', async () => {
-    let mintAmount = '60000000000';
+    const mintAmount = '60000000000';
     // deposit
     await dai.mint(accounts[1], new BN(mintAmount).mul(new BN(2)));
     await dai.approve(poolDeposits.address, mintAmount, {
       from: accounts[1],
     });
-    let allowance = await dai.allowance.call(accounts[1], poolDeposits.address);
+    const allowance = await dai.allowance.call(
+      accounts[1],
+      poolDeposits.address
+    );
 
     const logs = await poolDeposits.deposit(mintAmount, {
       from: accounts[1],
@@ -77,13 +80,13 @@ contract('PoolDeposits', accounts => {
       amount: mintAmount,
     });
 
-    let deposit = await poolDeposits.depositedDai.call(accounts[1]);
+    const deposit = await poolDeposits.depositedDai.call(accounts[1]);
 
     await time.increase(time.duration.seconds(8640001)); // 100 days and 1 second - required to `voteEmergency`
 
     await poolDeposits.voteEmergency({ from: accounts[1] });
 
-    // check that the partial withdraw fails.
+    // check that the additional deposit fails.
     await expectRevert(
       poolDeposits.deposit(mintAmount, { from: accounts[1] }),
       'User has emergency voted'
@@ -104,7 +107,7 @@ contract('PoolDeposits', accounts => {
     await dai.approve(poolDeposits.address, initialAllowance, {
       from: accounts[1],
     });
-    let allowanceBefore = await dai.allowance.call(
+    const allowanceBefore = await dai.allowance.call(
       accounts[1],
       poolDeposits.address
     );
@@ -112,7 +115,7 @@ contract('PoolDeposits', accounts => {
     const logs = await poolDeposits.deposit(mintAmount, {
       from: accounts[1],
     });
-    let allowanceAfter = await dai.allowance.call(
+    const allowanceAfter = await dai.allowance.call(
       accounts[1],
       poolDeposits.address
     );
@@ -121,9 +124,9 @@ contract('PoolDeposits', accounts => {
       amount: mintAmount,
     });
 
-    let deposit = await poolDeposits.depositedDai.call(accounts[1]);
+    const deposit = await poolDeposits.depositedDai.call(accounts[1]);
 
-    // check that the partial withdraw fails.
+    // check that the additional deposit fails.
     await expectRevert(
       poolDeposits.deposit(mintAmount, { from: accounts[1] }),
       'amount not available'
@@ -140,15 +143,15 @@ contract('PoolDeposits', accounts => {
   });
 
   it('poolDeposits:userAdditionalDepsoit. Cannot add additional deposit more than their balance', async () => {
-    let mintAmount = new BN('60000000000');
-    let doubleMintAmount = mintAmount.mul(new BN(2));
+    const mintAmount = new BN('60000000000');
+    const doubleMintAmount = mintAmount.mul(new BN(2));
 
     // deposit
     await dai.mint(accounts[1], doubleMintAmount.sub(new BN(5)));
     await dai.approve(poolDeposits.address, doubleMintAmount, {
       from: accounts[1],
     });
-    let allowanceBefore = await dai.allowance.call(
+    const allowanceBefore = await dai.allowance.call(
       accounts[1],
       poolDeposits.address
     );
@@ -159,7 +162,7 @@ contract('PoolDeposits', accounts => {
     const logs = await poolDeposits.deposit(mintAmount, {
       from: accounts[1],
     });
-    let allowanceAfter = await dai.allowance.call(
+    const allowanceAfter = await dai.allowance.call(
       accounts[1],
       poolDeposits.address
     );
@@ -171,9 +174,9 @@ contract('PoolDeposits', accounts => {
       amount: mintAmount,
     });
 
-    let deposit = await poolDeposits.depositedDai.call(accounts[1]);
+    const deposit = await poolDeposits.depositedDai.call(accounts[1]);
 
-    // check that the partial withdraw fails.
+    // check that the additional deposit fails.
     await expectRevert(
       poolDeposits.deposit(mintAmount, { from: accounts[1] }),
       'User does not have enough DAI'
@@ -183,5 +186,132 @@ contract('PoolDeposits', accounts => {
     assert.equal(mintAmount, deposit.toString());
   });
 
-  // Q: do we need to implement another test checking you cannot add additional deposit once state of emergency declared?
+  it('poolDeposits:userAdditionalDepsoit. add a test that checks that the user cannot vote after adding deposit.', async () => {
+    const mintAmount = new BN('60000000000');
+    const doubleMintAmount = mintAmount.mul(new BN(2));
+
+    // someone create a proposal
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[2],
+    });
+    await poolDeposits.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    // deposit
+    await dai.mint(accounts[1], doubleMintAmount);
+    await dai.approve(poolDeposits.address, doubleMintAmount, {
+      from: accounts[1],
+    });
+    const allowanceBefore = await dai.allowance.call(
+      accounts[1],
+      poolDeposits.address
+    );
+    await dai.approve(poolDeposits.address, doubleMintAmount, {
+      from: accounts[1],
+    });
+
+    const logs = await poolDeposits.deposit(mintAmount, {
+      from: accounts[1],
+    });
+    const allowanceAfter = await dai.allowance.call(
+      accounts[1],
+      poolDeposits.address
+    );
+
+    await expectRevert(
+      noLossDao.voteDirect(1, { from: accounts[1] }),
+      'User only eligible to vote next iteration'
+    );
+
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
+
+    await poolDeposits.deposit(mintAmount, {
+      from: accounts[1],
+    });
+
+    await expectRevert(
+      noLossDao.voteDirect(1, { from: accounts[1] }),
+      'User only eligible to vote next iteration'
+    );
+
+    await time.increase(time.duration.seconds(1801));
+    await noLossDao.distributeFunds();
+
+    await noLossDao.voteDirect(1, { from: accounts[1] });
+
+    // iteration then proposal ID
+    const voteResult = await noLossDao.proposalVotes.call('2', '1');
+    assert.equal(voteResult.toString(), doubleMintAmount.toString());
+
+    await time.increase(time.duration.seconds(1801));
+    await noLossDao.distributeFunds();
+
+    // check exit amount correct
+    await poolDeposits.exit({ from: accounts[1] });
+    const afterDai = await dai.balanceOf.call(accounts[1]);
+    const afterDeposit = await poolDeposits.depositedDai.call(accounts[1]);
+
+    assert.equal(afterDai.toString(), doubleMintAmount);
+    assert.equal(afterDeposit.toString(), '0');
+  });
+
+  it('poolDeposits:userAdditionalDepsoit. add a test that checks that the user can add additional deposit after voting.', async () => {
+    const mintAmount = new BN('60000000000');
+    const doubleMintAmount = mintAmount.mul(new BN(2));
+    const projectToVoteFor = '1';
+
+    // someone create a proposal
+    await dai.mint(accounts[2], mintAmount);
+    await dai.approve(poolDeposits.address, mintAmount, {
+      from: accounts[2],
+    });
+    await poolDeposits.createProposal('Some IPFS hash string', {
+      from: accounts[2],
+    });
+
+    // deposit
+    await dai.mint(accounts[1], doubleMintAmount);
+    await dai.approve(poolDeposits.address, doubleMintAmount, {
+      from: accounts[1],
+    });
+    const allowanceBefore = await dai.allowance.call(
+      accounts[1],
+      poolDeposits.address
+    );
+    await dai.approve(poolDeposits.address, doubleMintAmount, {
+      from: accounts[1],
+    });
+
+    const logs = await poolDeposits.deposit(mintAmount, {
+      from: accounts[1],
+    });
+    const allowanceAfter = await dai.allowance.call(
+      accounts[1],
+      poolDeposits.address
+    );
+
+    await time.increase(time.duration.seconds(1801)); // increment to iteration 1
+    await noLossDao.distributeFunds();
+
+    await noLossDao.voteDirect(projectToVoteFor, { from: accounts[1] });
+
+    // iteration then proposal ID
+    const proposalIteration = await noLossDao.proposalIteration.call();
+    const voteResult = await noLossDao.proposalVotes.call(
+      proposalIteration,
+      projectToVoteFor
+    );
+    assert.equal(voteResult.toString(), mintAmount.toString());
+
+    await poolDeposits.deposit(mintAmount, {
+      from: accounts[1],
+    });
+
+    const finalDeposit = await poolDeposits.depositedDai.call(accounts[1]);
+
+    assert.equal(finalDeposit.toString(), doubleMintAmount.toString());
+  });
 });
