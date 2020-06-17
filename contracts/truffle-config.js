@@ -11,7 +11,7 @@ const blockchainNodeHost = process.env.BLOCKCHAIN_NODE_HOST || 'localhost';
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
-  // to customize your Truffle configuration!
+  // to customiz your Truffle configuration!
   plugins: ['solidity-coverage'],
   // contracts_build_directory: path.join(__dirname, "artifacts/contracts"),
   networks: {
@@ -19,14 +19,14 @@ module.exports = {
       network_id: 1,
       provider: new HDWalletProvider(mnemonic, mainnetProviderUrl, 0),
       gas: 4700000,
-      gasPrice: 38000000000, // 10 gwei
+      gasPrice: 35000000000, // 40 gwei
       skipDryRun: true,
     },
     kovan: {
       network_id: 42,
       provider: new HDWalletProvider(mnemonic, kovanProviderUrl, 0),
       gas: 4700000,
-      gasPrice: 4000000000, // 1 gwe
+      gasPrice: 40000000000, // 40 gwei
       skipDryRun: true,
     },
     rinkeby: {

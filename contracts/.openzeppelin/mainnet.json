@@ -1,7 +1,7 @@
 {
   "contracts": {
     "NoLossDao": {
-      "address": "0x85A001C34E382457562f7cb5d0A71eE6cC65C650",
+      "address": "0xc2E6624Dd7535fea0b1C3829BEF7E87153E35C3A",
       "constructorCode": "608060405234801561001057600080fd5b506123db806100206000396000f3fe",
       "bodyBytecodeHash": "5d62fe6ad4d17612f59c1cff317d2038165f52c714c966faa639be7ad3215c73",
       "localBytecodeHash": "be2484524a8e0dc1a1938d8cb0a4cb503d91c41e2ef8c6425f403030f55d86d8",
@@ -246,18 +246,7 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": [],
-        "storageUncheckedVars": [
-          {
-            "contract": "NoLossDao_v0",
-            "path": "contracts/NoLossDao_v0.sol",
-            "label": "state",
-            "astId": 103,
-            "type": "t_mapping<t_enum<NoLossDao_v0.ProposalState>>",
-            "src": "1118:46:1"
-          }
-        ],
-        "storageDiff": []
+        "uninitializedBaseContracts": []
       }
     }
   },
@@ -265,10 +254,10 @@
   "proxies": {
     "example-truffle-migrate/NoLossDao": [
       {
-        "address": "0xd5e1d6FC3395dF77105509Ca7123D84EFdc7B20d",
+        "address": "0xAc523606b34240A1d6C90CF1223f1B75136a14D1",
         "version": "2.5.3",
-        "implementation": "0x85A001C34E382457562f7cb5d0A71eE6cC65C650",
-        "admin": "0x42923216b26ADCEE369ed9dF2C4F00bCeD91547c",
+        "implementation": "0xc2E6624Dd7535fea0b1C3829BEF7E87153E35C3A",
+        "admin": "0xB3f97fB29fc34BE9B8131428E3726D61C0c0364B",
         "kind": "Upgradeable"
       }
     ]
@@ -276,6 +265,6 @@
   "manifestVersion": "2.2",
   "version": "2.5.3",
   "proxyAdmin": {
-    "address": "0x42923216b26ADCEE369ed9dF2C4F00bCeD91547c"
+    "address": "0xB3f97fB29fc34BE9B8131428E3726D61C0c0364B"
   }
 }
