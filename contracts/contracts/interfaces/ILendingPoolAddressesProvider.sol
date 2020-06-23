@@ -1,10 +1,9 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
+abstract contract ILendingPoolAddressesProvider {
+  function getLendingPool() public virtual view returns (address);
 
-contract ILendingPoolAddressesProvider {
-  function getLendingPool() public view returns (address);
-
-  function getLendingPoolCore() public view returns (address);
+  function getLendingPoolCore() public virtual view returns (address);
 }
 
 // INSERT LATER INTO NOLOSSDAO

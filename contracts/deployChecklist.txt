@@ -1,0 +1,5 @@
+Check gas price
+Check zeppelin sdk is setup correct
+Check that the first iteration is the desired length
+Delete artifacts and build folder
+Validate testnet deployment

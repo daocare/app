@@ -54,7 +54,7 @@ contract('PoolDeposits', accounts => {
       { from: accounts[0] }
     );
 
-    await noLossDao.initialize(poolDeposits.address, '1800', {
+    await noLossDao.initialize(poolDeposits.address, '1800', '1800', {
       from: accounts[0],
     });
   });
@@ -113,6 +113,21 @@ contract('PoolDeposits', accounts => {
 
     await poolDeposits.emergencyWithdraw({ from: accounts[2] });
     await poolDeposits.emergencyWithdraw({ from: accounts[1] });
+  });
+
+  it('poolDeposits:emergency. Only admin can change the admin', async () => {
+    await expectRevert(
+      poolDeposits.changeAdmin(accounts[5], { from: accounts[2] }),
+      'Not admin'
+    );
+  });
+  it('poolDeposits:changeAdmin', async () => {
+    const newAdmin = accounts[5];
+    const adminBefore = await poolDeposits.admin.call();
+    await poolDeposits.changeAdmin(newAdmin, { from: adminBefore });
+    const adminAfter = await poolDeposits.admin();
+    assert.isOk(adminBefore !== adminAfter, "Admin didn't change");
+    assert.equal(newAdmin, adminAfter, "Admin didn't change");
   });
 
   it('poolDeposits:emergency. Admin and only admin can instantly declare emergency', async () => {
@@ -282,7 +297,7 @@ contract('PoolDeposits', accounts => {
       (parseInt(mintAmount1) + parseInt(mintAmount2)).toString()
     );
 
-    const logs = await poolDeposits.withdrawDeposit({ from: accounts[1] });
+    const logs = await poolDeposits.exit({ from: accounts[1] });
     expectEvent(logs, 'RemoveEmergencyVote', {
       user: accounts[1],
       emergencyVoteAmount: mintAmount1,
