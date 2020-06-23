@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '3box';
 
-// import useWeb3Connect from '../utils/useWeb3Connect';
 import useDaoContract from '../utils/useDaoContract';
 import useIteration from '../utils/useIteration';
 
@@ -69,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Proposals = () => {
-  // const web3Connect = useWeb3Connect();
   const daoContract = useDaoContract();
   const iterationData = useIteration();
 

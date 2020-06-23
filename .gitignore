@@ -27,6 +27,7 @@ yarn-error.log*
 firebase-debug.log
 /package-lock.json
 .env
+.env.mainnet.example
 
 /contracts/build
 /contracts/coverage

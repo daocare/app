@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useRouter from '../utils/useRouter';
 import useWeb3Modal from '../utils/useWeb3Modal';
@@ -25,7 +25,7 @@ const NetworkNotSupported = () => {
 
   const supportedNetworks = web3Modal.SUPPORTED_NETWORKS;
 
-  const networkInfo = useSelector((state) => state.web3.networkInfo);
+  const networkInfo = useSelector((state) => state.web3);
 
   useEffect(() => {
     if (supportedNetworks.includes(networkInfo.network)) {
@@ -34,7 +34,7 @@ const NetworkNotSupported = () => {
   }, [networkInfo.network]);
 
   return (
-    <Page title={`dao.care | ${networkInfo.network} not supported`}>
+    <Page title={`dao.care | Network not supported`}>
       <div className={classes.pageCentered}>
         <div style={{ marginBottom: 16 }}>
           <Typography
@@ -46,9 +46,7 @@ const NetworkNotSupported = () => {
               fontWeight: 400,
             }}
           >
-            We are not yet supporting{' '}
-            {networkInfo.network ? networkInfo.network : <EllipsisLoader />},
-            please connect to{' '}
+            We only support mainnet and kovan please connect to{' '}
             {supportedNetworks.map((network, index) =>
               supportedNetworks.length > 1 && !index == 0
                 ? ' or ' + network
