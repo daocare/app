@@ -26578,6 +26578,12 @@
     "version": "0.6.10+commit.00c0fcaf.Emscripten.clang"
   },
   "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0x46441594290FC13e97dD2E2A9Cf49E114599bc38",
+      "transactionHash": "0xc13803c191f0bfda9726b0d02355453a4fe93688f2f5347bfeb884eb4066038c"
+    },
     "42": {
       "events": {
         "0x60b4341c755607a1fecc54f0127c8e9de93806f9c2f7a9ef3a4597acfb410c6a": {
