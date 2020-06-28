@@ -10,7 +10,7 @@ import Header from '../components/Header';
 const useStyles = makeStyles((theme) => ({
   securityContainer: {
     display: 'flex',
-    flexFlow: 'row nowrap',
+    flexFlow: 'row wrap',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
@@ -41,7 +41,7 @@ const Security = () => {
         spacing={2}
         className={classes.securityContainer}
       >
-        <Grid item xs={12} md={3} className={classes.gridItem}>
+        <Grid item xs={6} md={4} className={classes.gridItem}>
           <a
             href="/dao.care_smart_contract_audit.pdf"
             target="_blank"
@@ -63,7 +63,7 @@ const Security = () => {
             </a>
           </Typography>
         </Grid>
-        <Grid item xs={12} md={3} className={classes.gridItem}>
+        <Grid item xs={6} md={4} className={classes.gridItem}>
           <a href="/coverage" target="_blank" rel="noopener noreferrer">
             <img src="/assets/security/tests.svg" className={classes.socials} />
           </a>
@@ -74,7 +74,7 @@ const Security = () => {
             </a>
           </Typography>
         </Grid>
-        <Grid item xs={12} md={3} className={classes.gridItem}>
+        <Grid item xs={6} md={4} className={classes.gridItem}>
           <a
             href="https://github.com/DAOcare"
             target="_blank"
@@ -96,22 +96,69 @@ const Security = () => {
             </a>
           </Typography>
         </Grid>
-        {/* <Grid item xs={12} md={3} className={classes.gridItem}>
-          <a href="#" target="_blank" rel="noopener noreferrer">
-            TODO
+        <Grid item xs={6} md={4} className={classes.gridItem}>
+          <a
+            href="https://etherscan.io/address/0xac523606b34240a1d6c90cf1223f1b75136a14d1#code"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               src="/assets/security/etherscan.svg"
               className={classes.socials}
             />
           </a>
-
           <Typography variant="body2">
-            <a href="#" target="_blank" rel="noopener noreferrer">
-               TODO Here too 
-              Etherscan Code
+            <a
+              href="https://etherscan.io/address/0xac523606b34240a1d6c90cf1223f1b75136a14d1#code"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              No Loss DAO Proxy
             </a>
           </Typography>
-        </Grid> */}
+        </Grid>
+        <Grid item xs={6} md={4} className={classes.gridItem}>
+          <a
+            href="https://etherscan.io/address/0xc2e6624dd7535fea0b1c3829bef7e87153e35c3a#code"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/assets/security/etherscan.svg"
+              className={classes.socials}
+            />
+          </a>
+          <Typography variant="body2">
+            <a
+              href="https://etherscan.io/address/0xc2e6624dd7535fea0b1c3829bef7e87153e35c3a#code"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              No Loss DAO
+            </a>
+          </Typography>
+        </Grid>
+        <Grid item xs={6} md={4} className={classes.gridItem}>
+          <a
+            href="https://etherscan.io/address/0x46441594290FC13e97dD2E2A9Cf49E114599bc38#code"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/assets/security/etherscan.svg"
+              className={classes.socials}
+            />
+          </a>
+          <Typography variant="body2">
+            <a
+              href="https://etherscan.io/address/0x46441594290FC13e97dD2E2A9Cf49E114599bc38#code"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Deposit Pool
+            </a>
+          </Typography>
+        </Grid>
       </Grid>
     </Page>
   );
