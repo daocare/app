@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import Moment from 'moment';
 
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -67,6 +68,9 @@ const Home = () => {
   const proposals = useSelector((state) => state.proposals.proposals);
   const numberOfMembers = useSelector((state) => state.fund.numberOfMembers);
   const userDaiDeposit = useSelector((state) => state.user.daiDeposit);
+  const currentIterationDeadline = useSelector(
+    (state) => state.iteration.currentIterationDeadline
+  );
 
   const router = useRouter();
 
@@ -80,6 +84,8 @@ const Home = () => {
           Vote DAO style on twitter for your favourite project every 2 weeks.
           Interest from the pool is sent to the chosen community project for 2
           weeks if selected by the DAO. Withdraw your original DAI at anytime.
+          The iteration will begin in{' '}
+          {Moment.unix(currentIterationDeadline).fromNow()}
         </Typography>
 
         <Grid container justify="space-between" spacing={2}>
@@ -165,7 +171,6 @@ const Home = () => {
           </Typography>
         </Grid> */}
         </Grid>
-
         <div className={classes.buttonContainer}>
           <Button
             variant="contained"

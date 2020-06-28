@@ -47,9 +47,21 @@ const useDepositContract = () => {
     }
   };
 
+  // const triggerWithdrawal = async (address) => {
+  //   try {
+  //     let withdrawal = await depositContract.methods.withdrawDeposit().send({
+  //       from: address,
+  //     });
+  //     console.log('withdrawal', withdrawal);
+  //     dispatch(setDaiDeposit(0));
+  //   } catch (err) {
+  //     console.warn('Failed to withdraw: ', err);
+  //   }
+  // };
+
   const triggerWithdrawal = async (address) => {
     try {
-      let withdrawal = await depositContract.methods.withdrawDeposit().send({
+      let withdrawal = await depositContract.methods.exit().send({
         from: address,
       });
       console.log('withdrawal', withdrawal);

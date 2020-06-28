@@ -42,6 +42,7 @@ const useIteration = () => {
         orderBy: iterationEndTimestamp
         orderDirection: desc
       ) {
+        id
         iterationStartTimestamp
       }
     }
@@ -73,9 +74,17 @@ const useIteration = () => {
           'iterationStartTimestamp'
         ]
       );
+      const iterationNumber = parseInt(
+        iterationStartTimestamp['data']['iterations'][0]['id']
+      );
 
       const twoWeeksInSeconds = 60 * 60 * 24 * 14;
-      const endTime = startTime + twoWeeksInSeconds; // TODO edit if 2 week iteration changes
+      const twoMonthsInSeconds = 86400 * 60;
+      const firstIterationStartTime = startTime + twoMonthsInSeconds;
+      const endTime = startTime + twoWeeksInSeconds;
+
+      const iterationEndTime =
+        iterationNumber == '0' ? firstIterationStartTime : endTime;
 
       await dispatch(setCurrentIterationDeadline(endTime));
     } catch {

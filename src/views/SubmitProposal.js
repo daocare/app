@@ -24,6 +24,7 @@ import Page from '../components/Page';
 import Header from '../components/Header';
 import IpfsUpload from '../components/IpfsUpload';
 import ProposalCard from '../components/ProposalCard';
+// import EllipsisLoader from './EllipsisLoader';
 
 import use3Box from '../utils/use3Box';
 import useRouter from '../utils/useRouter';
@@ -128,8 +129,8 @@ const SubmitProposal = (props) => {
   );
 
   const onEmojiClick = async (event, emojiObject) => {
+    setChosenEmoji('loading');
     event.preventDefault();
-    console.log(emojiObject);
     let networkSuffix = chainId == 42 ? '-kovan' : '';
     if (await emojiExists(emojiObject.emoji, networkSuffix)) {
       setChosenEmoji(emojiObject);
@@ -289,7 +290,7 @@ const SubmitProposal = (props) => {
           You do not have enough DAI in your wallet to submit a proposal
         </Typography>
       )}
-      {!hasAProposal && daiDeposit === 0 && (
+      {!hasAProposal && (daiDeposit === 0 || daiDeposit == null) && (
         <>
           <Typography variant="h5" className={classes.title}>
             Submit Proposal
@@ -439,10 +440,11 @@ const SubmitProposal = (props) => {
                       className={classes.textField}
                     >
                       Emoji *
-                      {chosenEmoji && (
+                      {chosenEmoji != 'loading' && chosenEmoji != null && (
                         <span
                           role="img"
                           aria-label={chosenEmoji.names.join(', ')}
+                          onClick={() => setChosenEmoji(null)}
                         >
                           {' '}
                           {chosenEmoji.emoji}
@@ -452,10 +454,12 @@ const SubmitProposal = (props) => {
                         <span style={{ color: 'red' }}> {emojiError}</span>
                       )}
                     </Typography>
-                    <Picker
-                      onEmojiClick={onEmojiClick}
-                      skinTone={SKIN_TONE_MEDIUM_DARK}
-                    />
+                    {chosenEmoji == null && (
+                      <Picker
+                        onEmojiClick={onEmojiClick}
+                        skinTone={SKIN_TONE_MEDIUM_DARK}
+                      />
+                    )}
                     <Typography
                       variant="body1"
                       display="block"

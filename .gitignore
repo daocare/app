@@ -27,9 +27,12 @@ yarn-error.log*
 firebase-debug.log
 /package-lock.json
 .env
+.env.kovan.example
 .env.mainnet.example
 
 /contracts/build
 /contracts/coverage
 /contracts/artifacts
 /contracts/cache
+
+.vercel
