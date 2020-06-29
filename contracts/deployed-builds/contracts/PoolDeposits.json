@@ -240,13 +240,13 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "iteration",
+          "name": "amount",
           "type": "uint256"
         },
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "amount",
+          "name": "iteration",
           "type": "uint256"
         }
       ],
@@ -609,20 +609,18 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.10+commit.00c0fcaf\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"daiAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"aDaiAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"lendingPoolAddressProvider\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"noLossDaoAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_proposalAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ADaiRedeemFailed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"DepositAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"DepositWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"timeStamp\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalDaiInContract\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalEmergencyVotes\",\"type\":\"uint256\"}],\"name\":\"EmergencyStateReached\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"emergencyVoteAmount\",\"type\":\"uint256\"}],\"name\":\"EmergencyVote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"EmergencyWithdrawl\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"InterestSent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"PartialDepositWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"benefactor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"proposalId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"proposalIdentifier\",\"type\":\"string\"}],\"name\":\"ProposalAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"benefactor\",\"type\":\"address\"}],\"name\":\"ProposalWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"emergencyVoteAmount\",\"type\":\"uint256\"}],\"name\":\"RemoveEmergencyVote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"iteration\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"WinnerPayout\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"aaveLendingContract\",\"outputs\":[{\"internalType\":\"contract IAaveLendingPool\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"aaveLendingContractCore\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adaiContract\",\"outputs\":[{\"internalType\":\"contract IADai\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"admin\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adminActivateEmergency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newAdmin\",\"type\":\"address\"}],\"name\":\"changeAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"changeProposalAmount\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"proposalIdentifier\",\"type\":\"string\"}],\"name\":\"createProposal\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"newProposalId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"daiContract\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"declareStateOfEmergency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"deposit\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"depositedDai\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"receivers\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"percentages\",\"type\":\"uint256[]\"},{\"internalType\":\"address\",\"name\":\"winner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"iteration\",\"type\":\"uint256\"}],\"name\":\"distributeInterest\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"emergencyVoteAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"emergencyVoted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"emergencyWithdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"exit\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isEmergencyState\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"noLossDaoContract\",\"outputs\":[{\"internalType\":\"contract INoLossDao\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"proposalAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"provider\",\"outputs\":[{\"internalType\":\"contract ILendingPoolAddressesProvider\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"timeJoined\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalDepositedDai\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"voteEmergency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawDeposit\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"withdrawProposal\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"adminActivateEmergency()\":{\"details\":\"Allows admin to activate emergency state\"},\"changeAdmin(address)\":{\"details\":\"allows the admin to be chanded. Note admin can only declare an emergency\",\"params\":{\"newAdmin\":\"address of the new admin\"}},\"changeProposalAmount(uint256)\":{\"details\":\"allows the proposalAmount (amount proposal has to stake to enter the pool) to be configurable\",\"params\":{\"amount\":\"new proposalAmount\"}},\"createProposal(string)\":{\"details\":\"Lets user create proposal\",\"params\":{\"proposalIdentifier\":\"hash of the users new proposal\"}},\"declareStateOfEmergency()\":{\"details\":\"Declares a state of emergency and enables emergency withdrawls that are not dependant on any external smart contracts\"},\"deposit(uint256)\":{\"details\":\"Lets a user join DAOcare through depositing\",\"params\":{\"amount\":\"the user wants to deposit into the DAOcare pool\"}},\"distributeInterest(address[],uint256[],address,uint256)\":{\"details\":\"Tries to redeem aDai and send acrrued interest to winners. Falls back to Dai.\",\"params\":{\"iteration\":\"the iteration of the dao\",\"percentages\":\"the respective percentage to split\",\"receivers\":\"An array of the addresses to split between\",\"winner\":\"address of the winning proposal\"}},\"emergencyWithdraw()\":{\"details\":\"Immediately lets yoou withdraw your funds in an state of emergency\"},\"exit()\":{\"details\":\"Lets a user withdraw their original amount sent to DAOcare Calls the NoLossDao conrrtact to determine eligibility to withdraw\"},\"voteEmergency()\":{\"details\":\"lets users vote that the a state of emergency should be decalred Requires time lock here to defeat flash loan punks\"},\"withdrawDeposit(uint256)\":{\"details\":\"Lets a user withdraw some of their amount Checks they have not voted\"},\"withdrawProposal()\":{\"details\":\"Lets user withdraw proposal\"}},\"title\":\"Pooled Deposits Contract\"},\"userdoc\":{\"methods\":{\"constructor\":\"************* Contract set-up: Not Upgradaable**************\",\"daiContract()\":{\"notice\":\"////// DEFI Contrcats ///////////\"},\"emergencyVoteAmount()\":{\"notice\":\"///// EMERGENCY MODULE ONLY ///////\"}}}},\"settings\":{\"compilationTarget\":{\"/Users/johanthan/Code/hackathons/app/contracts/contracts/PoolDeposits.sol\":\"PoolDeposits\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/johanthan/Code/hackathons/app/contracts/contracts/PoolDeposits.sol\":{\"keccak256\":\"0xab5e197d69549e3b2aee1441a3ec6c1335077bcb6828a13b592ef84289882fb4\",\"urls\":[\"bzz-raw://cbe96bdc444ed976ebbdfbcb932ff8697439667acba3883a4bafbf315ce8d260\",\"dweb:/ipfs/QmPVxALuB43ErD9yYus8gDpkFTnXX4YuZ2QQ8etNzrTGX8\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IADai.sol\":{\"keccak256\":\"0x89d7db6ac1c83b9367fe7e436997e64a383edc55b3b7e15e37d4682727228e28\",\"urls\":[\"bzz-raw://986847e3a33219bd4de58d36d9105543eb6de23a7c9d0bec020c4b421b7ccea1\",\"dweb:/ipfs/QmeizqpU4qSBpDgJuudp7XcAMYoQwTUfJGSZ9n7nAwTuSe\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IAaveLendingPool.sol\":{\"keccak256\":\"0xf8dcacb5da1594c2810bacaa06169947c7fbd118679439666839c0c6ad0b760f\",\"urls\":[\"bzz-raw://c29b1ec4139083538e3a0ae8a53357ed176d4682b0bcc38440759c7330158aaa\",\"dweb:/ipfs/QmPboR5XzmTXTkuxquRzstko3KqacogupBXSqbiubS5jGf\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/IERC20.sol\":{\"keccak256\":\"0x928dd900ffdaa3d410a5d669ae619f33336fecca590c48c62afe09b9d550dbff\",\"urls\":[\"bzz-raw://1981ee2a04271661c6458d1e8b45a9fb9a67a4ef3f3025c52509c6e60c275a68\",\"dweb:/ipfs/QmVofRmrNnEv765fmq2tvPaULw4GTBvvBFE6YqGCBA3kPh\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/ILendingPoolAddressesProvider.sol\":{\"keccak256\":\"0xb0712b5696d750d4f5d6df20004ea82537a5be88ca96d126c03f7b4b2dde36a6\",\"urls\":[\"bzz-raw://a99a329b5d479d88dbdc6d399c7c8982084fede8960b22956ce3710b34767095\",\"dweb:/ipfs/QmY95tTV9ohgz4n3pYJAWdcU7ZogoVL5GyRRvHsiSNYsxb\"]},\"/Users/johanthan/Code/hackathons/app/contracts/contracts/interfaces/INoLossDao.sol\":{\"keccak256\":\"0x32c046399d6ce75d9ac97881201d190af1c963d26c7c8b8848f19f25fc98911c\",\"urls\":[\"bzz-raw://e2ecb7efe0bc61f528afbb4bf7e5e3af7cdd312f310442ebb231b6db3d16adb1\",\"dweb:/ipfs/Qmdy1VFUNTdDntZiPWDwEq8x2SjLcEdad3A2aqBHhiwuvE\"]},\"@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x04d34b3cd5677bea25f8dfceb6dec0eaa071d4d4b789a43f13fe0c415ba4c296\",\"urls\":[\"bzz-raw://e7e8b526a6839e5ba14f0d23a830387fec47f7043ce01d42c9f285b709a9d080\",\"dweb:/ipfs/QmXmhhFmX5gcAvVzNiDPAGA35iHMPNaYtQkACswRHBVTNw\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.10+commit.00c0fcaf\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"daiAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"aDaiAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"lendingPoolAddressProvider\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"noLossDaoAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_proposalAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ADaiRedeemFailed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"DepositAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"DepositWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"timeStamp\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalDaiInContract\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalEmergencyVotes\",\"type\":\"uint256\"}],\"name\":\"EmergencyStateReached\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"emergencyVoteAmount\",\"type\":\"uint256\"}],\"name\":\"EmergencyVote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"EmergencyWithdrawl\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"InterestSent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"PartialDepositWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"benefactor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"proposalId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"proposalIdentifier\",\"type\":\"string\"}],\"name\":\"ProposalAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"benefactor\",\"type\":\"address\"}],\"name\":\"ProposalWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"emergencyVoteAmount\",\"type\":\"uint256\"}],\"name\":\"RemoveEmergencyVote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"iteration\",\"type\":\"uint256\"}],\"name\":\"WinnerPayout\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"aaveLendingContract\",\"outputs\":[{\"internalType\":\"contract IAaveLendingPool\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"aaveLendingContractCore\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adaiContract\",\"outputs\":[{\"internalType\":\"contract IADai\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"admin\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adminActivateEmergency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newAdmin\",\"type\":\"address\"}],\"name\":\"changeAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"changeProposalAmount\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"proposalIdentifier\",\"type\":\"string\"}],\"name\":\"createProposal\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"newProposalId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"daiContract\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"declareStateOfEmergency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"deposit\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"depositedDai\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"receivers\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"percentages\",\"type\":\"uint256[]\"},{\"internalType\":\"address\",\"name\":\"winner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"iteration\",\"type\":\"uint256\"}],\"name\":\"distributeInterest\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"emergencyVoteAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"emergencyVoted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"emergencyWithdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"exit\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isEmergencyState\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"noLossDaoContract\",\"outputs\":[{\"internalType\":\"contract INoLossDao\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"proposalAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"provider\",\"outputs\":[{\"internalType\":\"contract ILendingPoolAddressesProvider\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"timeJoined\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalDepositedDai\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"voteEmergency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawDeposit\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"withdrawProposal\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"adminActivateEmergency()\":{\"details\":\"Allows admin to activate emergency state\"},\"changeAdmin(address)\":{\"details\":\"allows the admin to be chanded. Note admin can only declare an emergency\",\"params\":{\"newAdmin\":\"address of the new admin\"}},\"changeProposalAmount(uint256)\":{\"details\":\"allows the proposalAmount (amount proposal has to stake to enter the pool) to be configurable\",\"params\":{\"amount\":\"new proposalAmount\"}},\"createProposal(string)\":{\"details\":\"Lets user create proposal\",\"params\":{\"proposalIdentifier\":\"hash of the users new proposal\"}},\"declareStateOfEmergency()\":{\"details\":\"Declares a state of emergency and enables emergency withdrawls that are not dependant on any external smart contracts\"},\"deposit(uint256)\":{\"details\":\"Lets a user join DAOcare through depositing\",\"params\":{\"amount\":\"the user wants to deposit into the DAOcare pool\"}},\"distributeInterest(address[],uint256[],address,uint256)\":{\"details\":\"Tries to redeem aDai and send acrrued interest to winners. Falls back to Dai.\",\"params\":{\"iteration\":\"the iteration of the dao\",\"percentages\":\"the respective percentage to split\",\"receivers\":\"An array of the addresses to split between\",\"winner\":\"address of the winning proposal\"}},\"emergencyWithdraw()\":{\"details\":\"Immediately lets yoou withdraw your funds in an state of emergency\"},\"exit()\":{\"details\":\"Lets a user withdraw their original amount sent to DAOcare Calls the NoLossDao conrrtact to determine eligibility to withdraw\"},\"voteEmergency()\":{\"details\":\"lets users vote that the a state of emergency should be decalred Requires time lock here to defeat flash loan punks\"},\"withdrawDeposit(uint256)\":{\"details\":\"Lets a user withdraw some of their amount Checks they have not voted\"},\"withdrawProposal()\":{\"details\":\"Lets user withdraw proposal\"}},\"title\":\"Pooled Deposits Contract\"},\"userdoc\":{\"methods\":{\"constructor\":\"************* Contract set-up: Not Upgradaable**************\",\"daiContract()\":{\"notice\":\"////// DEFI Contrcats ///////////\"},\"emergencyVoteAmount()\":{\"notice\":\"///// EMERGENCY MODULE ONLY ///////\"}}}},\"settings\":{\"compilationTarget\":{\"/home/jasoons/Documents/temp/app/contracts/contracts/PoolDeposits.sol\":\"PoolDeposits\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jasoons/Documents/temp/app/contracts/contracts/PoolDeposits.sol\":{\"keccak256\":\"0xddf1115e7da58363c50303ceb1cf0bd535384b424f59ad2ba8d59d57020645e8\",\"urls\":[\"bzz-raw://4a636731f4d6a79b9a08a10ace7650fb233c19166059587915bec343243bfb7c\",\"dweb:/ipfs/QmeRj8CprsE7bvRrtEpHBbMv6gpoj2tPGSFyKgeVJWHcxW\"]},\"/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IADai.sol\":{\"keccak256\":\"0x89d7db6ac1c83b9367fe7e436997e64a383edc55b3b7e15e37d4682727228e28\",\"urls\":[\"bzz-raw://986847e3a33219bd4de58d36d9105543eb6de23a7c9d0bec020c4b421b7ccea1\",\"dweb:/ipfs/QmeizqpU4qSBpDgJuudp7XcAMYoQwTUfJGSZ9n7nAwTuSe\"]},\"/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IAaveLendingPool.sol\":{\"keccak256\":\"0xf8dcacb5da1594c2810bacaa06169947c7fbd118679439666839c0c6ad0b760f\",\"urls\":[\"bzz-raw://c29b1ec4139083538e3a0ae8a53357ed176d4682b0bcc38440759c7330158aaa\",\"dweb:/ipfs/QmPboR5XzmTXTkuxquRzstko3KqacogupBXSqbiubS5jGf\"]},\"/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/IERC20.sol\":{\"keccak256\":\"0x928dd900ffdaa3d410a5d669ae619f33336fecca590c48c62afe09b9d550dbff\",\"urls\":[\"bzz-raw://1981ee2a04271661c6458d1e8b45a9fb9a67a4ef3f3025c52509c6e60c275a68\",\"dweb:/ipfs/QmVofRmrNnEv765fmq2tvPaULw4GTBvvBFE6YqGCBA3kPh\"]},\"/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/ILendingPoolAddressesProvider.sol\":{\"keccak256\":\"0xb0712b5696d750d4f5d6df20004ea82537a5be88ca96d126c03f7b4b2dde36a6\",\"urls\":[\"bzz-raw://a99a329b5d479d88dbdc6d399c7c8982084fede8960b22956ce3710b34767095\",\"dweb:/ipfs/QmY95tTV9ohgz4n3pYJAWdcU7ZogoVL5GyRRvHsiSNYsxb\"]},\"/home/jasoons/Documents/temp/app/contracts/contracts/interfaces/INoLossDao.sol\":{\"keccak256\":\"0x32c046399d6ce75d9ac97881201d190af1c963d26c7c8b8848f19f25fc98911c\",\"urls\":[\"bzz-raw://e2ecb7efe0bc61f528afbb4bf7e5e3af7cdd312f310442ebb231b6db3d16adb1\",\"dweb:/ipfs/Qmdy1VFUNTdDntZiPWDwEq8x2SjLcEdad3A2aqBHhiwuvE\"]},\"@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x04d34b3cd5677bea25f8dfceb6dec0eaa071d4d4b789a43f13fe0c415ba4c296\",\"urls\":[\"bzz-raw://e7e8b526a6839e5ba14f0d23a830387fec47f7043ce01d42c9f285b709a9d080\",\"dweb:/ipfs/QmXmhhFmX5gcAvVzNiDPAGA35iHMPNaYtQkACswRHBVTNw\"]}},\"version\":1}",
   "bytecode": "0x608060405234801561001057600080fd5b50604051612261380380612261833981810160405260a081101561003357600080fd5b508051602082015160408301516060840151608090940151600480546001600160a01b039586166001600160a01b031991821617909155600880549386169382169390931790925560068054938516938316939093179092556007805493909416928116929092179092556000805490911633179055600355600d805460ff1916905561219c806100c56000396000f3fe608060405234801561001057600080fd5b506004361061018e5760003560e01c806368608087116100de578063b6b55f2511610097578063db2e21bc11610071578063db2e21bc1461046f578063dd98928014610477578063e9fad8ee1461047f578063f851a440146104875761018e565b8063b6b55f2514610442578063c68dc6ad1461045f578063d1c22c3b146104675761018e565b806368608087146103c15780636b38def2146103c9578063715df456146103d157806382a0ca9c146103ee5780638cc6d535146104145780638f2839701461041c5761018e565b80632ce8b9131161014b5780634129763911610125578063412976391461025257806349c2a1a61461032357806360ee68291461039357806366c91353146103b95761018e565b80632ce8b913146102075780632fda9d611461020f57806333289a46146102355761018e565b8063031cf1d914610193578063085d48831461019d57806308c0b4d2146101c15780630dd4b775146101db57806315064c96146101e3578063173a2b5c146101ff575b600080fd5b61019b61048f565b005b6101a561054e565b604080516001600160a01b039092168252519081900360200190f35b6101c961055d565b60408051918252519081900360200190f35b61019b610563565b6101eb61060a565b604080519115158252519081900360200190f35b6101c9610613565b6101a5610619565b6101eb6004803603602081101561022557600080fd5b50356001600160a01b0316610628565b61019b6004803603602081101561024b57600080fd5b503561063d565b61019b6004803603608081101561026857600080fd5b81019060208101813564010000000081111561028357600080fd5b82018360208201111561029557600080fd5b803590602001918460208302840111640100000000831117156102b757600080fd5b9193909290916020810190356401000000008111156102d557600080fd5b8201836020820111156102e757600080fd5b8035906020019184602083028401116401000000008311171561030957600080fd5b91935091506001600160a01b0381351690602001356107f7565b6101c96004803603602081101561033957600080fd5b81019060208101813564010000000081111561035457600080fd5b82018360208201111561036657600080fd5b8035906020019184600183028401116401000000008311171561038857600080fd5b509092509050610a43565b6101c9600480360360208110156103a957600080fd5b50356001600160a01b0316610dc2565b61019b610dd4565b61019b610e1f565b6101a5610fbb565b61019b600480360360208110156103e757600080fd5b5035610fca565b6101c96004803603602081101561040457600080fd5b50356001600160a01b0316611018565b6101a561102a565b61019b6004803603602081101561043257600080fd5b50356001600160a01b0316611039565b61019b6004803603602081101561045857600080fd5b50356110a6565b6101a56113b4565b6101c96113c3565b61019b6113c9565b6101a56114c0565b61019b6114cf565b6101a56115ec565b336000908152600260205260409020546104a8906115fb565b60075460408051636c89be9b60e01b815233600482015290516001600160a01b0390921691636c89be9b916024808201926020929091908290030181600087803b1580156104f557600080fd5b505af1158015610509573d6000803e3d6000fd5b505050506040513d602081101561051f57600080fd5b505060405133907fa5b08a9ecdbd5a58ad2cad96fbad20d1d2ee3924a737a6c305c389136ab2cf5590600090a2565b6008546001600160a01b031681565b600a5481565b600a5461057790600263ffffffff6117d716565b600154106105b65760405162461bcd60e51b81526004018080602001828103825260398152602001806120b96039913960400191505060405180910390fd5b692a5a058fc295ed000000600154116106005760405162461bcd60e51b81526004018080602001828103825260428152602001806120f26042913960600191505060405180910390fd5b610608611839565b565b600d5460ff1681565b60035481565b6004546001600160a01b031681565b600b6020526000908152604090205460ff1681565b336000908152600b602052604090205460ff161561069d576040805162461bcd60e51b8152602060048201526018602482015277155cd95c881a185cc8195b595c99d95b98de481d9bdd195960421b604482015290519081900360640190fd5b3360009081526002602052604090205481908110610702576040805162461bcd60e51b815260206004820152601c60248201527f43616e6e6f742077697468647261772066756c6c2062616c616e636500000000604482015290519081900360640190fd5b6007546040805163e38b141960e01b815233600482015290516001600160a01b039092169163e38b141991602480820192602092909190829003018186803b15801561074d57600080fd5b505afa158015610761573d6000803e3d6000fd5b505050506040513d602081101561077757600080fd5b50516107b45760405162461bcd60e51b81526004018080602001828103825260328152602001806120666032913960400191505060405180910390fd5b6107bd826115fb565b60408051838152905133917fa4ea4678ec8294657f7ee341dfae5575889d3b31d206b5967693ba70cd12da84919081900360200190a25050565b8585808060200260200160405190810160405280939291908181526020018383602002808284376000920191909152505060408051602080890282810182019093528882529093508892508791829185019084908082843760009201919091525050825184511491506108ac9050576040805162461bcd60e51b8152602060048201526016602482015275125b9c1d5d081b195b99dd1a081b9bdd08195c5d585b60521b604482015290519081900360640190fd5b6007546001600160a01b031633146108f55760405162461bcd60e51b81526004018080602001828103825260338152602001806121346033913960400191505060405180910390fd5b600154600654604080516370a0823160e01b815230600482015290516000936109849390926001600160a01b03909116916370a0823191602480820192602092909190829003018186803b15801561094c57600080fd5b505afa158015610960573d6000803e3d6000fd5b505050506040513d602081101561097657600080fd5b50519063ffffffff61189316565b6006546040805163db006a7560e01b81526004810184905290519293506001600160a01b039091169163db006a759160248082019260009290919082900301818387803b1580156109d457600080fd5b505af19250505080156109e5575060015b610a1357610a0e89898989898987600660009054906101000a90046001600160a01b03166118d5565b610a38565b610a3889898989898987600460009054906101000a90046001600160a01b03166118d5565b505050505050505050565b3360009081526002602052604081205415610aa5576040805162461bcd60e51b815260206004820152601860248201527f506572736f6e20697320616c7265616479206120757365720000000000000000604482015290519081900360640190fd5b6003546004805460408051636eb1769f60e11b81523393810193909352306024840152516001600160a01b039091169163dd62ed3e916044808301926020929190829003018186803b158015610afa57600080fd5b505afa158015610b0e573d6000803e3d6000fd5b505050506040513d6020811015610b2457600080fd5b5051811115610b71576040805162461bcd60e51b8152602060048201526014602482015273616d6f756e74206e6f7420617661696c61626c6560601b604482015290519081900360640190fd5b60035460048054604080516370a0823160e01b815233938101939093525183926001600160a01b03909216916370a08231916024808301926020929190829003018186803b158015610bc257600080fd5b505afa158015610bd6573d6000803e3d6000fd5b505050506040513d6020811015610bec57600080fd5b50511015610c41576040805162461bcd60e51b815260206004820152601d60248201527f5573657220646f6573206e6f74206861766520656e6f75676820444149000000604482015290519081900360640190fd5b600d5460ff1615610c99576040805162461bcd60e51b815260206004820152601b60248201527f5374617465206f6620656d657267656e6379206465636c617265640000000000604482015290519081900360640190fd5b610ca4600354611b15565b60075460408051630375672b60e21b8152336024820181905260048201928352604482018890526000936001600160a01b031692630dd59cac928a928a9290918190606401858580828437600081840152601f19601f820116905080830192505050945050505050602060405180830381600087803b158015610d2657600080fd5b505af1158015610d3a573d6000803e3d6000fd5b505050506040513d6020811015610d5057600080fd5b50516040805160208082528101889052919250829133917fc07acef038b6eb78641fd29d4d916bc1178a913d8950f162fb46f38a4f3aa4b8918a918a919081908101848480828437600083820152604051601f909101601f19169092018290039550909350505050a395945050505050565b600c6020526000908152604090205481565b6000546001600160a01b03163314610600576040805162461bcd60e51b81526020600482015260096024820152682737ba1030b236b4b760b91b604482015290519081900360640190fd5b33600090815260026020526040902054610e74576040805162461bcd60e51b81526020600482015260116024820152705573657220686173206e6f207374616b6560781b604482015290519081900360640190fd5b336000908152600b602052604090205460ff1615610ed9576040805162461bcd60e51b815260206004820152601b60248201527f416c726561647920766f74656420666f7220656d657267656e63790000000000604482015290519081900360640190fd5b336000908152600c60205260409020544290610efe906283d60063ffffffff611e0316565b10610f3a5760405162461bcd60e51b81526004018080602001828103825260348152602001806120326034913960400191505060405180910390fd5b336000908152600b60209081526040808320805460ff191660011790556002909152902054600a54610f719163ffffffff611e0316565b600a553360008181526002602090815260409182902054825190815291517f67456ecf663e39ee91395a0f29a28e22bdccf5e2d3ca7760ebd48d04f46ea1909281900390910190a2565b6006546001600160a01b031681565b6007546001600160a01b031633146110135760405162461bcd60e51b81526004018080602001828103825260338152602001806121346033913960400191505060405180910390fd5b600355565b60026020526000908152604090205481565b6009546001600160a01b031681565b6000546001600160a01b03163314611084576040805162461bcd60e51b81526020600482015260096024820152682737ba1030b236b4b760b91b604482015290519081900360640190fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b336000908152600b602052604090205460ff1615611106576040805162461bcd60e51b8152602060048201526018602482015277155cd95c881a185cc8195b595c99d95b98de481d9bdd195960421b604482015290519081900360640190fd5b6004805460408051636eb1769f60e11b815233938101939093523060248401525183926001600160a01b039092169163dd62ed3e916044808301926020929190829003018186803b15801561115a57600080fd5b505afa15801561116e573d6000803e3d6000fd5b505050506040513d602081101561118457600080fd5b50518111156111d1576040805162461bcd60e51b8152602060048201526014602482015273616d6f756e74206e6f7420617661696c61626c6560601b604482015290519081900360640190fd5b60048054604080516370a0823160e01b8152339381019390935251849283926001600160a01b0316916370a0823191602480820192602092909190829003018186803b15801561122057600080fd5b505afa158015611234573d6000803e3d6000fd5b505050506040513d602081101561124a57600080fd5b5051101561129f576040805162461bcd60e51b815260206004820152601d60248201527f5573657220646f6573206e6f74206861766520656e6f75676820444149000000604482015290519081900360640190fd5b600d5460ff16156112f7576040805162461bcd60e51b815260206004820152601b60248201527f5374617465206f6620656d657267656e6379206465636c617265640000000000604482015290519081900360640190fd5b61130083611b15565b60075460408051631869ce7160e11b815233600482015290516001600160a01b03909216916330d39ce2916024808201926020929091908290030181600087803b15801561134d57600080fd5b505af1158015611361573d6000803e3d6000fd5b505050506040513d602081101561137757600080fd5b505060408051848152905133917fa2a2db73af12c9f5bef6303364d44e78f97e992c353cd8659f3474c471427e9b919081900360200190a2505050565b6005546001600160a01b031681565b60015481565b3360009081526002602052604090205461141e576040805162461bcd60e51b81526020600482015260116024820152705573657220686173206e6f207374616b6560781b604482015290519081900360640190fd5b600d5460ff16151560011461147a576040805162461bcd60e51b815260206004820152601f60248201527f5374617465206f6620656d657267656e6379206e6f74206465636c6172656400604482015290519081900360640190fd5b33600090815260026020526040902054611493906115fb565b60405133907fd0d41202ba4822463690c8ef7bf93fb1cbfa4e3a8ae767bb53473227f00ce0ce90600090a2565b6007546001600160a01b031681565b33600090815260026020526040902054611524576040805162461bcd60e51b81526020600482015260116024820152705573657220686173206e6f207374616b6560781b604482015290519081900360640190fd5b3360009081526002602052604090205461153c611e5d565b611545816115fb565b60075460408051634ad5938760e01b815233600482015290516001600160a01b0390921691634ad59387916024808201926020929091908290030181600087803b15801561159257600080fd5b505af11580156115a6573d6000803e3d6000fd5b505050506040513d60208110156115bc57600080fd5b505060405133907f42a6eeb93f2df0023ef2e3a05d2f2e1b9969c57a110d5fb06ac87d5fb63506d690600090a250565b6000546001600160a01b031681565b3360009081526002602052604090205461161b908263ffffffff61189316565b3360009081526002602052604090205560015461163e908263ffffffff61189316565b6001556006546040805163db006a7560e01b81526004810184905290516001600160a01b039092169163db006a759160248082019260009290919082900301818387803b15801561168e57600080fd5b505af192505050801561169f575060015b611752576040517f60b4341c755607a1fecc54f0127c8e9de93806f9c2f7a9ef3a4597acfb410c6a90600090a16006546040805163a9059cbb60e01b81523360048201526024810184905290516001600160a01b039092169163a9059cbb916044808201926020929091908290030181600087803b15801561172057600080fd5b505af1158015611734573d6000803e3d6000fd5b505050506040513d602081101561174a57600080fd5b506117d49050565b600480546040805163a9059cbb60e01b8152339381019390935260248301849052516001600160a01b039091169163a9059cbb9160448083019260209291908290030181600087803b1580156117a757600080fd5b505af11580156117bb573d6000803e3d6000fd5b505050506040513d60208110156117d157600080fd5b50505b50565b6000826117e657506000611833565b828202828482816117f357fe5b04146118305760405162461bcd60e51b81526004018080602001828103825260218152602001806120986021913960400191505060405180910390fd5b90505b92915050565b600d805460ff1916600190811790915554600a54604080514281526020810193909352828101919091525133917f0f3f54623fdcb616cdd26971c35bdd757d232ca2d70d5b0f645f39204ec0dab7919081900360600190a2565b600061183083836040518060400160405280601e81526020017f536166654d6174683a207375627472616374696f6e206f766572666c6f770000815250611ef8565b808260005b89811015611a3c57600061191b6103e861190f8c8c868181106118f957fe5b90506020020135896117d790919063ffffffff16565b9063ffffffff611f8f16565b9050836001600160a01b031663a9059cbb8d8d8581811061193857fe5b905060200201356001600160a01b0316836040518363ffffffff1660e01b815260040180836001600160a01b03166001600160a01b0316815260200182815260200192505050602060405180830381600087803b15801561199857600080fd5b505af11580156119ac573d6000803e3d6000fd5b505050506040513d60208110156119c257600080fd5b506119d59050838263ffffffff61189316565b92508b8b838181106119e357fe5b905060200201356001600160a01b03166001600160a01b03167f81e852b4713124f5060e437b574779106e20e358872de34706c20cc7f7d082f4826040518082815260200191505060405180910390a2506001016118da565b50816001600160a01b031663a9059cbb87836040518363ffffffff1660e01b815260040180836001600160a01b03166001600160a01b0316815260200182815260200192505050602060405180830381600087803b158015611a9d57600080fd5b505af1158015611ab1573d6000803e3d6000fd5b505050506040513d6020811015611ac757600080fd5b505060408051868152905182916001600160a01b038916917f3d5c4db1fa54df9a127fcef41d90b4c4b4713d0fcc274ca1061b6995ed0100249181900360200190a350505050505050505050565b600860009054906101000a90046001600160a01b03166001600160a01b0316630261bf8b6040518163ffffffff1660e01b815260040160206040518083038186803b158015611b6357600080fd5b505afa158015611b77573d6000803e3d6000fd5b505050506040513d6020811015611b8d57600080fd5b5051600580546001600160a01b0319166001600160a01b039283161790556008546040805163076b7fbb60e51b81529051919092169163ed6ff760916004808301926020929190829003018186803b158015611be857600080fd5b505afa158015611bfc573d6000803e3d6000fd5b505050506040513d6020811015611c1257600080fd5b5051600980546001600160a01b0319166001600160a01b0392831617905560048054604080516323b872dd60e01b8152339381019390935230602484015260448301859052519216916323b872dd916064808201926020929091908290030181600087803b158015611c8357600080fd5b505af1158015611c97573d6000803e3d6000fd5b505050506040513d6020811015611cad57600080fd5b5050600480546009546040805163095ea7b360e01b81526001600160a01b0392831694810194909452602484018590525191169163095ea7b39160448083019260209291908290030181600087803b158015611d0857600080fd5b505af1158015611d1c573d6000803e3d6000fd5b505050506040513d6020811015611d3257600080fd5b50506005546004805460408051636968703360e11b81526001600160a01b039283169381019390935260248301859052601e60448401525192169163d2d0e0669160648082019260009290919082900301818387803b158015611d9457600080fd5b505af1158015611da8573d6000803e3d6000fd5b5050336000908152600c602090815260408083204290556002909152902054611dda925090508263ffffffff611e0316565b33600090815260026020526040902055600154611dfd908263ffffffff611e0316565b60015550565b600082820183811015611830576040805162461bcd60e51b815260206004820152601b60248201527f536166654d6174683a206164646974696f6e206f766572666c6f770000000000604482015290519081900360640190fd5b336000908152600b602052604090205460ff1615156001141561060857336000908152600b60209081526040808320805460ff191690556002909152902054600a54611eae9163ffffffff61189316565b600a553360008181526002602090815260409182902054825190815291517f75c449b77058efd7ed4f75aeb787832819a662ad0e1bd629167dd550205122559281900390910190a2565b60008184841115611f875760405162461bcd60e51b81526004018080602001828103825283818151815260200191508051906020019080838360005b83811015611f4c578181015183820152602001611f34565b50505050905090810190601f168015611f795780820380516001836020036101000a031916815260200191505b509250505060405180910390fd5b505050900390565b600061183083836040518060400160405280601a81526020017f536166654d6174683a206469766973696f6e206279207a65726f0000000000008152506000818361201b5760405162461bcd60e51b8152602060048201818152835160248401528351909283926044909101919085019080838360008315611f4c578181015183820152602001611f34565b50600083858161202757fe5b049594505050505056fe4e65656420746f2068617665206a6f696e656420666f72203130306461797320746f20766f746520616e20656d657267656e63795573657220616c726561647920766f746564207468697320697465726174696f6e206f7220697320612070726f706f73616c536166654d6174683a206d756c7469706c69636174696f6e206f766572666c6f77353025206f6620746f74616c20706f6f6c206e6565647320746f206861766520766f74656420666f7220656d657267656e63792073746174653230302030303044414920726571756972656420696e20706f6f6c206265666f726520656d657267656e63792073746174652063616e206265206465636c6172656466756e6374696f6e2063616e206f6e6c792062652063616c6c6564206279206e6f204c6f73732044616f20636f6e7472616374a26469706673582212201f69527375087dc01a07789c2bbfaab9705abc6129ae2d6051af69051f92ba4b64736f6c634300060a0033",
   "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061018e5760003560e01c806368608087116100de578063b6b55f2511610097578063db2e21bc11610071578063db2e21bc1461046f578063dd98928014610477578063e9fad8ee1461047f578063f851a440146104875761018e565b8063b6b55f2514610442578063c68dc6ad1461045f578063d1c22c3b146104675761018e565b806368608087146103c15780636b38def2146103c9578063715df456146103d157806382a0ca9c146103ee5780638cc6d535146104145780638f2839701461041c5761018e565b80632ce8b9131161014b5780634129763911610125578063412976391461025257806349c2a1a61461032357806360ee68291461039357806366c91353146103b95761018e565b80632ce8b913146102075780632fda9d611461020f57806333289a46146102355761018e565b8063031cf1d914610193578063085d48831461019d57806308c0b4d2146101c15780630dd4b775146101db57806315064c96146101e3578063173a2b5c146101ff575b600080fd5b61019b61048f565b005b6101a561054e565b604080516001600160a01b039092168252519081900360200190f35b6101c961055d565b60408051918252519081900360200190f35b61019b610563565b6101eb61060a565b604080519115158252519081900360200190f35b6101c9610613565b6101a5610619565b6101eb6004803603602081101561022557600080fd5b50356001600160a01b0316610628565b61019b6004803603602081101561024b57600080fd5b503561063d565b61019b6004803603608081101561026857600080fd5b81019060208101813564010000000081111561028357600080fd5b82018360208201111561029557600080fd5b803590602001918460208302840111640100000000831117156102b757600080fd5b9193909290916020810190356401000000008111156102d557600080fd5b8201836020820111156102e757600080fd5b8035906020019184602083028401116401000000008311171561030957600080fd5b91935091506001600160a01b0381351690602001356107f7565b6101c96004803603602081101561033957600080fd5b81019060208101813564010000000081111561035457600080fd5b82018360208201111561036657600080fd5b8035906020019184600183028401116401000000008311171561038857600080fd5b509092509050610a43565b6101c9600480360360208110156103a957600080fd5b50356001600160a01b0316610dc2565b61019b610dd4565b61019b610e1f565b6101a5610fbb565b61019b600480360360208110156103e757600080fd5b5035610fca565b6101c96004803603602081101561040457600080fd5b50356001600160a01b0316611018565b6101a561102a565b61019b6004803603602081101561043257600080fd5b50356001600160a01b0316611039565b61019b6004803603602081101561045857600080fd5b50356110a6565b6101a56113b4565b6101c96113c3565b61019b6113c9565b6101a56114c0565b61019b6114cf565b6101a56115ec565b336000908152600260205260409020546104a8906115fb565b60075460408051636c89be9b60e01b815233600482015290516001600160a01b0390921691636c89be9b916024808201926020929091908290030181600087803b1580156104f557600080fd5b505af1158015610509573d6000803e3d6000fd5b505050506040513d602081101561051f57600080fd5b505060405133907fa5b08a9ecdbd5a58ad2cad96fbad20d1d2ee3924a737a6c305c389136ab2cf5590600090a2565b6008546001600160a01b031681565b600a5481565b600a5461057790600263ffffffff6117d716565b600154106105b65760405162461bcd60e51b81526004018080602001828103825260398152602001806120b96039913960400191505060405180910390fd5b692a5a058fc295ed000000600154116106005760405162461bcd60e51b81526004018080602001828103825260428152602001806120f26042913960600191505060405180910390fd5b610608611839565b565b600d5460ff1681565b60035481565b6004546001600160a01b031681565b600b6020526000908152604090205460ff1681565b336000908152600b602052604090205460ff161561069d576040805162461bcd60e51b8152602060048201526018602482015277155cd95c881a185cc8195b595c99d95b98de481d9bdd195960421b604482015290519081900360640190fd5b3360009081526002602052604090205481908110610702576040805162461bcd60e51b815260206004820152601c60248201527f43616e6e6f742077697468647261772066756c6c2062616c616e636500000000604482015290519081900360640190fd5b6007546040805163e38b141960e01b815233600482015290516001600160a01b039092169163e38b141991602480820192602092909190829003018186803b15801561074d57600080fd5b505afa158015610761573d6000803e3d6000fd5b505050506040513d602081101561077757600080fd5b50516107b45760405162461bcd60e51b81526004018080602001828103825260328152602001806120666032913960400191505060405180910390fd5b6107bd826115fb565b60408051838152905133917fa4ea4678ec8294657f7ee341dfae5575889d3b31d206b5967693ba70cd12da84919081900360200190a25050565b8585808060200260200160405190810160405280939291908181526020018383602002808284376000920191909152505060408051602080890282810182019093528882529093508892508791829185019084908082843760009201919091525050825184511491506108ac9050576040805162461bcd60e51b8152602060048201526016602482015275125b9c1d5d081b195b99dd1a081b9bdd08195c5d585b60521b604482015290519081900360640190fd5b6007546001600160a01b031633146108f55760405162461bcd60e51b81526004018080602001828103825260338152602001806121346033913960400191505060405180910390fd5b600154600654604080516370a0823160e01b815230600482015290516000936109849390926001600160a01b03909116916370a0823191602480820192602092909190829003018186803b15801561094c57600080fd5b505afa158015610960573d6000803e3d6000fd5b505050506040513d602081101561097657600080fd5b50519063ffffffff61189316565b6006546040805163db006a7560e01b81526004810184905290519293506001600160a01b039091169163db006a759160248082019260009290919082900301818387803b1580156109d457600080fd5b505af19250505080156109e5575060015b610a1357610a0e89898989898987600660009054906101000a90046001600160a01b03166118d5565b610a38565b610a3889898989898987600460009054906101000a90046001600160a01b03166118d5565b505050505050505050565b3360009081526002602052604081205415610aa5576040805162461bcd60e51b815260206004820152601860248201527f506572736f6e20697320616c7265616479206120757365720000000000000000604482015290519081900360640190fd5b6003546004805460408051636eb1769f60e11b81523393810193909352306024840152516001600160a01b039091169163dd62ed3e916044808301926020929190829003018186803b158015610afa57600080fd5b505afa158015610b0e573d6000803e3d6000fd5b505050506040513d6020811015610b2457600080fd5b5051811115610b71576040805162461bcd60e51b8152602060048201526014602482015273616d6f756e74206e6f7420617661696c61626c6560601b604482015290519081900360640190fd5b60035460048054604080516370a0823160e01b815233938101939093525183926001600160a01b03909216916370a08231916024808301926020929190829003018186803b158015610bc257600080fd5b505afa158015610bd6573d6000803e3d6000fd5b505050506040513d6020811015610bec57600080fd5b50511015610c41576040805162461bcd60e51b815260206004820152601d60248201527f5573657220646f6573206e6f74206861766520656e6f75676820444149000000604482015290519081900360640190fd5b600d5460ff1615610c99576040805162461bcd60e51b815260206004820152601b60248201527f5374617465206f6620656d657267656e6379206465636c617265640000000000604482015290519081900360640190fd5b610ca4600354611b15565b60075460408051630375672b60e21b8152336024820181905260048201928352604482018890526000936001600160a01b031692630dd59cac928a928a9290918190606401858580828437600081840152601f19601f820116905080830192505050945050505050602060405180830381600087803b158015610d2657600080fd5b505af1158015610d3a573d6000803e3d6000fd5b505050506040513d6020811015610d5057600080fd5b50516040805160208082528101889052919250829133917fc07acef038b6eb78641fd29d4d916bc1178a913d8950f162fb46f38a4f3aa4b8918a918a919081908101848480828437600083820152604051601f909101601f19169092018290039550909350505050a395945050505050565b600c6020526000908152604090205481565b6000546001600160a01b03163314610600576040805162461bcd60e51b81526020600482015260096024820152682737ba1030b236b4b760b91b604482015290519081900360640190fd5b33600090815260026020526040902054610e74576040805162461bcd60e51b81526020600482015260116024820152705573657220686173206e6f207374616b6560781b604482015290519081900360640190fd5b336000908152600b602052604090205460ff1615610ed9576040805162461bcd60e51b815260206004820152601b60248201527f416c726561647920766f74656420666f7220656d657267656e63790000000000604482015290519081900360640190fd5b336000908152600c60205260409020544290610efe906283d60063ffffffff611e0316565b10610f3a5760405162461bcd60e51b81526004018080602001828103825260348152602001806120326034913960400191505060405180910390fd5b336000908152600b60209081526040808320805460ff191660011790556002909152902054600a54610f719163ffffffff611e0316565b600a553360008181526002602090815260409182902054825190815291517f67456ecf663e39ee91395a0f29a28e22bdccf5e2d3ca7760ebd48d04f46ea1909281900390910190a2565b6006546001600160a01b031681565b6007546001600160a01b031633146110135760405162461bcd60e51b81526004018080602001828103825260338152602001806121346033913960400191505060405180910390fd5b600355565b60026020526000908152604090205481565b6009546001600160a01b031681565b6000546001600160a01b03163314611084576040805162461bcd60e51b81526020600482015260096024820152682737ba1030b236b4b760b91b604482015290519081900360640190fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b336000908152600b602052604090205460ff1615611106576040805162461bcd60e51b8152602060048201526018602482015277155cd95c881a185cc8195b595c99d95b98de481d9bdd195960421b604482015290519081900360640190fd5b6004805460408051636eb1769f60e11b815233938101939093523060248401525183926001600160a01b039092169163dd62ed3e916044808301926020929190829003018186803b15801561115a57600080fd5b505afa15801561116e573d6000803e3d6000fd5b505050506040513d602081101561118457600080fd5b50518111156111d1576040805162461bcd60e51b8152602060048201526014602482015273616d6f756e74206e6f7420617661696c61626c6560601b604482015290519081900360640190fd5b60048054604080516370a0823160e01b8152339381019390935251849283926001600160a01b0316916370a0823191602480820192602092909190829003018186803b15801561122057600080fd5b505afa158015611234573d6000803e3d6000fd5b505050506040513d602081101561124a57600080fd5b5051101561129f576040805162461bcd60e51b815260206004820152601d60248201527f5573657220646f6573206e6f74206861766520656e6f75676820444149000000604482015290519081900360640190fd5b600d5460ff16156112f7576040805162461bcd60e51b815260206004820152601b60248201527f5374617465206f6620656d657267656e6379206465636c617265640000000000604482015290519081900360640190fd5b61130083611b15565b60075460408051631869ce7160e11b815233600482015290516001600160a01b03909216916330d39ce2916024808201926020929091908290030181600087803b15801561134d57600080fd5b505af1158015611361573d6000803e3d6000fd5b505050506040513d602081101561137757600080fd5b505060408051848152905133917fa2a2db73af12c9f5bef6303364d44e78f97e992c353cd8659f3474c471427e9b919081900360200190a2505050565b6005546001600160a01b031681565b60015481565b3360009081526002602052604090205461141e576040805162461bcd60e51b81526020600482015260116024820152705573657220686173206e6f207374616b6560781b604482015290519081900360640190fd5b600d5460ff16151560011461147a576040805162461bcd60e51b815260206004820152601f60248201527f5374617465206f6620656d657267656e6379206e6f74206465636c6172656400604482015290519081900360640190fd5b33600090815260026020526040902054611493906115fb565b60405133907fd0d41202ba4822463690c8ef7bf93fb1cbfa4e3a8ae767bb53473227f00ce0ce90600090a2565b6007546001600160a01b031681565b33600090815260026020526040902054611524576040805162461bcd60e51b81526020600482015260116024820152705573657220686173206e6f207374616b6560781b604482015290519081900360640190fd5b3360009081526002602052604090205461153c611e5d565b611545816115fb565b60075460408051634ad5938760e01b815233600482015290516001600160a01b0390921691634ad59387916024808201926020929091908290030181600087803b15801561159257600080fd5b505af11580156115a6573d6000803e3d6000fd5b505050506040513d60208110156115bc57600080fd5b505060405133907f42a6eeb93f2df0023ef2e3a05d2f2e1b9969c57a110d5fb06ac87d5fb63506d690600090a250565b6000546001600160a01b031681565b3360009081526002602052604090205461161b908263ffffffff61189316565b3360009081526002602052604090205560015461163e908263ffffffff61189316565b6001556006546040805163db006a7560e01b81526004810184905290516001600160a01b039092169163db006a759160248082019260009290919082900301818387803b15801561168e57600080fd5b505af192505050801561169f575060015b611752576040517f60b4341c755607a1fecc54f0127c8e9de93806f9c2f7a9ef3a4597acfb410c6a90600090a16006546040805163a9059cbb60e01b81523360048201526024810184905290516001600160a01b039092169163a9059cbb916044808201926020929091908290030181600087803b15801561172057600080fd5b505af1158015611734573d6000803e3d6000fd5b505050506040513d602081101561174a57600080fd5b506117d49050565b600480546040805163a9059cbb60e01b8152339381019390935260248301849052516001600160a01b039091169163a9059cbb9160448083019260209291908290030181600087803b1580156117a757600080fd5b505af11580156117bb573d6000803e3d6000fd5b505050506040513d60208110156117d157600080fd5b50505b50565b6000826117e657506000611833565b828202828482816117f357fe5b04146118305760405162461bcd60e51b81526004018080602001828103825260218152602001806120986021913960400191505060405180910390fd5b90505b92915050565b600d805460ff1916600190811790915554600a54604080514281526020810193909352828101919091525133917f0f3f54623fdcb616cdd26971c35bdd757d232ca2d70d5b0f645f39204ec0dab7919081900360600190a2565b600061183083836040518060400160405280601e81526020017f536166654d6174683a207375627472616374696f6e206f766572666c6f770000815250611ef8565b808260005b89811015611a3c57600061191b6103e861190f8c8c868181106118f957fe5b90506020020135896117d790919063ffffffff16565b9063ffffffff611f8f16565b9050836001600160a01b031663a9059cbb8d8d8581811061193857fe5b905060200201356001600160a01b0316836040518363ffffffff1660e01b815260040180836001600160a01b03166001600160a01b0316815260200182815260200192505050602060405180830381600087803b15801561199857600080fd5b505af11580156119ac573d6000803e3d6000fd5b505050506040513d60208110156119c257600080fd5b506119d59050838263ffffffff61189316565b92508b8b838181106119e357fe5b905060200201356001600160a01b03166001600160a01b03167f81e852b4713124f5060e437b574779106e20e358872de34706c20cc7f7d082f4826040518082815260200191505060405180910390a2506001016118da565b50816001600160a01b031663a9059cbb87836040518363ffffffff1660e01b815260040180836001600160a01b03166001600160a01b0316815260200182815260200192505050602060405180830381600087803b158015611a9d57600080fd5b505af1158015611ab1573d6000803e3d6000fd5b505050506040513d6020811015611ac757600080fd5b505060408051868152905182916001600160a01b038916917f3d5c4db1fa54df9a127fcef41d90b4c4b4713d0fcc274ca1061b6995ed0100249181900360200190a350505050505050505050565b600860009054906101000a90046001600160a01b03166001600160a01b0316630261bf8b6040518163ffffffff1660e01b815260040160206040518083038186803b158015611b6357600080fd5b505afa158015611b77573d6000803e3d6000fd5b505050506040513d6020811015611b8d57600080fd5b5051600580546001600160a01b0319166001600160a01b039283161790556008546040805163076b7fbb60e51b81529051919092169163ed6ff760916004808301926020929190829003018186803b158015611be857600080fd5b505afa158015611bfc573d6000803e3d6000fd5b505050506040513d6020811015611c1257600080fd5b5051600980546001600160a01b0319166001600160a01b0392831617905560048054604080516323b872dd60e01b8152339381019390935230602484015260448301859052519216916323b872dd916064808201926020929091908290030181600087803b158015611c8357600080fd5b505af1158015611c97573d6000803e3d6000fd5b505050506040513d6020811015611cad57600080fd5b5050600480546009546040805163095ea7b360e01b81526001600160a01b0392831694810194909452602484018590525191169163095ea7b39160448083019260209291908290030181600087803b158015611d0857600080fd5b505af1158015611d1c573d6000803e3d6000fd5b505050506040513d6020811015611d3257600080fd5b50506005546004805460408051636968703360e11b81526001600160a01b039283169381019390935260248301859052601e60448401525192169163d2d0e0669160648082019260009290919082900301818387803b158015611d9457600080fd5b505af1158015611da8573d6000803e3d6000fd5b5050336000908152600c602090815260408083204290556002909152902054611dda925090508263ffffffff611e0316565b33600090815260026020526040902055600154611dfd908263ffffffff611e0316565b60015550565b600082820183811015611830576040805162461bcd60e51b815260206004820152601b60248201527f536166654d6174683a206164646974696f6e206f766572666c6f770000000000604482015290519081900360640190fd5b336000908152600b602052604090205460ff1615156001141561060857336000908152600b60209081526040808320805460ff191690556002909152902054600a54611eae9163ffffffff61189316565b600a553360008181526002602090815260409182902054825190815291517f75c449b77058efd7ed4f75aeb787832819a662ad0e1bd629167dd550205122559281900390910190a2565b60008184841115611f875760405162461bcd60e51b81526004018080602001828103825283818151815260200191508051906020019080838360005b83811015611f4c578181015183820152602001611f34565b50505050905090810190601f168015611f795780820380516001836020036101000a031916815260200191505b509250505060405180910390fd5b505050900390565b600061183083836040518060400160405280601a81526020017f536166654d6174683a206469766973696f6e206279207a65726f0000000000008152506000818361201b5760405162461bcd60e51b8152602060048201818152835160248401528351909283926044909101919085019080838360008315611f4c578181015183820152602001611f34565b50600083858161202757fe5b049594505050505056fe4e65656420746f2068617665206a6f696e656420666f72203130306461797320746f20766f746520616e20656d657267656e63795573657220616c726561647920766f746564207468697320697465726174696f6e206f7220697320612070726f706f73616c536166654d6174683a206d756c7469706c69636174696f6e206f766572666c6f77353025206f6620746f74616c20706f6f6c206e6565647320746f206861766520766f74656420666f7220656d657267656e63792073746174653230302030303044414920726571756972656420696e20706f6f6c206265666f726520656d657267656e63792073746174652063616e206265206465636c6172656466756e6374696f6e2063616e206f6e6c792062652063616c6c6564206279206e6f204c6f73732044616f20636f6e7472616374a26469706673582212201f69527375087dc01a07789c2bbfaab9705abc6129ae2d6051af69051f92ba4b64736f6c634300060a0033",
   "immutableReferences": {},
   "sourceMap": "360:13875:2:-:0;;;5303:722;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;5303:722:2;;;;;;;;;;;;;;;;;;;5675:11;:32;;-1:-1:-1;;;;;5675:32:2;;;-1:-1:-1;;;;;;5675:32:2;;;;;;;5713:8;:68;;;;;;;;;;;;;;;5787:12;:33;;;;;;;;;;;;;;;5826:17;:48;;;;;;;;;;;;;;;;5675:11;5880:18;;;;;5888:10;5880:18;;;5904:14;:32;5996:16;:24;;-1:-1:-1;;5996:24:2;;;360:13875;;;;;;",
   "deployedSourceMap": "360:13875:2:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9818:186;;;:::i;:::-;;785:45;;;:::i;:::-;;;;-1:-1:-1;;;;;785:45:2;;;;;;;;;;;;;;918:34;;;:::i;:::-;;;;;;;;;;;;;;;;13094:98;;;:::i;1055:28::-;;;:::i;:::-;;;;;;;;;;;;;;;;;;529:29;;;:::i;641:25::-;;;:::i;956:46::-;;;;;;;;;;;;;;;;-1:-1:-1;956:46:2;-1:-1:-1;;;;;956:46:2;;:::i;8770:443::-;;;;;;;;;;;;;;;;-1:-1:-1;8770:443:2;;:::i;11647:726::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;11647:726:2;-1:-1:-1;;;;;;11647:726:2;;;;;;;;:::i;9317:458::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;9317:458:2;;-1:-1:-1;9317:458:2;-1:-1:-1;9317:458:2;:::i;1006:45::-;;;;;;;;;;;;;;;;-1:-1:-1;1006:45:2;-1:-1:-1;;;;;1006:45:2;;:::i;12871:90::-;;;:::i;13567:289::-;;;:::i;717:25::-;;;:::i;6173:111::-;;;;;;;;;;;;;;;;-1:-1:-1;6173:111:2;;:::i;477:47::-;;;;;;;;;;;;;;;;-1:-1:-1;477:47:2;-1:-1:-1;;;;;477:47:2;;:::i;834:38::-;;;:::i;6419:85::-;;;;;;;;;;;;;;;;-1:-1:-1;6419:85:2;-1:-1:-1;;;;;6419:85:2;;:::i;7862:353::-;;;;;;;;;;;;;;;;-1:-1:-1;7862:353:2;;:::i;670:43::-;;;:::i;441:32::-;;;:::i;13274:156::-;;;:::i;746:35::-;;;:::i;8362:318::-;;;:::i;417:20::-;;;:::i;9818:186::-;9889:10;9876:24;;;;:12;:24;;;;;;9861:40;;:14;:40::i;:::-;9907:17;;:52;;;-1:-1:-1;;;9907:52:2;;9948:10;9907:52;;;;;;-1:-1:-1;;;;;9907:17:2;;;;:40;;:52;;;;;;;;;;;;;;;:17;;:52;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;9970:29:2;;9988:10;;9970:29;;;;;9818:186::o;785:45::-;;;-1:-1:-1;;;;;785:45:2;;:::o;918:34::-;;;;:::o;13094:98::-;2341:19;;:26;;2365:1;2341:26;:23;:26;:::i;:::-;2321:17;;:46;2306:145;;;;-1:-1:-1;;;2306:145:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2492:24;2472:17;;:44;2457:174;;;;-1:-1:-1;;;2457:174:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;13161:26:::1;:24;:26::i;:::-;13094:98::o:0;1055:28::-;;;;;;:::o;529:29::-;;;;:::o;641:25::-;;;-1:-1:-1;;;;;641:25:2;;:::o;956:46::-;;;;;;;;;;;;;;;:::o;8770:443::-;4435:10;4420:26;;;;:14;:26;;;;;;;;4419:27;4411:64;;;;;-1:-1:-1;;;4411:64:2;;;;;;;;;;;;-1:-1:-1;;;4411:64:2;;;;;;;;;;;;;;;4719:10:::1;4706:24;::::0;;;:12:::1;:24;::::0;;;;;8963:6;;4697:33;::::1;4689:74;;;::::0;;-1:-1:-1;;;4689:74:2;;::::1;;::::0;::::1;::::0;::::1;::::0;;;;::::1;::::0;;;;;;;;;;;;;::::1;;4856:17:::2;::::0;:90:::2;::::0;;-1:-1:-1;;;4856:90:2;;4928:10:::2;4856:90;::::0;::::2;::::0;;;-1:-1:-1;;;;;4856:17:2;;::::2;::::0;:62:::2;::::0;:90;;;;;::::2;::::0;;;;;;;;;:17;:90;::::2;;::::0;::::2;;;;::::0;::::2;;;;;;;;;;;;::::0;::::2;;;;;;;;;;;;;;;;;;;::::0;::::2;;-1:-1:-1::0;4856:90:2;4841:171:::2;;;;-1:-1:-1::0;;;4841:171:2::2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9132:22:::3;9147:6;9132:14;:22::i;:::-;9165:43;::::0;;;;;;;9189:10:::3;::::0;9165:43:::3;::::0;;;;;::::3;::::0;;::::3;4481:1:::1;8770:443:::0;:::o;11647:726::-;11833:9;;5028:194;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;5028:194:2;;;;;;;;;;;;;;;;;;;;-1:-1:-1;11844:11:2;;-1:-1:-1;11844:11:2;;;;5028:194;;;11844:11;;5028:194;11844:11;5028:194;;;;;;;;;-1:-1:-1;;5165:18:2;;5145:16;;:38;;-1:-1:-1;5137:73:2;;-1:-1:-1;5137:73:2;;;;-1:-1:-1;;;5137:73:2;;;;;;;;;;;;-1:-1:-1;;;5137:73:2;;;;;;;;;;;;;;;3624:17:::1;::::0;-1:-1:-1;;;;;3624:17:2::1;3646:10;3616:40;3601:169;;;;-1:-1:-1::0;;;3601:169:2::1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;11965:17:::2;::::0;11916:12:::2;::::0;:37:::2;::::0;;-1:-1:-1;;;11916:37:2;;11947:4:::2;11916:37;::::0;::::2;::::0;;;11891:22:::2;::::0;11916:72:::2;::::0;11965:17;;-1:-1:-1;;;;;11916:12:2;;::::2;::::0;:22:::2;::::0;:37;;;;;::::2;::::0;;;;;;;;;:12;:37;::::2;;::::0;::::2;;;;::::0;::::2;;;;;;;;;;;;::::0;::::2;;;;;;;;;;;;;;;;;;;::::0;::::2;;-1:-1:-1::0;11916:37:2;;:72:::2;:41;:72;:::i;:::-;11998:12;::::0;:35:::2;::::0;;-1:-1:-1;;;11998:35:2;;::::2;::::0;::::2;::::0;;;;;11891:97;;-1:-1:-1;;;;;;11998:12:2;;::::2;::::0;:19:::2;::::0;:35;;;;;:12:::2;::::0;:35;;;;;;;;:12;;:35;::::2;;::::0;::::2;;;;::::0;::::2;;;;;;;;;;;;;;;;11994:375;;12213:149;12234:9;;12253:11;;12274:6;12290:9;12309:14;12341:12;;;;;;;;;-1:-1:-1::0;;;;;12341:12:2::2;12213:11;:149::i;:::-;11994:375;;;12043:148;12064:9;;12083:11;;12104:6;12120:9;12139:14;12171:11;;;;;;;;;-1:-1:-1::0;;;;;12171:11:2::2;12043;:148::i;:::-;3776:1;11647:726:::0;;;;;;;;:::o;9317:458::-;4210:10;9504:21;4197:24;;;:12;:24;;;;;;:29;4189:66;;;;;-1:-1:-1;;;4189:66:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;9427:14:::1;::::0;3861:11:::1;::::0;;:48:::1;::::0;;-1:-1:-1;;;3861:48:2;;3883:10:::1;3861:48:::0;;::::1;::::0;;;;3903:4:::1;3861:48:::0;;;;;-1:-1:-1;;;;;3861:11:2;;::::1;::::0;:21:::1;::::0;:48;;;;;::::1;::::0;;;;;;;;:11;:48;::::1;;::::0;::::1;;;;::::0;::::1;;;;;;;;;;;;::::0;::::1;;;;;;;;;;;;;;;;;;;::::0;::::1;;-1:-1:-1::0;3861:48:2;3851:58;::::1;;3836:148;;;::::0;;-1:-1:-1;;;3836:148:2;;::::1;;::::0;::::1;::::0;::::1;::::0;;;;-1:-1:-1;;;3836:148:2;;;;;;;;;;;;;::::1;;9459:14:::2;::::0;4058:11:::2;::::0;;:33:::2;::::0;;-1:-1:-1;;;4058:33:2;;4080:10:::2;4058:33:::0;;::::2;::::0;;;;;9459:14;;-1:-1:-1;;;;;4058:11:2;;::::2;::::0;:21:::2;::::0;:33;;;;;::::2;::::0;;;;;;;;:11;:33;::::2;;::::0;::::2;;;;::::0;::::2;;;;;;;;;;;;::::0;::::2;;;;;;;;;;;;;;;;;;;::::0;::::2;;-1:-1:-1::0;4058:33:2;:43:::2;;4043:103;;;::::0;;-1:-1:-1;;;4043:103:2;;::::2;;::::0;::::2;::::0;::::2;::::0;;;;::::2;::::0;;;;;;;;;;;;;::::2;;2809:16:::3;::::0;::::3;;:25;2801:65;;;::::0;;-1:-1:-1;;;2801:65:2;;::::3;;::::0;::::3;::::0;::::3;::::0;;;;::::3;::::0;;;;;;;;;;;;;::::3;;9535:29:::4;9549:14;;9535:13;:29::i;:::-;9591:17;::::0;:88:::4;::::0;;-1:-1:-1;;;9591:88:2;;9663:10:::4;9591:88:::0;;;;;;::::4;::::0;::::4;::::0;;;;;;;;;9570:18:::4;::::0;-1:-1:-1;;;;;9591:17:2::4;::::0;:38:::4;::::0;9637:18;;;;9663:10;;9591:88;;;;9637:18;;;;9591:88;::::4;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;::::0;::::4;;;;;;;;;;;;::::0;::::4;;;;;;;;;;;;;;;;;;;::::0;::::4;;-1:-1:-1::0;9591:88:2;9690:57:::4;::::0;;9591:88:::4;9690:57:::0;;;;::::4;::::0;;;9591:88;;-1:-1:-1;9591:88:2;;9704:10:::4;::::0;9690:57:::4;::::0;9728:18;;;;9690:57;;;;;9728:18;;;;9690:57;::::4;;::::0;;::::4;::::0;::::4;::::0;::::4;::::0;;::::4;-1:-1:-1::0;;9690:57:2::4;::::0;;::::4;::::0;;::::4;::::0;-1:-1:-1;9690:57:2;;-1:-1:-1;;;;9690:57:2::4;9760:10:::0;9317:458;-1:-1:-1;;;;;9317:458:2:o;1006:45::-;;;;;;;;;;;;;:::o;12871:90::-;3527:5;;-1:-1:-1;;;;;3527:5:2;3513:10;:19;3505:41;;;;;-1:-1:-1;;;3505:41:2;;;;;;;;;;;;-1:-1:-1;;;3505:41:2;;;;;;;;;;;;;;13567:289;4320:10;4334:1;4307:24;;;:12;:24;;;;;;4299:58;;;;;-1:-1:-1;;;4299:58:2;;;;;;;;;;;;-1:-1:-1;;;4299:58:2;;;;;;;;;;;;;;;2705:10:::1;2690:26;::::0;;;:14:::1;:26;::::0;;;;;::::1;;:35;2682:75;;;::::0;;-1:-1:-1;;;2682:75:2;;::::1;;::::0;::::1;::::0;::::1;::::0;;;;::::1;::::0;;;;;;;;;;;;;::::1;;3172:10:::2;3161:22;::::0;;;:10:::2;:22;::::0;;;;;3199:3:::2;::::0;3161:35:::2;::::0;3188:7:::2;3161:35;:26;:35;:::i;:::-;:41;3146:124;;;;-1:-1:-1::0;;;3146:124:2::2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;13694:10:::3;13679:26;::::0;;;:14:::3;:26;::::0;;;;;;;:33;;-1:-1:-1;;13679:33:2::3;13708:4;13679:33;::::0;;13764:12:::3;:24:::0;;;;;;13740:19:::3;::::0;:49:::3;::::0;::::3;:23;:49;:::i;:::-;13718:19;:71:::0;13814:10:::3;13826:24;::::0;;;:12:::3;:24;::::0;;;;;;;;;13800:51;;;;;;;::::3;::::0;;;;;;;;::::3;13567:289::o:0;717:25::-;;;-1:-1:-1;;;;;717:25:2;;:::o;6173:111::-;3624:17;;-1:-1:-1;;;;;3624:17:2;3646:10;3616:40;3601:169;;;;-1:-1:-1;;;3601:169:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6256:14:::1;:23:::0;6173:111::o;477:47::-;;;;;;;;;;;;;:::o;834:38::-;;;-1:-1:-1;;;;;834:38:2;;:::o;6419:85::-;3527:5;;-1:-1:-1;;;;;3527:5:2;3513:10;:19;3505:41;;;;;-1:-1:-1;;;3505:41:2;;;;;;;;;;;;-1:-1:-1;;;3505:41:2;;;;;;;;;;;;;;;6483:5:::1;:16:::0;;-1:-1:-1;;;;;;6483:16:2::1;-1:-1:-1::0;;;;;6483:16:2;;;::::1;::::0;;;::::1;::::0;;6419:85::o;7862:353::-;4435:10;4420:26;;;;:14;:26;;;;;;;;4419:27;4411:64;;;;;-1:-1:-1;;;4411:64:2;;;;;;;;;;;;-1:-1:-1;;;4411:64:2;;;;;;;;;;;;;;;3861:11:::1;::::0;;:48:::1;::::0;;-1:-1:-1;;;3861:48:2;;3883:10:::1;3861:48:::0;;::::1;::::0;;;;3903:4:::1;3861:48:::0;;;;;7956:6;;-1:-1:-1;;;;;3861:11:2;;::::1;::::0;:21:::1;::::0;:48;;;;;::::1;::::0;;;;;;;;:11;:48;::::1;;::::0;::::1;;;;::::0;::::1;;;;;;;;;;;;::::0;::::1;;;;;;;;;;;;;;;;;;;::::0;::::1;;-1:-1:-1::0;3861:48:2;3851:58;::::1;;3836:148;;;::::0;;-1:-1:-1;;;3836:148:2;;::::1;;::::0;::::1;::::0;::::1;::::0;;;;-1:-1:-1;;;3836:148:2;;;;;;;;;;;;;::::1;;4058:11:::2;::::0;;:33:::2;::::0;;-1:-1:-1;;;4058:33:2;;4080:10:::2;4058:33:::0;;::::2;::::0;;;;;7980:6;;;;-1:-1:-1;;;;;4058:11:2::2;::::0;:21:::2;::::0;:33;;;;;::::2;::::0;;;;;;;;;:11;:33;::::2;;::::0;::::2;;;;::::0;::::2;;;;;;;;;;;;::::0;::::2;;;;;;;;;;;;;;;;;;;::::0;::::2;;-1:-1:-1::0;4058:33:2;:43:::2;;4043:103;;;::::0;;-1:-1:-1;;;4043:103:2;;::::2;;::::0;::::2;::::0;::::2;::::0;;;;::::2;::::0;;;;;;;;;;;;;::::2;;2809:16:::3;::::0;::::3;;:25;2801:65;;;::::0;;-1:-1:-1;;;2801:65:2;;::::3;;::::0;::::3;::::0;::::3;::::0;;;;::::3;::::0;;;;;;;;;;;;;::::3;;8097:21:::4;8111:6;8097:13;:21::i;:::-;8124:17;::::0;:43:::4;::::0;;-1:-1:-1;;;8124:43:2;;8156:10:::4;8124:43;::::0;::::4;::::0;;;-1:-1:-1;;;;;8124:17:2;;::::4;::::0;:31:::4;::::0;:43;;;;;::::4;::::0;;;;;;;;;:17:::4;::::0;:43;::::4;;::::0;::::4;;;;::::0;::::4;;;;;;;;;;;;::::0;::::4;;;;;;;;;;;;;;;;;;;::::0;::::4;;-1:-1:-1::0;;8178:32:2::4;::::0;;;;;;;8191:10:::4;::::0;8178:32:::4;::::0;;;;;8124:43:::4;8178:32:::0;;::::4;3990:1:::2;4481::::1;7862:353:::0;:::o;670:43::-;;;-1:-1:-1;;;;;670:43:2;;:::o;441:32::-;;;;:::o;13274:156::-;4320:10;4334:1;4307:24;;;:12;:24;;;;;;4299:58;;;;;-1:-1:-1;;;4299:58:2;;;;;;;;;;;;-1:-1:-1;;;4299:58:2;;;;;;;;;;;;;;;2921:16:::1;::::0;::::1;;:24;;:16:::0;:24:::1;2913:68;;;::::0;;-1:-1:-1;;;2913:68:2;;::::1;;::::0;::::1;::::0;::::1;::::0;;;;::::1;::::0;;;;;;;;;;;;;::::1;;13372:10:::2;13359:24;::::0;;;:12:::2;:24;::::0;;;;;13344:40:::2;::::0;:14:::2;:40::i;:::-;13395:30;::::0;13414:10:::2;::::0;13395:30:::2;::::0;;;::::2;13274:156::o:0;746:35::-;;;-1:-1:-1;;;;;746:35:2;;:::o;8362:318::-;4320:10;4334:1;4307:24;;;:12;:24;;;;;;4299:58;;;;;-1:-1:-1;;;4299:58:2;;;;;;;;;;;;-1:-1:-1;;;4299:58:2;;;;;;;;;;;;;;;8434:10:::1;8404:14;8421:24:::0;;;:12:::1;:24;::::0;;;;;8536:22:::1;:20;:22::i;:::-;8564;8579:6;8564:14;:22::i;:::-;8592:17;::::0;:44:::1;::::0;;-1:-1:-1;;;8592:44:2;;8625:10:::1;8592:44;::::0;::::1;::::0;;;-1:-1:-1;;;;;8592:17:2;;::::1;::::0;:32:::1;::::0;:44;;;;;::::1;::::0;;;;;;;;;:17:::1;::::0;:44;::::1;;::::0;::::1;;;;::::0;::::1;;;;;;;;;;;;::::0;::::1;;;;;;;;;;;;;;;;;;;::::0;::::1;;-1:-1:-1::0;;8647:28:2::1;::::0;8664:10:::1;::::0;8647:28:::1;::::0;;;::::1;4363:1;8362:318::o:0;417:20::-;;;-1:-1:-1;;;;;417:20:2;;:::o;7369:366::-;7464:10;7451:24;;;;:12;:24;;;;;;:36;;7480:6;7451:36;:28;:36;:::i;:::-;7437:10;7424:24;;;;:12;:24;;;;;:63;7513:17;;:29;;7535:6;7513:29;:21;:29;:::i;:::-;7493:17;:49;7553:12;;:27;;;-1:-1:-1;;;7553:27:2;;;;;;;;;;-1:-1:-1;;;;;7553:12:2;;;;:19;;:27;;;;;:12;;:27;;;;;;;;:12;;:27;;;;;;;;;;;;;;;;;;;;;;;;;7549:182;;7657:18;;;;;;;7683:12;;:41;;;-1:-1:-1;;;7683:41:2;;7705:10;7683:41;;;;;;;;;;;;-1:-1:-1;;;;;7683:12:2;;;;:21;;:41;;;;;;;;;;;;;;;:12;;:41;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;7549:182:2;;-1:-1:-1;7549:182:2;;7590:11;;;:40;;;-1:-1:-1;;;7590:40:2;;7611:10;7590:40;;;;;;;;;;;;;;-1:-1:-1;;;;;7590:11:2;;;;:20;;:40;;;;;;;;;;;;;;:11;;:40;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;7549:182:2;7369:366;:::o;2119:459:14:-;2177:7;2418:6;2414:45;;-1:-1:-1;2447:1:14;2440:8;;2414:45;2481:5;;;2485:1;2481;:5;:1;2504:5;;;;;:10;2496:56;;;;-1:-1:-1;;;2496:56:14;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2570:1;-1:-1:-1;2119:459:14;;;;;:::o;12617:198:2:-;12668:16;:23;;-1:-1:-1;;12668:23:2;12687:4;12668:23;;;;;;12760:17;12785:19;;12702:108;;;12749:3;12702:108;;;;;;;;;;;;;;;;;12731:10;;12702:108;;;;;;;;;;12617:198::o;1274:134:14:-;1332:7;1358:43;1362:1;1365;1358:43;;;;;;;;;;;;;;;;;:3;:43::i;10537:791:2:-;10785:13;10829:26;10757:18;10861:358;10881:20;;;10861:358;;;10916:20;10939:72;10999:4;10939:46;10970:11;;10982:1;10970:14;;;;;;;;;;;;;10939:26;:30;;:46;;;;:::i;:::-;:50;:72;:50;:72;:::i;:::-;10916:95;;11019:11;-1:-1:-1;;;;;11019:20:2;;11040:9;;11050:1;11040:12;;;;;;;;;;;;;-1:-1:-1;;;;;11040:12:2;11054;11019:48;;;;;;;;;;;;;-1:-1:-1;;;;;11019:48:2;-1:-1:-1;;;;;11019:48:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;11090:30:2;;-1:-1:-1;11090:12:2;11107;11090:30;:16;:30;:::i;:::-;11075:45;;11185:9;;11195:1;11185:12;;;;;;;;;;;;;-1:-1:-1;;;;;11185:12:2;-1:-1:-1;;;;;11172:40:2;;11199:12;11172:40;;;;;;;;;;;;;;;;;;-1:-1:-1;10903:3:2;;10861:358;;;;11225:11;-1:-1:-1;;;;;11225:20:2;;11246:6;11254:12;11225:42;;;;;;;;;;;;;-1:-1:-1;;;;;11225:42:2;-1:-1:-1;;;;;11225:42:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;11278:45:2;;;;;;;;11299:12;;-1:-1:-1;;;;;11278:45:2;;;;;;;;11225:42;11278:45;;;10537:791;;;;;;;;;;:::o;6655:535::-;6748:8;;;;;;;;;-1:-1:-1;;;;;6748:8:2;-1:-1:-1;;;;;6748:23:2;;:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;6748:25:2;6709:19;:65;;-1:-1:-1;;;;;;6709:65:2;-1:-1:-1;;;;;6709:65:2;;;;;;6806:8;;:29;;;-1:-1:-1;;;6806:29:2;;;;:8;;;;;:27;;:29;;;;;6748:25;;6806:29;;;;;;;:8;:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;6806:29:2;6780:23;:55;;-1:-1:-1;;;;;;6780:55:2;-1:-1:-1;;;;;6780:55:2;;;;;;6842:11;;;:59;;;-1:-1:-1;;;6842:59:2;;6867:10;6842:59;;;;;;;6887:4;6842:59;;;;;;;;;;;:11;;;:24;;:59;;;;;6806:29;;6842:59;;;;;;;;-1:-1:-1;6842:11:2;:59;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;6907:11:2;;;6927:23;;6907:52;;;-1:-1:-1;;;6907:52:2;;-1:-1:-1;;;;;6927:23:2;;;6907:52;;;;;;;;;;;;;;:11;;;:19;;:52;;;;;6842:59;;6907:52;;;;;;;:11;;:52;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;6965:19:2;;7001:11;;;6965:61;;;-1:-1:-1;;;6965:61:2;;-1:-1:-1;;;;;7001:11:2;;;6965:61;;;;;;;;;;;;;7023:2;6965:61;;;;;:19;;;:27;;:61;;;;;:19;;:61;;;;;;;;:19;;:61;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;7044:10:2;7033:22;;;;:10;:22;;;;;;;;7058:3;7033:28;;7094:12;:24;;;;;;:36;;-1:-1:-1;7094:24:2;-1:-1:-1;7123:6:2;7094:36;:28;:36;:::i;:::-;7080:10;7067:24;;;;:12;:24;;;;;:63;7156:17;;:29;;7178:6;7156:29;:21;:29;:::i;:::-;7136:17;:49;-1:-1:-1;6655:535:2:o;834:176:14:-;892:7;923:5;;;946:6;;;;938:46;;;;;-1:-1:-1;;;938:46:14;;;;;;;;;;;;;;;;;;;;;;;;;;;13944:289:2;14010:10;13995:26;;;;:14;:26;;;;;;;;:34;;:26;:34;13991:238;;;14054:10;14068:5;14039:26;;;:14;:26;;;;;;;;:34;;-1:-1:-1;;14039:34:2;;;14127:12;:24;;;;;;14103:19;;:49;;;:23;:49;:::i;:::-;14081:19;:71;14185:10;14197:24;;;;:12;:24;;;;;;;;;;14165:57;;;;;;;;;;;;;;;;;13944:289::o;1692:187:14:-;1778:7;1813:12;1805:6;;;;1797:29;;;;-1:-1:-1;;;1797:29:14;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;1848:5:14;;;1692:187::o;3033:130::-;3091:7;3117:39;3121:1;3124;3117:39;;;;;;;;;;;;;;;;;3724:7;3824:12;3817:5;3809:28;;;;-1:-1:-1;;;3809:28:14;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3847:9;3863:1;3859;:5;;;;;;;3638:338;-1:-1:-1;;;;;3638:338:14:o",
-  "source": "pragma solidity 0.6.10;\n\nimport './interfaces/IAaveLendingPool.sol';\nimport './interfaces/IADai.sol';\nimport './interfaces/INoLossDao.sol';\nimport './interfaces/ILendingPoolAddressesProvider.sol';\nimport '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';\n\n// import '@nomiclabs/buidler/console.sol';\n\n/** @title Pooled Deposits Contract*/\ncontract PoolDeposits {\n  using SafeMath for uint256;\n\n  address public admin;\n  uint256 public totalDepositedDai;\n  mapping(address => uint256) public depositedDai;\n\n  uint256 public proposalAmount; // Stake required to submit a proposal\n\n  ///////// DEFI Contrcats ///////////\n  IERC20 public daiContract;\n  IAaveLendingPool public aaveLendingContract;\n  IADai public adaiContract;\n  INoLossDao public noLossDaoContract;\n  ILendingPoolAddressesProvider public provider;\n  address public aaveLendingContractCore;\n\n  //////// EMERGENCY MODULE ONLY ///////\n  uint256 public emergencyVoteAmount;\n  mapping(address => bool) public emergencyVoted;\n  mapping(address => uint256) public timeJoined;\n  bool public isEmergencyState;\n\n  ///////// Events ///////////\n  event DepositAdded(address indexed user, uint256 amount);\n  event ProposalAdded(\n    address indexed benefactor,\n    uint256 indexed proposalId,\n    string proposalIdentifier\n  );\n  event DepositWithdrawn(address indexed user);\n  event PartialDepositWithdrawn(address indexed user, uint256 amount);\n  event ProposalWithdrawn(address indexed benefactor);\n  event InterestSent(address indexed user, uint256 amount);\n  event WinnerPayout(\n    address indexed user,\n    uint256 indexed iteration,\n    uint256 amount\n  );\n\n  ///////// Emergency Events ///////////\n  event EmergencyStateReached(\n    address indexed user,\n    uint256 timeStamp,\n    uint256 totalDaiInContract,\n    uint256 totalEmergencyVotes\n  );\n  event EmergencyVote(address indexed user, uint256 emergencyVoteAmount);\n  event RemoveEmergencyVote(address indexed user, uint256 emergencyVoteAmount);\n  event ADaiRedeemFailed();\n  event EmergencyWithdrawl(address indexed user);\n\n  ///////////////////////////////////////////////////////////////////\n  //////// EMERGENCY MODIFIERS //////////////////////////////////////\n  ///////////////////////////////////////////////////////////////////\n  modifier emergencyEnacted() {\n    require(\n      totalDepositedDai < emergencyVoteAmount.mul(2), //safe 50%\n      '50% of total pool needs to have voted for emergency state'\n    );\n    require(\n      totalDepositedDai > 200000000000000000000000, //200 000 DAI needed in contract\n      '200 000DAI required in pool before emergency state can be declared'\n    );\n    _;\n  }\n  modifier noEmergencyVoteYet() {\n    require(emergencyVoted[msg.sender] == false, 'Already voted for emergency');\n    _;\n  }\n  modifier stableState() {\n    require(isEmergencyState == false, 'State of emergency declared');\n    _;\n  }\n  modifier emergencyState() {\n    require(isEmergencyState == true, 'State of emergency not declared');\n    _;\n  }\n  // Required to be part of the pool for 100 days. Make it costly to borrow and put into state of emergency.\n  modifier eligibleToEmergencyVote() {\n    require(\n      timeJoined[msg.sender].add(8640000) < now,\n      'Need to have joined for 100days to vote an emergency'\n    );\n    _;\n  }\n  ////////////////////////////////////////////////////////////////////////\n\n  ////////////////////////////////////\n  //////// Modifiers /////////////////\n  ////////////////////////////////////\n  modifier onlyAdmin() {\n    require(msg.sender == admin, 'Not admin');\n    _;\n  }\n\n  modifier noLossDaoContractOnly() {\n    require(\n      address(noLossDaoContract) == msg.sender, // Is this a valid way of getting the address?\n      'function can only be called by no Loss Dao contract'\n    );\n    _;\n  }\n\n  modifier allowanceAvailable(uint256 amount) {\n    require(\n      amount <= daiContract.allowance(msg.sender, address(this)), // checking the pool deposits contract\n      'amount not available'\n    );\n    _;\n  }\n\n  modifier requiredDai(uint256 amount) {\n    require(\n      daiContract.balanceOf(msg.sender) >= amount,\n      'User does not have enough DAI'\n    );\n    _;\n  }\n\n  modifier blankUser() {\n    require(depositedDai[msg.sender] == 0, 'Person is already a user');\n    _;\n  }\n\n  modifier userStaked() {\n    require(depositedDai[msg.sender] > 0, 'User has no stake');\n    _;\n  }\n\n  modifier hasNotEmergencyVoted() {\n    require(!emergencyVoted[msg.sender], 'User has emergency voted');\n    _;\n  }\n\n  modifier validAmountToWithdraw(uint256 amount) {\n    // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.\n    require(amount < depositedDai[msg.sender], 'Cannot withdraw full balance');\n    _;\n  }\n\n  modifier userHasNotVotedThisIterationAndIsNotProposal() {\n    require(\n      noLossDaoContract.userHasNotVotedThisIterationAndIsNotProposal(\n        msg.sender\n      ),\n      'User already voted this iteration or is a proposal'\n    );\n    _;\n  }\n\n  modifier validInterestSplitInput(\n    address[] memory addresses,\n    uint256[] memory percentages\n  ) {\n    require(addresses.length == percentages.length, 'Input length not equal');\n    _;\n  }\n\n  /***************\n    Contract set-up: Not Upgradaable\n    ***************/\n  constructor(\n    address daiAddress,\n    address aDaiAddress,\n    // lendingPoolAddressProvider should be one of below depending on deployment\n    // kovan 0x506B0B2CF20FAA8f38a4E2B524EE43e1f4458Cc5\n    // mainnet 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8\n    address lendingPoolAddressProvider,\n    address noLossDaoAddress,\n    uint256 _proposalAmount\n  ) public {\n    daiContract = IERC20(daiAddress);\n    provider = ILendingPoolAddressesProvider(lendingPoolAddressProvider);\n    adaiContract = IADai(aDaiAddress);\n    noLossDaoContract = INoLossDao(noLossDaoAddress);\n    admin = msg.sender;\n    proposalAmount = _proposalAmount; // if we want this configurable put in other contract\n    isEmergencyState = false;\n  }\n\n  /// @dev allows the proposalAmount (amount proposal has to stake to enter the pool) to be configurable\n  /// @param amount new proposalAmount\n  function changeProposalAmount(uint256 amount) external noLossDaoContractOnly {\n    proposalAmount = amount;\n  }\n\n  /// @dev allows the admin to be chanded. Note admin can only declare an emergency\n  /// @param newAdmin address of the new admin\n  function changeAdmin(address newAdmin) external onlyAdmin {\n    admin = newAdmin;\n  }\n\n  /// @dev Internal function completing the actual deposit to Aave and crediting users account\n  /// @param amount amount being deosited into pool\n  function _depositFunds(uint256 amount) internal {\n    aaveLendingContract = IAaveLendingPool(provider.getLendingPool());\n    aaveLendingContractCore = provider.getLendingPoolCore();\n\n    daiContract.transferFrom(msg.sender, address(this), amount);\n    daiContract.approve(aaveLendingContractCore, amount);\n    aaveLendingContract.deposit(address(daiContract), amount, 30);\n\n    timeJoined[msg.sender] = now;\n    depositedDai[msg.sender] = depositedDai[msg.sender].add(amount);\n    totalDepositedDai = totalDepositedDai.add(amount);\n  }\n\n  /// @dev Internal function completing the actual redemption from Aave and sendinding funds back to user\n  /// @param amount the user wants to withdraw from the DAOcare pool\n  function _withdrawFunds(uint256 amount) internal {\n    depositedDai[msg.sender] = depositedDai[msg.sender].sub(amount);\n    totalDepositedDai = totalDepositedDai.sub(amount);\n\n    try adaiContract.redeem(amount)  {\n      daiContract.transfer(msg.sender, amount);\n    } catch {\n      emit ADaiRedeemFailed();\n      adaiContract.transfer(msg.sender, amount);\n    }\n  }\n\n  /// @dev Lets a user join DAOcare through depositing\n  /// @param amount the user wants to deposit into the DAOcare pool\n  function deposit(uint256 amount)\n    external\n    hasNotEmergencyVoted\n    allowanceAvailable(amount)\n    requiredDai(amount)\n    stableState\n  {\n    // NOTE: if the user adds a deposit they won't be able to vote in that iteration\n    _depositFunds(amount);\n    noLossDaoContract.noLossDeposit(msg.sender);\n    emit DepositAdded(msg.sender, amount);\n  }\n\n  /// @dev Lets a user withdraw their original amount sent to DAOcare\n  /// Calls the NoLossDao conrrtact to determine eligibility to withdraw\n  function exit() external userStaked {\n    uint256 amount = depositedDai[msg.sender];\n    // NOTE: it is critical that _removeEmergancyVote happens before _withdrawFunds.\n    _removeEmergencyVote();\n    _withdrawFunds(amount);\n    noLossDaoContract.noLossWithdraw(msg.sender);\n    emit DepositWithdrawn(msg.sender);\n  }\n\n  /// @dev Lets a user withdraw some of their amount\n  /// Checks they have not voted\n  function withdrawDeposit(uint256 amount)\n    external\n    // If this user has voted to call an emergancy, they cannot do a partial withdrawal\n    hasNotEmergencyVoted\n    validAmountToWithdraw(amount) // not trying to withdraw full amount (eg. amount is less than the total)\n    userHasNotVotedThisIterationAndIsNotProposal // checks they have not voted\n  {\n    _withdrawFunds(amount);\n    emit PartialDepositWithdrawn(msg.sender, amount);\n  }\n\n  /// @dev Lets user create proposal\n  /// @param proposalIdentifier hash of the users new proposal\n  function createProposal(string calldata proposalIdentifier)\n    external\n    blankUser\n    allowanceAvailable(proposalAmount)\n    requiredDai(proposalAmount)\n    stableState\n    returns (uint256 newProposalId)\n  {\n    _depositFunds(proposalAmount);\n    uint256 proposalId = noLossDaoContract.noLossCreateProposal(\n      proposalIdentifier,\n      msg.sender\n    );\n    emit ProposalAdded(msg.sender, proposalId, proposalIdentifier);\n    return proposalId;\n  }\n\n  /// @dev Lets user withdraw proposal\n  function withdrawProposal() external {\n    _withdrawFunds(depositedDai[msg.sender]);\n    noLossDaoContract.noLossWithdrawProposal(msg.sender);\n    emit ProposalWithdrawn(msg.sender);\n  }\n\n  /// @dev Internal function splitting and sending the accrued interest between winners.\n  /// @param receivers An array of the addresses to split between\n  /// @param percentages the respective percentage to split\n  /// @param winner The person who will recieve this distribution\n  /// @param iteration the iteration of the dao\n  /// @param totalInterestFromIteration Total interest that should be split to relevant parties\n  /// @param tokenContract will be aDai or Dai (depending on try catch in distributeInterst - `redeem`)\n  function _distribute(\n    address[] calldata receivers,\n    uint256[] calldata percentages,\n    address winner,\n    uint256 iteration,\n    uint256 totalInterestFromIteration,\n    address tokenContract\n  ) internal {\n    IERC20 payoutToken = IERC20(tokenContract);\n\n    uint256 winnerPayout = totalInterestFromIteration;\n    for (uint256 i = 0; i < receivers.length; i++) {\n      uint256 amountToSend = totalInterestFromIteration.mul(percentages[i]).div(\n        1000\n      );\n      payoutToken.transfer(receivers[i], amountToSend);\n      winnerPayout = winnerPayout.sub(amountToSend); //SafeMath prevents this going below 0\n      emit InterestSent(receivers[i], amountToSend);\n    }\n\n    payoutToken.transfer(winner, winnerPayout);\n    emit WinnerPayout(winner, winnerPayout, iteration);\n  }\n\n  /// @dev Tries to redeem aDai and send acrrued interest to winners. Falls back to Dai.\n  /// @param receivers An array of the addresses to split between\n  /// @param percentages the respective percentage to split\n  /// @param winner address of the winning proposal\n  /// @param iteration the iteration of the dao\n  function distributeInterest(\n    address[] calldata receivers,\n    uint256[] calldata percentages,\n    address winner,\n    uint256 iteration\n  )\n    external\n    validInterestSplitInput(receivers, percentages)\n    noLossDaoContractOnly\n  {\n    uint256 amountToRedeem = adaiContract.balanceOf(address(this)).sub(\n      totalDepositedDai\n    );\n    try adaiContract.redeem(amountToRedeem)  {\n      _distribute(\n        receivers,\n        percentages,\n        winner,\n        iteration,\n        amountToRedeem,\n        address(daiContract)\n      );\n    } catch {\n      _distribute(\n        receivers,\n        percentages,\n        winner,\n        iteration,\n        amountToRedeem,\n        address(adaiContract)\n      );\n    }\n  }\n\n  //////////////////////////////////////////////////\n  //////// EMERGENCY MODULE FUNCTIONS  //////////////\n  ///////////////////////////////////////////////////\n\n  /// @dev Internal function setting the emergency state of contract to true.\n  function _declareStateOfEmergency() internal {\n    isEmergencyState = true;\n    emit EmergencyStateReached(\n      msg.sender,\n      now,\n      totalDepositedDai,\n      emergencyVoteAmount\n    );\n  }\n\n  /// @dev Allows admin to activate emergency state\n  function adminActivateEmergency() external onlyAdmin {\n    _declareStateOfEmergency();\n  }\n\n  /// @dev Declares a state of emergency and enables emergency withdrawls that are not dependant on any external smart contracts\n  function declareStateOfEmergency() external emergencyEnacted {\n    _declareStateOfEmergency();\n  }\n\n  /// @dev Immediately lets yoou withdraw your funds in an state of emergency\n  function emergencyWithdraw() external userStaked emergencyState {\n    _withdrawFunds(depositedDai[msg.sender]);\n    emit EmergencyWithdrawl(msg.sender);\n  }\n\n  /// @dev lets users vote that the a state of emergency should be decalred\n  /// Requires time lock here to defeat flash loan punks\n  function voteEmergency()\n    external\n    userStaked\n    noEmergencyVoteYet\n    eligibleToEmergencyVote\n  {\n    emergencyVoted[msg.sender] = true;\n    emergencyVoteAmount = emergencyVoteAmount.add(depositedDai[msg.sender]);\n    emit EmergencyVote(msg.sender, depositedDai[msg.sender]);\n  }\n\n  /// @dev Internal function removing a users emergency vote if they leave the pool\n  function _removeEmergencyVote() internal {\n    if (emergencyVoted[msg.sender] == true) {\n      emergencyVoted[msg.sender] = false;\n      emergencyVoteAmount = emergencyVoteAmount.sub(depositedDai[msg.sender]);\n      emit RemoveEmergencyVote(msg.sender, depositedDai[msg.sender]);\n    }\n  }\n}\n",
+  "source": "pragma solidity 0.6.10;\n\nimport './interfaces/IAaveLendingPool.sol';\nimport './interfaces/IADai.sol';\nimport './interfaces/INoLossDao.sol';\nimport './interfaces/ILendingPoolAddressesProvider.sol';\nimport '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';\n\n// import '@nomiclabs/buidler/console.sol';\n\n/** @title Pooled Deposits Contract*/\ncontract PoolDeposits {\n  using SafeMath for uint256;\n\n  address public admin;\n  uint256 public totalDepositedDai;\n  mapping(address => uint256) public depositedDai;\n\n  uint256 public proposalAmount; // Stake required to submit a proposal\n\n  ///////// DEFI Contrcats ///////////\n  IERC20 public daiContract;\n  IAaveLendingPool public aaveLendingContract;\n  IADai public adaiContract;\n  INoLossDao public noLossDaoContract;\n  ILendingPoolAddressesProvider public provider;\n  address public aaveLendingContractCore;\n\n  //////// EMERGENCY MODULE ONLY ///////\n  uint256 public emergencyVoteAmount;\n  mapping(address => bool) public emergencyVoted;\n  mapping(address => uint256) public timeJoined;\n  bool public isEmergencyState;\n\n  ///////// Events ///////////\n  event DepositAdded(address indexed user, uint256 amount);\n  event ProposalAdded(\n    address indexed benefactor,\n    uint256 indexed proposalId,\n    string proposalIdentifier\n  );\n  event DepositWithdrawn(address indexed user);\n  event PartialDepositWithdrawn(address indexed user, uint256 amount);\n  event ProposalWithdrawn(address indexed benefactor);\n  event InterestSent(address indexed user, uint256 amount);\n  event WinnerPayout(\n    address indexed user,\n    // NOTE: the intention was to have the iteration be indexed, not the amount. Doubt it will be an issue since we are relying on the graph.\n    uint256 indexed amount,\n    uint256 iteration\n  );\n\n  ///////// Emergency Events ///////////\n  event EmergencyStateReached(\n    address indexed user,\n    uint256 timeStamp,\n    uint256 totalDaiInContract,\n    uint256 totalEmergencyVotes\n  );\n  event EmergencyVote(address indexed user, uint256 emergencyVoteAmount);\n  event RemoveEmergencyVote(address indexed user, uint256 emergencyVoteAmount);\n  event ADaiRedeemFailed();\n  event EmergencyWithdrawl(address indexed user);\n\n  ///////////////////////////////////////////////////////////////////\n  //////// EMERGENCY MODIFIERS //////////////////////////////////////\n  ///////////////////////////////////////////////////////////////////\n  modifier emergencyEnacted() {\n    require(\n      totalDepositedDai < emergencyVoteAmount.mul(2), //safe 50%\n      '50% of total pool needs to have voted for emergency state'\n    );\n    require(\n      totalDepositedDai > 200000000000000000000000, //200 000 DAI needed in contract\n      '200 000DAI required in pool before emergency state can be declared'\n    );\n    _;\n  }\n  modifier noEmergencyVoteYet() {\n    require(emergencyVoted[msg.sender] == false, 'Already voted for emergency');\n    _;\n  }\n  modifier stableState() {\n    require(isEmergencyState == false, 'State of emergency declared');\n    _;\n  }\n  modifier emergencyState() {\n    require(isEmergencyState == true, 'State of emergency not declared');\n    _;\n  }\n  // Required to be part of the pool for 100 days. Make it costly to borrow and put into state of emergency.\n  modifier eligibleToEmergencyVote() {\n    require(\n      timeJoined[msg.sender].add(8640000) < now,\n      'Need to have joined for 100days to vote an emergency'\n    );\n    _;\n  }\n  ////////////////////////////////////////////////////////////////////////\n\n  ////////////////////////////////////\n  //////// Modifiers /////////////////\n  ////////////////////////////////////\n  modifier onlyAdmin() {\n    require(msg.sender == admin, 'Not admin');\n    _;\n  }\n\n  modifier noLossDaoContractOnly() {\n    require(\n      address(noLossDaoContract) == msg.sender, // Is this a valid way of getting the address?\n      'function can only be called by no Loss Dao contract'\n    );\n    _;\n  }\n\n  modifier allowanceAvailable(uint256 amount) {\n    require(\n      amount <= daiContract.allowance(msg.sender, address(this)), // checking the pool deposits contract\n      'amount not available'\n    );\n    _;\n  }\n\n  modifier requiredDai(uint256 amount) {\n    require(\n      daiContract.balanceOf(msg.sender) >= amount,\n      'User does not have enough DAI'\n    );\n    _;\n  }\n\n  modifier blankUser() {\n    require(depositedDai[msg.sender] == 0, 'Person is already a user');\n    _;\n  }\n\n  modifier userStaked() {\n    require(depositedDai[msg.sender] > 0, 'User has no stake');\n    _;\n  }\n\n  modifier hasNotEmergencyVoted() {\n    require(!emergencyVoted[msg.sender], 'User has emergency voted');\n    _;\n  }\n\n  modifier validAmountToWithdraw(uint256 amount) {\n    // NOTE: if you want to withdraw 100% of your balance use the `exit` function. The `exit` function does the correct update in the noLossDao.\n    require(amount < depositedDai[msg.sender], 'Cannot withdraw full balance');\n    _;\n  }\n\n  modifier userHasNotVotedThisIterationAndIsNotProposal() {\n    require(\n      noLossDaoContract.userHasNotVotedThisIterationAndIsNotProposal(\n        msg.sender\n      ),\n      'User already voted this iteration or is a proposal'\n    );\n    _;\n  }\n\n  modifier validInterestSplitInput(\n    address[] memory addresses,\n    uint256[] memory percentages\n  ) {\n    require(addresses.length == percentages.length, 'Input length not equal');\n    _;\n  }\n\n  /***************\n    Contract set-up: Not Upgradaable\n    ***************/\n  constructor(\n    address daiAddress,\n    address aDaiAddress,\n    // lendingPoolAddressProvider should be one of below depending on deployment\n    // kovan 0x506B0B2CF20FAA8f38a4E2B524EE43e1f4458Cc5\n    // mainnet 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8\n    address lendingPoolAddressProvider,\n    address noLossDaoAddress,\n    uint256 _proposalAmount\n  ) public {\n    daiContract = IERC20(daiAddress);\n    provider = ILendingPoolAddressesProvider(lendingPoolAddressProvider);\n    adaiContract = IADai(aDaiAddress);\n    noLossDaoContract = INoLossDao(noLossDaoAddress);\n    admin = msg.sender;\n    proposalAmount = _proposalAmount; // if we want this configurable put in other contract\n    isEmergencyState = false;\n  }\n\n  /// @dev allows the proposalAmount (amount proposal has to stake to enter the pool) to be configurable\n  /// @param amount new proposalAmount\n  function changeProposalAmount(uint256 amount) external noLossDaoContractOnly {\n    proposalAmount = amount;\n  }\n\n  /// @dev allows the admin to be chanded. Note admin can only declare an emergency\n  /// @param newAdmin address of the new admin\n  function changeAdmin(address newAdmin) external onlyAdmin {\n    admin = newAdmin;\n  }\n\n  /// @dev Internal function completing the actual deposit to Aave and crediting users account\n  /// @param amount amount being deosited into pool\n  function _depositFunds(uint256 amount) internal {\n    aaveLendingContract = IAaveLendingPool(provider.getLendingPool());\n    aaveLendingContractCore = provider.getLendingPoolCore();\n\n    daiContract.transferFrom(msg.sender, address(this), amount);\n    daiContract.approve(aaveLendingContractCore, amount);\n    aaveLendingContract.deposit(address(daiContract), amount, 30);\n\n    timeJoined[msg.sender] = now;\n    depositedDai[msg.sender] = depositedDai[msg.sender].add(amount);\n    totalDepositedDai = totalDepositedDai.add(amount);\n  }\n\n  /// @dev Internal function completing the actual redemption from Aave and sendinding funds back to user\n  /// @param amount the user wants to withdraw from the DAOcare pool\n  function _withdrawFunds(uint256 amount) internal {\n    depositedDai[msg.sender] = depositedDai[msg.sender].sub(amount);\n    totalDepositedDai = totalDepositedDai.sub(amount);\n\n    try adaiContract.redeem(amount)  {\n      daiContract.transfer(msg.sender, amount);\n    } catch {\n      emit ADaiRedeemFailed();\n      adaiContract.transfer(msg.sender, amount);\n    }\n  }\n\n  /// @dev Lets a user join DAOcare through depositing\n  /// @param amount the user wants to deposit into the DAOcare pool\n  function deposit(uint256 amount)\n    external\n    hasNotEmergencyVoted\n    allowanceAvailable(amount)\n    requiredDai(amount)\n    stableState\n  {\n    // NOTE: if the user adds a deposit they won't be able to vote in that iteration\n    _depositFunds(amount);\n    noLossDaoContract.noLossDeposit(msg.sender);\n    emit DepositAdded(msg.sender, amount);\n  }\n\n  /// @dev Lets a user withdraw their original amount sent to DAOcare\n  /// Calls the NoLossDao conrrtact to determine eligibility to withdraw\n  function exit() external userStaked {\n    uint256 amount = depositedDai[msg.sender];\n    // NOTE: it is critical that _removeEmergancyVote happens before _withdrawFunds.\n    _removeEmergencyVote();\n    _withdrawFunds(amount);\n    noLossDaoContract.noLossWithdraw(msg.sender);\n    emit DepositWithdrawn(msg.sender);\n  }\n\n  /// @dev Lets a user withdraw some of their amount\n  /// Checks they have not voted\n  function withdrawDeposit(uint256 amount)\n    external\n    // If this user has voted to call an emergancy, they cannot do a partial withdrawal\n    hasNotEmergencyVoted\n    validAmountToWithdraw(amount) // not trying to withdraw full amount (eg. amount is less than the total)\n    userHasNotVotedThisIterationAndIsNotProposal // checks they have not voted\n  {\n    _withdrawFunds(amount);\n    emit PartialDepositWithdrawn(msg.sender, amount);\n  }\n\n  /// @dev Lets user create proposal\n  /// @param proposalIdentifier hash of the users new proposal\n  function createProposal(string calldata proposalIdentifier)\n    external\n    blankUser\n    allowanceAvailable(proposalAmount)\n    requiredDai(proposalAmount)\n    stableState\n    returns (uint256 newProposalId)\n  {\n    _depositFunds(proposalAmount);\n    uint256 proposalId = noLossDaoContract.noLossCreateProposal(\n      proposalIdentifier,\n      msg.sender\n    );\n    emit ProposalAdded(msg.sender, proposalId, proposalIdentifier);\n    return proposalId;\n  }\n\n  /// @dev Lets user withdraw proposal\n  function withdrawProposal() external {\n    _withdrawFunds(depositedDai[msg.sender]);\n    noLossDaoContract.noLossWithdrawProposal(msg.sender);\n    emit ProposalWithdrawn(msg.sender);\n  }\n\n  /// @dev Internal function splitting and sending the accrued interest between winners.\n  /// @param receivers An array of the addresses to split between\n  /// @param percentages the respective percentage to split\n  /// @param winner The person who will recieve this distribution\n  /// @param iteration the iteration of the dao\n  /// @param totalInterestFromIteration Total interest that should be split to relevant parties\n  /// @param tokenContract will be aDai or Dai (depending on try catch in distributeInterst - `redeem`)\n  function _distribute(\n    address[] calldata receivers,\n    uint256[] calldata percentages,\n    address winner,\n    uint256 iteration,\n    uint256 totalInterestFromIteration,\n    address tokenContract\n  ) internal {\n    IERC20 payoutToken = IERC20(tokenContract);\n\n    uint256 winnerPayout = totalInterestFromIteration;\n    for (uint256 i = 0; i < receivers.length; i++) {\n      uint256 amountToSend = totalInterestFromIteration.mul(percentages[i]).div(\n        1000\n      );\n      payoutToken.transfer(receivers[i], amountToSend);\n      winnerPayout = winnerPayout.sub(amountToSend); //SafeMath prevents this going below 0\n      emit InterestSent(receivers[i], amountToSend);\n    }\n\n    payoutToken.transfer(winner, winnerPayout);\n    emit WinnerPayout(winner, winnerPayout, iteration);\n  }\n\n  /// @dev Tries to redeem aDai and send acrrued interest to winners. Falls back to Dai.\n  /// @param receivers An array of the addresses to split between\n  /// @param percentages the respective percentage to split\n  /// @param winner address of the winning proposal\n  /// @param iteration the iteration of the dao\n  function distributeInterest(\n    address[] calldata receivers,\n    uint256[] calldata percentages,\n    address winner,\n    uint256 iteration\n  )\n    external\n    validInterestSplitInput(receivers, percentages)\n    noLossDaoContractOnly\n  {\n    uint256 amountToRedeem = adaiContract.balanceOf(address(this)).sub(\n      totalDepositedDai\n    );\n    try adaiContract.redeem(amountToRedeem)  {\n      _distribute(\n        receivers,\n        percentages,\n        winner,\n        iteration,\n        amountToRedeem,\n        address(daiContract)\n      );\n    } catch {\n      _distribute(\n        receivers,\n        percentages,\n        winner,\n        iteration,\n        amountToRedeem,\n        address(adaiContract)\n      );\n    }\n  }\n\n  //////////////////////////////////////////////////\n  //////// EMERGENCY MODULE FUNCTIONS  //////////////\n  ///////////////////////////////////////////////////\n\n  /// @dev Internal function setting the emergency state of contract to true.\n  function _declareStateOfEmergency() internal {\n    isEmergencyState = true;\n    emit EmergencyStateReached(\n      msg.sender,\n      now,\n      totalDepositedDai,\n      emergencyVoteAmount\n    );\n  }\n\n  /// @dev Allows admin to activate emergency state\n  function adminActivateEmergency() external onlyAdmin {\n    _declareStateOfEmergency();\n  }\n\n  /// @dev Declares a state of emergency and enables emergency withdrawls that are not dependant on any external smart contracts\n  function declareStateOfEmergency() external emergencyEnacted {\n    _declareStateOfEmergency();\n  }\n\n  /// @dev Immediately lets yoou withdraw your funds in an state of emergency\n  function emergencyWithdraw() external userStaked emergencyState {\n    _withdrawFunds(depositedDai[msg.sender]);\n    emit EmergencyWithdrawl(msg.sender);\n  }\n\n  /// @dev lets users vote that the a state of emergency should be decalred\n  /// Requires time lock here to defeat flash loan punks\n  function voteEmergency()\n    external\n    userStaked\n    noEmergencyVoteYet\n    eligibleToEmergencyVote\n  {\n    emergencyVoted[msg.sender] = true;\n    emergencyVoteAmount = emergencyVoteAmount.add(depositedDai[msg.sender]);\n    emit EmergencyVote(msg.sender, depositedDai[msg.sender]);\n  }\n\n  /// @dev Internal function removing a users emergency vote if they leave the pool\n  function _removeEmergencyVote() internal {\n    if (emergencyVoted[msg.sender] == true) {\n      emergencyVoted[msg.sender] = false;\n      emergencyVoteAmount = emergencyVoteAmount.sub(depositedDai[msg.sender]);\n      emit RemoveEmergencyVote(msg.sender, depositedDai[msg.sender]);\n    }\n  }\n}\n",
   "sourcePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/PoolDeposits.sol",
   "ast": {
     "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/PoolDeposits.sol",
     "exportedSymbols": {
-      "PoolDeposits": [
-        2051
-      ]
+      "PoolDeposits": [2051]
     },
     "id": 2052,
     "license": null,
@@ -630,11 +628,7 @@
     "nodes": [
       {
         "id": 1045,
-        "literals": [
-          "solidity",
-          "0.6",
-          ".10"
-        ],
+        "literals": ["solidity", "0.6", ".10"],
         "nodeType": "PragmaDirective",
         "src": "0:23:2"
       },
@@ -706,9 +700,7 @@
         },
         "fullyImplemented": true,
         "id": 2051,
-        "linearizedBaseContracts": [
-          2051
-        ],
+        "linearizedBaseContracts": [2051],
         "name": "PoolDeposits",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -2239,10 +2231,7 @@
                       "id": 1165,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2306:7:2",
                       "typeDescriptions": {
@@ -2356,10 +2345,7 @@
                       "id": 1175,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2457:7:2",
                       "typeDescriptions": {
@@ -2549,10 +2535,7 @@
                       "id": 1186,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2682:7:2",
                       "typeDescriptions": {
@@ -2694,10 +2677,7 @@
                       "id": 1200,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2801:7:2",
                       "typeDescriptions": {
@@ -2839,10 +2819,7 @@
                       "id": 1211,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2913:7:2",
                       "typeDescriptions": {
@@ -3080,10 +3057,7 @@
                       "id": 1222,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "3146:7:2",
                       "typeDescriptions": {
@@ -3236,10 +3210,7 @@
                       "id": 1240,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "3505:7:2",
                       "typeDescriptions": {
@@ -3445,10 +3416,7 @@
                       "id": 1252,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "3601:7:2",
                       "typeDescriptions": {
@@ -3719,10 +3687,7 @@
                       "id": 1269,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "3836:7:2",
                       "typeDescriptions": {
@@ -3957,10 +3922,7 @@
                       "id": 1290,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4043:7:2",
                       "typeDescriptions": {
@@ -4174,10 +4136,7 @@
                       "id": 1305,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4189:7:2",
                       "typeDescriptions": {
@@ -4362,10 +4321,7 @@
                       "id": 1319,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4299:7:2",
                       "typeDescriptions": {
@@ -4529,10 +4485,7 @@
                       "id": 1333,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4411:7:2",
                       "typeDescriptions": {
@@ -4712,10 +4665,7 @@
                       "id": 1348,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4689:7:2",
                       "typeDescriptions": {
@@ -4918,10 +4868,7 @@
                       "id": 1362,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4841:7:2",
                       "typeDescriptions": {
@@ -5090,10 +5037,7 @@
                       "id": 1381,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "5137:7:2",
                       "typeDescriptions": {
@@ -8327,9 +8271,7 @@
               "src": "8398:282:2",
               "statements": [
                 {
-                  "assignments": [
-                    1644
-                  ],
+                  "assignments": [1644],
                   "declarations": [
                     {
                       "constant": false,
@@ -9069,9 +9011,7 @@
                   "src": "9535:29:2"
                 },
                 {
-                  "assignments": [
-                    1717
-                  ],
+                  "assignments": [1717],
                   "declarations": [
                     {
                       "constant": false,
@@ -9829,9 +9769,7 @@
               "src": "10751:577:2",
               "statements": [
                 {
-                  "assignments": [
-                    1778
-                  ],
+                  "assignments": [1778],
                   "declarations": [
                     {
                       "constant": false,
@@ -9919,9 +9857,7 @@
                   "src": "10757:42:2"
                 },
                 {
-                  "assignments": [
-                    1784
-                  ],
+                  "assignments": [1784],
                   "declarations": [
                     {
                       "constant": false,
@@ -9976,9 +9912,7 @@
                     "src": "10908:311:2",
                     "statements": [
                       {
-                        "assignments": [
-                          1799
-                        ],
+                        "assignments": [1799],
                         "declarations": [
                           {
                             "constant": false,
@@ -10542,9 +10476,7 @@
                   },
                   "id": 1834,
                   "initializationExpression": {
-                    "assignments": [
-                      1788
-                    ],
+                    "assignments": [1788],
                     "declarations": [
                       {
                         "constant": false,
@@ -11043,9 +10975,7 @@
               "src": "11885:488:2",
               "statements": [
                 {
-                  "assignments": [
-                    1870
-                  ],
+                  "assignments": [1870],
                   "declarations": [
                     {
                       "constant": false,
@@ -13598,9 +13528,7 @@
   "legacyAST": {
     "absolutePath": "/Users/johanthan/Code/hackathons/app/contracts/contracts/PoolDeposits.sol",
     "exportedSymbols": {
-      "PoolDeposits": [
-        2051
-      ]
+      "PoolDeposits": [2051]
     },
     "id": 2052,
     "license": null,
@@ -13608,11 +13536,7 @@
     "nodes": [
       {
         "id": 1045,
-        "literals": [
-          "solidity",
-          "0.6",
-          ".10"
-        ],
+        "literals": ["solidity", "0.6", ".10"],
         "nodeType": "PragmaDirective",
         "src": "0:23:2"
       },
@@ -13684,9 +13608,7 @@
         },
         "fullyImplemented": true,
         "id": 2051,
-        "linearizedBaseContracts": [
-          2051
-        ],
+        "linearizedBaseContracts": [2051],
         "name": "PoolDeposits",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -15217,10 +15139,7 @@
                       "id": 1165,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2306:7:2",
                       "typeDescriptions": {
@@ -15334,10 +15253,7 @@
                       "id": 1175,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2457:7:2",
                       "typeDescriptions": {
@@ -15527,10 +15443,7 @@
                       "id": 1186,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2682:7:2",
                       "typeDescriptions": {
@@ -15672,10 +15585,7 @@
                       "id": 1200,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2801:7:2",
                       "typeDescriptions": {
@@ -15817,10 +15727,7 @@
                       "id": 1211,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2913:7:2",
                       "typeDescriptions": {
@@ -16058,10 +15965,7 @@
                       "id": 1222,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "3146:7:2",
                       "typeDescriptions": {
@@ -16214,10 +16118,7 @@
                       "id": 1240,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "3505:7:2",
                       "typeDescriptions": {
@@ -16423,10 +16324,7 @@
                       "id": 1252,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "3601:7:2",
                       "typeDescriptions": {
@@ -16697,10 +16595,7 @@
                       "id": 1269,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "3836:7:2",
                       "typeDescriptions": {
@@ -16935,10 +16830,7 @@
                       "id": 1290,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4043:7:2",
                       "typeDescriptions": {
@@ -17152,10 +17044,7 @@
                       "id": 1305,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4189:7:2",
                       "typeDescriptions": {
@@ -17340,10 +17229,7 @@
                       "id": 1319,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4299:7:2",
                       "typeDescriptions": {
@@ -17507,10 +17393,7 @@
                       "id": 1333,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4411:7:2",
                       "typeDescriptions": {
@@ -17690,10 +17573,7 @@
                       "id": 1348,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4689:7:2",
                       "typeDescriptions": {
@@ -17896,10 +17776,7 @@
                       "id": 1362,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4841:7:2",
                       "typeDescriptions": {
@@ -18068,10 +17945,7 @@
                       "id": 1381,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "5137:7:2",
                       "typeDescriptions": {
@@ -21305,9 +21179,7 @@
               "src": "8398:282:2",
               "statements": [
                 {
-                  "assignments": [
-                    1644
-                  ],
+                  "assignments": [1644],
                   "declarations": [
                     {
                       "constant": false,
@@ -22047,9 +21919,7 @@
                   "src": "9535:29:2"
                 },
                 {
-                  "assignments": [
-                    1717
-                  ],
+                  "assignments": [1717],
                   "declarations": [
                     {
                       "constant": false,
@@ -22807,9 +22677,7 @@
               "src": "10751:577:2",
               "statements": [
                 {
-                  "assignments": [
-                    1778
-                  ],
+                  "assignments": [1778],
                   "declarations": [
                     {
                       "constant": false,
@@ -22897,9 +22765,7 @@
                   "src": "10757:42:2"
                 },
                 {
-                  "assignments": [
-                    1784
-                  ],
+                  "assignments": [1784],
                   "declarations": [
                     {
                       "constant": false,
@@ -22954,9 +22820,7 @@
                     "src": "10908:311:2",
                     "statements": [
                       {
-                        "assignments": [
-                          1799
-                        ],
+                        "assignments": [1799],
                         "declarations": [
                           {
                             "constant": false,
@@ -23520,9 +23384,7 @@
                   },
                   "id": 1834,
                   "initializationExpression": {
-                    "assignments": [
-                      1788
-                    ],
+                    "assignments": [1788],
                     "declarations": [
                       {
                         "constant": false,
@@ -24021,9 +23883,7 @@
               "src": "11885:488:2",
               "statements": [
                 {
-                  "assignments": [
-                    1870
-                  ],
+                  "assignments": [1870],
                   "declarations": [
                     {
                       "constant": false,
@@ -26794,13 +26654,13 @@
             {
               "indexed": true,
               "internalType": "uint256",
-              "name": "iteration",
+              "name": "amount",
               "type": "uint256"
             },
             {
               "indexed": false,
               "internalType": "uint256",
-              "name": "amount",
+              "name": "iteration",
               "type": "uint256"
             }
           ],

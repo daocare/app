@@ -45,8 +45,9 @@ contract PoolDeposits {
   event InterestSent(address indexed user, uint256 amount);
   event WinnerPayout(
     address indexed user,
-    uint256 indexed iteration,
-    uint256 amount
+    // NOTE: the intention was to have the iteration be indexed, not the amount. Doubt it will be an issue since we are relying on the graph.
+    uint256 indexed amount,
+    uint256 iteration
   );
 
   ///////// Emergency Events ///////////
