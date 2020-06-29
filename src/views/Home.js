@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 import Moment from 'moment';
@@ -19,6 +19,7 @@ import Page from '../components/Page';
 import Header from '../components/Header';
 import EllipsisLoader from '../components/EllipsisLoader';
 import FooterInfo from '../components/FooterInfo';
+import Countdown from '../components/Countdown';
 
 const useStyles = makeStyles((theme) => ({
   homeContainer: {
@@ -84,8 +85,9 @@ const Home = () => {
           Vote DAO style on twitter for your favourite project every 2 weeks.
           Interest from the pool is sent to the chosen community project for 2
           weeks if selected by the DAO. Withdraw your original DAI at anytime.
-          The iteration will begin in{' '}
-          {Moment.unix(currentIterationDeadline).fromNow()}
+          <br />
+          <br />
+          The next iteration will begin in: <Countdown />
         </Typography>
 
         <Grid container justify="space-between" spacing={2}>
