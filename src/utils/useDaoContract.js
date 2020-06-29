@@ -8,7 +8,7 @@ import useUserData from './useUserData';
 
 const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
 const SUPPORTED_NETWORK = 'kovan';
-const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
+const CHAIN_ID = process.env.REACT_APP_SUPPORTED_CHAIN_ID;
 const TWITTER_PROXY_ADDRESS = process.env.REACT_APP_TWITTER_PROXY_ADDRESS;
 
 const daoAbi = require('../abis/NoLossDao_v0.json');

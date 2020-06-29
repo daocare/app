@@ -6,7 +6,7 @@ import { setDaiAllowance } from '../redux/user/userActions';
 const daiAbi = require('../abis/ERC20.json');
 const depositAbi = require('../abis/PoolDeposits.json');
 
-const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
+const CHAIN_ID = process.env.REACT_APP_SUPPORTED_CHAIN_ID;
 const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
 
 const DAI_ADDRESS = process.env.REACT_APP_DAI_CONTRACT_ADDRESS;
