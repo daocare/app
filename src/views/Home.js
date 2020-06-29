@@ -197,31 +197,32 @@ const Home = () => {
             Submit Proposal
           </Button>
           {userDaiDeposit > 0 ? (
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              className={classes.button}
-              startIcon={<WithdrawIcon />}
-              onClick={() => {
-                if (connected) {
-                  router.history.push('/withdraw');
-                } else {
-                  const connect = async () => {
-                    try {
-                      await useWeb3Modal.triggerConnect();
-                      router.history.push('/withdraw');
-                    } catch {
-                      console.warn('Cancelled connection');
-                    }
-                  };
-                  connect();
-                }
-              }}
-            >
-              Withdraw Funds
-            </Button>
+            <span />
           ) : (
+            // <Button
+            //   variant="contained"
+            //   color="secondary"
+            //   size="large"
+            //   className={classes.button}
+            //   startIcon={<WithdrawIcon />}
+            //   onClick={() => {
+            //     if (connected) {
+            //       router.history.push('/withdraw');
+            //     } else {
+            //       const connect = async () => {
+            //         try {
+            //           await useWeb3Modal.triggerConnect();
+            //           router.history.push('/withdraw');
+            //         } catch {
+            //           console.warn('Cancelled connection');
+            //         }
+            //       };
+            //       connect();
+            //     }
+            //   }}
+            // >
+            //   Withdraw Funds
+            // </Button>
             <Button
               variant="contained"
               color="secondary"
@@ -261,7 +262,7 @@ const Home = () => {
           </Button>
         </div>
       </div>
-      <FooterInfo />
+      {/* <FooterInfo /> */}
     </Page>
   );
 };
