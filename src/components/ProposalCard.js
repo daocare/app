@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   root: {
     position: 'relative',
     width: 210,
-    height: 370,
+    height: '100%',
     marginRight: 16,
   },
   media: {

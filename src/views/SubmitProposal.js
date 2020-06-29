@@ -144,12 +144,13 @@ const SubmitProposal = (props) => {
 
   useEffect(() => {
     threeBoxData.update3BoxDetails();
-
+    console.log('aaaaaddress');
+    console.log(address);
     if (!isFetching()) {
       open3Box(address, provider, setSpaceStatus);
       console.log('opened3box');
     }
-  }, [address, provider]);
+  }, [address, provider, isFetching()]);
 
   // TODO fix this shitty looping flow
   useInterval(async () => {
@@ -160,7 +161,7 @@ const SubmitProposal = (props) => {
     }
     if (
       threeBox['isLoggedIn'] &&
-      !isFetching() &&
+      // !isFetching() &&
       getSpace() !== null &&
       activeStep === 0
     ) {
@@ -297,7 +298,8 @@ const SubmitProposal = (props) => {
           </Typography>
           <Typography variant="body2">
             <InfoIcon fontSize="inherit" /> In order to submit a proposal you
-            will be required to stake 50 DAI
+            will be required to stake 50 DAI. You can withdraw your stake with
+            your proposal.
           </Typography>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>

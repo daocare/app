@@ -62,6 +62,7 @@ const useUserData = () => {
         query: USER_DATA_QUERY,
         variables: { address },
       });
+
       const daiDeposit = userData['data']['user']['amount'];
       await dispatch(setDaiDeposit(daiDeposit / Math.pow(10, 18)));
       const projects = userData['data']['user']['projects'];
@@ -77,6 +78,9 @@ const useUserData = () => {
       );
       await dispatch(setLastIterationJoinedOrLeft(lastIterationJoinedOrLeft));
     } catch (err) {
+      await dispatch(setDaiDeposit(0));
+      await dispatch(setHasAProposal(false));
+      await dispatch(setVotes([]));
       console.warn('User error when fetching data', err);
       return 0;
     }

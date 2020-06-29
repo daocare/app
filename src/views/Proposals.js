@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: 210,
-    height: 370,
+    height: 350,
   },
   decriptionBlurb: { margin: '16px 0' },
 }));
