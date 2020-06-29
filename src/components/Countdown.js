@@ -50,7 +50,7 @@ const Countdown = () => {
     } ${wordPluralizeAndDisplay(seconds, 'second')}`;
   };
 
-  return <span>Countdown: {formattedCountdown(countdown)}</span>;
+  return <span>{formattedCountdown(countdown)}</span>;
 };
 
 export default Countdown;
