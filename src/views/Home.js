@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
     textAlign: 'center',
   },
+  countdown: {
+    color: '#6850A8',
+  },
 }));
 
 const Home = () => {
@@ -81,13 +84,18 @@ const Home = () => {
       <Header />
       <div className={classes.homeContainer}>
         <Typography variant="body1" className={classes.decriptionBlurb}>
-          Deposit your DAI. Let your idle interest support community projects.
-          Vote DAO style on twitter for your favourite project every 2 weeks.
-          Interest from the pool is sent to the chosen community project for 2
-          weeks if selected by the DAO. Withdraw your original DAI at anytime.
-          <br />
-          <br />
-          The next iteration will begin in: <Countdown />
+          <span style={{ display: 'block', paddingBottom: '10px' }}>
+            Deposit your DAI. Let your idle interest support community projects.
+            Vote DAO style on twitter for your favourite project every 2 weeks.
+            Interest from the pool is sent to the chosen community project for 2
+            weeks if selected by the DAO. Withdraw your original DAI at anytime.
+          </span>
+          <span style={{ display: 'block', paddingTop: '10px' }}>
+            The next iteration will begin in{' '}
+            <span className={classes.countdown}>
+              <Countdown />
+            </span>
+          </span>
         </Typography>
 
         <Grid container justify="space-between" spacing={2}>
@@ -121,7 +129,7 @@ const Home = () => {
             <Typography variant="body1">Number of Members</Typography>
           </Grid>
           <Grid item xs={12} md={4} className={classes.gridItem}>
-            {proposals.length > 0 ? (
+            {proposals != null ? (
               <Typography variant="body1" className={classes.numberHighlight}>
                 {proposals.length}
               </Typography>
