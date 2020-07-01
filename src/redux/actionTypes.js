@@ -28,3 +28,6 @@ export const SET_NETWORK_INFO = 'SET_NETWORK_INFO';
 export const SET_ITERATION = 'SET_ITERATION';
 export const SET_LAST_WINNER = 'SET_LAST_WINNER';
 export const SET_ITERATION_DEADLINE = 'SET_ITERATION_DEADLINE';
+
+//aave
+export const SET_DAI_APR = 'SET_DAI_APR';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { ApolloProvider } from '@apollo/react-hooks';
-import { client } from '../utils/Apollo';
+import { client, aaveClient } from '../utils/Apollo';
 import store from '../redux/store';
 import ReduxWrapper from './ReduxWrapper';
 
@@ -11,7 +11,9 @@ const ApolloWrapper = (props) => {
 
   return (
     <ApolloProvider client={client}>
-      <ReduxWrapper route={route} />
+      <ApolloProvider client={aaveClient}>
+        <ReduxWrapper route={route} />
+      </ApolloProvider>
     </ApolloProvider>
   );
 };

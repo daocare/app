@@ -5,6 +5,7 @@ import user from './user/userReducer';
 import fund from './fund/fundReducer';
 import web3 from './web3/web3Reducer';
 import iteration from './iteration/iterationReducer';
+import aave from './aave/aaveReducer';
 
 const rootReducer = combineReducers({
   user,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   fund,
   web3,
   iteration,
+  aave,
 });
 
 // For redux chrome tool - https://github.com/zalmoxisus/redux-devtools-extension#usage

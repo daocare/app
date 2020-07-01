@@ -16,8 +16,11 @@ import {
   Box,
   TextField,
   InputAdornment,
+  Tooltip,
 } from '@material-ui/core';
+
 import WithdrawIcon from '@material-ui/icons/RemoveCircle';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Page from '../components/Page';
 import Header from '../components/Header';
@@ -28,6 +31,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import useRouter from '../utils/useRouter';
 import useDaiContract from '../utils/useDaiContract';
 import useDepositContract from '../utils/useDepositContract';
+import useAave from '../utils/useAaveGraph';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 import { useForm } from 'react-hook-form';
 
@@ -86,6 +90,10 @@ const useStyles = makeStyles((theme) => ({
       opacity: '0.6',
     },
   },
+  platinumSponsor: { color: '#000' },
+  goldSponsor: { color: '#CCAA00' },
+  silverSponsor: { color: '#737373' },
+  bronzeSponsor: { color: '#CD7F32' },
 }));
 
 const Sponsor = () => {
@@ -99,6 +107,7 @@ const Sponsor = () => {
 
   const daiContract = useDaiContract();
   const depositContract = useDepositContract();
+  const aave = useAave();
 
   const { address, daiBalance, daiDeposit, daiAllowance } = useSelector(
     (state) => state.user
@@ -106,7 +115,13 @@ const Sponsor = () => {
 
   const { currentIterationDeadline } = useSelector((state) => state.iteration);
 
+  const { daiApr } = useSelector((state) => state.aave);
+
   const { provider } = useSelector((state) => state.web3);
+
+  useEffect(() => {
+    aave.getDaiApr();
+  }, []);
 
   useEffect(() => {
     if (address && provider) {
@@ -161,14 +176,14 @@ const Sponsor = () => {
     }
   };
 
-  const [twitterWarning, setTwitterWarning] = useState(false);
-  const TWITTER_VOTING_MINIMUM = 5;
+  const [minimumWarning, setMinimumWarning] = useState(false);
+  const BRONZE_TIER_MINIMUM = 5000;
 
-  const twitterMinimumWarning = () => {
-    if (amount < TWITTER_VOTING_MINIMUM) {
-      setTwitterWarning(true);
+  const bronzeMinimumWarning = () => {
+    if (amount < BRONZE_TIER_MINIMUM) {
+      setMinimumWarning(true);
     } else {
-      setTwitterWarning(false);
+      setMinimumWarning(false);
     }
   };
 
@@ -191,15 +206,15 @@ const Sponsor = () => {
       {/* {web3Connect.hasProposal ? ( */}
       {false ? (
         <Typography style={{ color: '#FF9494' }}>
-          As an owner of a proposal, you are unable to join the pool and vote on
-          proposals from the same address.
+          As an owner of a proposal, you are unable to sponsor dai from the same
+          address as your proposal.
         </Typography>
       ) : daiDeposit > 0 && !(status === 'DEPOSITED') ? (
         <>
           <Typography variant="body1">
-            You currently have {daiDeposit} DAI in the fund. If you would like
-            to add to your deposit we require that you first withdraw your
-            current deposit. We do this to afford maximum smart contract
+            You currently have {daiDeposit} DAI deposited in the fund. If you
+            would like to add to your deposit we require that you first withdraw
+            your current deposit. We do this to afford maximum smart contract
             security.
           </Typography>
           <div
@@ -227,9 +242,52 @@ const Sponsor = () => {
         !(daiDeposit > 0) && (
           <>
             <Typography variant="body1" className={classes.decriptionBlurb}>
-              Deposit your DAI. Let your idle interest support community
-              projects. The amount of DAI you stake in the fund determines the
-              level of your voting power.
+              Sponsored DAI is for institutions and individuals that want to add
+              larger amounts to the fund, remember it is Zero Cost, Sponsored
+              DAI can be withdrawn at any time. The 6 largest sponsors are
+              displayed on the home page and additional sponsers are listed on
+              the <a href="/sponsors">sponsors page</a>.
+            </Typography>
+            <Typography variant="body1" className={classes.decriptionBlurb}>
+              Sponsors are listed in 4 tiers.
+              {/* <br />
+              <span className={classes.platinumSponsor}>
+                Rainbow sponsors are individuals and organizations that sponsor
+                250 000 DAI or more.
+              </span> */}
+              <br />
+              <span className={classes.platinumSponsor}>
+                Platinum sponsors are individuals and organizations that sponsor
+                100 000 DAI or more.
+                {/* <Tooltip
+                  title={` ${
+                    daiApr ? Math.round((daiApr * 100000) / 12, 2) + '' : '...'
+                  } 
+                DAI per month Based on the current DAI apy from Aave`}
+                >
+                  <InfoIcon fontSize="inherit" />
+                </Tooltip>
+                 */}
+              </span>
+              <br />
+              <span className={classes.goldSponsor}>
+                Gold sponsors are individuals and organizations that sponsor 50
+                000 DAI or more.
+              </span>
+              <br />
+              <span className={classes.silverSponsor}>
+                Silver sponsors are individuals and organizations that sponsor
+                20 000 DAI or more.
+              </span>
+              <br />
+              <span className={classes.bronzeSponsor}>
+                Bronze sponsors are individuals and organizations that sponsor 5
+                000 DAI or more.
+              </span>
+            </Typography>
+            <Typography variant="body1" className={classes.decriptionBlurb}>
+              Thank you for adding to the fund and letting the interest on your
+              DAI support community projects 💜
             </Typography>
             <Typography variant="h5">Deposit DAI</Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -247,7 +305,7 @@ const Sponsor = () => {
                       <InputAdornment position="end">DAI</InputAdornment>
                     ),
                   }}
-                  onChange={() => twitterMinimumWarning()}
+                  onChange={() => bronzeMinimumWarning()}
                   style={{ width: 300 }}
                   helperText={`Balance: ${
                     daiBalance == null ? '...' : Math.floor(daiBalance)
@@ -281,15 +339,15 @@ const Sponsor = () => {
                   </>
                 )}
               </Box>
-              {twitterWarning && (
+              {minimumWarning && (
                 <Typography
                   variant="body2"
                   component="span"
                   style={{ color: 'orange' }}
                 >
-                  Please note that in order to vote through twitter we require
-                  that you set a minimum deposit of {TWITTER_VOTING_MINIMUM}{' '}
-                  DAI, this is to cover gas costs.
+                  Please note that in order to be displayed on the sponsors page
+                  the minimum sponsor amount is 5 000 DAI to be listed in the
+                  bronze tier
                 </Typography>
               )}
               <div className={classes.wrapper}>
@@ -367,47 +425,12 @@ const Sponsor = () => {
                 margin: 'auto',
               }}
             >
-              To afford maximum smart contract security you can only vote on the
-              next voting cycle.
-              <br /> Follow us on{' '}
-              <a
-                href="https://twitter.com/dao_care"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {' '}
-                twitter{' '}
-                <img
-                  src="/assets/socials/twitter.svg"
-                  className={classes.socials}
-                />
+              Send us an email with your logo and public address to{' '}
+              <a href="mailto:denham@avolabs.io?subject=New daocare sponsor!">
+                denham@avolabs.io
               </a>{' '}
-              and join our{' '}
-              <a
-                href="https://t.me/daocare"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                telegram
-                <img
-                  src="/assets/socials/telegram.svg"
-                  className={classes.socials}
-                />
-              </a>{' '}
-              to get notified of the next voting cycle.
-            </Typography>
-            <Typography
-              variant="body2"
-              component="span"
-              style={{
-                paddingTop: '20px',
-                textAlign: 'center',
-                display: 'block',
-                margin: 'auto',
-              }}
-            >
-              The next voting cycle will begin{' '}
-              {Moment.unix(currentIterationDeadline).fromNow()}
+              so that we can personally thank you
+              <br /> and place your image / brand on the sponsors page.
             </Typography>
           </div>
         </div>
