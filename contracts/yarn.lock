@@ -589,6 +589,11 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
   integrity sha512-ONhaKPIufzzrlNbqtWFFd+jlnemX6lJAgq9ZeiZtS7I1PIf/la7CW4m83rTXRnVnsMbW2k56pGYu7AUFJD9Pow==
 
+"@solidity-parser/parser@^0.6.0":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@solidity-parser/parser/-/parser-0.6.2.tgz#49707fc4e06649d39d6b25bdab2e9093d372ce50"
+  integrity sha512-kUVUvrqttndeprLoXjI5arWHeiP3uh4XODAKbG+ZaWHCVQeelxCbnXBeWxZ2BPHdXgH0xR9dU1b916JhDhbgAA==
+
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@szmarczak/http-timer/-/http-timer-1.1.2.tgz#b1665e2c461a2cd92f4c1bbf50d5454de0d4b421"
@@ -5132,11 +5137,12 @@ solc@0.5.15:
     semver "^5.5.0"
     tmp "0.0.33"
 
-solidity-coverage@^0.7.0-beta.3:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/solidity-coverage/-/solidity-coverage-0.7.2.tgz#b8b3ade3f03e9d71940bc84fb319ba7706e35a64"
-  integrity sha512-LizgpcrkMRmZdvOmwYN7l/h9ak0Yq/5BuXjEaH0Phds1Gu5hZfHGyvplgWYDFmzLwGB7hZ6d0/IdkdYm4HK0mg==
+solidity-coverage@^0.7.9:
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/solidity-coverage/-/solidity-coverage-0.7.9.tgz#6d1c40639066b93c67b21da48f4bc27ae01f0e58"
+  integrity sha512-UWkl0iNmpjuVanPWvZzF6eCAKwbEmmolmzwbN8nU+MexOKO3eW6kVbxBkfEjVa8TuQcLb0F2wdgXJZBRbjpjnA==
   dependencies:
+    "@solidity-parser/parser" "^0.6.0"
     "@truffle/provider" "^0.1.17"
     chalk "^2.4.2"
     death "^1.1.0"
@@ -5153,14 +5159,13 @@ solidity-coverage@^0.7.0-beta.3:
     recursive-readdir "^2.2.2"
     sc-istanbul "^0.4.5"
     shelljs "^0.8.3"
-    solidity-parser-diligence "^0.4.16"
     web3 "1.2.6"
 
 solidity-parser-antlr@^0.4.11, solidity-parser-antlr@^0.4.2:
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/solidity-parser-antlr/-/solidity-parser-antlr-0.4.11.tgz#af43e1f13b3b88309a875455f5d6e565b05ee5f1"
 
-solidity-parser-diligence@^0.4.16, solidity-parser-diligence@^0.4.17:
+solidity-parser-diligence@^0.4.17:
   version "0.4.18"
   resolved "https://registry.yarnpkg.com/solidity-parser-diligence/-/solidity-parser-diligence-0.4.18.tgz#1ec8c29d320afe048db941828f142dec3e97f657"
 
