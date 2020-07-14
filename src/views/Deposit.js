@@ -133,6 +133,8 @@ const Deposit = () => {
       await daiContract
         .triggerDaiApprove(bigNumberDaiBalance, address, provider)
         .then((allowance) => {
+          console.log('allowance');
+          console.log(allowance);
           dispatch(setDaiAllowance(allowance));
           setStatus('DAI_APPROVED');
         });
@@ -154,6 +156,8 @@ const Deposit = () => {
       setTimeout(() => {
         depositContract.triggerDeposit(amount, address).then((amount) => {
           dispatch(setDaiDeposit(amount));
+          console.log('fund size deposited new');
+          console.log(parseInt(fundSize) + parseInt(amount));
           dispatch(setFundSize(fundSize + amount));
           depositContract.getFundSize();
           setStatus('DEPOSITED');
@@ -195,6 +199,21 @@ const Deposit = () => {
     daiBalance < amount ||
     daiBalance === 0 ||
     daiBalance == null;
+
+  useEffect(() => {
+    cantDeposit =
+      status === 'DEPOSITING' ||
+      daiAllowance <= 0 ||
+      daiBalance < amount ||
+      daiBalance === 0 ||
+      daiBalance == null;
+  }, [daiAllowance]);
+
+  console.log('deposit state');
+  console.log(status);
+  console.log(daiAllowance);
+  console.log(daiBalance);
+  console.log(daiBalance);
 
   let isDepositing = status === 'DEPOSITING';
 

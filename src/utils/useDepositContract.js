@@ -25,6 +25,7 @@ const useDepositContract = () => {
   const proposalsData = useProposals();
 
   const address = useSelector((state) => state.user.address);
+  const fundSize = useSelector((state) => state.fund.fundSize);
   const web3Provider = new web3(provider);
 
   const depositContract = new web3Provider.eth.Contract(
@@ -34,6 +35,7 @@ const useDepositContract = () => {
 
   const triggerDeposit = async (value, addr) => {
     let amount = web3.utils.toWei(value, 'ether');
+    dispatch(setFundSize(fundSize + value));
     try {
       let tx = await depositContract.methods.deposit(amount).send({
         from: addr,

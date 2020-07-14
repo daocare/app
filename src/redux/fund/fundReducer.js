@@ -28,6 +28,8 @@ export default function (state = initialState, action) {
       };
     }
     case SET_FUND_SIZE: {
+      console.log('action.payload');
+      console.log(action.payload);
       return {
         ...state,
         fundSize: action.payload,

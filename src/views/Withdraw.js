@@ -119,6 +119,8 @@ const Withdraw = () => {
     setStatus(`WITHDRAWING`);
     try {
       depositContract.triggerWithdrawal(address).then(() => {
+        console.log('fund size withdrawn');
+        console.log(fundSize - depositedFunds);
         dispatch(setFundSize(fundSize - depositedFunds)); // TODO this will need to change when the user doesn;t withdraw in full
         setStatus('WITHDRAWN');
       });
