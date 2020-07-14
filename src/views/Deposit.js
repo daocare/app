@@ -6,6 +6,7 @@ import {
   setDaiAllowance,
   setDaiDeposit,
 } from '../redux/user/userActions';
+import { setFundSize } from '../redux/fund/fundActions';
 import PropTypes from 'prop-types';
 import Moment from 'moment';
 
@@ -68,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: 190,
+    marginRight: 10,
   },
   pageCentered: {
     display: 'flex',
@@ -107,6 +109,7 @@ const Deposit = () => {
   const { currentIterationDeadline } = useSelector((state) => state.iteration);
 
   const { provider } = useSelector((state) => state.web3);
+  const { fundSize } = useSelector((state) => state.fund);
 
   useEffect(() => {
     if (address && provider) {
@@ -143,18 +146,19 @@ const Deposit = () => {
   const onSubmit = async (data) => {
     let { amount } = data;
 
-    console.log('daiAllowance');
-    console.log(daiAllowance);
-    if (amount > daiAllowance) await approveDai();
+    if (amount > daiAllowance) approveDai();
 
     setStatus(`DEPOSITING`);
     console.log('submitting dai');
     try {
-      depositContract.triggerDeposit(amount, address).then((amount) => {
-        dispatch(setDaiDeposit(amount));
-        depositContract.getFundSize();
-        setStatus('DEPOSITED');
-      });
+      setTimeout(() => {
+        depositContract.triggerDeposit(amount, address).then((amount) => {
+          dispatch(setDaiDeposit(amount));
+          dispatch(setFundSize(fundSize + amount));
+          depositContract.getFundSize();
+          setStatus('DEPOSITED');
+        });
+      }, 1000); // 1s pause
     } catch {
       console.warn('failed to deposit dai');
       setStatus('DAI_NOT_DEPOSITED');
@@ -178,11 +182,21 @@ const Deposit = () => {
     Math.floor(Math.random() * 3)
   );
 
-  let cantDeposit =
+  let cantApprove =
     status != 'READY' ||
     daiBalance < amount ||
     daiBalance === 0 ||
     daiBalance == null;
+
+  let cantDeposit =
+    // status != 'DAI_APPROVED' ||
+    status === 'DEPOSITING' ||
+    daiAllowance <= 0 ||
+    daiBalance < amount ||
+    daiBalance === 0 ||
+    daiBalance == null;
+
+  let isDepositing = status === 'DEPOSITING';
 
   return (
     <Page className={classes.root} title="dao.care | Deposit">
@@ -293,6 +307,23 @@ const Deposit = () => {
                 </Typography>
               )}
               <div className={classes.wrapper}>
+                {amount > daiAllowance && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={() => approveDai()}
+                    disabled={cantApprove}
+                  >
+                    Approve DAI
+                    {cantApprove && (
+                      <CircularProgress
+                        className={classes.circularProgress}
+                        size={14}
+                      />
+                    )}
+                  </Button>
+                )}
                 <Button
                   variant="contained"
                   color="primary"
@@ -301,7 +332,7 @@ const Deposit = () => {
                   disabled={cantDeposit}
                 >
                   Deposit
-                  {cantDeposit && (
+                  {isDepositing && (
                     <CircularProgress
                       className={classes.circularProgress}
                       size={14}

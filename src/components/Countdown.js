@@ -11,9 +11,6 @@ const Countdown = () => {
   );
 
   useEffect(() => {
-    console.log('currentIterationDeadline');
-    console.log(currentIterationDeadline);
-    console.log(Date.now() / 1000);
     setCountdown(currentIterationDeadline - Date.now() / 1000);
   }, [currentIterationDeadline]);
 
@@ -32,8 +29,6 @@ const Countdown = () => {
   };
 
   const formattedCountdown = (timestamp) => {
-    // let timeDif = timestamp - now;
-    // console.log(timeDif);
     const numberOfSecondsUntilEnd = timestamp;
     let days = Math.floor(numberOfSecondsUntilEnd / 86400);
     let remainingHoursInSeconds = numberOfSecondsUntilEnd - days * 86400;

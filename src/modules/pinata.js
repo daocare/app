@@ -18,11 +18,10 @@ export const uploadJson = async (name, json) => {
     },
   };
   let result = await pinata.pinJSONToIPFS(json, options);
-  console.log(result);
   return result.IpfsHash;
 };
 
-export const getJson = async hash => {
+export const getJson = async (hash) => {
   let json = await axios.get(pinataEndpoint + hash);
   return json.data;
 };
@@ -37,4 +36,4 @@ export const pinHash = async (hash, filename) => {
   return res;
 };
 
-export const getUrlByHash = hash => pinataEndpoint + hash;
+export const getUrlByHash = (hash) => pinataEndpoint + hash;

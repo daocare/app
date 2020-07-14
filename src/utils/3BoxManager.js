@@ -16,18 +16,11 @@ export const open3Box = async (address, provider, setStatus = console.log) => {
   try {
     if (typeof provider !== 'undefined') {
       setStatus('Approve access to 3Box on your wallet');
-
-      console.log('box await');
-      console.log(address);
-      console.log('box await');
-      console.log(provider);
-
       box = await Box.openBox(address, provider, {
         consentCallback: () => {
           setStatus('Synchronizing with 3Box');
         },
       });
-      console.log('box await complete');
 
       setStatus('Finalizing synchronization with 3Box');
       await box.syncDone;

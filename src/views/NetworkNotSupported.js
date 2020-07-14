@@ -46,7 +46,8 @@ const NetworkNotSupported = () => {
               fontWeight: 400,
             }}
           >
-            We only support mainnet and kovan please connect to{' '}
+            We only support mainnet and{' '}
+            <a href="https://kovan.onrender.com">kovan</href> please connect to{' '}
             {supportedNetworks.map((network, index) =>
               supportedNetworks.length > 1 && !index == 0
                 ? ' or ' + network
