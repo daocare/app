@@ -6,10 +6,10 @@ import { setDaiAllowance } from '../redux/user/userActions';
 const daiAbi = require('../abis/ERC20.json');
 const depositAbi = require('../abis/PoolDeposits.json');
 
-const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
+const CHAIN_ID = process.env.REACT_APP_SUPPORTED_CHAIN_ID;
 const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
 
-const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD'; // KOVAN TODO
+const DAI_ADDRESS = process.env.REACT_APP_DAI_CONTRACT_ADDRESS;
 
 const useDaiContract = () => {
   const dispatch = useDispatch();

@@ -15,6 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { LinearProgress } from '@material-ui/core';
 import EllipsisLoader from '../components/EllipsisLoader';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
+import { setFundSize } from '../redux/fund/fundActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
 const Withdraw = () => {
   useRedirectHomeIfNoEthAccount();
 
+  const dispatch = useDispatch();
+
   const [status, setStatus] = useState('DRAFT');
   const classes = useStyles();
   const router = useRouter();
@@ -80,6 +83,8 @@ const Withdraw = () => {
     hasAProposal,
     votes,
   } = useSelector((state) => state.user);
+
+  const { fundSize } = useSelector((state) => state.fund);
 
   const { currentIteration, currentIterationDeadline } = useSelector(
     (state) => state.iteration
@@ -114,6 +119,7 @@ const Withdraw = () => {
     setStatus(`WITHDRAWING`);
     try {
       depositContract.triggerWithdrawal(address).then(() => {
+        dispatch(setFundSize(fundSize - depositedFunds)); // TODO this will need to change when the user doesn;t withdraw in full
         setStatus('WITHDRAWN');
       });
     } catch (err) {

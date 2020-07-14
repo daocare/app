@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
+import Moment from 'moment';
 
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -18,6 +19,7 @@ import Page from '../components/Page';
 import Header from '../components/Header';
 import EllipsisLoader from '../components/EllipsisLoader';
 import FooterInfo from '../components/FooterInfo';
+import Countdown from '../components/Countdown';
 
 const useStyles = makeStyles((theme) => ({
   homeContainer: {
@@ -52,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
     textAlign: 'center',
   },
+  countdown: {
+    color: '#6850A8',
+  },
 }));
 
 const Home = () => {
@@ -67,6 +72,9 @@ const Home = () => {
   const proposals = useSelector((state) => state.proposals.proposals);
   const numberOfMembers = useSelector((state) => state.fund.numberOfMembers);
   const userDaiDeposit = useSelector((state) => state.user.daiDeposit);
+  const currentIterationDeadline = useSelector(
+    (state) => state.iteration.currentIterationDeadline
+  );
 
   const router = useRouter();
 
@@ -76,10 +84,18 @@ const Home = () => {
       <Header />
       <div className={classes.homeContainer}>
         <Typography variant="body1" className={classes.decriptionBlurb}>
-          Deposit your DAI. Let your idle interest support community projects.
-          Vote DAO style on twitter for your favourite project every 2 weeks.
-          Interest from the pool is sent to the chosen community project for 2
-          weeks if selected by the DAO. Withdraw your original DAI at anytime.
+          <span style={{ display: 'block', paddingBottom: '10px' }}>
+            Deposit your DAI. Let your idle interest support community projects.
+            Vote DAO style on twitter for your favourite project every 2 weeks.
+            Interest from the pool is sent to the chosen community project for 2
+            weeks if selected by the DAO. Withdraw your original DAI at anytime.
+          </span>
+          <span style={{ display: 'block', paddingTop: '10px' }}>
+            The next iteration will begin in{' '}
+            <span className={classes.countdown}>
+              <Countdown />
+            </span>
+          </span>
         </Typography>
 
         <Grid container justify="space-between" spacing={2}>
@@ -113,7 +129,7 @@ const Home = () => {
             <Typography variant="body1">Number of Members</Typography>
           </Grid>
           <Grid item xs={12} md={4} className={classes.gridItem}>
-            {proposals.length > 0 ? (
+            {proposals != null ? (
               <Typography variant="body1" className={classes.numberHighlight}>
                 {proposals.length}
               </Typography>
@@ -165,7 +181,6 @@ const Home = () => {
           </Typography>
         </Grid> */}
         </Grid>
-
         <div className={classes.buttonContainer}>
           <Button
             variant="contained"
@@ -192,31 +207,32 @@ const Home = () => {
             Submit Proposal
           </Button>
           {userDaiDeposit > 0 ? (
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              className={classes.button}
-              startIcon={<WithdrawIcon />}
-              onClick={() => {
-                if (connected) {
-                  router.history.push('/withdraw');
-                } else {
-                  const connect = async () => {
-                    try {
-                      await useWeb3Modal.triggerConnect();
-                      router.history.push('/withdraw');
-                    } catch {
-                      console.warn('Cancelled connection');
-                    }
-                  };
-                  connect();
-                }
-              }}
-            >
-              Withdraw Funds
-            </Button>
+            <span />
           ) : (
+            // <Button
+            //   variant="contained"
+            //   color="secondary"
+            //   size="large"
+            //   className={classes.button}
+            //   startIcon={<WithdrawIcon />}
+            //   onClick={() => {
+            //     if (connected) {
+            //       router.history.push('/withdraw');
+            //     } else {
+            //       const connect = async () => {
+            //         try {
+            //           await useWeb3Modal.triggerConnect();
+            //           router.history.push('/withdraw');
+            //         } catch {
+            //           console.warn('Cancelled connection');
+            //         }
+            //       };
+            //       connect();
+            //     }
+            //   }}
+            // >
+            //   Withdraw Funds
+            // </Button>
             <Button
               variant="contained"
               color="secondary"
@@ -256,7 +272,7 @@ const Home = () => {
           </Button>
         </div>
       </div>
-      <FooterInfo />
+      {/* <FooterInfo /> */}
     </Page>
   );
 };

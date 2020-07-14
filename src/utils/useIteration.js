@@ -42,7 +42,9 @@ const useIteration = () => {
         orderBy: iterationEndTimestamp
         orderDirection: desc
       ) {
+        id
         iterationStartTimestamp
+        proposalDeadline
       }
     }
   `;
@@ -73,9 +75,21 @@ const useIteration = () => {
           'iterationStartTimestamp'
         ]
       );
+      // const iterationNumber = parseInt(
+      //   iterationStartTimestamp['data']['iterations'][0]['id']
+      // );
 
-      const twoWeeksInSeconds = 60 * 60 * 24 * 14;
-      const endTime = startTime + twoWeeksInSeconds; // TODO edit if 2 week iteration changes
+      // const twoWeeksInSeconds = 60 * 60 * 24 * 14;
+      // const twoMonthsInSeconds = 86400 * 60;
+      // const firstIterationStartTime = startTime + twoMonthsInSeconds;
+      // const endTime = startTime + twoWeeksInSeconds;
+
+      // const iterationEndTime =
+      // iterationNumber == '0' ? firstIterationStartTime : endTime;
+
+      const endTime = parseInt(
+        iterationStartTimestamp['data']['iterations'][0]['proposalDeadline']
+      );
 
       await dispatch(setCurrentIterationDeadline(endTime));
     } catch {

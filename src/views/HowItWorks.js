@@ -10,7 +10,6 @@ import {
   Switch,
 } from '@material-ui/core';
 
-import useWeb3Connect from '../utils/useWeb3Connect';
 import useRouter from '../utils/useRouter';
 import useInterval from '../utils/useInterval';
 

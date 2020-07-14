@@ -1,7 +1,7 @@
 {
   "name": "example-truffle-migrate",
   "version": "2.5.3",
-  "description": "DAO.care contracts, using OpenZeppelin SDK and using truffle migrations",
+  "description": "dao.care contracts, using OpenZeppelin SDK and using truffle migrations",
   "main": "index.js",
   "private": true,
   "scripts": {

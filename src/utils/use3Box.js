@@ -20,9 +20,6 @@ const use3Box = () => {
     try {
       if (address) {
         const loggedIn = await isLoggedIn(address);
-        console.log('is 3box loggedIn');
-        console.log(loggedIn);
-
         let { profile, verifiedAccounts } = await get3BoxProfile(address);
 
         // check if user has this space, if so we can open the box in the bg

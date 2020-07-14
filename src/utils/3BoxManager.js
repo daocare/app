@@ -16,7 +16,6 @@ export const open3Box = async (address, provider, setStatus = console.log) => {
   try {
     if (typeof provider !== 'undefined') {
       setStatus('Approve access to 3Box on your wallet');
-
       box = await Box.openBox(address, provider, {
         consentCallback: () => {
           setStatus('Synchronizing with 3Box');
@@ -39,6 +38,7 @@ export const open3Box = async (address, provider, setStatus = console.log) => {
       throw new Error('No web3 provider available');
     }
   } catch (error) {
+    fetching = false;
     throw error;
   } finally {
     fetching = false;

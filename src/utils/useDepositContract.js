@@ -13,7 +13,7 @@ import web3 from 'web3';
 
 // const SUPPORTED_CHAIN_ID = Number(process.env.REACT_APP_SUPPORTED_CHAIN_ID);
 // const SUPPORTED_NETWORK = 'kovan';
-const CHAIN_ID = process.env.REACT_APP_DEFAULT_CHAIN_ID || '42';
+const CHAIN_ID = process.env.REACT_APP_SUPPORTED_CHAIN_ID;
 
 const depositAbi = require('../abis/PoolDeposits.json');
 const DEPOSIT_ADDRESS = depositAbi.networks[CHAIN_ID].address;
@@ -47,12 +47,23 @@ const useDepositContract = () => {
     }
   };
 
+  // const triggerWithdrawal = async (address) => {
+  //   try {
+  //     let withdrawal = await depositContract.methods.withdrawDeposit().send({
+  //       from: address,
+  //     });
+  //     console.log('withdrawal', withdrawal);
+  //     dispatch(setDaiDeposit(0));
+  //   } catch (err) {
+  //     console.warn('Failed to withdraw: ', err);
+  //   }
+  // };
+
   const triggerWithdrawal = async (address) => {
     try {
-      let withdrawal = await depositContract.methods.withdrawDeposit().send({
+      let withdrawal = await depositContract.methods.exit().send({
         from: address,
       });
-      console.log('withdrawal', withdrawal);
       dispatch(setDaiDeposit(0));
     } catch (err) {
       console.warn('Failed to withdraw: ', err);
