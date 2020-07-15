@@ -35,7 +35,6 @@ const useDepositContract = () => {
 
   const triggerDeposit = async (value, addr) => {
     let amount = web3.utils.toWei(value, 'ether');
-    dispatch(setFundSize(fundSize + value));
     try {
       let tx = await depositContract.methods.deposit(amount).send({
         from: addr,

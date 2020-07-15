@@ -48,7 +48,8 @@ const useDaiContract = () => {
   };
 
   const triggerDaiApprove = async (value) => {
-    let amount = web3.utils.toWei(value, 'ether');
+    let valueBN = new web3Provider.utils.BN(Math.max(value, 5000));
+    let amount = web3.utils.toWei(valueBN, 'ether');
 
     let tx = await daiContract.methods.approve(DEPOSIT_ADDRESS, amount).send({
       from: address,

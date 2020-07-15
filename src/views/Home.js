@@ -72,8 +72,8 @@ const Home = () => {
   const proposals = useSelector((state) => state.proposals.proposals);
   const numberOfMembers = useSelector((state) => state.fund.numberOfMembers);
   const userDaiDeposit = useSelector((state) => state.user.daiDeposit);
-  const currentIterationDeadline = useSelector(
-    (state) => state.iteration.currentIterationDeadline
+  const { currentIterationDeadline, currentIteration } = useSelector(
+    (state) => state.iteration
   );
 
   const router = useRouter();
@@ -91,7 +91,8 @@ const Home = () => {
             weeks if selected by the DAO. Withdraw your original DAI at anytime.
           </span>
           <span style={{ display: 'block', paddingTop: '10px' }}>
-            The next iteration will begin in{' '}
+            The {currentIteration == 0 ? 'first' : 'next'} iteration will begin
+            in{' '}
             <span className={classes.countdown}>
               <Countdown />
             </span>

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import web3 from 'web3';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   setDaiBalance,
   setDaiAllowance,
   setDaiDeposit,
 } from '../redux/user/userActions';
+import { setFundSize } from '../redux/fund/fundActions';
 import PropTypes from 'prop-types';
 import Moment from 'moment';
 
@@ -72,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: 190,
+    marginRight: 10,
   },
   pageCentered: {
     display: 'flex',
@@ -112,7 +115,7 @@ const Sponsor = () => {
   const { address, daiBalance, daiDeposit, daiAllowance } = useSelector(
     (state) => state.user
   );
-
+  const { fundSize } = useSelector((state) => state.fund);
   const { currentIterationDeadline } = useSelector((state) => state.iteration);
 
   const { daiApr } = useSelector((state) => state.aave);
@@ -137,7 +140,6 @@ const Sponsor = () => {
 
   const { register, handleSubmit, watch /* , errors  */ } = useForm();
   let amount = watch('amount') ? watch('amount') : 0;
-
   let approveDai = async () => {
     setStatus('APPROVING_DAI');
     try {
@@ -158,18 +160,19 @@ const Sponsor = () => {
   const onSubmit = async (data) => {
     let { amount } = data;
 
-    console.log('daiAllowance');
-    console.log(daiAllowance);
-    if (amount > daiAllowance) await approveDai();
+    if (amount > daiAllowance) approveDai();
 
     setStatus(`DEPOSITING`);
     console.log('submitting dai');
     try {
-      depositContract.triggerDeposit(amount, address).then((amount) => {
-        dispatch(setDaiDeposit(amount));
-        depositContract.getFundSize();
-        setStatus('DEPOSITED');
-      });
+      setTimeout(() => {
+        depositContract.triggerDeposit(amount, address).then((amount) => {
+          dispatch(setDaiDeposit(parseInt(amount)));
+          dispatch(setFundSize(parseInt(fundSize) + parseInt(amount)));
+          depositContract.getFundSize();
+          setStatus('DEPOSITED');
+        });
+      }, 1000); // 1s pause
     } catch {
       console.warn('failed to deposit dai');
       setStatus('DAI_NOT_DEPOSITED');
@@ -193,12 +196,30 @@ const Sponsor = () => {
     Math.floor(Math.random() * 3)
   );
 
-  let cantDeposit =
+  let cantApprove =
     status != 'READY' ||
     daiBalance < amount ||
     daiBalance === 0 ||
     daiBalance == null;
 
+  let cantDeposit =
+    // status != 'DAI_APPROVED' ||
+    status === 'DEPOSITING' ||
+    daiAllowance <= 0 ||
+    daiBalance < amount ||
+    daiBalance === 0 ||
+    daiBalance == null;
+
+  useEffect(() => {
+    cantDeposit =
+      status === 'DEPOSITING' ||
+      daiAllowance <= 0 ||
+      daiBalance < amount ||
+      daiBalance === 0 ||
+      daiBalance == null;
+  }, [daiAllowance]);
+
+  let isDepositing = status === 'DEPOSITING';
   return (
     <Page className={classes.root} title="dao.care | Deposit">
       <Header />
@@ -351,6 +372,23 @@ const Sponsor = () => {
                 </Typography>
               )}
               <div className={classes.wrapper}>
+                {amount > daiAllowance && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={() => approveDai()}
+                    disabled={cantApprove}
+                  >
+                    Approve DAI
+                    {cantApprove && (
+                      <CircularProgress
+                        className={classes.circularProgress}
+                        size={14}
+                      />
+                    )}
+                  </Button>
+                )}
                 <Button
                   variant="contained"
                   color="primary"
@@ -359,7 +397,7 @@ const Sponsor = () => {
                   disabled={cantDeposit}
                 >
                   Deposit
-                  {cantDeposit && (
+                  {isDepositing && (
                     <CircularProgress
                       className={classes.circularProgress}
                       size={14}
