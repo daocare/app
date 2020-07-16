@@ -30,6 +30,47 @@ const useStyles = makeStyles((theme) => ({
 const Security = () => {
   const classes = useStyles();
 
+  const securityItems = [
+    {
+      link: 'https://youtu.be/Idin9MEELJs',
+      imageSrc: 'youtube.svg',
+      blurb: 'Contract Walkthrough',
+    },
+    {
+      link: '/dao.care_smart_contract_audit.pdf',
+      imageSrc: 'ditcraft.svg',
+      blurb: 'ditCraft v1 Audit',
+    },
+    {
+      link: '/coverage',
+      imageSrc: 'tests.svg',
+      blurb: 'Smart Contract Coverage',
+    },
+    {
+      link: 'https://github.com/DAOcare',
+      imageSrc: 'github.svg',
+      blurb: 'Github Code',
+    },
+    {
+      link:
+        'https://etherscan.io/address/0xac523606b34240a1d6c90cf1223f1b75136a14d1#code',
+      imageSrc: 'etherscan.svg',
+      blurb: 'No Loss DAO Proxy',
+    },
+    {
+      link:
+        'https://etherscan.io/address/0xc2e6624dd7535fea0b1c3829bef7e87153e35c3a#code',
+      imageSrc: 'etherscan.svg',
+      blurb: 'No Loss DAO',
+    },
+    {
+      link:
+        'https://etherscan.io/address/0x46441594290FC13e97dD2E2A9Cf49E114599bc38#code',
+      imageSrc: 'etherscan.svg',
+      blurb: 'Deposit Pool',
+    },
+  ];
+
   return (
     <Page title="dao.care | Security">
       <Header />
@@ -41,124 +82,33 @@ const Security = () => {
         spacing={2}
         className={classes.securityContainer}
       >
-        <Grid item xs={6} md={4} className={classes.gridItem}>
-          <a
-            href="/dao.care_smart_contract_audit.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/assets/security/ditcraft.svg"
-              className={classes.socials}
-            />{' '}
-          </a>
+        {securityItems.map((securityItem) => (
+          <Grid item xs={4} md={3} className={classes.gridItem}>
+            <a
+              href={securityItem.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={`/assets/security/${securityItem.imageSrc}`}
+                className={classes.socials}
+              />{' '}
+            </a>
 
-          <Typography variant="body2">
-            <a
-              href="/dao.care_smart_contract_audit.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ditCraft v1 Audit
-            </a>
-          </Typography>
-        </Grid>
-        <Grid item xs={6} md={4} className={classes.gridItem}>
-          <a href="/coverage" target="_blank" rel="noopener noreferrer">
-            <img src="/assets/security/tests.svg" className={classes.socials} />
-          </a>
-
-          <Typography variant="body2">
-            <a href="/coverage" target="_blank" rel="noopener noreferrer">
-              Smart Contract Coverage
-            </a>
-          </Typography>
-        </Grid>
-        <Grid item xs={6} md={4} className={classes.gridItem}>
-          <a
-            href="https://github.com/DAOcare"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/assets/security/github.svg"
-              className={classes.socials}
-            />
-          </a>
-
-          <Typography variant="body2">
-            <a
-              href="https://github.com/DAOcare"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github Code
-            </a>
-          </Typography>
-        </Grid>
-        <Grid item xs={6} md={4} className={classes.gridItem}>
-          <a
-            href="https://etherscan.io/address/0xac523606b34240a1d6c90cf1223f1b75136a14d1#code"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/assets/security/etherscan.svg"
-              className={classes.socials}
-            />
-          </a>
-          <Typography variant="body2">
-            <a
-              href="https://etherscan.io/address/0xac523606b34240a1d6c90cf1223f1b75136a14d1#code"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              No Loss DAO Proxy
-            </a>
-          </Typography>
-        </Grid>
-        <Grid item xs={6} md={4} className={classes.gridItem}>
-          <a
-            href="https://etherscan.io/address/0xc2e6624dd7535fea0b1c3829bef7e87153e35c3a#code"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/assets/security/etherscan.svg"
-              className={classes.socials}
-            />
-          </a>
-          <Typography variant="body2">
-            <a
-              href="https://etherscan.io/address/0xc2e6624dd7535fea0b1c3829bef7e87153e35c3a#code"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              No Loss DAO
-            </a>
-          </Typography>
-        </Grid>
-        <Grid item xs={6} md={4} className={classes.gridItem}>
-          <a
-            href="https://etherscan.io/address/0x46441594290FC13e97dD2E2A9Cf49E114599bc38#code"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/assets/security/etherscan.svg"
-              className={classes.socials}
-            />
-          </a>
-          <Typography variant="body2">
-            <a
-              href="https://etherscan.io/address/0x46441594290FC13e97dD2E2A9Cf49E114599bc38#code"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Deposit Pool
-            </a>
-          </Typography>
-        </Grid>
+            <Typography variant="body2">
+              <a
+                href={securityItem.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {securityItem.blurb}
+              </a>
+            </Typography>
+          </Grid>
+        ))}
+        <Grid item xs={4} md={3} className={classes.gridItem}></Grid>
+        <Grid item xs={4} md={3} className={classes.gridItem}></Grid>
+        <Grid item xs={4} md={3} className={classes.gridItem}></Grid>
       </Grid>
     </Page>
   );

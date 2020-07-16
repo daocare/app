@@ -34,12 +34,34 @@ Copy `.env.example` values to the `.env` file. Then retrieve the contract addres
 
 ## UI Deploy
 
+> The application runs out of memory and such is first built locally and the build directory is uploaded to the hosting. Thus it requires the .env variables to be set for each deploy.
+
+(Make sure to use the correct .env vars when deploying mainnet or kovan)
+
 ```
 yarn build
 ```
 
 ```
 firebase login
+```
+
+To deploy mainnet instance
+
+```
+firebase use default
+```
+
+To deploy to kovan instance
+
+```
+firebase use kovan
+```
+
+or
+
+```
+firebase use daocare-kovan
 ```
 
 ```

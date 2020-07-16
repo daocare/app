@@ -46,13 +46,14 @@ const NetworkNotSupported = () => {
               fontWeight: 400,
             }}
           >
-            We only support mainnet and{' '}
+            We only support mainnet on this instance
+            {/* We only support mainnet and{' '}
             <a href="https://kovan.onrender.com">kovan</a> please connect to{' '}
             {supportedNetworks.map((network, index) =>
               supportedNetworks.length > 1 && !index == 0
                 ? ' or ' + network
                 : network
-            )}
+            )} */}
           </Typography>
         </div>
         <div

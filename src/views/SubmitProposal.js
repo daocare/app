@@ -267,7 +267,7 @@ const SubmitProposal = (props) => {
       <Header />
       {true ? (
         <Typography variant="body2">
-          dao.care will be accepting proposal submissions from the 15th of July.
+          dao.care will be accepting proposal submissions from the 30th of July.
         </Typography>
       ) : (
         <>
