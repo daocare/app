@@ -1,6 +1,8 @@
 const functions = require('firebase-functions');
 
 const twitterDb = require('./modules/twitterDb');
+const emojiDb = require('./modules/emojiDb');
+
 var admin = require('firebase-admin');
 const Box = require('3box');
 
@@ -15,6 +17,7 @@ exports.registerTwitterHandle = functions.https.onRequest(
     return cors(request, response, async () => {
       try {
         let { handle, address, txHash } = request.body;
+
         console.log({ handle, address, txHash });
         // 1. check if handle is already associated
         let handleExists = await twitterDb.isTwitterHandleRegistered(handle);
@@ -57,3 +60,25 @@ exports.registerTwitterHandle = functions.https.onRequest(
     });
   }
 );
+
+exports.registerEmoji = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    try {
+      let { emoji, handle, isTestnet } = request.body;
+      console.log(request.body);
+      console.log(typeof request.body);
+      console.log({ emoji, handle });
+
+      if (isTestnet) {
+        await emojiDb.registerEmojiKovan(handle, emoji);
+      } else {
+        await emojiDb.registerEmoji(handle, emoji);
+      }
+
+      response.json({ result: 'OK' });
+    } catch (error) {
+      response.status(500).send({ error });
+      throw error;
+    }
+  });
+});

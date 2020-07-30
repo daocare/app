@@ -131,10 +131,12 @@ const SubmitProposal = (props) => {
   const onEmojiClick = async (event, emojiObject) => {
     setChosenEmoji('loading');
     event.preventDefault();
+    console.log('chainId');
+    console.log(chainId);
     let networkSuffix = chainId == 42 ? '-kovan' : '';
+    console.log(networkSuffix);
     if (await emojiExists(emojiObject.emoji, networkSuffix)) {
       setChosenEmoji(emojiObject);
-
       setEmojiError('This emoji is already being used by another proposal');
     } else {
       setChosenEmoji(emojiObject);
@@ -265,7 +267,8 @@ const SubmitProposal = (props) => {
   return (
     <Page title="dao.care | submit proposal">
       <Header />
-      {true ? (
+
+      {false ? (
         <Typography variant="body2">
           dao.care will be accepting proposal submissions from the 30th of July.
         </Typography>
@@ -657,49 +660,79 @@ const SubmitProposal = (props) => {
                         padding: 32,
                       }}
                     >
-                      <Tooltip
-                        title={`This operation will ${
-                          daiAllowance === null || daiAllowance < STAKING_AMOUNT
-                            ? `first allow dao.care to extract ${STAKING_AMOUNT} DAI from your wallet and then `
-                            : ''
-                        }transfer ${STAKING_AMOUNT} DAI to the pool in order to submit your proposal`}
-                        placement="top"
-                      >
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className={classes.button}
-                          // disabled={
-                          //   daiBalance === null ||
-                          //   daiBalance < STAKING_AMOUNT ||
-                          //   status !== 'PROPOSAL_STORED'
-                          // } TODO
-                          onClick={async () => {
-                            let execute = async () => {
-                              if (daiAllowance < STAKING_AMOUNT) {
-                                setStatus('APPROVING_DAI');
-                                await daiContract.triggerDaiApprove(
-                                  new BN(STAKING_AMOUNT)
-                                );
-                                setStatus('DAI_APPROVED');
-                              }
-
-                              setStatus('SUBMITTING_BLOCKCHAIN');
-
-                              //TODO: Add emoji to firebase
-
-                              await depositContract.triggerSubmitProposal(
-                                threadAddress
+                      {/* <Tooltip 
+                      //   title={`This operation will ${
+                      //     daiAllowance === null || daiAllowance < STAKING_AMOUNT
+                      //       ? `first allow dao.care to extract ${STAKING_AMOUNT} DAI from your wallet and then `
+                      //       : ''
+                      //   }transfer ${STAKING_AMOUNT} DAI to the pool in order to submit your proposal`}
+                      //   placement="top"
+                      // >*/}
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        // disabled={
+                        //   daiBalance === null ||
+                        //   daiBalance < STAKING_AMOUNT ||
+                        //   status !== 'PROPOSAL_STORED'
+                        // } TODO
+                        onClick={async () => {
+                          let execute = async () => {
+                            if (daiAllowance < STAKING_AMOUNT) {
+                              setStatus('APPROVING_DAI');
+                              await daiContract.triggerDaiApprove(
+                                new BN(STAKING_AMOUNT)
                               );
+                              setStatus('DAI_APPROVED');
+                            }
 
-                              setStatus('SUBMITTED');
-                            };
-                            execute();
-                          }}
-                        >
-                          Stake &amp; Submit
-                        </Button>
-                      </Tooltip>
+                            setStatus('SUBMITTING_BLOCKCHAIN');
+
+                            //TODO: Add emoji to firebase
+                            fetch(
+                              'https://us-central1-daocare-2e68d.cloudfunctions.net/registerEmoji',
+                              {
+                                method: 'post',
+                                body: JSON.stringify({
+                                  emoji: chosenEmoji.emoji,
+                                  handle:
+                                    threeBox['verifiedAccounts']['twitter'][
+                                      'username'
+                                    ],
+                                  isTestnet: chainId != 1,
+                                }),
+                                headers: {
+                                  'content-type': 'application/json',
+                                },
+                              }
+                            ).then(async function (response) {
+                              console.log(await response.json());
+                            });
+
+                            await depositContract.triggerSubmitProposal(
+                              threadAddress
+                            );
+
+                            setStatus('SUBMITTED');
+                          };
+                          execute();
+                        }}
+                      >
+                        Stake &amp; Submit
+                      </Button>
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        style={{
+                          textAlign: 'center',
+                          display: 'block',
+                        }}
+                      >
+                        Please do not leave or refresh this page until the
+                        transaction has been completed
+                      </Typography>
+                      {/* </Tooltip> */}
                       <div style={{ paddingTop: 16 }}>
                         {status === 'APPROVING_DAI' && (
                           <Typography
