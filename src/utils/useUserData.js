@@ -21,7 +21,9 @@ const useUserData = () => {
         iterationJoinedLeft {
           id
         }
-        projects
+        projects {
+          id
+        }
         votes {
           id
         }
@@ -57,18 +59,16 @@ const useUserData = () => {
   };
 
   const getUserData = async (address) => {
-    console.log('userData');
     try {
       const userData = await client.query({
         query: USER_DATA_QUERY,
         variables: { address },
       });
-      console.log(userData);
 
       const daiDeposit = userData['data']['user']['amount'];
       await dispatch(setDaiDeposit(daiDeposit / Math.pow(10, 18)));
       const projects = userData['data']['user']['projects'];
-      console.log(userData);
+
       await dispatch(setHasAProposal(projects.length > 0));
       const votes = userData['data']['user']['votes'];
       await dispatch(setVotes(votes));
