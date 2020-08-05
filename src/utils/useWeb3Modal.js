@@ -51,7 +51,6 @@ const useWeb3Modal = () => {
     });
 
     provider.on('accountsChanged', async (accounts) => {
-      console.log('accountsChanged');
       dispatch(connectUser(accounts[0]));
       // fetchProposals(accounts[0]);
       // update3BoxDetails(accounts[0]);

@@ -174,16 +174,9 @@ const Proposals = () => {
   let [votedProposal, setVotedProposal] = useState(undefined);
 
   useEffect(() => {
-    console.log('proposals');
-    console.log(proposals);
     let filteredProposal = proposals.filter((proposal) => {
-      console.log('proposal.id');
-      console.log(proposal.id);
-      console.log('currentVoteId');
-      console.log(currentVoteId);
       return proposal.id == currentVoteId;
     });
-    console.log(filteredProposal[0]);
     setVotedProposal(filteredProposal[0]);
   }, [currentVoteId, proposals]);
 
