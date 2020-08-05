@@ -102,9 +102,13 @@ const Deposit = () => {
   const daiContract = useDaiContract();
   const depositContract = useDepositContract();
 
-  const { address, daiBalance, daiDeposit, daiAllowance } = useSelector(
-    (state) => state.user
-  );
+  const {
+    address,
+    daiBalance,
+    daiDeposit,
+    daiAllowance,
+    hasAProposal,
+  } = useSelector((state) => state.user);
 
   const { currentIterationDeadline } = useSelector((state) => state.iteration);
 
@@ -127,6 +131,11 @@ const Deposit = () => {
   let amount = watch('amount') ? watch('amount') : 0;
 
   let approveDai = async () => {
+    console.log(daiBalance);
+    if (daiBalance < 100) {
+      console.log('daiBalance was below 100');
+      return;
+    }
     setStatus('APPROVING_DAI');
     try {
       const bigNumberDaiBalance = new web3.utils.BN(daiBalance);
@@ -146,7 +155,7 @@ const Deposit = () => {
   const onSubmit = async (data) => {
     let { amount } = data;
 
-    if (amount > daiAllowance) approveDai();
+    if (amount > daiAllowance && status != 'DAI_APPROVED') approveDai();
 
     setStatus(`DEPOSITING`);
     console.log('submitting dai');
@@ -166,7 +175,7 @@ const Deposit = () => {
   };
 
   const [twitterWarning, setTwitterWarning] = useState(false);
-  const TWITTER_VOTING_MINIMUM = 5;
+  const TWITTER_VOTING_MINIMUM = 100;
 
   const twitterMinimumWarning = () => {
     if (amount < TWITTER_VOTING_MINIMUM) {
@@ -211,8 +220,7 @@ const Deposit = () => {
     <Page className={classes.root} title="dao.care | Deposit">
       <Header />
 
-      {/* {web3Connect.hasProposal ? ( */}
-      {false ? (
+      {hasAProposal ? (
         <Typography style={{ color: '#FF9494' }}>
           As an owner of a proposal, you are unable to join the pool and vote on
           proposals from the same address.
@@ -304,7 +312,7 @@ const Deposit = () => {
                   </>
                 )}
               </Box>
-              {twitterWarning && (
+              {/* {twitterWarning && (
                 <Typography
                   variant="body2"
                   component="span"
@@ -314,7 +322,7 @@ const Deposit = () => {
                   that you set a minimum deposit of {TWITTER_VOTING_MINIMUM}{' '}
                   DAI, this is to cover gas costs.
                 </Typography>
-              )}
+              )} */}
               <div className={classes.wrapper}>
                 {amount > daiAllowance && (
                   <Button

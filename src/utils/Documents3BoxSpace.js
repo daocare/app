@@ -2,7 +2,10 @@ import moment from 'moment';
 
 const keccak256 = require('keccak256');
 
-export const BOX_SPACE = 'daocare-kovan';
+const chainId = process.env.REACT_APP_SUPPORTED_CHAIN_ID;
+const networkSuffix = chainId == 42 ? '-kovan' : '';
+
+export const BOX_SPACE = 'daocare' + networkSuffix;
 
 const convertFilename2Hash = (fileName) => {
   return keccak256(fileName).toString('hex');

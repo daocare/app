@@ -118,23 +118,20 @@ const SubmitProposal = (props) => {
 
   const [threadAddress, setThreadAddress] = React.useState(null);
   const [proposal, setProposal] = React.useState(
-    null
-    // {
-    //   title: 'Test Proposal',
-    //   shortDescription: 'We are coming to mainnet soon!',
-    //   website: 'https://avolabs.io',
-    //   image: getUrlByHash('QmckEm47utHmuw5Z5tXCXmsUj6WiUoNxX3B8C2RhWdG6EQ'),
-    //   description: 'Soon soon :)',
-    // }
+    // null
+    {
+      title: 'Test Proposal',
+      shortDescription: 'We are coming to mainnet soon!',
+      website: 'https://avolabs.io',
+      image: getUrlByHash('QmckEm47utHmuw5Z5tXCXmsUj6WiUoNxX3B8C2RhWdG6EQ'),
+      description: 'Soon soon :)',
+    }
   );
 
   const onEmojiClick = async (event, emojiObject) => {
     setChosenEmoji('loading');
     event.preventDefault();
-    console.log('chainId');
-    console.log(chainId);
     let networkSuffix = chainId == 42 ? '-kovan' : '';
-    console.log(networkSuffix);
     if (await emojiExists(emojiObject.emoji, networkSuffix)) {
       setChosenEmoji(emojiObject);
       setEmojiError('This emoji is already being used by another proposal');
@@ -235,6 +232,8 @@ const SubmitProposal = (props) => {
     console.log(newPosts);
 
     setThreadAddress(thread.address);
+    console.log('thread.address');
+    console.log(thread.address);
     setProposal(body);
     setActiveStep(2);
     setStatus('PROPOSAL_STORED');
@@ -316,6 +315,11 @@ const SubmitProposal = (props) => {
                 <InfoIcon fontSize="inherit" /> In order to submit a proposal
                 you will be required to stake 50 DAI. You can withdraw your
                 stake with your proposal.
+              </Typography>
+              <Typography variant="body2">
+                <InfoIcon fontSize="inherit" /> Please make sure you have
+                verified your twitter account on{' '}
+                <a href="https://3box.io/">3box</a>
               </Typography>
               <Stepper activeStep={activeStep} orientation="vertical">
                 <Step>
@@ -710,8 +714,18 @@ const SubmitProposal = (props) => {
                               console.log(await response.json());
                             });
 
-                            await depositContract.triggerSubmitProposal(
+                            const getHashFromThreadAddress = (
                               threadAddress
+                            ) => {
+                              let hashArray = threadAddress.split('/');
+                              let hash = hashArray[2];
+                              console.log('hash');
+                              console.log(hash);
+                              return hash;
+                            };
+
+                            await depositContract.triggerSubmitProposal(
+                              getHashFromThreadAddress(threadAddress)
                             );
 
                             setStatus('SUBMITTED');
