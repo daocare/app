@@ -131,11 +131,6 @@ const Deposit = () => {
   let amount = watch('amount') ? watch('amount') : 0;
 
   let approveDai = async () => {
-    console.log(daiBalance);
-    if (daiBalance < 100) {
-      console.log('daiBalance was below 100');
-      return;
-    }
     setStatus('APPROVING_DAI');
     try {
       const bigNumberDaiBalance = new web3.utils.BN(daiBalance);
@@ -158,7 +153,7 @@ const Deposit = () => {
     if (amount > daiAllowance && status != 'DAI_APPROVED') approveDai();
 
     setStatus(`DEPOSITING`);
-    console.log('submitting dai');
+
     try {
       setTimeout(() => {
         depositContract.triggerDeposit(amount, address).then((amount) => {
@@ -182,6 +177,16 @@ const Deposit = () => {
       setTwitterWarning(true);
     } else {
       setTwitterWarning(false);
+    }
+  };
+
+  const [gasWarning, setGasWarning] = useState(false);
+  const GAS_MINIMUM = 100;
+  const gasMinimumWarning = () => {
+    if (amount < GAS_MINIMUM) {
+      setGasWarning(true);
+    } else {
+      setGasWarning(false);
     }
   };
 
@@ -278,7 +283,7 @@ const Deposit = () => {
                       <InputAdornment position="end">DAI</InputAdornment>
                     ),
                   }}
-                  onChange={() => twitterMinimumWarning()}
+                  onChange={() => gasMinimumWarning()}
                   style={{ width: 300 }}
                   helperText={`Balance: ${
                     daiBalance == null ? '...' : Math.floor(daiBalance)
@@ -323,6 +328,16 @@ const Deposit = () => {
                   DAI, this is to cover gas costs.
                 </Typography>
               )} */}
+              {gasWarning && (
+                <Typography
+                  variant="body2"
+                  component="span"
+                  style={{ color: 'orange' }}
+                >
+                  Please note that due to the high gas fees we recommend a
+                  minimum of {GAS_MINIMUM} DAI when joining the DAO.
+                </Typography>
+              )}
               <div className={classes.wrapper}>
                 {amount > daiAllowance && (
                   <Button
