@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getFundSize, getInterestPrev } from '../redux/fund/fundActions';
+import { getFundSize } from '../redux/fund/fundActions';
 import {
   setDaiDeposit,
   connectUser,
@@ -13,6 +13,7 @@ import {
 
 import { setProvider } from '../redux/web3/web3Actions';
 
+import useFund from '../utils/useFund';
 import useInterval from '../utils/useInterval';
 import useIteration from '../utils/useIteration';
 import useUserData from '../utils/useUserData';
@@ -48,6 +49,7 @@ const PageContainer = (props) => {
   const proposalsData = useProposalsData();
   const web3Modal = useWeb3Modal();
   const iteration = useIteration();
+  const fund = useFund();
 
   const { connected, address, daiBalance } = useSelector((state) => state.user);
 
@@ -56,6 +58,8 @@ const PageContainer = (props) => {
     proposalsData.fetchProposals();
 
     userData.getUsers();
+
+    fund.getFundInfo();
 
     depositContract.getFundSize();
 

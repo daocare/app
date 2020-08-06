@@ -39,6 +39,7 @@ const useDepositContract = () => {
       let tx = await depositContract.methods.deposit(amount).send({
         from: addr,
       });
+
       return value;
     } catch (err) {
       console.warn(err);

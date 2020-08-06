@@ -66,15 +66,20 @@ const Home = () => {
   const classes = useStyles();
 
   const connected = useSelector((state) => state.user.connected);
-  const { interestPrev, interestNext, fundSize } = useSelector(
-    (state) => state.fund
-  );
+  const { interestPrev, interestNext } = useSelector((state) => state.fund);
+  let fundSize = useSelector((state) => state.fund.fundSize);
   const proposals = useSelector((state) => state.proposals.proposals);
   const numberOfMembers = useSelector((state) => state.fund.numberOfMembers);
   const userDaiDeposit = useSelector((state) => state.user.daiDeposit);
   const { currentIterationDeadline, currentIteration } = useSelector(
     (state) => state.iteration
   );
+
+  useEffect(() => {
+    console.log('interestPrev');
+    console.log(interestPrev);
+    console.log(interestNext);
+  }, [interestPrev, interestNext]);
 
   const router = useRouter();
 
@@ -101,32 +106,32 @@ const Home = () => {
 
         <Grid container justify="space-between" spacing={2}>
           <Grid item xs={12} md={4} className={classes.gridItem}>
-            {fundSize > 0 ? (
-              <>
-                <Typography variant="body1" className={classes.numberHighlight}>
+            <Typography variant="body1" className={classes.numberHighlight}>
+              {fundSize ? (
+                <>
                   {fundSize}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  className={classes.currencyHighlight}
-                >
-                  {' '}
-                  DAI
-                </Typography>
-              </>
-            ) : (
-              <EllipsisLoader />
-            )}
+                  <Typography
+                    variant="body1"
+                    className={classes.currencyHighlight}
+                  >
+                    {' '}
+                    DAI
+                  </Typography>
+                </>
+              ) : (
+                <EllipsisLoader />
+              )}
+            </Typography>
             <Typography variant="body1">Fund size</Typography>
           </Grid>
           <Grid item xs={12} md={4} className={classes.gridItem}>
-            {numberOfMembers > 0 ? (
-              <Typography variant="body1" className={classes.numberHighlight}>
-                {numberOfMembers}
-              </Typography>
-            ) : (
-              <EllipsisLoader />
-            )}
+            <Typography variant="body1" className={classes.numberHighlight}>
+              {numberOfMembers > 0 ? (
+                <span>{numberOfMembers} </span>
+              ) : (
+                <EllipsisLoader />
+              )}
+            </Typography>
             <Typography variant="body1">Number of Members</Typography>
           </Grid>
           <Grid item xs={12} md={4} className={classes.gridItem}>
@@ -139,27 +144,29 @@ const Home = () => {
             )}
             <Typography variant="body1">Number of Proposals</Typography>
           </Grid>
-          {/* <Grid item xs={12} md={4} className={classes.gridItem}>
-          <Typography variant="body1" className={classes.numberHighlight}>
-            {interestPrev > 0 ? (
-              <>
-                {interestPrev.toFixed(5)}
-                <Typography
-                  variant="body1"
-                  className={classes.currencyHighlight}
-                >
-                  {' '}
-                  DAI
-                </Typography>
-              </>
-            ) : (
-              <EllipsisLoader />
-            )}
-          </Typography>
-          <Typography variant="body1">
-            Previous winner <br /> interest rewarded
-          </Typography>
-        </Grid> */}
+          {/* 
+            READY to be uncommented
+          <Grid item xs={12} md={4} className={classes.gridItem}>
+            <Typography variant="body1" className={classes.numberHighlight}>
+              {interestPrev ? (
+                <>
+                  {interestPrev.toFixed(1)}
+                  <Typography
+                    variant="body1"
+                    className={classes.currencyHighlight}
+                  >
+                    {' '}
+                    DAI
+                  </Typography>
+                </>
+              ) : (
+                <EllipsisLoader />
+              )}
+            </Typography>
+            <Typography variant="body1">
+              Previous winner <br /> interest rewarded
+            </Typography>
+          </Grid> */}
           {/* <Grid item xs={12} md={4} className={classes.gridItem}>
           <Typography variant="body1" className={classes.numberHighlight}>
             {interestNext > 0 ? (

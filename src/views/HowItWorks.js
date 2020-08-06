@@ -66,7 +66,7 @@ const HowItWorks = () => {
     {
       header: 'Vote',
       explainer:
-        'Every user who has deposited funds into the pool can vote on the proposal they feel is most worthy of receiving the interest. You can vote using your crypto wallet or you can vote on twitter by replying to the fortnightly tweet by @dao_care',
+        'Every user who has deposited funds into the pool can vote on the proposal they feel is most worthy of receiving the interest. You can vote using your crypto wallet and soon you can vote on twitter by replying to the fortnightly tweet by @dao_care',
     },
     {
       header: 'Winner',

@@ -162,7 +162,7 @@ const Deposit = () => {
           depositContract.getFundSize();
           setStatus('DEPOSITED');
         });
-      }, 1000); // 1s pause
+      }, 500); // 1s pause
     } catch {
       console.warn('failed to deposit dai');
       setStatus('DAI_NOT_DEPOSITED');
