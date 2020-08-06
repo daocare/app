@@ -223,7 +223,6 @@ const Deposit = () => {
   return (
     <Page className={classes.root} title="dao.care | Deposit">
       <Header />
-
       {hasAProposal ? (
         <Typography style={{ color: '#FF9494' }}>
           As an owner of a proposal, you are unable to join the pool and vote on
@@ -429,9 +428,27 @@ const Deposit = () => {
                 margin: 'auto',
               }}
             >
+              Share a{' '}
+              <a
+                class="twitter-share-button"
+                href={`https://twitter.com/intent/tweet?text=${encodeURI(
+                  'I just deposited ' +
+                    amount +
+                    ' DAI into @dao_care to support community projects 💜 #NoLossFunding'
+                )}`}
+                target="_blank"
+                rel="noopenner noreferrer"
+              >
+                tweet{' '}
+                <img
+                  src="/assets/socials/twitter.svg"
+                  className={classes.socials}
+                />
+              </a>{' '}
+              about joining the DAO <br />
               To afford maximum smart contract security you can only vote on the
               next voting cycle.
-              <br /> Follow us on{' '}
+              <br /> Follow dao.care on{' '}
               <a
                 href="https://twitter.com/dao_care"
                 target="_blank"
@@ -444,7 +461,7 @@ const Deposit = () => {
                   className={classes.socials}
                 />
               </a>{' '}
-              and join our{' '}
+              and join the{' '}
               <a
                 href="https://t.me/daocare"
                 target="_blank"
