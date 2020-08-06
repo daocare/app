@@ -56,7 +56,7 @@ const ProposalCard = (props) => {
         )}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {title}
+            <small>{title}</small>
           </Typography>
           <Typography
             variant="body2"

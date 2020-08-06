@@ -4,6 +4,7 @@ import { BOX_SPACE } from './Documents3BoxSpace';
 let box = null;
 let space = null;
 let fetching = false;
+const chainId = process.env.REACT_APP_SUPPORTED_CHAIN_ID;
 
 export const open3Box = async (address, provider, setStatus = console.log) => {
   if (box && space) {
@@ -90,7 +91,18 @@ export const getSpace = () => space;
 export const isFetching = () => fetching;
 
 export const getProposalFromThreadHash = async (threadAddress) => {
-  let posts = await Box.getThreadByAddress(threadAddress);
+  let networkSuffix = chainId == 42 ? '-kovan' : '';
+
+  let fullAddress =
+    threadAddress.length < 50
+      ? '/orbitdb/' +
+        threadAddress +
+        '/3box.thread.daocare' +
+        networkSuffix +
+        '.proposal/'
+      : threadAddress;
+
+  let posts = await Box.getThreadByAddress(fullAddress);
   if (posts && posts.length > 0) {
     return posts[0]['message'];
   }

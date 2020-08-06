@@ -172,12 +172,10 @@ const Proposal = ({ match }) => {
     <Page
       className={classes.root}
       title={`dao.care | ${' '}${
-        proposals[proposal_id] !== undefined
-          ? proposals[proposal_id].emoji
-          : 'Loading'
+        proposals[proposal_id] !== undefined ? proposals[proposal_id].emoji : ''
       } Proposal`}
     >
-      <div style={{ position: 'absolute', top: 0, right: 0 }}>
+      {/* <div style={{ position: 'absolute', top: 0, right: 0 }}>
         {status === 'DRAFT' && !enabledTwitter && connected && daiDeposit > 0 && (
           <Button
             variant="contained"
@@ -222,13 +220,13 @@ const Proposal = ({ match }) => {
             Transaction failed, please check your wallet.{' '}
           </Typography>
         )}
-      </div>
+      </div> */}
       <Header />
       <div style={{ marginTop: 16 }}>
         {proposal !== null && (
           // for testing
           <Grid container justify="space-between" spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               {/* const { title, shortDescription, website, image, id, emoji } = props.proposal; */}
 
               <img
@@ -241,7 +239,7 @@ const Proposal = ({ match }) => {
               </Typography>
               {proposal.id == lastWinner && <PreviousWinnerBadge />}
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={8}>
               <Typography variant="h3" className={classes.title}>
                 {proposal.emoji + ' ' + proposal.title}
               </Typography>

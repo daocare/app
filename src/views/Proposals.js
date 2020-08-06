@@ -174,16 +174,9 @@ const Proposals = () => {
   let [votedProposal, setVotedProposal] = useState(undefined);
 
   useEffect(() => {
-    console.log('proposals');
-    console.log(proposals);
     let filteredProposal = proposals.filter((proposal) => {
-      console.log('proposal.id');
-      console.log(proposal.id);
-      console.log('currentVoteId');
-      console.log(currentVoteId);
       return proposal.id == currentVoteId;
     });
-    console.log(filteredProposal[0]);
     setVotedProposal(filteredProposal[0]);
   }, [currentVoteId, proposals]);
 
@@ -215,6 +208,7 @@ const Proposals = () => {
   return (
     <Page className={classes.root} title="dao.care | All Proposals">
       <div style={{ position: 'absolute', top: 6, right: 10 }}>
+        {/* {  //temp hiding this until twitter voting comes back
         {status === 'DRAFT' && !enabledTwitter && connected && daiDeposit > 0 && (
           <Button
             variant="contained"
@@ -259,6 +253,7 @@ const Proposals = () => {
             Transaction failed, please check your wallet.{' '}
           </Typography>
         )}
+} */}
       </div>
       <Header />
       {daiDeposit === 0 && connected && (
