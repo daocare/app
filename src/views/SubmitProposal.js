@@ -79,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
   step3Box: {
     textAlign: 'center',
   },
+  gasWarning: { color: 'orange', marginTop: '10px', marginBottom: '10px' },
 }));
 
 const SubmitProposal = (props) => {
@@ -118,14 +119,14 @@ const SubmitProposal = (props) => {
 
   const [threadAddress, setThreadAddress] = React.useState(null);
   const [proposal, setProposal] = React.useState(
-    // null
-    {
-      title: 'Test Proposal',
-      shortDescription: 'We are coming to mainnet soon!',
-      website: 'https://avolabs.io',
-      image: getUrlByHash('QmckEm47utHmuw5Z5tXCXmsUj6WiUoNxX3B8C2RhWdG6EQ'),
-      description: 'Soon soon :)',
-    }
+    null
+    // {
+    //   title: 'Test Proposal',
+    //   shortDescription: 'We are coming to mainnet soon!',
+    //   website: 'https://avolabs.io',
+    //   image: getUrlByHash('QmckEm47utHmuw5Z5tXCXmsUj6WiUoNxX3B8C2RhWdG6EQ'),
+    //   description: 'Soon soon :)',
+    // }
   );
 
   const onEmojiClick = async (event, emojiObject) => {
@@ -308,6 +309,11 @@ const SubmitProposal = (props) => {
           )}
           {!hasAProposal && (daiDeposit === 0 || daiDeposit == null) && (
             <>
+              <Typography variant="body2" className={classes.gasWarning}>
+                <InfoIcon fontSize="inherit" /> Please be aware we are currently
+                working on a solution to optimize for the current gas costs, we
+                hope to have this ready soon.
+              </Typography>
               <Typography variant="h5" className={classes.title}>
                 Submit Proposal
               </Typography>

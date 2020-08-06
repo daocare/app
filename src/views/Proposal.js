@@ -172,9 +172,7 @@ const Proposal = ({ match }) => {
     <Page
       className={classes.root}
       title={`dao.care | ${' '}${
-        proposals[proposal_id] !== undefined
-          ? proposals[proposal_id].emoji
-          : 'Loading'
+        proposals[proposal_id] !== undefined ? proposals[proposal_id].emoji : ''
       } Proposal`}
     >
       {/* <div style={{ position: 'absolute', top: 0, right: 0 }}>
