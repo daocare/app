@@ -159,10 +159,9 @@ const Deposit = () => {
         depositContract.triggerDeposit(amount, address).then((amount) => {
           dispatch(setDaiDeposit(parseInt(amount)));
           dispatch(setFundSize(parseInt(fundSize) + parseInt(amount)));
-          depositContract.getFundSize();
           setStatus('DEPOSITED');
         });
-      }, 500); // 1s pause
+      }, 500); // 0.5s pause
     } catch {
       console.warn('failed to deposit dai');
       setStatus('DAI_NOT_DEPOSITED');

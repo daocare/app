@@ -75,12 +75,6 @@ const Home = () => {
     (state) => state.iteration
   );
 
-  useEffect(() => {
-    console.log('interestPrev');
-    console.log(interestPrev);
-    console.log(interestNext);
-  }, [interestPrev, interestNext]);
-
   const router = useRouter();
 
   return (

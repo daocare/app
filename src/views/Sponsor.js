@@ -33,7 +33,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import useRouter from '../utils/useRouter';
 import useDaiContract from '../utils/useDaiContract';
 import useDepositContract from '../utils/useDepositContract';
-import useAave from '../utils/useAaveGraph';
+// import useAave from '../utils/useAaveGraph';
 import { useRedirectHomeIfNoEthAccount } from '../utils/useCommonUtils';
 import { useForm } from 'react-hook-form';
 
@@ -110,11 +110,15 @@ const Sponsor = () => {
 
   const daiContract = useDaiContract();
   const depositContract = useDepositContract();
-  const aave = useAave();
+  // const aave = useAave();
 
-  const { address, daiBalance, daiDeposit, daiAllowance } = useSelector(
-    (state) => state.user
-  );
+  const {
+    address,
+    daiBalance,
+    daiDeposit,
+    daiAllowance,
+    hasAProposal,
+  } = useSelector((state) => state.user);
   const { fundSize } = useSelector((state) => state.fund);
   const { currentIterationDeadline } = useSelector((state) => state.iteration);
 
@@ -122,9 +126,9 @@ const Sponsor = () => {
 
   const { provider } = useSelector((state) => state.web3);
 
-  useEffect(() => {
-    aave.getDaiApr();
-  }, []);
+  // useEffect(() => {
+  //   aave.getDaiApr();
+  // }, []);
 
   useEffect(() => {
     if (address && provider) {
@@ -160,7 +164,7 @@ const Sponsor = () => {
   const onSubmit = async (data) => {
     let { amount } = data;
 
-    if (amount > daiAllowance) approveDai();
+    if (amount > daiAllowance && status != 'DAI_APPROVED') approveDai();
 
     setStatus(`DEPOSITING`);
     console.log('submitting dai');
@@ -169,10 +173,10 @@ const Sponsor = () => {
         depositContract.triggerDeposit(amount, address).then((amount) => {
           dispatch(setDaiDeposit(parseInt(amount)));
           dispatch(setFundSize(parseInt(fundSize) + parseInt(amount)));
-          depositContract.getFundSize();
+
           setStatus('DEPOSITED');
         });
-      }, 1000); // 1s pause
+      }, 500); // 0.5s pause
     } catch {
       console.warn('failed to deposit dai');
       setStatus('DAI_NOT_DEPOSITED');
@@ -224,8 +228,7 @@ const Sponsor = () => {
     <Page className={classes.root} title="dao.care | Deposit">
       <Header />
 
-      {/* {web3Connect.hasProposal ? ( */}
-      {false ? (
+      {hasAProposal ? (
         <Typography style={{ color: '#FF9494' }}>
           As an owner of a proposal, you are unable to sponsor dai from the same
           address as your proposal.
@@ -270,7 +273,7 @@ const Sponsor = () => {
               the <a href="/sponsors">sponsors page</a>.
             </Typography>
             <Typography variant="body1" className={classes.decriptionBlurb}>
-              Sponsors are listed in 4 tiers.
+              <small>Sponsors are listed in 4 tiers.</small>
               {/* <br />
               <span className={classes.platinumSponsor}>
                 Rainbow sponsors are individuals and organizations that sponsor
@@ -468,7 +471,8 @@ const Sponsor = () => {
                 denham@avolabs.io
               </a>{' '}
               so that we can personally thank you
-              <br /> and place your image / brand on the sponsors page.
+              <br /> and place your image / brand on the sponsors page and
+              possibly on the home page.
             </Typography>
           </div>
         </div>
