@@ -28,6 +28,11 @@ const useStyles = makeStyles({
   },
   media: {
     height: 140,
+    backgroundSize: 'contain',
+  },
+  cardContent: {
+    overflowY: 'scroll',
+    padding: '1rem',
   },
 });
 
@@ -54,7 +59,7 @@ const ProposalCard = (props) => {
         {imageUrl && (
           <CardMedia className={classes.media} image={imageUrl} title={title} />
         )}
-        <CardContent>
+        <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h5" component="h2">
             <small>{title}</small>
           </Typography>

@@ -28,6 +28,7 @@
     "history": "^4.10.1",
     "ipfs": "^0.41.2",
     "ipfs-api": "^26.1.2",
+    "markdown-to-jsx": "^6.11.4",
     "moment": "^2.24.0",
     "profile-hover": "^1.1.1",
     "prop-types": "^15.7.2",

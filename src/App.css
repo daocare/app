@@ -68,3 +68,7 @@ a {
 .threeboxProfileHover__style_boxShortAddress {
   color: #f1f1f3 !important;
 }
+
+#proposal img {
+  max-width: 100%;
+}

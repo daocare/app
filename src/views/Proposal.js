@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Markdown from 'markdown-to-jsx';
 
 import { useSelector } from 'react-redux';
 
@@ -222,7 +223,7 @@ const Proposal = ({ match }) => {
         )}
       </div> */}
       <Header />
-      <div style={{ marginTop: 16 }}>
+      <div style={{ marginTop: 16 }} id="proposal">
         {proposal !== null && (
           // for testing
           <Grid container justify="space-between" spacing={2}>
@@ -255,7 +256,7 @@ const Proposal = ({ match }) => {
               <br />
               <br />
               <Typography variant="body1" align="left">
-                {proposal.description}
+                <Markdown>{proposal.description}</Markdown>
               </Typography>
               <br />
               <Typography variant="caption" align="center">
