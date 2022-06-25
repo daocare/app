@@ -41,7 +41,7 @@
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "isomorphic-fetch": "^2.2.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "reason-promise": "^1.0.2",
     "subscriptions-transport-ws": "^0.9.16",
     "twit": "^2.2.11",
